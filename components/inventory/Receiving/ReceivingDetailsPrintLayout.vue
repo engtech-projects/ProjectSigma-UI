@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useReceivingStore } from "@/stores/inventory/receiving"
-import { useInventoryEnumsStore } from "@/stores/inventory/enum"
 
 interface HeaderColumn {
     name: string,
@@ -25,16 +24,6 @@ defineProps({
 const model = defineModel({ required: false, type: Object, default: null })
 const main = useReceivingStore()
 const { receiving } = storeToRefs(main)
-const enums = useInventoryEnumsStore()
-const { supplierEnum } = storeToRefs(enums)
-const utils = useUtilities()
-const supplierName = computed(() => {
-    const id = model.value?.metadata?.supplier_id
-    if (!id) { return "N/A" }
-
-    const supplier = supplierEnum.value.list.find(sup => sup.id === id)
-    return supplier?.company_name || "N/A"
-})
 
 const getExtPrice = (item: any) => {
     const unitPrice = item.metadata?.unit_price || item.unit_price || 0
@@ -53,11 +42,6 @@ const getActualBrandValue = (item: any) => {
 const getUnitPriceValue = (item: any) => {
     return item.metadata?.unit_price || item.unit_price || 0
 }
-
-const calculatedGrandTotal = computed(() => {
-    const items = model.value.items || []
-    return items.reduce((total: number, item: any) => total + getExtPrice(item), 0)
-})
 </script>
 <template>
     <div
@@ -78,23 +62,22 @@ const calculatedGrandTotal = computed(() => {
                                 <div class="grid grid-cols-2 items-center w-full gap-y-2">
                                     <label class="text-sm font-medium text-gray-700">Supplier:</label>
                                     <div class="text-sm">
-                                        <!-- {{ model.metadata?.supplier_id || 'N/A' }} -->
-                                        {{ supplierName }}
+                                        {{ model.supplier }}
                                     </div>
 
                                     <label class="text-sm font-medium text-gray-700">Reference:</label>
                                     <div class="text-sm underline">
-                                        {{ model.metadata?.reference || model.reference?.reference_no || 'N/A' }}
+                                        {{ model.metadata.reference || 'N/A' }}
                                     </div>
 
                                     <label class="text-sm font-medium text-gray-700">Terms of Payment:</label>
                                     <div class="text-sm">
-                                        {{ model.metadata?.terms_of_payment || 'N/A' }}
+                                        {{ model.metadata.terms_of_payment || 'N/A' }}
                                     </div>
 
                                     <label class="text-sm font-medium text-gray-700">Particulars:</label>
                                     <div class="text-sm underline">
-                                        {{ model.metadata?.particulars || model.particulars || 'N/A' }}
+                                        {{ model.metadata?.particulars || 'N/A' }}
                                     </div>
                                 </div>
                             </div>
@@ -158,8 +141,8 @@ const calculatedGrandTotal = computed(() => {
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr v-for="item in model.items" :key="item.id" class="bg-white">
+                                <tbody v-for="item in model.items" :key="item.id">
+                                    <tr class="bg-white">
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.item_code }}
                                         </td>
@@ -182,7 +165,7 @@ const calculatedGrandTotal = computed(() => {
                                             {{ getUnitPriceValue(item) }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(getExtPrice(item)) }}
+                                            {{ useFormatCurrency(getExtPrice(item)) }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.metadata?.remarks }}
@@ -194,7 +177,7 @@ const calculatedGrandTotal = computed(() => {
                                             Total Net of Vat Cost
                                         </td>
                                         <td class="border px-2 py-1 text-right text-sm">
-                                            {{ utils.formatCurrency(model.total_net_of_vat_cost || 0) }}
+                                            {{ useFormatCurrency(0) }}
                                         </td>
                                         <td class="px-2 py-1" />
                                     </tr>
@@ -204,7 +187,7 @@ const calculatedGrandTotal = computed(() => {
                                             Total Input Vat
                                         </td>
                                         <td class="border px-2 py-1 text-right text-sm">
-                                            {{ utils.formatCurrency(model.total_input_vat || 0) }}
+                                            {{ useFormatCurrency(0) }}
                                         </td>
                                         <td class="px-2 py-1" />
                                     </tr>
@@ -214,7 +197,7 @@ const calculatedGrandTotal = computed(() => {
                                             Grand Total
                                         </td>
                                         <td class="border px-2 py-1 text-right font-bold text-sm">
-                                            ₱{{ utils.formatCurrency(calculatedGrandTotal) }}
+                                            ₱{{ useFormatCurrency(item.grand_total) }}
                                         </td>
                                         <td class="px-2 py-1" />
                                     </tr>

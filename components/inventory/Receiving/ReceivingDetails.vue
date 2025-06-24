@@ -21,8 +21,6 @@ const emit = defineEmits<{
 const main = useReceivingStore()
 const { receiving, remarks } = storeToRefs(main)
 const snackbar = useSnackbar()
-const utils = useUtilities()
-
 const isSaving = ref(false)
 const autoSaveTimeout = ref<NodeJS.Timeout | null>(null)
 
@@ -58,40 +56,11 @@ const calculatedGrandTotal = computed(() => {
     }, 0)
 })
 
-const editableParticulars = computed({
-    get: () => model.value.metadata?.particulars || "",
-    set: (value: string) => {
-        if (hasAcceptedItems.value) { return }
-        updateMetadata("particulars", value)
-    }
-})
-
-const editableTerms = computed({
-    get: () => model.value.metadata?.terms_of_payment || "",
-    set: (value: string) => {
-        if (hasAcceptedItems.value) { return }
-        updateMetadata("terms_of_payment", value)
-    }
-})
-
-const editableSupplier = computed({
-    get: () => model.value.supplier.id || model.value.metadata?.supplier_id || null,
-    set: (value: any) => {
-        if (hasAcceptedItems.value) { return }
-        updateMetadata("supplier_id", value)
-    }
-})
-
-const editableReference = computed({
-    get: () => model.value.metadata?.reference || model.value.reference?.reference_no || "",
-    set: (value: string) => {
-        if (hasAcceptedItems.value) { return }
-        updateMetadata("reference", value)
-    }
-})
-
 const updateMetadata = (field: string, value: any) => {
-    if (!model.value.metadata) { model.value.metadata = {} }
+    if (hasAcceptedItems.value) { return }
+    if (!model.value.metadata) {
+        model.value.metadata = {}
+    }
     model.value.metadata[field] = value
     emit("update:data", model.value)
     autoSave(field, value)
@@ -100,14 +69,13 @@ const updateMetadata = (field: string, value: any) => {
 const updateItemField = (itemId: number, field: string, value: any) => {
     const item = model.value.items?.find((item: any) => item.id === itemId)
     if (!item) { return }
-
-    if (!item.metadata) { item.metadata = {} }
+    if (!item.metadata) {
+        item.metadata = {}
+    }
     item.metadata[field] = value
-
     if (field === "unit_price") {
         item.ext_price = (value || 0) * (item.quantity || 0)
     }
-
     emit("update:data", model.value)
 }
 
@@ -127,14 +95,19 @@ const getExtPrice = (item: any) => {
     return unitPrice * acceptedQty
 }
 
-const getFieldValue = (item: any, field: string, fallback: string = "") =>
-    item.metadata?.[field] || item[field] || fallback
-
-const isFieldDisabled = (item: any, field: string) =>
-    !!(item.metadata?.remarks && getFieldValue(item, field))
+const getFieldValue = (item: any, field: string, fallback: string | number = "") =>
+    item.metadata?.[field] !== undefined && item.metadata?.[field] !== null
+        ? item.metadata[field]
+        : item[field] !== undefined && item[field] !== null
+            ? item[field]
+            : fallback
 
 const validateRequiredFields = () => {
-    if (!editableSupplier.value || !editableTerms.value || !editableParticulars.value.trim()) {
+    const currentSupplierId = model.value.supplier?.id || model.value.metadata?.supplier_id
+    const currentTerms = model.value.metadata?.terms_of_payment
+    const currentParticulars = model.value.metadata?.particulars
+
+    if (!currentSupplierId || !currentTerms || !currentParticulars?.trim()) {
         snackbar.add({
             type: "error",
             text: "Please fill in Supplier, Terms of Payment, and Particulars before accepting items."
@@ -143,6 +116,7 @@ const validateRequiredFields = () => {
     }
     return true
 }
+
 const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
     if (!validateRequiredFields()) { return }
 
@@ -176,6 +150,7 @@ const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: s
         snackbar.add({ type: "error", text: error.message || "Something went wrong." })
     }
 }
+
 const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: {
     requestId: number, acceptedQty: number, remarks: string
 }) => {
@@ -193,7 +168,6 @@ const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: {
     }
 
     updateAcceptedQty(requestId, acceptedQty)
-
     const payload = {
         quantity: acceptedQty,
         remarks,
@@ -239,7 +213,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="h-full w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700">
+    <div
+        class="h-full w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700"
+    >
         <div class="flex flex-col gap-2 w-full p-4">
             <div class="mb-4">
                 <InventoryCommonEvenparHeader />
@@ -248,7 +224,12 @@ onUnmounted(() => {
                         {{ title }}
                     </h3>
                     <div v-if="isSaving" class="ml-2 flex items-center text-sm text-blue-600">
-                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg
+                            class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
                             <circle
                                 class="opacity-25"
                                 cx="12"
@@ -257,7 +238,11 @@ onUnmounted(() => {
                                 stroke="currentColor"
                                 stroke-width="4"
                             />
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                            <path
+                                class="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
                         </svg>
                         Saving...
                     </div>
@@ -269,26 +254,30 @@ onUnmounted(() => {
                             <div class="grid grid-cols-2 items-center w-full gap-y-2">
                                 <label class="text-sm font-medium text-gray-700">Supplier:</label>
                                 <InventoryCommonSupplierSelector
-                                    v-model="editableSupplier"
+                                    v-model="model.metadata.supplier_id"
                                     class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md"
                                     :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
                                     :disabled="hasAcceptedItems"
+                                    @update:model-value="!hasAcceptedItems && updateMetadata('supplier_id', $event)"
                                 />
 
                                 <label class="text-sm font-medium text-gray-700">Reference:</label>
                                 <input
-                                    v-model="editableReference"
+                                    v-model="model.metadata.reference"
+                                    :placeholder="model.metadata.reference"
                                     class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700"
                                     :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
                                     :disabled="hasAcceptedItems"
+                                    @input="!hasAcceptedItems && updateMetadata('reference', ($event.target as HTMLInputElement).value)"
                                 >
 
                                 <label class="text-sm font-medium text-gray-700">Terms of Payment:</label>
                                 <select
-                                    v-model="editableTerms"
+                                    v-model="model.metadata.terms_of_payment"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md appearance-none cursor-pointer"
                                     :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
                                     :disabled="hasAcceptedItems"
+                                    @change="!hasAcceptedItems && updateMetadata('terms_of_payment', ($event.target as HTMLSelectElement).value)"
                                 >
                                     <option value="">
                                         Choose Terms of Payment
@@ -300,11 +289,12 @@ onUnmounted(() => {
 
                                 <label class="text-sm font-medium text-gray-700">Particulars:</label>
                                 <input
-                                    v-model="editableParticulars"
+                                    v-model="model.metadata.particulars"
                                     :placeholder="model.metadata?.particulars || 'Enter particulars...'"
                                     class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
                                     :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
                                     :disabled="hasAcceptedItems"
+                                    @input="!hasAcceptedItems && updateMetadata('particulars', ($event.target as HTMLSelectElement).value)"
                                 >
                             </div>
                         </div>
@@ -351,7 +341,12 @@ onUnmounted(() => {
                         <table class="table-auto w-full border-collapse">
                             <thead>
                                 <tr class="bg-[#dbe5f1]">
-                                    <th v-for="header in headerColumns" :key="header.id" scope="col" class="p-2 border-b text-sm">
+                                    <th
+                                        v-for="header in headerColumns"
+                                        :key="header.id"
+                                        scope="col"
+                                        class="p-2 border-b text-sm"
+                                    >
                                         {{ header.name }}
                                     </th>
                                 </tr>
@@ -366,7 +361,7 @@ onUnmounted(() => {
                                     </td>
 
                                     <td class="border px-2 py-1 text-center">
-                                        <template v-if="isFieldDisabled(item, 'specification')">
+                                        <template v-if="item.metadata?.remarks && getFieldValue(item, 'specification')">
                                             {{ getFieldValue(item, 'specification') }}
                                         </template>
                                         <input
@@ -375,12 +370,15 @@ onUnmounted(() => {
                                             type="text"
                                             class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             placeholder="Enter specification..."
-                                            @input="updateItemField(item.id, 'specification', ($event.target as HTMLInputElement).value)"
+                                            :disabled="!!(item.metadata?.remarks && getFieldValue(item, 'specification'))"
+                                            @input="!((item.metadata?.remarks && getFieldValue(item, 'specification')) === true) && updateItemField(item.id, 'specification', ($event.target as HTMLInputElement).value)"
                                         >
                                     </td>
 
                                     <td class="border px-2 py-1 text-center">
-                                        <template v-if="isFieldDisabled(item, 'actual_brand_purchase')">
+                                        <template
+                                            v-if="item.metadata?.remarks && getFieldValue(item, 'actual_brand_purchase')"
+                                        >
                                             {{ getFieldValue(item, 'actual_brand_purchase', item.preferred_brand) }}
                                         </template>
                                         <input
@@ -389,7 +387,8 @@ onUnmounted(() => {
                                             type="text"
                                             class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             placeholder="Enter brand..."
-                                            @input="updateItemField(item.id, 'actual_brand_purchase', ($event.target as HTMLInputElement).value)"
+                                            :disabled="!!(item.metadata?.remarks && getFieldValue(item, 'actual_brand_purchase'))"
+                                            @input="!((item.metadata?.remarks && getFieldValue(item, 'actual_brand_purchase')) === true) && updateItemField(item.id, 'actual_brand_purchase', ($event.target as HTMLInputElement).value)"
                                         >
                                     </td>
 
@@ -404,7 +403,7 @@ onUnmounted(() => {
                                     </td>
 
                                     <td class="border px-2 py-1 text-center">
-                                        <template v-if="isFieldDisabled(item, 'unit_price')">
+                                        <template v-if="item.metadata?.remarks && getFieldValue(item, 'unit_price')">
                                             {{ getFieldValue(item, 'unit_price', 0) }}
                                         </template>
                                         <input
@@ -415,12 +414,13 @@ onUnmounted(() => {
                                             min="0"
                                             class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             placeholder="0.00"
-                                            @input="updateItemField(item.id, 'unit_price', parseFloat(($event.target as HTMLInputElement).value) || 0)"
+                                            :disabled="!!(item.metadata?.remarks && getFieldValue(item, 'unit_price'))"
+                                            @input="!((item.metadata?.remarks && getFieldValue(item, 'unit_price')) === true) && updateItemField(item.id, 'unit_price', parseFloat(($event.target as HTMLInputElement).value) || 0)"
                                         >
                                     </td>
 
                                     <td class="border px-2 py-1 text-center">
-                                        {{ utils.formatCurrency(getExtPrice(item)) }}
+                                        {{ useFormatCurrency(getExtPrice(item)) }}
                                     </td>
 
                                     <td class="border px-2 py-1 text-center">
@@ -430,7 +430,9 @@ onUnmounted(() => {
                                                 :class="item.metadata.status === 'Rejected' ? 'text-red-700' : 'text-green-700'"
                                                 class="h-8 w-8"
                                             />
-                                            <div class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
+                                            <div
+                                                class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md"
+                                            >
                                                 {{ item.metadata.status }}
                                             </div>
                                         </div>
@@ -440,7 +442,6 @@ onUnmounted(() => {
                                         {{ item.metadata?.remarks }}
                                     </td>
 
-                                    <!-- Actions -->
                                     <td class="border px-2 py-1 text-center">
                                         <InventoryCommonAcceptRejectButton
                                             v-model:accept-remarks="remarks"
@@ -457,7 +458,6 @@ onUnmounted(() => {
                                     </td>
                                 </tr>
 
-                                <!-- Totals Row -->
                                 <tr class="border">
                                     <td colspan="12">
                                         <div class="flex justify-end p-2 py-2">
@@ -466,21 +466,21 @@ onUnmounted(() => {
                                                     <strong>Total net of VAT cost:</strong>
                                                 </p>
                                                 <p class="text-md text-gray-900">
-                                                    {{ utils.formatCurrency(model.total_net_of_vat_cost || 0) }}
+                                                    {{ useFormatCurrency(model.total_net_of_vat_cost || 0) }}
                                                 </p>
 
                                                 <p class="text-md text-gray-900">
                                                     <strong>Total Input VAT:</strong>
                                                 </p>
                                                 <p class="text-md text-gray-900">
-                                                    {{ utils.formatCurrency(model.total_input_vat || 0) }}
+                                                    {{ useFormatCurrency(model.total_input_vat || 0) }}
                                                 </p>
 
                                                 <p class="text-md text-gray-900">
                                                     <strong>Grand Total:</strong>
                                                 </p>
                                                 <p class="text-md text-gray-900">
-                                                    ₱{{ utils.formatCurrency(calculatedGrandTotal) }}
+                                                    ₱{{ useFormatCurrency(calculatedGrandTotal) }}
                                                 </p>
                                             </div>
                                         </div>
