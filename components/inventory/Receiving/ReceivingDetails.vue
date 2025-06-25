@@ -157,7 +157,6 @@ const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: {
 
     updateAcceptedQty(requestId, acceptedQty)
     const payload = {
-        quantity: item.quantity,
         accepted_quantity: acceptedQty,
         remarks,
         actual_brand_purchase: getFieldValue(item, "actual_brand_purchase"),
