@@ -36,35 +36,35 @@ defineProps({
             <template #tab-titles>
                 <AccountingCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+                        AccessibilityTypes.PROJECTMONITORING_MARKETING_GROUP,
                     ])"
                     title="BILL OF QUANTITIES"
                     target-id="billOfQuantities"
                 />
                 <AccountingCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+                        AccessibilityTypes.PROJECTMONITORING_MARKETING_GROUP,
                     ])"
                     title="SUMMARY OF RATES"
                     target-id="summaryRates"
                 />
                 <AccountingCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+                        AccessibilityTypes.PROJECTMONITORING_MARKETING_GROUP,
                     ])"
                     title="SUMMARY OF BID"
                     target-id="bidSummary"
                 />
                 <AccountingCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+                        AccessibilityTypes.PROJECTMONITORING_MARKETING_GROUP,
                     ])"
                     title="CASH FLOW"
                     target-id="cashFlow"
                 />
                 <AccountingCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+                        AccessibilityTypes.PROJECTMONITORING_MARKETING_GROUP,
                     ])"
                     title="BILL OF MATERIALS"
                     target-id="billOfMaterials"

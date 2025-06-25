@@ -3,13 +3,13 @@
 <template>
     <LayoutNavModuleGroup
         v-if="useCheckAccessibility([
-            AccessibilityTypes.PROJECT_MONITORING_GROUP,
+            AccessibilityTypes.PROJECTMONITORING_GROUP,
         ])"
         title="Project Monitoring"
     >
         <LayoutNavSingle
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_DASHBOARD,
+                AccessibilityTypes.PROJECTMONITORING_DASHBOARD,
             ])"
             linkarea="/project-monitoring"
             icon="ic:baseline-space-dashboard"
@@ -17,7 +17,7 @@
         />
         <LayoutNavSingle
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+                AccessibilityTypes.PROJECTMONITORING_MARKETING_GROUP,
             ])"
             linkarea="/project-monitoring/marketing"
             icon="material-symbols:business-center"
@@ -25,7 +25,7 @@
         />
         <LayoutNavSingle
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_TSS,
+                AccessibilityTypes.PROJECTMONITORING_TSS,
             ])"
             linkarea="/project-monitoring/technical-service"
             icon="material-symbols:linked-services"
@@ -33,14 +33,14 @@
         />
         <LayoutNavGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_SETUP_GROUP,
+                AccessibilityTypes.PROJECTMONITORING_SETUP_GROUP,
             ])"
             icon="iconoir:credit-cards"
             title="Setup"
         >
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.PROJECT_MONITORING_SETUP_POSITION,
+                    AccessibilityTypes.PROJECTMONITORING_SETUP_POSITION,
                 ])"
                 linkarea="/project-monitoring/setup/positions"
                 icon="iconoir:thumbs-up"
@@ -48,7 +48,7 @@
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.PROJECT_MONITORING_SETUP_APPROVALS,
+                    AccessibilityTypes.PROJECTMONITORING_SETUP_APPROVALS,
                 ])"
                 linkarea="/project-monitoring/setup/approvals"
                 icon="iconoir:thumbs-up"
@@ -56,7 +56,7 @@
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.PROJECT_MONITORING_SETUP_SYNCHRONIZATION,
+                    AccessibilityTypes.PROJECTMONITORING_SETUP_SYNCHRONIZATION,
                 ])"
                 linkarea="/project-monitoring/setup/synchronization"
                 icon="iconoir:refresh-double"

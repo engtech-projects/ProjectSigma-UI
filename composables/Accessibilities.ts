@@ -295,22 +295,22 @@ export enum AccessibilityTypes {
     ACCOUNTING_REPORTS_PAYROLL_LIQUIDATIONS = "accounting:reports_payroll liquidations",
 
     // PROJECT MONITORING
-    PROJECT_MONITORING_GROUP = "project monitoring:",
-    PROJECT_MONITORING_DASHBOARD = "project monitoring:dashboard",
-    PROJECT_MONITORING_PROJECTS = "project monitoring:projects",
-    PROJECT_MONITORING_MARKETING_GROUP = "project monitoring:marketing_",
-    PROJECT_MONITORING_MARKETING_MYPROJECTS = "project monitoring:marketing_my projects",
-    PROJECT_MONITORING_MARKETING_BIDDINGLIST = "project monitoring:marketing_bidding list",
-    PROJECT_MONITORING_MARKETING_PROPOSALLIST = "project monitoring:marketing_proposal list",
-    PROJECT_MONITORING_MARKETING_ARCHIVEDLIST = "project monitoring:marketing_archived list",
-    PROJECT_MONITORING_MARKETING_ONHOLDLIST = "project monitoring:marketing_on hold list",
-    PROJECT_MONITORING_MARKETING_AWARDEDLIST = "project monitoring:marketing_awarded list",
-    PROJECT_MONITORING_MARKETING_DRAFTLIST = "project monitoring:marketing_draft list",
-    PROJECT_MONITORING_TSS = "project monitoring:tss",
-    PROJECT_MONITORING_SETUP_GROUP = "project monitoring:setup_",
-    PROJECT_MONITORING_SETUP_APPROVALS = "project monitoring:setup_approvals",
-    PROJECT_MONITORING_SETUP_POSITION = "project monitoring:setup_position",
-    PROJECT_MONITORING_SETUP_SYNCHRONIZATION = "project monitoring:setup_synchronization"
+    PROJECTMONITORING_GROUP = "project monitoring:",
+    PROJECTMONITORING_DASHBOARD = "project monitoring:dashboard",
+    PROJECTMONITORING_PROJECTS = "project monitoring:projects",
+    PROJECTMONITORING_MARKETING_GROUP = "project monitoring:marketing_",
+    PROJECTMONITORING_MARKETING_MYPROJECTS = "project monitoring:marketing_my projects",
+    PROJECTMONITORING_MARKETING_BIDDINGLIST = "project monitoring:marketing_bidding list",
+    PROJECTMONITORING_MARKETING_PROPOSALLIST = "project monitoring:marketing_proposal list",
+    PROJECTMONITORING_MARKETING_ARCHIVEDLIST = "project monitoring:marketing_archived list",
+    PROJECTMONITORING_MARKETING_ONHOLDLIST = "project monitoring:marketing_on hold list",
+    PROJECTMONITORING_MARKETING_AWARDEDLIST = "project monitoring:marketing_awarded list",
+    PROJECTMONITORING_MARKETING_DRAFTLIST = "project monitoring:marketing_draft list",
+    PROJECTMONITORING_TSS = "project monitoring:tss",
+    PROJECTMONITORING_SETUP_GROUP = "project monitoring:setup_",
+    PROJECTMONITORING_SETUP_APPROVALS = "project monitoring:setup_approvals",
+    PROJECTMONITORING_SETUP_POSITION = "project monitoring:setup_position",
+    PROJECTMONITORING_SETUP_SYNCHRONIZATION = "project monitoring:setup_synchronization"
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
     allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS
