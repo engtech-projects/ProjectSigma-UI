@@ -1,27 +1,19 @@
 <script setup>
 import { useNcpoStore } from "~/stores/inventory/procurement/ncpo"
 import { useProcurementRequestStore } from "~/stores/inventory/procurement/request"
+const procurementRequestStore = useProcurementRequestStore()
 const mainStore = useNcpoStore()
 const { ncpoRequest } = storeToRefs(mainStore)
-const procurementRequestStore = useProcurementRequestStore()
-const { allRequests, viewRequests, unserved } = storeToRefs(procurementRequestStore)
-procurementRequestStore.getAllRequests()
-procurementRequestStore.getUnserved()
+const { selectedItem, viewRequests } = storeToRefs(procurementRequestStore)
+
 const isShowTable = ref(true)
 const isShowSecondPage = ref(false)
 const isShowThirdPage = ref(false)
-const selectedItem = ref(null)
 
 const headers = [
     { name: "Supplier", id: "supplier_name" },
     { name: "Quotation Date", id: "quot_date" },
 ]
-const rsHeaders = [
-    { name: "RS No.", id: "rs_reference_no" },
-    { name: "Date", id: "rs_date_prepared_human" },
-    { name: "Status", id: "status" },
-]
-
 const rsInfoHeaders = [
     { name: "QTY", id: "quantity" },
     { name: "Unit", id: "unit_uom" },
@@ -31,12 +23,6 @@ const rsInfoHeaders = [
     { name: "Reason for Request", id: "reason_for_request" },
     { name: "No. of Price Quotations", id: "noOfPriceQuotation" },
 ]
-
-const actions = {
-    showTable: true,
-    edit: false,
-    delete: false,
-}
 const route = useRoute()
 const router = useRouter()
 
@@ -46,9 +32,9 @@ const prDetails = [
     { supplier_name: "Supplier 3", quot_date: "2022-02-26" },
 ]
 
-const showInformation = (selectedItem) => {
-    router.push({ query: { id: selectedItem.id } })
-    procurementRequestStore.getOne(selectedItem.id)
+const showInformation = (eventItem) => {
+    router.push({ query: { id: eventItem.id } })
+    procurementRequestStore.getOne(eventItem.id)
     isShowTable.value = false
     isShowSecondPage.value = true
     isShowThirdPage.value = false
@@ -74,14 +60,18 @@ const showThirdPage = (formType) => {
     isShowThirdPage.value = true
 }
 
-if (route.query.id) {
-    procurementRequestStore.getOne(route.query.id)
-    if (viewRequests.details) {
-        showInformation(route.query.id)
-    } else {
-        goBack()
+const hasIdParam = () => {
+    if (route.query.id) {
+        procurementRequestStore.getOne(route.query.id)
+        if (viewRequests.value.details.requisition_slip) {
+            showInformation({ id: route.query.id })
+        } else {
+            goBack()
+        }
     }
 }
+
+hasIdParam()
 
 const form = ref({
     date: "",
@@ -116,10 +106,6 @@ const currentForm = ref(null)
             <div v-if="isShowTable" class="border border-gray-300 flex-1 rounded-md p-4 bg-white">
                 <InventoryCommonLayoutRequestTable
                     :is-show="isShowTable"
-                    :headers="rsHeaders"
-                    :actions="actions"
-                    :datas="unserved"
-                    :all-datas="allRequests"
                     title="PROCUREMENT REQUESTS"
                     class="rounded-md shadow-sm"
                     @show-table="showInformation"
@@ -133,9 +119,12 @@ const currentForm = ref(null)
                 </div>
                 <div class="mt-4 p-4 bg-white rounded-md border-4 border-sky-200">
                     <InventoryCommonLayoutRequisitionSlip
-                        :office-project="viewRequests.details.requisition_slip.office_project"
+                        v-if="viewRequests.details.requisition_slip"
+                        :office-project="viewRequests.details.requisition_slip.office_project ?? ''"
                         :address="viewRequests.details.requisition_slip.address"
                         :reference-no="viewRequests.details.requisition_slip.reference_no"
+                        :date-needed="viewRequests.details.requisition_slip.date_needed"
+                        :date-prepared="viewRequests.details.requisition_slip.date_prepared"
                         :rs-info-headers="rsInfoHeaders"
                         :rs-info="viewRequests.details"
                         title="REQUISITION SLIP"

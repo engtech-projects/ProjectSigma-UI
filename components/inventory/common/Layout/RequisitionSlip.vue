@@ -47,11 +47,11 @@ defineProps({
     },
     datePrepared: {
         type: String,
-        default: () => new Date().toLocaleDateString()
+        default: "N/A"
     },
     dateNeeded: {
         type: String,
-        default: () => new Date(Date.now() + 7 * 86400000).toLocaleDateString()
+        default: "N/A"
     },
     equipmentNo: {
         type: String,

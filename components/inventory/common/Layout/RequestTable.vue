@@ -25,35 +25,19 @@
             <template #tab-containers>
                 <!-- Ongoing Tab -->
                 <HrmsCommonTabsTabContainer id="ongoing">
-                    <LayoutLoadingContainer :loading="datas.isLoading">
-                        <LayoutPsTable
-                            v-if="isShow"
-                            :header-columns="headers"
-                            :actions="actions"
-                            :datas="datas.list ?? []"
-                            class="rounded-md"
-                            @show-table="$emit('show-table', $event)"
-                        />
-                        <div class="flex justify-center mx-auto">
-                            <CustomPagination :links="datas.pagination" @change-params="changePaginateOnGoing" />
-                        </div>
-                    </LayoutLoadingContainer>
+                    <InventoryProcurementRequestOngoingTable
+                        v-if="isShow"
+                        :actions="actions"
+                        @show-table="emit('show-table', $event)"
+                    />
                 </HrmsCommonTabsTabContainer>
                 <!-- All Tab -->
                 <HrmsCommonTabsTabContainer id="all">
-                    <LayoutLoadingContainer :loading="allDatas.isLoading">
-                        <LayoutPsTable
-                            v-if="isShow"
-                            :header-columns="headers"
-                            :actions="actions"
-                            :datas="allDatas.list ?? []"
-                            class="rounded-md"
-                            @show-table="$emit('show-table', $event)"
-                        />
-                        <div class="flex justify-center mx-auto">
-                            <CustomPagination :links="allDatas.pagination" @change-params="changePaginate" />
-                        </div>
-                    </LayoutLoadingContainer>
+                    <InventoryProcurementRequestAllRequestTable
+                        v-if="isShow"
+                        :actions="actions"
+                        @show-table="emit('show-table', $event)"
+                    />
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>
@@ -66,33 +50,10 @@ defineProps({
         type: String,
         required: true
     },
-    isShow: Boolean,
-    headers: {
-        type: Array,
-        required: true
-    },
-    datas: {
-        type: Array,
-        default: () => []
-    },
-    allDatas: {
-        type: Array,
-        default: () => []
-    },
-    actions: {
-        type: Boolean,
-    }
+    isShow: Boolean
 })
-
-defineEmits(["show-table"])
-
+const emit = defineEmits(["show-table"])
 useHead({
     title: "PROCUREMENT REQUESTS",
 })
-const changePaginateOnGoing = (newParams) => {
-    datas.value.params.page = newParams.page ?? ""
-}
-const changePaginate = (newParams) => {
-    allDatas.value.params.page = newParams.page ?? ""
-}
 </script>
