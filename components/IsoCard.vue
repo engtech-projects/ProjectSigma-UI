@@ -49,7 +49,8 @@
 defineProps({
     page: {
         type: Object,
-        default: null,
+        default: () => ({ currentPage: 1, totalPages: 1 })
+
     },
     documentCode: {
         type: String,
