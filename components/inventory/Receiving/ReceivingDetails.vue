@@ -64,18 +64,6 @@ const updateMetadata = (field: string, value: any) => {
     autoSave(field, value)
 }
 
-const updateItemField = (itemId: number, field: string, value: any) => {
-    const item = model.value.items?.find((item: any) => item.id === itemId)
-    if (!item) { return }
-    if (!item.metadata) {
-        item.metadata = {}
-    }
-    item.metadata[field] = value
-    if (field === "unit_price") {
-        item.ext_price = (value) * (item.quantity)
-    }
-}
-
 const updateAcceptedQty = (itemId: number, qty: number) => {
     if (isInitialLoad.value) { return }
     const item = model.value.items?.find((item: any) => item.id === itemId)
@@ -375,7 +363,7 @@ watch(() => model.value.items, (newItems) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item in model.items" :key="item.id" class="bg-white border-b">
+                                <tr v-for="(item, index) in model.items" :key="item.id" class="bg-white border-b">
                                     <td class="border px-2 py-1 text-center">
                                         {{ item.item_code }}
                                     </td>
@@ -389,12 +377,11 @@ watch(() => model.value.items, (newItems) => {
                                         </template>
                                         <input
                                             v-else
-                                            :value="getFieldValue(item, 'specification')"
+                                            v-model="model.items[index].metadata.specification"
                                             type="text"
                                             class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             placeholder="Enter specification..."
                                             :disabled="!!(item.metadata?.remarks && getFieldValue(item, 'specification'))"
-                                            @input="!((item.metadata?.remarks && getFieldValue(item, 'specification')) === true) && updateItemField(item.id, 'specification', ($event.target as HTMLInputElement).value)"
                                         >
                                     </td>
 
@@ -406,12 +393,11 @@ watch(() => model.value.items, (newItems) => {
                                         </template>
                                         <input
                                             v-else
-                                            :value="getFieldValue(item, 'actual_brand_purchase', item.preferred_brand)"
+                                            v-model="model.items[index].metadata.actual_brand_purchase"
                                             type="text"
                                             class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                             placeholder="Enter brand..."
                                             :disabled="!!(item.metadata?.remarks && getFieldValue(item, 'actual_brand_purchase'))"
-                                            @input="!((item.metadata?.remarks && getFieldValue(item, 'actual_brand_purchase')) === true) && updateItemField(item.id, 'actual_brand_purchase', ($event.target as HTMLInputElement).value)"
                                         >
                                     </td>
 
@@ -431,14 +417,12 @@ watch(() => model.value.items, (newItems) => {
                                         </template>
                                         <input
                                             v-else
-                                            :value="getFieldValue(item, 'unit_price', 0)"
+                                            v-model="model.items[index].metadata.unit_price"
                                             type="number"
-                                            step="0.01"
-                                            min="0"
+                                            min="1"
                                             class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="0.00"
+                                            placeholder="Enter unit price"
                                             :disabled="!!(item.metadata?.remarks && getFieldValue(item, 'unit_price'))"
-                                            @input="!((item.metadata?.remarks && getFieldValue(item, 'unit_price')) === true) && updateItemField(item.id, 'unit_price', parseFloat(($event.target as HTMLInputElement).value) || 0)"
                                         >
                                     </td>
 
