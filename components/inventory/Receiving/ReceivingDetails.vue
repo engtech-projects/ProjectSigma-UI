@@ -14,15 +14,13 @@ defineProps<{
 }>()
 
 const model = defineModel<Record<string, any>>({ default: () => ({}) })
-const emit = defineEmits<{
-    "update:data": [value: Record<string, any>]
-}>()
 
 const main = useReceivingStore()
 const { receiving, remarks } = storeToRefs(main)
 const snackbar = useSnackbar()
 const isSaving = ref(false)
 const autoSaveTimeout = ref<NodeJS.Timeout | null>(null)
+const isInitialLoad = ref(true)
 
 const performAutoSave = async (field: string, value: any) => {
     if (!model.value.id) { return }
@@ -50,9 +48,10 @@ const hasAcceptedItems = computed(() =>
 const calculatedGrandTotal = computed(() => {
     const items = model.value.items || []
     return items.reduce((total, item) => {
-        const unitPrice = item.metadata?.unit_price || item.unit_price || 0
-        const acceptedQty = item.accepted_quantity || 0
-        return total + (unitPrice * acceptedQty)
+        if (item.ext_price !== null && item.ext_price !== undefined && item.ext_price > 0) {
+            return total + item.ext_price
+        }
+        return total
     }, 0)
 })
 
@@ -62,7 +61,6 @@ const updateMetadata = (field: string, value: any) => {
         model.value.metadata = {}
     }
     model.value.metadata[field] = value
-    emit("update:data", model.value)
     autoSave(field, value)
 }
 
@@ -74,25 +72,27 @@ const updateItemField = (itemId: number, field: string, value: any) => {
     }
     item.metadata[field] = value
     if (field === "unit_price") {
-        item.ext_price = (value || 0) * (item.quantity || 0)
+        item.ext_price = (value) * (item.quantity)
     }
-    emit("update:data", model.value)
 }
 
 const updateAcceptedQty = (itemId: number, qty: number) => {
+    if (isInitialLoad.value) { return }
     const item = model.value.items?.find((item: any) => item.id === itemId)
     if (!item) { return }
 
-    item.accepted_quantity = qty
-    const unitPrice = item.metadata?.unit_price || item.unit_price || 0
+    if (!item.metadata) {
+        item.metadata = {}
+    }
+    item.metadata.accepted_quantity = qty
+    const unitPrice = item.metadata?.unit_price || 0
     item.ext_price = unitPrice * qty
-    emit("update:data", model.value)
 }
 
 const getExtPrice = (item: any) => {
-    const unitPrice = item.metadata?.unit_price || item.unit_price || 0
-    const acceptedQty = item.accepted_quantity || 0
-    return unitPrice * acceptedQty
+    const unitPrice = item.metadata?.unit_price
+    const acceptedQty = item.metadata?.accepted_quantity
+    return unitPrice * acceptedQty || 0
 }
 
 const getFieldValue = (item: any, field: string, fallback: string | number = "") =>
@@ -125,11 +125,11 @@ const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: s
         snackbar.add({ type: "error", text: "Item not found." })
         return
     }
-
     const payload = {
         remarks,
         actual_brand_purchase: getFieldValue(item, "actual_brand_purchase"),
-        quantity: item.accepted_quantity || item.quantity || 0,
+        quantity: item.quantity,
+        accepted_quantity: item.quantity,
         unit_price: getFieldValue(item, "unit_price", 0),
         specification: getFieldValue(item, "specification") || null,
         grand_total: getExtPrice(item)
@@ -169,7 +169,8 @@ const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: {
 
     updateAcceptedQty(requestId, acceptedQty)
     const payload = {
-        quantity: acceptedQty,
+        quantity: item.quantity,
+        accepted_quantity: acceptedQty,
         remarks,
         actual_brand_purchase: getFieldValue(item, "actual_brand_purchase"),
         unit_price: getFieldValue(item, "unit_price", 0),
@@ -189,6 +190,7 @@ const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: {
         snackbar.add({ type: "error", text: error.message || "Something went wrong." })
     }
 }
+
 const rejectRequest = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
     if (!remarks.trim()) {
         snackbar.add({ type: "error", text: "Remarks are required." })
@@ -207,9 +209,30 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
         snackbar.add({ type: "error", text: error.message || "Something went wrong." })
     }
 }
+
+onMounted(() => {
+    nextTick(() => {
+        isInitialLoad.value = false
+    })
+})
 onUnmounted(() => {
     if (autoSaveTimeout.value) { clearTimeout(autoSaveTimeout.value) }
 })
+watch(() => model.value.items, (newItems) => {
+    if (isInitialLoad.value) { return }
+
+    newItems?.forEach((item: any) => {
+        if (item.metadata?.accepted_quantity !== undefined && item.metadata?.unit_price !== undefined) {
+            const unitPrice = item.metadata.unit_price || 0
+            const acceptedQty = item.metadata.accepted_quantity || 0
+            const expectedExtPrice = unitPrice * acceptedQty
+
+            if (item.ext_price !== expectedExtPrice) {
+                item.ext_price = expectedExtPrice
+            }
+        }
+    })
+}, { deep: true })
 </script>
 
 <template>
@@ -396,7 +419,7 @@ onUnmounted(() => {
                                         {{ item.quantity }}
                                     </td>
                                     <td class="border px-2 py-1 text-center">
-                                        {{ item.accepted_quantity || 0 }}
+                                        {{ item.metadata?.accepted_quantity }}
                                     </td>
                                     <td class="border px-2 py-1 text-center">
                                         {{ item.uom_name }}
@@ -420,7 +443,7 @@ onUnmounted(() => {
                                     </td>
 
                                     <td class="border px-2 py-1 text-center">
-                                        {{ useFormatCurrency(getExtPrice(item)) }}
+                                        {{ useFormatCurrency(getExtPrice(item)) || 0 }}
                                     </td>
 
                                     <td class="border px-2 py-1 text-center">
@@ -442,7 +465,7 @@ onUnmounted(() => {
                                         {{ item.metadata?.remarks }}
                                     </td>
 
-                                    <td class="border px-2 py-1 text-center">
+                                    <td class="border px-2 py-1 text-center z-50">
                                         <InventoryCommonAcceptRejectButton
                                             v-model:accept-remarks="remarks"
                                             v-model:reject-remarks="remarks"
@@ -480,7 +503,7 @@ onUnmounted(() => {
                                                     <strong>Grand Total:</strong>
                                                 </p>
                                                 <p class="text-md text-gray-900">
-                                                    ₱{{ useFormatCurrency(calculatedGrandTotal) }}
+                                                    ₱{{ useFormatCurrency(calculatedGrandTotal) || 0 }}
                                                 </p>
                                             </div>
                                         </div>

@@ -10,12 +10,14 @@ export const REQ_STATUS = [
     DENIED,
 ]
 export const PREPAYMENT_IN_FULL = "PREPAYMENT IN FULL"
+export const CASH = "CASH"
 export const CREDIT_7_DAYS = "CREDIT 7 DAYS"
 export const CREDIT_15_DAYS = "CREDIT 15 DAYS"
 export const CREDIT_30_DAYS = "CREDIT 30 DAYS"
 export const PROGRESS_BILLING = "PROGRESS BILLING"
 export const TERMS = [
     PREPAYMENT_IN_FULL,
+    CASH,
     CREDIT_7_DAYS,
     CREDIT_15_DAYS,
     CREDIT_30_DAYS,

@@ -6,7 +6,6 @@ const mainStore = useReceivingStore()
 const { receiving } = storeToRefs(mainStore)
 const route = useRoute()
 const validKey = ref(false)
-const sharedData = ref({})
 if (route.query.key) {
     validKey.value = true
     await mainStore.getOne(route.query.key)
@@ -57,8 +56,7 @@ useHead({
                 <LayoutPrintAdvanced class="min-h-40">
                     <template #print-layout>
                         <InventoryReceivingDetailsPrintLayout
-                            v-model="receiving.details"
-                            :data="sharedData"
+                            :data="receiving.details"
                             title="Materials Receiving Report"
                             :header-columns="printHeaders"
                         />
@@ -66,7 +64,6 @@ useHead({
                     <template #system-layout>
                         <InventoryReceivingDetails
                             v-model="receiving.details"
-                            :data="sharedData"
                             title="Materials Receiving Report"
                             :header-columns="systemHeaders"
                         />
