@@ -12,7 +12,7 @@ await resourceStore.getResourceNames()
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.PROJECT_MONITORING_PROJECTS,
+            AccessibilityTypes.PROJECTMONITORING_PROJECTS,
         ])"
     >
         <div class="flex flex-col gap-4 bg-white">
