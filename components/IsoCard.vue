@@ -38,6 +38,7 @@
                     </td>
                     <td class="text-[12px] p-[1px] text-center border border-gray-500">
                         <!-- {{ page.currentPage }} of {{ page.totalPages }} -->
+                        1 of 1
                     </td>
                 </tr>
             </tbody>
