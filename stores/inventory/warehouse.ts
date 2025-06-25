@@ -140,7 +140,7 @@ export const useWarehouseStore = defineStore("warehouseStore", {
                     onResponse: ({ response }) => {
                         this.logs.isLoading = false
                         if (response.ok) {
-                            this.logs.list = response._data.warehouse.transaction_items
+                            this.logs.list = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

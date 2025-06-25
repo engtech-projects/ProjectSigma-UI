@@ -55,8 +55,7 @@ export const useProjectStore = defineStore("projects", {
             ntp_date: null,
             license: null,
             designation: null,
-            employee_id: null,
-            employees: [],
+            position_id: null,
             phases: [],
             approvals: []
         } as Project,
@@ -409,8 +408,7 @@ export const useProjectStore = defineStore("projects", {
                             this.errorMessage = response._data.message
                         } else {
                             this.$reset()
-                            this.getDraftProjects()
-                            this.getProposalProjects()
+                            this.getMyProjects()
                             this.successMessage = response._data.message
                         }
                     },
@@ -430,8 +428,8 @@ export const useProjectStore = defineStore("projects", {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getDraftProjects()
-                            this.getProposalProjects()
+                            this.getMyProjects()
+                            this.getMyProposalProjects()
                             this.successMessage = response._data.message
                         }
                     },
@@ -456,8 +454,7 @@ export const useProjectStore = defineStore("projects", {
             )
             if (data.value) {
                 this.$reset()
-                this.getDraftProjects()
-                this.getProposalProjects()
+                this.getMyProjects()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -499,8 +496,7 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
             if (data.value) {
-                this.getDraftProjects()
-                this.getProposalProjects()
+                this.getMyProjects()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {

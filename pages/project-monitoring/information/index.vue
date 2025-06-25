@@ -9,12 +9,9 @@ import { useResourceStore } from "~/stores/project-monitoring/resource"
 
 const route = useRoute()
 const projectId = route.query.id
-
 const projectStore = useProjectStore()
 const resourceStore = useResourceStore()
-
 projectStore.viewState = true
-
 await projectStore.getProject(projectId)
 await resourceStore.getResourceUnits()
 </script>

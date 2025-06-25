@@ -7,7 +7,6 @@ const taskStore = useTaskStore()
 const projectStore = useProjectStore()
 const resourceStore = useResourceStore()
 await taskStore.getTask(route.query.id)
-await projectStore.getProject(route.query.pid)
 await resourceStore.getResourceNames()
 </script>
 <template>
@@ -17,7 +16,10 @@ await resourceStore.getResourceNames()
         ])"
     >
         <div class="flex flex-col gap-4 bg-white">
-            <ProjectsDupaDetails />
+            <ProjectsDupaDetails
+                :project-information="projectStore.information"
+                :task-information="taskStore.task"
+            />
         </div>
     </LayoutAcessContainer>
 </template>
