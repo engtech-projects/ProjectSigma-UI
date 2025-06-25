@@ -21,7 +21,7 @@
 
         <LayoutPsTable
             :header-columns="rsInfoHeaders"
-            :datas="rsInfo"
+            :datas="rsInfo.canvassers ?? []"
             class="rounded-md shadow-sm"
         />
     </div>
@@ -32,10 +32,6 @@ defineProps({
     title: {
         type: String,
         default: ""
-    },
-    selectedItem: {
-        type: Boolean,
-        required: true
     },
     officeProject: {
         type: String,

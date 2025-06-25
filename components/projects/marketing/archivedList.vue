@@ -5,7 +5,6 @@ const projectStore = useProjectStore()
 
 const { archivedList } = storeToRefs(projectStore)
 
-await projectStore.getArchivedProjects()
 const changePaginate = (newParams) => {
     archivedList.value.params.page = newParams.page ?? ""
 }

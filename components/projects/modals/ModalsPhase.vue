@@ -1,3 +1,46 @@
+<script lang="ts" setup>
+import { usePhaseStore } from "@/stores/project-monitoring/phase"
+import { useProjectStore } from "~/stores/project-monitoring/projects"
+const phaseStore = usePhaseStore()
+const projectStore = useProjectStore()
+defineProps({
+    showModal: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
+})
+const emit = defineEmits(["hideModal", "save"])
+const boardLoading = ref(false)
+const snackbar = useSnackbar()
+const handleSubmit = async () => {
+    try {
+        boardLoading.value = true
+        await phaseStore.createPhase()
+        if (phaseStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: phaseStore.errorMessage
+            })
+        } else {
+            projectStore.information.phases.push(clone(phaseStore.phase))
+            emit("save", phaseStore.phase)
+            snackbar.add({
+                type: "success",
+                text: phaseStore.successMessage
+            })
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: phaseStore.errorMessage
+        })
+    } finally {
+        phaseStore.phase.project_id = projectStore.information.id
+        boardLoading.value = false
+    }
+}
+</script>
 <template>
     <ModalContainer
         :show="showModal"
@@ -44,51 +87,3 @@
         </div>
     </ModalContainer>
 </template>
-
-<script lang="ts" setup>
-import { usePhaseStore } from "@/stores/project-monitoring/phase"
-import { useProjectStore } from "~/stores/project-monitoring/projects"
-const phaseStore = usePhaseStore()
-const projectStore = useProjectStore()
-defineProps({
-    showModal: {
-        type: Boolean,
-        required: true,
-        default: false
-    }
-})
-const emit = defineEmits(["hideModal", "save"])
-const boardLoading = ref(false)
-const snackbar = useSnackbar()
-const handleSubmit = async () => {
-    try {
-        boardLoading.value = true
-        await phaseStore.createPhase()
-        if (phaseStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: phaseStore.errorMessage
-            })
-        } else {
-            projectStore.information.phases.push(clone(phaseStore.phase))
-            emit("save", phaseStore.phase)
-            snackbar.add({
-                type: "success",
-                text: phaseStore.successMessage
-            })
-        }
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: phaseStore.errorMessage
-        })
-    } finally {
-        phaseStore.phase.project_id = projectStore.information.id
-        boardLoading.value = false
-    }
-}
-</script>
-
-<style>
-
-</style>

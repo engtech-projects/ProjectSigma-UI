@@ -1,3 +1,6 @@
+<script lang="ts" setup>
+const showModal = ref(true)
+</script>
 <template>
     <div class="flex flex-col gap-10">
         <div class="flex flex-col gap-3">
@@ -103,11 +106,6 @@
         </ModalContainer>
     </div>
 </template>
-
-<script lang="ts" setup>
-const showModal = ref(true)
-</script>
-
 <style scoped>
     input:focus {
         outline: none!important;

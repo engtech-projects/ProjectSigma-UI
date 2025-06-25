@@ -7,7 +7,7 @@ const { proposalList } = storeToRefs(projectStore)
 
 const requestData = ref(null)
 const showInformationModal = ref(false)
-await projectStore.getProposalProjects()
+
 const draftDetails = (data) => {
     navigateTo(`/project-monitoring/my-proposal?id=${data.id}`)
 }

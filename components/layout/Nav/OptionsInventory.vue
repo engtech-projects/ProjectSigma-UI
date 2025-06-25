@@ -81,12 +81,52 @@
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    'AdminOnly',
+                    AccessibilityTypes.INVENTORY_SETUP_APISYNCHRONIZATION,
                 ])"
                 linkarea="/inventory/setup/synchronization"
                 icon="iconoir:refresh-double"
                 single-nav-title="API Synchronization"
             />
+            <LayoutNavGroup
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.INVENTORY_SETUP_LISTS_GROUP,
+                ])"
+                icon="ion:ios-people"
+                title="Lists"
+            >
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.INVENTORY_SETUP_LISTS_DEPARTMENT_LIST,
+                    ])"
+                    linkarea="/inventory/setup/lists/department-list"
+                    icon="material-symbols:view-list"
+                    single-nav-title="Department List"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.INVENTORY_SETUP_LISTS_EMPLOYEE_LIST,
+                    ])"
+                    linkarea="/inventory/setup/lists/employee-list"
+                    icon="material-symbols:view-list"
+                    single-nav-title="Employee List"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.INVENTORY_SETUP_LISTS_USERS_LIST,
+                    ])"
+                    linkarea="/inventory/setup/lists/users-list"
+                    icon="material-symbols:view-list"
+                    single-nav-title="Users List"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.INVENTORY_SETUP_LISTS_PROJECT_LIST,
+                    ])"
+                    linkarea="/inventory/setup/lists/projects-list"
+                    icon="material-symbols:view-list"
+                    single-nav-title="Projects List"
+                />
+            </LayoutNavGroup>
         </LayoutNavGroup>
         <LayoutNavGroup
             v-if="useCheckAccessibility([
