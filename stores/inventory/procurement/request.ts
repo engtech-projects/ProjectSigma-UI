@@ -91,7 +91,7 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.viewRequests.details = response._data.data
-                            return response._data.data.data
+                            return response._data.data
                         } else {
                             throw new Error(response._data.message)
                         }
