@@ -33,14 +33,14 @@
         />
         <LayoutNavGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_SETUP,
+                AccessibilityTypes.PROJECT_MONITORING_SETUP_GROUP,
             ])"
             icon="iconoir:credit-cards"
             title="Setup"
         >
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.PROJECT_MONITORING_SETUP,
+                    AccessibilityTypes.PROJECT_MONITORING_SETUP_POSITION,
                 ])"
                 linkarea="/project-monitoring/setup/positions"
                 icon="iconoir:thumbs-up"
@@ -48,7 +48,7 @@
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.PROJECT_MONITORING_SETUP,
+                    AccessibilityTypes.PROJECT_MONITORING_SETUP_APPROVALS,
                 ])"
                 linkarea="/project-monitoring/setup/approvals"
                 icon="iconoir:thumbs-up"
