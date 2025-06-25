@@ -1,16 +1,10 @@
 <script setup lang="ts">
-import { useReceivingStore, TERMS } from "@/stores/inventory/receiving"
-
-interface HeaderColumn {
-    name: string
-    id: string
-    style: string
-}
+import { useReceivingStore, TERMS, type HeaderColumn } from "@/stores/inventory/receiving"
+import { useInventoryDocCode } from "~/composables/enums"
 
 defineProps<{
     title: string
     headerColumns: HeaderColumn[]
-    data: Record<string, any>
 }>()
 
 const model = defineModel<Record<string, any>>({ default: () => ({}) })
@@ -45,16 +39,6 @@ const hasAcceptedItems = computed(() =>
     model.value.items?.some(({ metadata }) => metadata?.status === "Accepted")
 )
 
-const calculatedGrandTotal = computed(() => {
-    const items = model.value.items || []
-    return items.reduce((total, item) => {
-        if (item.ext_price !== null && item.ext_price !== undefined && item.ext_price > 0) {
-            return total + item.ext_price
-        }
-        return total
-    }, 0)
-})
-
 const updateMetadata = (field: string, value: any) => {
     if (hasAcceptedItems.value) { return }
     if (!model.value.metadata) {
@@ -64,147 +48,16 @@ const updateMetadata = (field: string, value: any) => {
     autoSave(field, value)
 }
 
-const updateAcceptedQty = (itemId: number, qty: number) => {
-    if (isInitialLoad.value) { return }
-    const item = model.value.items?.find((item: any) => item.id === itemId)
-    if (!item) { return }
-
-    if (!item.metadata) {
-        item.metadata = {}
-    }
-    item.metadata.accepted_quantity = qty
-    const unitPrice = item.metadata?.unit_price || 0
-    item.ext_price = unitPrice * qty
-}
-
-const getExtPrice = (item: any) => {
-    const unitPrice = item.metadata?.unit_price
-    const acceptedQty = item.metadata?.accepted_quantity
-    return unitPrice * acceptedQty || 0
-}
-
-const getFieldValue = (item: any, field: string, fallback: string | number = "") =>
-    item.metadata?.[field] !== undefined && item.metadata?.[field] !== null
-        ? item.metadata[field]
-        : item[field] !== undefined && item[field] !== null
-            ? item[field]
-            : fallback
-
-const validateRequiredFields = () => {
-    const currentSupplierId = model.value.supplier?.id || model.value.metadata?.supplier_id
-    const currentTerms = model.value.metadata?.terms_of_payment
-    const currentParticulars = model.value.metadata?.particulars
-
-    if (!currentSupplierId || !currentTerms || !currentParticulars?.trim()) {
-        snackbar.add({
-            type: "error",
-            text: "Please fill in Supplier, Terms of Payment, and Particulars before accepting items."
-        })
-        return false
-    }
-    return true
-}
-
-const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
-    if (!validateRequiredFields()) { return }
-
-    const item = model.value.items?.find((item: any) => item.id === requestId)
-    if (!item) {
-        snackbar.add({ type: "error", text: "Item not found." })
-        return
-    }
-    const payload = {
-        remarks,
-        actual_brand_purchase: getFieldValue(item, "actual_brand_purchase"),
-        quantity: item.quantity,
-        accepted_quantity: item.quantity,
-        unit_price: getFieldValue(item, "unit_price", 0),
-        specification: getFieldValue(item, "specification") || null,
-        grand_total: getExtPrice(item)
-    }
-
-    try {
-        await main.acceptAllItem(requestId, payload)
-        const messageType = main.errorMessage ? "error" : "success"
-        const messageText = main.errorMessage || main.successMessage
-
-        snackbar.add({ type: messageType, text: messageText })
-
-        if (messageType === "success") {
-            main.$reset()
-            main.fetchReceivingDetails(model.value.id)
-        }
-    } catch (error: any) {
-        snackbar.add({ type: "error", text: error.message || "Something went wrong." })
-    }
-}
-
-const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: {
-    requestId: number, acceptedQty: number, remarks: string
-}) => {
-    if (!validateRequiredFields()) { return }
-
-    if (!remarks.trim() || acceptedQty <= 0) {
-        snackbar.add({ type: "error", text: "Quantity & Remarks are required." })
-        return
-    }
-
-    const item = model.value.items?.find((item: any) => item.id === requestId)
-    if (!item) {
-        snackbar.add({ type: "error", text: "Item not found." })
-        return
-    }
-
-    updateAcceptedQty(requestId, acceptedQty)
-    const payload = {
-        accepted_quantity: acceptedQty,
-        remarks,
-        actual_brand_purchase: getFieldValue(item, "actual_brand_purchase"),
-        unit_price: getFieldValue(item, "unit_price", 0),
-        specification: getFieldValue(item, "specification") || null,
-        grand_total: getExtPrice(item)
-    }
-    try {
-        await main.acceptQtyRemarks(requestId, payload)
-        const messageType = main.errorMessage ? "error" : "success"
-        const messageText = main.errorMessage || main.successMessage
-        snackbar.add({ type: messageType, text: messageText })
-        if (messageType === "success") {
-            main.$reset()
-            await main.fetchReceivingDetails(model.value.id)
-        }
-    } catch (error: any) {
-        snackbar.add({ type: "error", text: error.message || "Something went wrong." })
-    }
-}
-
-const rejectRequest = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
-    if (!remarks.trim()) {
-        snackbar.add({ type: "error", text: "Remarks are required." })
-        return
-    }
-    try {
-        await main.rejectItem(requestId, { remarks: remarks.trim() })
-        const messageType = main.errorMessage ? "error" : "success"
-        const messageText = main.errorMessage || main.successMessage
-        snackbar.add({ type: messageType, text: messageText })
-        if (messageType === "success") {
-            main.$reset()
-            await main.fetchReceivingDetails(model.value.id)
-        }
-    } catch (error: any) {
-        snackbar.add({ type: "error", text: error.message || "Something went wrong." })
-    }
-}
-
 onMounted(() => {
     nextTick(() => {
         isInitialLoad.value = false
     })
 })
+
 onUnmounted(() => {
     if (autoSaveTimeout.value) { clearTimeout(autoSaveTimeout.value) }
 })
+
 watch(() => model.value.items, (newItems) => {
     if (isInitialLoad.value) { return }
 
@@ -228,7 +81,7 @@ watch(() => model.value.items, (newItems) => {
     >
         <div class="flex flex-col gap-2 w-full p-4">
             <div class="mb-4">
-                <InventoryCommonEvenparHeader :document-code="useInventoryEnums().mrr" :page="{currentPage: 1, totalPages: 1}" />
+                <InventoryCommonEvenparHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
                 <div class="flex items-center justify-center rounded-t mb-4 mt-4">
                     <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                         {{ title }}
@@ -322,6 +175,7 @@ watch(() => model.value.items, (newItems) => {
                                     <div class="flex-1 text-sm underline">
                                         {{ dateToString(new Date(model.transaction_date)) }}
                                     </div>
+                                    <LayoutFormPsDateInput v-model="model.transaction_date" title="Date" />
                                 </div>
                                 <div class="flex items-center justify-between w-full">
                                     <label class="w-40 text-sm font-medium text-gray-700">Project Code:</label>
@@ -347,154 +201,11 @@ watch(() => model.value.items, (newItems) => {
                 </div>
 
                 <LayoutLoadingContainer class="w-full" :loading="receiving.isLoading">
-                    <div class="overflow-auto">
-                        <table class="table-auto w-full border-collapse">
-                            <thead>
-                                <tr class="bg-[#dbe5f1]">
-                                    <th
-                                        v-for="header in headerColumns"
-                                        :key="header.id"
-                                        scope="col"
-                                        class="p-2 border-b text-sm"
-                                    >
-                                        {{ header.name }}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(item, index) in model.items" :key="item.id" class="bg-white border-b">
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.item_code }}
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.item_description }}
-                                    </td>
-
-                                    <td class="border px-2 py-1 text-center">
-                                        <template v-if="item.metadata?.remarks && getFieldValue(item, 'specification')">
-                                            {{ getFieldValue(item, 'specification') }}
-                                        </template>
-                                        <input
-                                            v-else
-                                            v-model="model.items[index].metadata.specification"
-                                            type="text"
-                                            class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Enter specification..."
-                                            :disabled="!!(item.metadata?.remarks && getFieldValue(item, 'specification'))"
-                                        >
-                                    </td>
-
-                                    <td class="border px-2 py-1 text-center">
-                                        <template
-                                            v-if="item.metadata?.remarks && getFieldValue(item, 'actual_brand_purchase')"
-                                        >
-                                            {{ getFieldValue(item, 'actual_brand_purchase', item.preferred_brand) }}
-                                        </template>
-                                        <input
-                                            v-else
-                                            v-model="model.items[index].metadata.actual_brand_purchase"
-                                            type="text"
-                                            class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Enter brand..."
-                                            :disabled="!!(item.metadata?.remarks && getFieldValue(item, 'actual_brand_purchase'))"
-                                        >
-                                    </td>
-
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.quantity }}
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.metadata?.accepted_quantity }}
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.uom_name }}
-                                    </td>
-
-                                    <td class="border px-2 py-1 text-center">
-                                        <template v-if="item.metadata?.remarks && getFieldValue(item, 'unit_price')">
-                                            {{ getFieldValue(item, 'unit_price', 0) }}
-                                        </template>
-                                        <input
-                                            v-else
-                                            v-model="model.items[index].metadata.unit_price"
-                                            type="number"
-                                            min="1"
-                                            class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                            placeholder="Enter unit price"
-                                            :disabled="!!(item.metadata?.remarks && getFieldValue(item, 'unit_price'))"
-                                        >
-                                    </td>
-
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ useFormatCurrency(getExtPrice(item)) || 0 }}
-                                    </td>
-
-                                    <td class="border px-2 py-1 text-center">
-                                        <div v-if="item.metadata?.status" class="flex justify-center relative group">
-                                            <Icon
-                                                :name="item.metadata.status === 'Rejected' ? 'mdi:close-circle' : 'mdi:check-circle'"
-                                                :class="item.metadata.status === 'Rejected' ? 'text-red-700' : 'text-green-700'"
-                                                class="h-8 w-8"
-                                            />
-                                            <div
-                                                class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md"
-                                            >
-                                                {{ item.metadata.status }}
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.metadata?.remarks }}
-                                    </td>
-
-                                    <td class="border px-2 py-1 text-center z-50">
-                                        <InventoryCommonAcceptRejectButton
-                                            v-model:accept-remarks="remarks"
-                                            v-model:reject-remarks="remarks"
-                                            :max-quantity="item.quantity"
-                                            :request-id="item.id"
-                                            :disabled="!!item.metadata?.remarks"
-                                            :class="{ 'opacity-60 cursor-not-allowed pointer-events-none': !!item.metadata?.remarks }"
-                                            @accept-all="acceptAll"
-                                            @accept="acceptWithDetails"
-                                            @reject="rejectRequest"
-                                            @update-accepted-qty="updateAcceptedQty"
-                                        />
-                                    </td>
-                                </tr>
-
-                                <tr class="border">
-                                    <td colspan="12">
-                                        <div class="flex justify-end p-2 py-2">
-                                            <div class="grid grid-cols-2 gap-2">
-                                                <p class="text-md text-gray-900">
-                                                    <strong>Total net of VAT cost:</strong>
-                                                </p>
-                                                <p class="text-md text-gray-900">
-                                                    {{ useFormatCurrency(model.total_net_of_vat_cost || 0) }}
-                                                </p>
-
-                                                <p class="text-md text-gray-900">
-                                                    <strong>Total Input VAT:</strong>
-                                                </p>
-                                                <p class="text-md text-gray-900">
-                                                    {{ useFormatCurrency(model.total_input_vat || 0) }}
-                                                </p>
-
-                                                <p class="text-md text-gray-900">
-                                                    <strong>Grand Total:</strong>
-                                                </p>
-                                                <p class="text-md text-gray-900">
-                                                    ₱{{ useFormatCurrency(calculatedGrandTotal) || 0 }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <InventoryReceivingItemTable
+                        v-model="model"
+                        v-model:remarks="remarks"
+                        :header-columns="headerColumns"
+                    />
                 </LayoutLoadingContainer>
             </div>
         </div>

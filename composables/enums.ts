@@ -10,7 +10,7 @@ export const useAccountingEnums = {
     cv: "FM-ACS-001-1",
     dv: "FM-ACS-001-1",
 }
-export const useInventoryEnums = {
+export const useInventoryDocCode = {
     requisition_slip: "FM-IMS-001-1",
     daily_inventory_reprort: "FM-IMS-002-7",
     monthly_inventory_evaluation_reprort: "FM-IMS-002-6",

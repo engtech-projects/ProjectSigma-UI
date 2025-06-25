@@ -16,8 +16,7 @@ defineProps<{
 <template>
     <div class="h-full w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex flex-col gap-2 w-full p-4">
-            <InventoryCommonEvenparHeader :document-code="useInventoryEnums().mrr" :page="{currentPage: 1, totalPages: 1}" />
-
+            <InventoryCommonEvenparHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
             <div class="flex items-center justify-center rounded-t mb-4 mt-4">
                 <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                     {{ title }}

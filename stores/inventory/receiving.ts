@@ -52,6 +52,11 @@ export interface ReceivingItem {
     status: string;
     remarks: string;
 }
+export interface HeaderColumn {
+    name: string
+    id: string
+    style: string
+}
 
 export const useReceivingStore = defineStore("receivingStore", {
     state: () => ({
