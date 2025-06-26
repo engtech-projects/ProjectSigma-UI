@@ -1,6 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router"
 import { useReceivingStore } from "@/stores/inventory/receiving"
+
 const mainStore = useReceivingStore()
 const { receiving } = storeToRefs(mainStore)
 const route = useRoute()
@@ -36,14 +37,16 @@ const printHeaders = [
     { name: "Unit of Measurement", id: "uom" },
     { name: "Unit Price", id: "unit_price" },
     { name: "Ext. Price", id: "ext_price" },
+    { name: "Accepted", id: "accepted" },
+    { name: "Rejected", id: "rejected" },
     { name: "Remarks", id: "remarks" },
 ]
 
 useHead({
     title: "Materials Receiving Report",
 })
-
 </script>
+
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
@@ -54,10 +57,18 @@ useHead({
             <div class="space-x-4">
                 <LayoutPrintAdvanced class="min-h-40">
                     <template #print-layout>
-                        <InventoryReceivingDetailsPrintLayout title="Materials Receiving Report" :data="receiving.details" :header-columns="printHeaders" />
+                        <InventoryReceivingDetailsPrintLayout
+                            :data="receiving.details"
+                            title="Materials Receiving Report"
+                            :header-columns="printHeaders"
+                        />
                     </template>
                     <template #system-layout>
-                        <InventoryReceivingDetails title="Materials Receiving Report" :data="receiving.details" :header-columns="systemHeaders" />
+                        <InventoryReceivingDetails
+                            v-model="receiving.details"
+                            title="Materials Receiving Report"
+                            :header-columns="systemHeaders"
+                        />
                     </template>
                 </LayoutPrintAdvanced>
             </div>

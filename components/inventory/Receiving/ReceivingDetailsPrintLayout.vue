@@ -1,214 +1,182 @@
 <script setup lang="ts">
-import { useReceivingStore } from "@/stores/inventory/receiving"
-
 interface HeaderColumn {
-    name: string,
-    id: string,
-    style: string
+    name: string;
+    id: string;
+    style?: string;
 }
 
-const props = defineProps({
-    title: {
-        type: String,
-        required: true,
-    },
-    headerColumns: {
-        type: Array<HeaderColumn>,
-        required: true,
-    },
-    data: {
-        type: Object,
-        required: true,
-    },
-})
+defineProps<{
+    title: string;
+    headerColumns: HeaderColumn[];
+    data: any;
+}>()
 
-const main = useReceivingStore()
-const { receiving } = storeToRefs(main)
-const utils = useUtilities()
-
-const reactiveData = computed(() => props.data)
-
-const getExtPrice = (item: any) => {
-    const unitPrice = item.metadata?.unit_price || item.unit_price || 0
-    const quantity = item.accepted_quantity || item.quantity || 0
-    return unitPrice * quantity
-}
-
-const getSpecificationValue = (item: any) => {
-    return item.metadata?.specification || item.specification || ""
-}
-
-const getActualBrandValue = (item: any) => {
-    return item.metadata?.actual_brand_purchase || item.preferred_brand || ""
-}
-
-const getUnitPriceValue = (item: any) => {
-    return item.metadata?.unit_price || item.unit_price || 0
-}
-
-const calculatedGrandTotal = computed(() => {
-    const items = reactiveData.value.items || []
-    return items.reduce((total, item) => total + getExtPrice(item), 0)
-})
 </script>
 
 <template>
     <div class="h-full w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex flex-col gap-2 w-full p-4">
-            <div id="headline mb-4">
-                <InventoryCommonEvenparHeader />
-                <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4 mt-4">
-                    <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
-                        {{ title }}
-                    </h3>
-                </div>
-                <div class="bg-white rounded-xl overflow-hidden mb-6">
-                    <div class="grid grid-cols-2 gap-10">
-                        <div class="flex-1">
-                            <div class="p-4">
-                                <div class="grid grid-cols-2 items-center w-full gap-y-2">
-                                    <label class="text-sm font-medium text-gray-700">Supplier:</label>
-                                    <div class="text-sm">
-                                        {{ reactiveData.supplier?.company_name || 'N/A' }}
-                                    </div>
-
-                                    <label class="text-sm font-medium text-gray-700">Reference:</label>
-                                    <div class="text-sm underline">
-                                        {{ reactiveData.metadata?.reference || reactiveData.reference?.reference_no || 'N/A' }}
-                                    </div>
-
-                                    <label class="text-sm font-medium text-gray-700">Terms of Payment:</label>
-                                    <div class="text-sm">
-                                        {{ reactiveData.metadata?.terms_of_payment || 'N/A' }}
-                                    </div>
-
-                                    <label class="text-sm font-medium text-gray-700">Particulars:</label>
-                                    <div class="text-sm underline">
-                                        {{ reactiveData.metadata?.particulars || reactiveData.particulars || 'N/A' }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex-1">
-                            <div class="p-4">
-                                <div class="space-y-2">
-                                    <div class="flex items-center justify-between w-full">
-                                        <label class="w-40 text-sm font-medium text-gray-700">Reference Number:</label>
-                                        <div class="flex-1 text-sm underline">
-                                            {{ reactiveData.reference_no }}
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center justify-between w-full">
-                                        <label class="w-40 text-sm font-medium text-gray-700">Transaction Date:</label>
-                                        <div class="flex-1 text-sm underline">
-                                            {{ dateToString(new Date(reactiveData.transaction_date)) }}
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center justify-between w-full">
-                                        <label class="w-40 text-sm font-medium text-gray-700">Project Code:</label>
-                                        <div class="flex-1 text-sm underline">
-                                            {{ reactiveData?.project?.project_code ?? '--' }}
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center justify-between w-full">
-                                        <label class="w-40 text-sm font-medium text-gray-700">Equipment No.:</label>
-                                        <div class="flex-1 text-sm underline">
-                                            {{ reactiveData.metadata?.equipment_no }}
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center justify-between w-full">
-                                        <label class="w-40 text-sm font-medium text-gray-700">Source PO:</label>
-                                        <div class="flex-1 text-sm underline">
-                                            {{ reactiveData.source_po }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <LayoutLoadingContainer class="w-full" :loading="receiving.isLoading">
-                    <div id="itemDetails">
-                        <div id="content">
-                            <table class="table-auto w-full border-collapse">
-                                <thead>
-                                    <tr class="bg-[#dbe5f1]">
-                                        <th v-for="(dataHeader, index) in headerColumns" :key="index" scope="col" class="p-2 border-b text-xs">
-                                            {{ dataHeader.name }}
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="item in reactiveData.items" :key="item.id" class="bg-white">
-                                        <td class="border px-2 py-1 text-center">
-                                            {{ item.item_code }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
-                                            {{ item.item_description }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
-                                            {{ getSpecificationValue(item) }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
-                                            {{ getActualBrandValue(item) }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
-                                            {{ item.accepted_quantity || item.quantity || 0 }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
-                                            {{ item.uom_name }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
-                                            {{ getUnitPriceValue(item) }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(getExtPrice(item)) }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
-                                            {{ item.metadata?.remarks }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="px-2 py-1" />
-                                        <td class="border px-2 py-1 text-right font-medium text-sm">
-                                            Total Net of Vat Cost
-                                        </td>
-                                        <td class="border px-2 py-1 text-right text-sm">
-                                            {{ utils.formatCurrency(reactiveData.total_net_of_vat_cost || 0) }}
-                                        </td>
-                                        <td class="px-2 py-1" />
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="px-2 py-1" />
-                                        <td class="border px-2 py-1 text-right font-medium text-sm">
-                                            Total Input Vat
-                                        </td>
-                                        <td class="border px-2 py-1 text-right text-sm">
-                                            {{ utils.formatCurrency(reactiveData.total_input_vat || 0) }}
-                                        </td>
-                                        <td class="px-2 py-1" />
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" class="px-2 py-1" />
-                                        <td class="border px-2 py-1 text-right font-bold text-sm">
-                                            Grand Total
-                                        </td>
-                                        <td class="border px-2 py-1 text-right font-bold text-sm">
-                                            ₱{{ utils.formatCurrency(calculatedGrandTotal) }}
-                                        </td>
-                                        <td class="px-2 py-1" />
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </LayoutLoadingContainer>
+            <InventoryCommonEvenparHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
+            <div class="flex items-center justify-center rounded-t mb-4 mt-4">
+                <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
+                    {{ title }}
+                </h3>
             </div>
+
+            <div class="bg-white rounded-xl overflow-hidden mb-6">
+                <div class="grid grid-cols-2 gap-10 p-4">
+                    <div>
+                        <div class="grid grid-cols-2 items-center w-full gap-y-2">
+                            <label class="text-sm font-medium text-gray-700">Supplier:</label>
+                            <div class="text-sm">
+                                {{ data.supplier }}
+                            </div>
+
+                            <label class="text-sm font-medium text-gray-700">Reference:</label>
+                            <div class="text-sm underline">
+                                {{ data.metadata?.reference }}
+                            </div>
+
+                            <label class="text-sm font-medium text-gray-700">Terms of Payment:</label>
+                            <div class="text-sm">
+                                {{ data.metadata?.terms_of_payment }}
+                            </div>
+
+                            <label class="text-sm font-medium text-gray-700">Particulars:</label>
+                            <div class="text-sm underline">
+                                {{ data.metadata?.particulars }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between w-full">
+                            <label class="w-40 text-sm font-medium text-gray-700">Reference Number:</label>
+                            <div class="flex-1 text-sm underline font-bold">
+                                {{ data.reference_no }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between w-full">
+                            <label class="w-40 text-sm font-medium text-gray-700">Transaction Date:</label>
+                            <div class="flex-1 text-sm underline">
+                                {{ dateToString(new Date(data.transaction_date)) }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between w-full">
+                            <label class="w-40 text-sm font-medium text-gray-700">Project Code:</label>
+                            <div class="flex-1 text-sm underline">
+                                {{ data.project_code }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between w-full">
+                            <label class="w-40 text-sm font-medium text-gray-700">Equipment No.:</label>
+                            <div class="flex-1 text-sm underline">
+                                {{ data.metadata?.equipment_no }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between w-full">
+                            <label class="w-40 text-sm font-medium text-gray-700">Source PO:</label>
+                            <div class="flex-1 text-sm underline">
+                                {{ data.source_po ?? "N/A" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <LayoutLoadingContainer class="w-full" :loading="data.isLoading">
+                <div>
+                    <table class="table-auto w-full border-collapse">
+                        <thead>
+                            <tr class="bg-[#dbe5f1]">
+                                <th
+                                    v-for="(dataHeader, index) in headerColumns"
+                                    :key="index"
+                                    scope="col"
+                                    class="p-2 border-b text-xs"
+                                >
+                                    {{ dataHeader.name }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in data.items" :key="item.id" class="bg-white">
+                                <td class="border px-2 py-1 text-center">
+                                    {{ item.item_code }}
+                                </td>
+                                <td class="border px-2 py-1 text-center">
+                                    {{ item.item_description }}
+                                </td>
+                                <td class="border px-2 py-1 text-center">
+                                    {{ item.metadata?.specification }}
+                                </td>
+                                <td class="border px-2 py-1 text-center">
+                                    {{ item.metadata?.actual_brand_purchase }}
+                                </td>
+                                <td class="border px-2 py-1 text-center">
+                                    {{ item.metadata?.accepted_quantity }}
+                                </td>
+                                <td class="border px-2 py-1 text-center">
+                                    {{ item.uom_name }}
+                                </td>
+                                <td class="border px-2 py-1 text-center">
+                                    {{ useFormatCurrency(item.metadata.unit_price) }}
+                                </td>
+                                <td class="border px-2 py-1 text-center">
+                                    {{ useFormatCurrency(item.ext_price) }}
+                                </td>
+                                <td class="border px-2 py-1 text-center">
+                                    <div v-if="item.metadata?.status === 'Accepted'" class="flex items-center justify-center">
+                                        <Icon name="mdi:check-circle" class="h-5 w-5 text-green-700" />
+                                    </div>
+                                </td>
+                                <td class="border px-2 py-1 text-center">
+                                    <div v-if="item.metadata?.status === 'Rejected'" class="flex items-center justify-center">
+                                        <Icon name="mdi:close-circle" class="h-5 w-5 text-red-700" />
+                                    </div>
+                                    {{ item.metadata?.remarks }}
+                                </td>
+                                <td class="border px-2 py-1 text-center">
+                                    {{ item.metadata?.remarks }}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="px-2 py-1 text-right font-medium text-sm">
+                                    Total Net of VAT Cost
+                                </td>
+                                <td class="border px-2 py-1 text-right text-sm">
+                                    {{ useFormatCurrency(0) }}
+                                </td>
+                                <td />
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="px-2 py-1 text-right font-medium text-sm">
+                                    Total Input VAT
+                                </td>
+                                <td class="border px-2 py-1 text-right text-sm">
+                                    {{ useFormatCurrency(0) }}
+                                </td>
+                                <td />
+                            </tr>
+                            <tr>
+                                <td colspan="7" class="px-2 py-1 text-right font-bold text-sm">
+                                    Grand Total
+                                </td>
+                                <td class="border px-2 py-1 text-right font-bold text-sm">
+                                    ₱{{ useFormatCurrency(data.grand_total) }}
+                                </td>
+                                <td />
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </LayoutLoadingContainer>
         </div>
     </div>
 </template>

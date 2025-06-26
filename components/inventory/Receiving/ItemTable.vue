@@ -1,78 +1,66 @@
 <script setup lang="ts">
-import { useReceivingStore } from "@/stores/inventory/receiving"
-const mainStore = useReceivingStore()
-const { receiving } = storeToRefs(mainStore)
-interface HeaderColumn {
-    name: string,
-    id: string,
-}
-defineProps({
-    title: {
-        type: String,
-        required: true,
-    },
-    headerColumns: {
-        type: Array<HeaderColumn>,
-        required: true,
-    },
+import { type HeaderColumn } from "@/stores/inventory/receiving"
+defineProps<{
+    headerColumns: HeaderColumn[]
+}>()
+const model = defineModel<Record<string, any>>({ default: () => ({}) })
+const calculatedGrandTotal = computed(() => {
+    return model.value.items?.reduce((total:any, item:any) => {
+        return total + (item.metadata.ext_price || 0)
+    }, 0) || 0
 })
-const addItem = () => {
-    receiving.value.items.push(
-        {
-            item_code: "",
-            item_description: "",
-            specification: "",
-            actual_brand: "",
-            qty: "",
-            uom: "",
-            unit_price: "",
-            ext_price: "",
-            status: "",
-            remarks: "",
-        }
-    )
-}
-const removeItem = (id: number) => {
-    receiving.value.items.splice(id, 1)
-}
 </script>
+
 <template>
-    <div class="h-full w-full">
-        <div id="itemDetails">
-            <h5 v-if="title" class="text-xl font-medium text-gray-900 dark:text-white border-b p-2">
-                {{ title }}
-            </h5>
-            <div id="content" class="overflow-auto max-h-96">
-                <table class="table-auto w-full border-collapse">
-                    <thead class="sticky top-0 bg-white">
-                        <tr>
-                            <th v-for="(dataHeader, index) in headerColumns" :key="index" scope="col" class="p-2 border-0 border-b text-sm">
-                                {{ dataHeader.name }}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b-2 border-gray-300">
-                            <td class="px-2 py-2 border-0 font-medium text-gray-900 whitespace-nowrap text-center">
-                                <button
-                                    type="button"
-                                    class="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:ring-blue-300 font-semibold text-sm p-2 me-2 mb-2 flex justify-center"
-                                    @click="addItem"
-                                >
-                                    <Icon name="mdi:plus" class="h-5 w-5 text-white" />
-                                </button>
-                            </td>
-                        </tr>
-                        <template v-for="(item, index) in receiving.items" :key="index">
-                            <InventoryReceivingItemAppend
-                                v-model:item="receiving.items[index]"
-                                :index="index"
-                                @remove-item="removeItem"
-                            />
-                        </template>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="overflow-auto">
+        <table class="table-auto w-full border-collapse">
+            <thead>
+                <tr class="bg-[#dbe5f1]">
+                    <th
+                        v-for="header in headerColumns"
+                        :key="header.id"
+                        scope="col"
+                        class="p-2 border-b text-sm"
+                    >
+                        {{ header.name }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <InventoryReceivingItemTableRow
+                    v-for="item, index in model.items"
+                    :key="item.id + 'itemTableRow'"
+                    v-model="model.items[index]"
+                />
+                <tr class="border">
+                    <td colspan="12">
+                        <div class="flex justify-end p-2 py-2">
+                            <div class="grid grid-cols-2 gap-2">
+                                <p class="text-md text-gray-900">
+                                    <strong>Total net of VAT cost:</strong>
+                                </p>
+                                <p class="text-md text-gray-900">
+                                    {{ useFormatCurrency(model.total_net_of_vat_cost || 0) }}
+                                </p>
+
+                                <p class="text-md text-gray-900">
+                                    <strong>Total Input VAT:</strong>
+                                </p>
+                                <p class="text-md text-gray-900">
+                                    {{ useFormatCurrency(model.total_input_vat || 0) }}
+                                </p>
+
+                                <p class="text-md text-gray-900">
+                                    <strong>Grand Total:</strong>
+                                </p>
+                                <p class="text-md text-gray-900">
+                                    {{ useFormatCurrency(calculatedGrandTotal) }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
