@@ -8,7 +8,7 @@ useHead({
         :if-access="useCheckAccessibility([
             AccessibilityTypes.inventory_bom_group,
         ])"
-        class="max-w-6xl"
+        class="max-w-screen-6xl"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>

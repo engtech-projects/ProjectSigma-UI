@@ -140,7 +140,7 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
         },
         async getItems () {
             await useInventoryApi(
-                "/api/item-profile/search",
+                "/api/item-profile/search?query=",
                 {
                     method: "GET",
                     params: this.itemEnum.params,
