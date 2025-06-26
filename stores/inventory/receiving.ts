@@ -335,7 +335,7 @@ export const useReceivingStore = defineStore("receivingStore", {
                 }
             )
         },
-        async acceptAllItem (id: number, data: { remarks: string }) {
+        async acceptAllItem (id: number, data: any) {
             this.errorMessage = ""
             this.successMessage = ""
 
@@ -360,7 +360,7 @@ export const useReceivingStore = defineStore("receivingStore", {
                 }
             )
         },
-        async acceptQtyRemarks (id: number, data: { acceptedQty: number, remarks: string }) {
+        async acceptQtyRemarks (id: number, data: any) {
             this.errorMessage = ""
             this.successMessage = ""
 

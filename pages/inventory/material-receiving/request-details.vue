@@ -37,6 +37,8 @@ const printHeaders = [
     { name: "Unit of Measurement", id: "uom" },
     { name: "Unit Price", id: "unit_price" },
     { name: "Ext. Price", id: "ext_price" },
+    { name: "Accepted", id: "accepted" },
+    { name: "Rejected", id: "rejected" },
     { name: "Remarks", id: "remarks" },
 ]
 
