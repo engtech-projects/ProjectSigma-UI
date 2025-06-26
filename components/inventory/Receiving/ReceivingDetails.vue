@@ -175,7 +175,6 @@ watch(() => model.value.items, (newItems) => {
                                     <div class="flex-1 text-sm underline">
                                         {{ dateToString(new Date(model.transaction_date)) }}
                                     </div>
-                                    <LayoutFormPsDateInput v-model="model.transaction_date" title="Date" />
                                 </div>
                                 <div class="flex items-center justify-between w-full">
                                     <label class="w-40 text-sm font-medium text-gray-700">Project Code:</label>
