@@ -33,7 +33,7 @@ const calculatedGrandTotal = computed(() => {
                     v-model="model.items[index]"
                 />
                 <tr class="border">
-                    <td colspan="12">
+                    <td :colspan="headerColumns.length">
                         <div class="flex justify-end p-2 py-2">
                             <div class="grid grid-cols-2 gap-2">
                                 <p class="text-md text-gray-900">
@@ -54,7 +54,7 @@ const calculatedGrandTotal = computed(() => {
                                     <strong>Grand Total:</strong>
                                 </p>
                                 <p class="text-md text-gray-900">
-                                    {{ useFormatCurrency(calculatedGrandTotal) }}
+                                    {{ useFormatCurrency(calculatedGrandTotal || 0) }}
                                 </p>
                             </div>
                         </div>

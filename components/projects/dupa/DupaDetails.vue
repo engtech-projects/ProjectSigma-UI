@@ -12,12 +12,6 @@ try {
         text: error || "something went wrong."
     })
 }
-defineProps({
-    taskInformation: {
-        type: Object,
-        required: true
-    }
-})
 const goBackOrHome = () => {
     if (router.options.history.state.back) {
         router.back()

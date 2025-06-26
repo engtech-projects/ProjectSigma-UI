@@ -9,9 +9,11 @@ const remarks = ref<string>("")
 const extendedPrice = computed(() => {
     const unitPrice = model.value.metadata?.unit_price || 0
     const acceptedQty = model.value.metadata?.accepted_quantity || 0
-    model.value.metadata.ext_price = unitPrice * acceptedQty
     return unitPrice * acceptedQty
 })
+watch(extendedPrice, (newValue) => {
+    model.value.metadata.ext_price = newValue
+}, { immediate: true })
 
 const acceptAll = async () => {
     const payload = {

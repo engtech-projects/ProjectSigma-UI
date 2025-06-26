@@ -24,7 +24,11 @@ const headers = [
         <div class="pb-2 text-gray-500 ">
             <LayoutBoards title="Users List" class="w-full">
                 <div>
-                    <LayoutPsTable :header-columns="headers" :datas="usersList.list?? [] " :loading="usersList.isLoading" />
+                    <LayoutPsTable
+                        :header-columns="headers"
+                        :datas="usersList.list ?? [] "
+                        :loading="usersList.isLoading"
+                    />
                 </div>
                 <div class="flex justify-center mx-auto p-2">
                     <CustomPagination

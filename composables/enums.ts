@@ -12,8 +12,8 @@ export const useAccountingEnums = {
 }
 export const useInventoryDocCode = {
     requisition_slip: "FM-IMS-001-1",
-    daily_inventory_reprort: "FM-IMS-002-7",
-    monthly_inventory_evaluation_reprort: "FM-IMS-002-6",
+    daily_inventory_report: "FM-IMS-002-7",
+    monthly_inventory_evaluation_report: "FM-IMS-002-6",
     mrr: "FM-IMS-002-1",
     turnover_slip: "FM-IMS-002-5",
 }

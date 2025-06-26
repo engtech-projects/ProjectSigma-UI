@@ -15,7 +15,7 @@ const headers = [
 ]
 defineEmits(["show-table"])
 const changePaginate = (newParams) => {
-    datas.value.params.page = newParams.page ?? ""
+    allRequests.value.params.page = newParams.page ?? ""
 }
 
 </script>

@@ -1,8 +1,5 @@
 import { defineStore } from "pinia"
 
-const config = useRuntimeConfig()
-const { token } = useAuth()
-
 interface NatureOfWork {
     name: string | null
 }
@@ -22,15 +19,10 @@ export const useNatureOfWorkStore = defineStore("natureOfWorkStore", {
     actions: {
         async getNatureOfWorks () {
             this.isLoading.list = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useProjectsApi(
                 "/api/nature-of-works",
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
                         this.list = response._data
@@ -42,12 +34,6 @@ export const useNatureOfWorkStore = defineStore("natureOfWorkStore", {
             } else if (error) {
                 return error
             }
-        },
-
-        reset () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            this.list = []
         },
     },
 })

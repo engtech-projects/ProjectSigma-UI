@@ -105,6 +105,7 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
         },
         reloadResources () {
             const callFunctions = []
+            let reloadOne = null
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
             }
@@ -112,12 +113,15 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
                 callFunctions.push(this.getUnserved)
             }
             if (this.viewRequests.isLoaded) {
-                callFunctions.push(this.getOne)
+                reloadOne = this.viewRequests.details.id
             }
             this.$reset()
             callFunctions.forEach((element) => {
                 element()
             })
+            if (reloadOne) {
+                this.getOne(reloadOne)
+            }
         },
     },
 })

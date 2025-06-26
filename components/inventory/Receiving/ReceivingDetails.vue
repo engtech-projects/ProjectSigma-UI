@@ -14,7 +14,6 @@ const { receiving, remarks } = storeToRefs(main)
 const snackbar = useSnackbar()
 const isSaving = ref(false)
 const autoSaveTimeout = ref<NodeJS.Timeout | null>(null)
-const isInitialLoad = ref(true)
 
 const performAutoSave = async (field: string, value: any) => {
     if (!model.value.id) { return }
@@ -48,31 +47,10 @@ const updateMetadata = (field: string, value: any) => {
     autoSave(field, value)
 }
 
-onMounted(() => {
-    nextTick(() => {
-        isInitialLoad.value = false
-    })
-})
-
 onUnmounted(() => {
     if (autoSaveTimeout.value) { clearTimeout(autoSaveTimeout.value) }
 })
 
-watch(() => model.value.items, (newItems) => {
-    if (isInitialLoad.value) { return }
-
-    newItems?.forEach((item: any) => {
-        if (item.metadata?.accepted_quantity !== undefined && item.metadata?.unit_price !== undefined) {
-            const unitPrice = item.metadata.unit_price || 0
-            const acceptedQty = item.metadata.accepted_quantity || 0
-            const expectedExtPrice = unitPrice * acceptedQty
-
-            if (item.ext_price !== expectedExtPrice) {
-                item.ext_price = expectedExtPrice
-            }
-        }
-    })
-}, { deep: true })
 </script>
 
 <template>

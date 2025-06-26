@@ -124,10 +124,10 @@ defineProps<{
                                     {{ item.uom_name }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
-                                    {{ useFormatCurrency(item.metadata.unit_price) }}
+                                    {{ useFormatCurrency(item.metadata?.unit_price || 0) }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
-                                    {{ useFormatCurrency(item.ext_price) }}
+                                    {{ useFormatCurrency(item.ext_price || 0) }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
                                     <div v-if="item.metadata?.status === 'Accepted'" class="flex items-center justify-center">
@@ -138,7 +138,6 @@ defineProps<{
                                     <div v-if="item.metadata?.status === 'Rejected'" class="flex items-center justify-center">
                                         <Icon name="mdi:close-circle" class="h-5 w-5 text-red-700" />
                                     </div>
-                                    {{ item.metadata?.remarks }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
                                     {{ item.metadata?.remarks }}
@@ -151,7 +150,7 @@ defineProps<{
                                     Total Net of VAT Cost
                                 </td>
                                 <td class="border px-2 py-1 text-right text-sm">
-                                    {{ useFormatCurrency(0) }}
+                                    {{ useFormatCurrency(data.metadata?.total_net_of_vat_cost || 0) }}
                                 </td>
                                 <td />
                             </tr>
@@ -160,7 +159,7 @@ defineProps<{
                                     Total Input VAT
                                 </td>
                                 <td class="border px-2 py-1 text-right text-sm">
-                                    {{ useFormatCurrency(0) }}
+                                    {{ useFormatCurrency(data.metadata?.total_input_vat || 0) }}
                                 </td>
                                 <td />
                             </tr>
