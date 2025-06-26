@@ -1,7 +1,7 @@
 <script setup>
 definePageMeta({
     redirect: {
-        to: '/accounting/request/non-purchase-order',
+        to: "/accounting/request/non-purchase-order",
         statusCode: 302
     }
 })

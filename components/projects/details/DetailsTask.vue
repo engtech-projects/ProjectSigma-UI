@@ -1,3 +1,66 @@
+<script lang="ts" setup>
+import { useResourceStore } from "~/stores/project-monitoring/resource"
+import { useTaskStore } from "~/stores/project-monitoring/task"
+
+const resourceStore = useResourceStore()
+const taskStore = useTaskStore()
+const showPhaseModal = ref(false)
+const showTaskModal = ref(false)
+const showResourceModal = ref(false)
+const { task } = storeToRefs(taskStore)
+
+const letterHeader = (index: number) => {
+    const base = Math.floor(index / 26)
+    const remainder = index % 26
+    return String.fromCharCode(65 + remainder) + (base > 0 ? String.fromCharCode(65 + base - 1) : "")
+}
+const filterResources = (id: number) => {
+    return task.value.resources.data.filter(resource => resource.resources.id === id)
+}
+const totalDirectCost = (id: number) => {
+    return task.value.resources.data.filter(resource => resource.resources.id === id).reduce((total: number, resource: any) => total + ((resource.unit_cost * resource.quantity) * (resource.unit_count ?? 1)), 0)
+}
+const addResource = (id) => {
+    showResourceModal.value = true
+    resourceStore.reset()
+    resourceStore.resource.name_id = id
+    resourceStore.resource.task_id = task.id
+}
+const editResource = (resource: any) => {
+    showResourceModal.value = true
+    resourceStore.reset()
+    resourceStore.resource = resource
+    resourceStore.resource.name_id = resource.resources.id
+}
+const boardLoading = ref(false)
+const snackbar = useSnackbar()
+const removeResource = async (id: number) => {
+    try {
+        boardLoading.value = true
+        await resourceStore.deleteResource(id)
+        if (resourceStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: resourceStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: resourceStore.successMessage
+            })
+        }
+    } catch (error) {
+        resourceStore.errorMessage = error as string
+        snackbar.add({
+            type: "error",
+            text: resourceStore.errorMessage
+        })
+    } finally {
+        taskStore.getTask(task.id)
+        boardLoading.value = false
+    }
+}
+</script>
 <template>
     <div class="bg-white">
         <div class="flex flex-col border-gray-800">
@@ -79,7 +142,7 @@
                                     {{ letterHeader(index) }}. {{ rnames.name }}
                                 </span>
                                 <div class="flex gap-1 justify-end">
-                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="addResource(rnames.id)">
+                                    <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="addResource(rnames.id)">
                                         Add Resource
                                     </button>
                                 </div>
@@ -91,17 +154,23 @@
                         <td class="uppercase text-xs font-semibold pt-2 text-center">
                             Name and Specification
                         </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor" class="uppercase text-xs font-semibold pt-2 text-center">
+                            No of Person
+                        </td>
+                        <td v-else-if="rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                            No of Equipment
+                        </td>
+                        <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Quantity
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === 'labor' || rnames.name.toLowerCase() === 'equipment'" class="uppercase text-xs font-semibold pt-2 text-center">
-                            No. of Persons
+                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                            No. of Hrs.
                         </td>
                         <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Unit
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === 'labor' || rnames.name.toLowerCase() === 'equipment'" class="uppercase text-xs font-semibold pt-2 text-center">
-                            No. of Hours
+                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                            Amount
                         </td>
                         <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Unit Cost
@@ -115,13 +184,22 @@
                         <td class="p-2 border border-gray-700">
                             {{ resource.description }}
                         </td>
-                        <td class="p-2 border border-gray-700 text-center">
+                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2 border border-gray-700 text-center">
+                            {{ resource.unit_count }}
+                        </td>
+                        <td v-else class="p-2 border border-gray-700 text-center">
                             {{ resource.quantity }}
                         </td>
-                        <td class="p-2 border border-gray-700 text-center">
+                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2 border border-gray-700 text-center">
+                            {{ resource.quantity }}
+                        </td>
+                        <td v-else class="p-2 border border-gray-700 text-center">
                             {{ resource.unit }}
                         </td>
-                        <td class="p-2 border border-gray-700 text-center">
+                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2 border border-gray-700 text-center">
+                            {{ resource.unit_cost + " / hour" }}
+                        </td>
+                        <td v-else class="p-2 border border-gray-700 text-center">
                             {{ resource.unit_cost + " / " + resource.unit }}
                         </td>
                         <td class="border border-gray-700">
@@ -132,7 +210,7 @@
                                             In Words
                                         </h4>
                                         <span class="pl-4 flex-1">
-                                            {{ amountToWords(totalDirectCost(rnames.id)) }}
+                                            {{ amountToWords(resource.total_cost) }}
                                         </span>
                                     </div>
                                     <div class="flex flex-col p-2">
@@ -140,15 +218,15 @@
                                             In Figures
                                         </h4>
                                         <span class="pl-4">
-                                            {{ accountingCurrency(totalDirectCost(rnames.id)) }}
+                                            {{ accountingCurrency(resource.total_cost) }}
                                         </span>
                                     </div>
                                 </div>
                                 <div class="flex flex-col p-2 justify-center gap-2">
-                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6" @click="editResource(resource)">
+                                    <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6" @click="editResource(resource)">
                                         <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
                                     </button>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6" @click="removeResource(resource.id)">
+                                    <button class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6" @click="removeResource(resource.id)">
                                         <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
                                     </button>
                                 </div>
@@ -278,75 +356,3 @@
         <ProjectsModalsResource :show-modal="showResourceModal" :task-id="task.id" @hide-modal="showResourceModal = false" />
     </div>
 </template>
-
-<script lang="ts" setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-import { useResourceStore } from "~/stores/project-monitoring/resource"
-import { useTaskStore } from "~/stores/project-monitoring/task"
-
-const projectStore = useProjectStore()
-const resourceStore = useResourceStore()
-const taskStore = useTaskStore()
-
-const edit = projectStore.viewState
-const showPhaseModal = ref(false)
-const showTaskModal = ref(false)
-const showResourceModal = ref(false)
-const { task } = storeToRefs(taskStore)
-
-const letterHeader = (index: number) => {
-    const base = Math.floor(index / 26)
-    const remainder = index % 26
-    return String.fromCharCode(65 + remainder) + (base > 0 ? String.fromCharCode(65 + base - 1) : "")
-}
-const filterResources = (id: number) => {
-    return task.value.resources.data.filter(resource => resource.resources.id === id)
-}
-const totalDirectCost = (id: number) => {
-    return task.value.resources.data.filter(resource => resource.resources.id === id).reduce((total: number, resource: any) => total + resource.unit_cost * resource.quantity, 0)
-}
-const addResource = (id) => {
-    showResourceModal.value = true
-    resourceStore.reset()
-    resourceStore.resource.name_id = id
-    resourceStore.resource.task_id = task.id
-}
-const editResource = (resource: any) => {
-    showResourceModal.value = true
-    resourceStore.resource = resource
-    resourceStore.resource.name_id = resource.resources.id
-}
-const boardLoading = ref(false)
-const snackbar = useSnackbar()
-const removeResource = async (id: number) => {
-    try {
-        boardLoading.value = true
-        await resourceStore.deleteResource(id)
-        if (resourceStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: resourceStore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: resourceStore.successMessage
-            })
-        }
-    } catch (error) {
-        resourceStore.errorMessage = error as string
-
-        snackbar.add({
-            type: "error",
-            text: resourceStore.errorMessage
-        })
-    } finally {
-        taskStore.getTask(task.id)
-        boardLoading.value = false
-    }
-}
-</script>
-
-<style>
-
-</style>
