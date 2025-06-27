@@ -168,12 +168,6 @@ export enum AccessibilityTypes {
     inventory_setup_approvals = "inventory:setup_approvals",
     inventory_setup_item_group = "inventory:setup_item group",
     inventory_setup_unit_of_measurements = "inventory:setup_unit of measurements",
-    INVENTORY_SETUP_APISYNCHRONIZATION = "inventory:setup_api synchronization",
-    INVENTORY_SETUP_LISTS_GROUP = "inventory:setup_lists_",
-    INVENTORY_SETUP_LISTS_DEPARTMENT_LIST = "inventory:setup_lists_department list",
-    INVENTORY_SETUP_LISTS_EMPLOYEE_LIST = "inventory:setup_lists_employee list",
-    INVENTORY_SETUP_LISTS_USERS_LIST = "inventory:setup_lists_users list",
-    INVENTORY_SETUP_LISTS_PROJECT_LIST = "inventory:setup_lists_project list",
     inventory_item_profile_group = "inventory:item profile_",
     inventory_itemprofile_bulkupload = "inventory:item profile_bulk upload",
     inventory_item_profile = "inventory:item profile_item list",
@@ -209,6 +203,7 @@ export enum AccessibilityTypes {
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP = "inventory:warehouse_stock transfer_",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_REQUESTPROCESSING = "inventory:warehouse_stock transfer_request processing",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST = "inventory:warehouse_stock transfer_all requests",
+    INVENTORY_SETUP_SYNCHRONIZATION = "inventory:setup_synchronization",
 
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP = "inventory:procurement_canvass summary_",
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_ALLREQUEST = "inventory:procurement_canvass summary_all requests",
@@ -295,22 +290,20 @@ export enum AccessibilityTypes {
     ACCOUNTING_REPORTS_PAYROLL_LIQUIDATIONS = "accounting:reports_payroll liquidations",
 
     // PROJECT MONITORING
-    PROJECTMONITORING_GROUP = "project monitoring:",
-    PROJECTMONITORING_DASHBOARD = "project monitoring:dashboard",
-    PROJECTMONITORING_PROJECTS = "project monitoring:projects",
-    PROJECTMONITORING_MARKETING_GROUP = "project monitoring:marketing_",
-    PROJECTMONITORING_MARKETING_MYPROJECTS = "project monitoring:marketing_my projects",
-    PROJECTMONITORING_MARKETING_BIDDINGLIST = "project monitoring:marketing_bidding list",
-    PROJECTMONITORING_MARKETING_PROPOSALLIST = "project monitoring:marketing_proposal list",
-    PROJECTMONITORING_MARKETING_ARCHIVEDLIST = "project monitoring:marketing_archived list",
-    PROJECTMONITORING_MARKETING_ONHOLDLIST = "project monitoring:marketing_on hold list",
-    PROJECTMONITORING_MARKETING_AWARDEDLIST = "project monitoring:marketing_awarded list",
-    PROJECTMONITORING_MARKETING_DRAFTLIST = "project monitoring:marketing_draft list",
-    PROJECTMONITORING_TSS = "project monitoring:tss",
-    PROJECTMONITORING_SETUP_GROUP = "project monitoring:setup_",
-    PROJECTMONITORING_SETUP_APPROVALS = "project monitoring:setup_approvals",
-    PROJECTMONITORING_SETUP_POSITION = "project monitoring:setup_position",
-    PROJECTMONITORING_SETUP_SYNCHRONIZATION = "project monitoring:setup_synchronization"
+    PROJECT_MONITORING_GROUP = "project monitoring:",
+    PROJECT_MONITORING_DASHBOARD = "project monitoring:dashboard",
+    PROJECT_MONITORING_PROJECTS = "project monitoring:projects",
+    PROJECT_MONITORING_MARKETING_GROUP = "project monitoring:marketing_",
+    PROJECT_MONITORING_MARKETING_MY_PROJECTS = "project monitoring:marketing_my projects",
+    PROJECT_MONITORING_MARKETING_BIDDING_LIST = "project monitoring:marketing_bidding list",
+    PROJECT_MONITORING_MARKETING_PROPOSAL_LIST = "project monitoring:marketing_proposal list",
+    PROJECT_MONITORING_MARKETING_ARCHIVED_LIST = "project monitoring:marketing_archived list",
+    PROJECT_MONITORING_MARKETING_ON_HOLD_LIST = "project monitoring:marketing_on hold list",
+    PROJECT_MONITORING_MARKETING_AWARDED_LIST = "project monitoring:marketing_awarded list",
+    PROJECT_MONITORING_MARKETING_DRAFT_LIST = "project monitoring:marketing_draft list",
+    PROJECT_MONITORING_TSS = "project monitoring:tss",
+    PROJECT_MONITORING_SETUP = "project monitoring:setup",
+    PROJECT_MONITORING_SETUP_SYNCHRONIZATION = "project monitoring:setup_synchronization"
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
     allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS

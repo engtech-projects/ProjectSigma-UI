@@ -21,7 +21,7 @@
 
         <LayoutPsTable
             :header-columns="rsInfoHeaders"
-            :datas="rsInfo.canvassers ?? []"
+            :datas="rsInfo"
             class="rounded-md shadow-sm"
         />
     </div>
@@ -32,6 +32,10 @@ defineProps({
     title: {
         type: String,
         default: ""
+    },
+    selectedItem: {
+        type: Boolean,
+        required: true
     },
     officeProject: {
         type: String,
@@ -47,11 +51,11 @@ defineProps({
     },
     datePrepared: {
         type: String,
-        default: "N/A"
+        default: () => new Date().toLocaleDateString()
     },
     dateNeeded: {
         type: String,
-        default: "N/A"
+        default: () => new Date(Date.now() + 7 * 86400000).toLocaleDateString()
     },
     equipmentNo: {
         type: String,

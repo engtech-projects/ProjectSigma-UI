@@ -1,53 +1,3 @@
-<script lang="ts" setup>
-import { useTaskStore } from "@/stores/project-monitoring/task"
-import { usePhaseStore } from "@/stores/project-monitoring/phase"
-import { useResourceStore } from "@/stores/project-monitoring/resource"
-const resourceStore = useResourceStore()
-const taskStore = useTaskStore()
-const phaseStore = usePhaseStore()
-defineProps({
-    showModal: {
-        type: Boolean,
-        required: true,
-        default: false
-    }
-})
-const boardLoading = ref(false)
-const snackbar = useSnackbar()
-const updateAmount = () => {
-    taskStore.task.amount = Number(taskStore.task.quantity) * Number(taskStore.task.unit_price)
-}
-watch(() => taskStore.task.quantity, updateAmount)
-watch(() => taskStore.task.unit_price, updateAmount)
-
-const handleSubmit = async () => {
-    try {
-        boardLoading.value = true
-        await taskStore.createTask()
-        if (taskStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: taskStore.errorMessage
-            })
-        } else {
-            emit("save", clone(taskStore.task))
-            snackbar.add({
-                type: "success",
-                text: taskStore.successMessage
-            })
-        }
-        taskStore.reset()
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: taskStore.errorMessage
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
-const emit = defineEmits(["hideModal", "save"])
-</script>
 <template>
     <ModalContainer
         :show="showModal"
@@ -81,26 +31,13 @@ const emit = defineEmits(["hideModal", "save"])
                         <label class="text-md text-gray-700">
                             Task Name
                         </label>
-                        <input
-                            v-model="taskStore.task.name"
-                            type="text"
-                            class="border border-gray-300 rounded-md"
-                            placeholder="Task Name"
-                            required
-                        >
+                        <input v-model="taskStore.task.name" type="text" class="border border-gray-300 rounded-md" placeholder="Task Name" required>
                     </div>
                     <div class="flex flex-col">
                         <label class="text-md text-gray-700">
                             Amount
                         </label>
-                        <input
-                            v-model="taskStore.task.amount"
-                            type="text"
-                            class="border border-gray-300 rounded-md"
-                            disabled
-                            placeholder="0.00"
-                            required
-                        >
+                        <input v-model="taskStore.task.amount" type="number" class="border border-gray-300 rounded-md" placeholder="0.00" required>
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-6 mb-4">
@@ -108,19 +45,13 @@ const emit = defineEmits(["hideModal", "save"])
                         <label class="text-md text-gray-700">
                             Quantity
                         </label>
-                        <input
-                            v-model="taskStore.task.quantity"
-                            type="number"
-                            class="border border-gray-300 rounded-md"
-                            placeholder="0"
-                            required
-                        >
+                        <input v-model="taskStore.task.quantity" type="number" class="border border-gray-300 rounded-md" placeholder="0" required>
                     </div>
                     <div class="flex flex-col">
                         <label class="text-md text-gray-700">
                             Unit
                         </label>
-                        <select v-model="taskStore.task.unit" class="border border-gray-300 rounded-md uppercase" required>
+                        <select v-model="taskStore.task.unit" class="border border-gray-300 rounded-md uppercase">
                             <option value="" disabled selected>
                                 Select Unit
                             </option>
@@ -135,24 +66,14 @@ const emit = defineEmits(["hideModal", "save"])
                         <label class="text-md text-gray-700">
                             Unit Price
                         </label>
-                        <input
-                            v-model="taskStore.task.unit_price"
-                            type="number"
-                            class="border border-gray-300 rounded-md"
-                            placeholder="0.00"
-                            required
-                        >
+                        <input v-model="taskStore.task.unit_price" type="number" class="border border-gray-300 rounded-md" placeholder="0.00" required>
                     </div>
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="text-md text-gray-700">
                         Description
                     </label>
-                    <textarea
-                        v-model="taskStore.task.description"
-                        class="border border-gray-300 rounded-md w-full h-56 resize-none"
-                        required
-                    />
+                    <textarea v-model="taskStore.task.description" class="border border-gray-300 rounded-md w-full h-56 resize-none" />
                 </div>
                 <div class="flex justify-end">
                     <button v-if="!taskStore.task.id" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" type="submit">
@@ -163,3 +84,52 @@ const emit = defineEmits(["hideModal", "save"])
         </div>
     </ModalContainer>
 </template>
+
+<script lang="ts" setup>
+import { useTaskStore } from "@/stores/project-monitoring/task"
+import { usePhaseStore } from "@/stores/project-monitoring/phase"
+import { useResourceStore } from "@/stores/project-monitoring/resource"
+const resourceStore = useResourceStore()
+const taskStore = useTaskStore()
+const phaseStore = usePhaseStore()
+defineProps({
+    showModal: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
+})
+const boardLoading = ref(false)
+const snackbar = useSnackbar()
+const handleSubmit = async () => {
+    try {
+        boardLoading.value = true
+        await taskStore.createTask()
+        if (taskStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: taskStore.errorMessage
+            })
+        } else {
+            emit("save", clone(taskStore.task))
+            snackbar.add({
+                type: "success",
+                text: taskStore.successMessage
+            })
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: taskStore.errorMessage
+        })
+    } finally {
+        boardLoading.value = false
+        taskStore.reset()
+    }
+}
+const emit = defineEmits(["hideModal", "save"])
+</script>
+
+<style>
+
+</style>

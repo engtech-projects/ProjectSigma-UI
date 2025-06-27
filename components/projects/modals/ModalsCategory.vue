@@ -1,18 +1,3 @@
-<script lang="ts" setup>
-defineProps({
-    showModal: {
-        type: Boolean,
-        required: true,
-        default: false
-    }
-})
-const emit = defineEmits(["hideModal"])
-const showAddModal = ref(false)
-const resetModal = () => {
-    showAddModal.value = false
-    emit("hideModal")
-}
-</script>
 <template>
     <ModalContainer
         :show="showModal"
@@ -93,3 +78,23 @@ const resetModal = () => {
         </div>
     </ModalContainer>
 </template>
+
+<script lang="ts" setup>
+defineProps({
+    showModal: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
+})
+const emit = defineEmits(["hideModal"])
+const showAddModal = ref(false)
+const resetModal = () => {
+    showAddModal.value = false
+    emit("hideModal")
+}
+</script>
+
+<style>
+
+</style>

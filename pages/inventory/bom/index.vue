@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 useHead({
-    title: "Bill of Materials",
+    title: "Project/Department BOM",
 })
 </script>
 <template>

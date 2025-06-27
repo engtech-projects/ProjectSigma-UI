@@ -43,7 +43,7 @@ export const usePositionStore = defineStore("positionStore", {
         async getAllPositions () {
             this.isLoading = true
             const { data, error } = await useProjectsApi(
-                "/api/all-position",
+                "/api/get-all-position",
                 {
                     method: "GET",
                     params: this.getParams,

@@ -33,11 +33,12 @@ const snackbar = useSnackbar()
 const selectedItems = ref([])
 
 const addNonBomItem = () => {
-    const selectedItem = itemEnum.value.list.find(i => i.id === form.value.item_id)
     if (!form.value.item_id) {
         snackbar.add({ type: "error", text: "Please select an item before adding." })
         return
     }
+
+    const selectedItem = itemEnum.value.list.find(i => i.id === form.value.item_id)
 
     if (!selectedItem) {
         snackbar.add({ type: "error", text: "Invalid item selected." })
@@ -51,16 +52,15 @@ const addNonBomItem = () => {
 
     selectedItems.value.push({
         item_id: selectedItem.id,
-        item_summary: selectedItem.item_summary,
+        item_summary: selectedItem.item_summary || selectedItem.item_description,
         quantity: 1,
         max_quantity: Infinity,
         unit: selectedItem.uom,
         old_unit: selectedItem.uom,
-        uom: selectedItem.uom_name,
         specification: "",
         preferred_brand: "",
         reason: "",
-        convertable_units: selectedItem.convertable_units || [],
+        convertable_units: selectedItem.convertable_units,
         showUomSelector: false,
     })
 
@@ -68,7 +68,6 @@ const addNonBomItem = () => {
 
     // Reset selection
     form.value.item_id = null
-    snackbar.add({ type: "success", text: "Item Added" })
 }
 
 const addItem = (item) => {
@@ -79,20 +78,17 @@ const addItem = (item) => {
         return
     }
 
-    const itemDetails = itemEnum.value.list.find(i => i.id === item.item_id)
-
     selectedItems.value.push({
         item_id: item.item_id,
         item_summary: item.item_summary,
         quantity: 1,
         max_quantity: item.quantity,
-        unit: item.uom,
-        old_unit: item.uom,
-        uom: itemDetails?.uom_name || item.uom_name, // Get uom_name from itemDetails or item
+        unit: item.uom_id,
+        old_unit: item.uom_id,
         specification: "",
         preferred_brand: "",
         reason: "",
-        convertable_units: item.convertable_units || [],
+        convertable_units: item.convertable_units,
         showUomSelector: false,
     })
 
@@ -201,8 +197,6 @@ watch([selectType, () => List.value.params.department_id, () => List.value.param
 
     if (selectType.value === "Department") {
         form.value.warehouse_id = 1
-    } else if (selectType.value === "Project") {
-        form.value.warehouse_id = List.value.params.project_id
     }
 
     BOMStore.getCurrentBOM()
@@ -233,40 +227,16 @@ watch(() => form.value.type_of_request, (newType) => {
                                     />
                                 </div>
                                 <div :class="{ 'w-full': !form.section_id, 'w-2/3': form.section_id }">
-                                    <LayoutFormPsTextInput
-                                        v-model="form.office_project_address"
-                                        class="w-full"
-                                        title="Address"
-                                    />
+                                    <LayoutFormPsTextInput v-model="form.office_project_address" class="w-full" title="Address" />
                                 </div>
                             </div>
-                            <LayoutFormPsTextInput
-                                v-model="form.request_for"
-                                :required="true"
-                                class="w-full"
-                                title="Request For"
-                            />
+                            <LayoutFormPsTextInput v-model="form.request_for" :required="true" class="w-full" title="Request For" />
                         </div>
                         <div class="w-full flex flex-col gap-2">
                             {{ form.reference_no }}
-                            <LayoutFormPsDateInput
-                                v-model="form.date_prepared"
-                                :required="true"
-                                class="w-full"
-                                title="Date Prepared"
-                            />
-                            <LayoutFormPsDateInput
-                                v-model="form.date_needed"
-                                :required="true"
-                                class="w-full"
-                                title="Date Needed"
-                            />
-                            <LayoutFormPsTextInput
-                                v-model="form.equipment_no"
-                                :required="true"
-                                class="w-full"
-                                title="Equipment No."
-                            />
+                            <LayoutFormPsDateInput v-model="form.date_prepared" :required="true" class="w-full" title="Date Prepared" />
+                            <LayoutFormPsDateInput v-model="form.date_needed" :required="true" class="w-full" title="Date Needed" />
+                            <LayoutFormPsTextInput v-model="form.equipment_no" :required="true" class="w-full" title="Equipment No." />
                         </div>
                         <div
                             v-show="form.section_id"
@@ -289,7 +259,7 @@ watch(() => form.value.type_of_request, (newType) => {
                         </div>
                     </div>
                     <hr class="my-4">
-                    <div class="border border-gray-400 shadow-md rounded-lg overflow-y-auto max-h-[415px]">
+                    <div class="border border-teal-200 shadow-md rounded-lg overflow-y-auto max-h-[365px]">
                         <InventoryRequestStockSelectedItems
                             title="Selected Items"
                             :header-columns="headers"
@@ -321,15 +291,8 @@ watch(() => form.value.type_of_request, (newType) => {
                                         <div class="space-y-4">
                                             <div>
                                                 <div class="flex items-center gap-2">
-                                                    <select
-                                                        v-model="form.type_of_request"
-                                                        class="w-full border rounded-md px-2 py-1"
-                                                    >
-                                                        <option
-                                                            v-for="(type, i) in TYPEOFREQUEST"
-                                                            :key="i"
-                                                            :value="type"
-                                                        >
+                                                    <select v-model="form.type_of_request" class="w-full border rounded-md px-2 py-1">
+                                                        <option v-for="(type, i) in TYPEOFREQUEST" :key="i" :value="type">
                                                             {{ type }}
                                                         </option>
                                                     </select>
@@ -350,11 +313,7 @@ watch(() => form.value.type_of_request, (newType) => {
 
                                             <div>
                                                 <label class="font-medium block mb-1">Contact Number (Requestor)</label>
-                                                <LayoutFormPsPhoneNumberInput
-                                                    v-model="form.contact_no"
-                                                    :required="false"
-                                                    class="w-full"
-                                                />
+                                                <LayoutFormPsPhoneNumberInput v-model="form.contact_no" :required="false" class="w-full" />
                                             </div>
                                         </div>
                                     </td>
@@ -369,35 +328,19 @@ watch(() => form.value.type_of_request, (newType) => {
 
                                     <td class="border border-gray-300 p-3">
                                         <label class="font-medium block mb-1">Current SMR</label>
-                                        <LayoutFormPsTextInput
-                                            v-model="form.current_smr"
-                                            :required="false"
-                                            class="w-full"
-                                        />
+                                        <LayoutFormPsTextInput v-model="form.current_smr" :required="false" class="w-full" />
                                     </td>
                                     <td class="border border-gray-300 p-3">
                                         <label class="font-medium block mb-1">Unused SMR</label>
-                                        <LayoutFormPsTextInput
-                                            v-model="form.unused_smr"
-                                            :required="false"
-                                            class="w-full"
-                                        />
+                                        <LayoutFormPsTextInput v-model="form.unused_smr" :required="false" class="w-full" />
                                     </td>
                                     <td class="border border-gray-300 p-3">
                                         <label class="font-medium block mb-1">Previous SMR</label>
-                                        <LayoutFormPsTextInput
-                                            v-model="form.previous_smr"
-                                            :required="false"
-                                            class="w-full"
-                                        />
+                                        <LayoutFormPsTextInput v-model="form.previous_smr" :required="false" class="w-full" />
                                     </td>
                                     <td class="border border-gray-300 p-3">
                                         <label class="font-medium block mb-1">Next SMR</label>
-                                        <LayoutFormPsTextInput
-                                            v-model="form.next_smr"
-                                            :required="false"
-                                            class="w-full"
-                                        />
+                                        <LayoutFormPsTextInput v-model="form.next_smr" :required="false" class="w-full" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -406,8 +349,7 @@ watch(() => form.value.type_of_request, (newType) => {
 
                     <div class="flex w-full">
                         <div class="pt-5 w-full mb-2 rounded-lg p-4 bg-slate-100 ">
-                            <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">
-                                Approval:</label>
+                            <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white"> Approval:</label>
                             <HrmsSetupApprovalsList
                                 v-for="(approv, apr) in approvalList.list"
                                 :key="'hrmsetupapprovallist' + approv"

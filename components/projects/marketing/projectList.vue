@@ -5,6 +5,7 @@ const projectStore = useProjectStore()
 
 const { myProjectList } = storeToRefs(projectStore)
 
+await projectStore.getMyProjects()
 const changePaginate = (newParams) => {
     myProjectList.value.params.page = newParams.page ?? ""
 }
@@ -30,7 +31,7 @@ const projectDetails = (data) => {
     <LayoutBoards class="w-full" :loading="myProjectList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING_MY_PROJECTS,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROJECT_LIST,
             ])"
         >
             <div class="w-1/3 px-4">

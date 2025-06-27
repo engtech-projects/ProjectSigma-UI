@@ -9,10 +9,6 @@ const props = defineProps({
         type: Number,
         required: true,
     },
-    initialAcceptedQty: {
-        type: Number,
-        default: null
-    },
     disabled: {
         type: Boolean,
         default: false
@@ -28,6 +24,7 @@ const rejectPopoverId = computed(() => `popover-reject-${props.requestId}`)
 
 const isDisabled = ref(props.disabled)
 
+// Watch for prop changes to update local disabled state
 watch(() => props.disabled, (newValue) => {
     isDisabled.value = newValue
 })
@@ -39,19 +36,9 @@ watch(acceptedQty, (newQty) => {
     emit("update-accepted-qty", props.requestId, newQty)
 })
 
-watch(() => props.initialAcceptedQty, (newValue) => {
-    if (newValue !== null && newValue !== undefined) {
-        acceptedQty.value = newValue
-    }
-}, { immediate: true })
-
 onMounted(() => {
-    const initialValue = props.initialAcceptedQty !== null && props.initialAcceptedQty !== undefined
-        ? props.initialAcceptedQty
-        : props.maxQuantity
-
-    acceptedQty.value = initialValue
-    emit("update-accepted-qty", props.requestId, initialValue)
+    acceptedQty.value = props.maxQuantity
+    emit("update-accepted-qty", props.requestId, props.maxQuantity)
 })
 
 const acceptAll = () => {
@@ -75,10 +62,7 @@ const rejectRequest = () => {
 const clearRemarks = () => {
     rejectRemarks.value = ""
     acceptRemarks.value = ""
-    const resetValue = props.initialAcceptedQty !== null && props.initialAcceptedQty !== undefined
-        ? props.initialAcceptedQty
-        : props.maxQuantity
-    acceptedQty.value = resetValue
+    acceptedQty.value = props.maxQuantity
 }
 
 const setMaxQuantity = () => {
@@ -94,7 +78,7 @@ const setMaxQuantity = () => {
                 :disabled="isDisabled"
                 @click="acceptAll"
             >
-                Accept All
+                Accept
             </button>
 
             <button

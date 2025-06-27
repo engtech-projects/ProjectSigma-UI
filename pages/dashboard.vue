@@ -79,7 +79,7 @@ useHead({
 
             <NuxtLink
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.PROJECTMONITORING_DASHBOARD,
+                    AccessibilityTypes.project_monitoring_dashboard,
                 ])"
                 to="/"
                 class="flex justify-center items-center text-md font-semibold text-gray-900 dark:text-white border-t-4 border-t-teal-600 p-2 bg-slate-100 rounded-lg shadow-md hover:shadow-lg hover:shadow-teal-500"

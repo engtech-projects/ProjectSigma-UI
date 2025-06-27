@@ -7,7 +7,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.PROJECTMONITORING_SETUP_APPROVALS,
+            AccessibilityTypes.PROJECT_MONITORING_SETUP,
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">

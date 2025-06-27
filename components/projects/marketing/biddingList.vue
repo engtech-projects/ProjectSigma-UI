@@ -5,6 +5,7 @@ const projectStore = useProjectStore()
 
 const { biddingList } = storeToRefs(projectStore)
 
+await projectStore.getBiddingProjects()
 const changePaginate = (newParams) => {
     biddingList.value.params.page = newParams.page ?? ""
 }
