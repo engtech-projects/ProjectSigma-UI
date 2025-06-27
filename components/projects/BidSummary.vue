@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+const projectStore = useProjectStore()
+const { information } = storeToRefs(projectStore)
+const print = ref(false)
+const totalAmount = computed(() => {
+    return information.value.summary_of_bid.reduce((total, item) => total + item.total_amount, 0)
+})
+const changePrint = () => {
+    print.value = !print.value
+}
+</script>
 <template>
     <div>
         <div v-if="!print" class="px-4 mx-auto pb-6">
@@ -7,7 +19,6 @@
             <p class="mb-4 text-center">
                 (All Parts of Bill of Quantities)
             </p>
-
             <p class="font-semibold mb-2">
                 Instructions for completing the Summary of Bid Prices:
             </p>
@@ -16,12 +27,11 @@
                 <li>Part Description - Enter the "Part Description" corresponding to the "Part No."</li>
                 <li>Total Amount - Enter The "Total Amount" in Pesos for all pages having the same "Part Description"</li>
             </ol>
-
             <table class="w-full border-collapse border border-black mb-6">
                 <tr class="bg-yellow-200 border border-black">
                     <th class="text-center align-middle p-2" colspan="3">
                         <p>
-                            <span class="font-semibold">ABC =</span> {{ accountingCurrency(projectStore.information.amount) }}
+                            <span class="font-semibold">ABC =</span> {{ accountingCurrency(information.amount) }}
                         </p>
                     </th>
                 </tr>
@@ -30,7 +40,7 @@
                         CONTRACT ID:
                     </th>
                     <th colspan="2" class="p-2 text-left">
-                        {{ projectStore.information.contract_id }}
+                        {{ information.contract_id }}
                     </th>
                 </tr>
                 <tr class="bg-orange-200">
@@ -44,7 +54,7 @@
                         TOTAL AMOUNT
                     </th>
                 </tr>
-                <tr v-for="(item, index) in projectStore.information.summary_of_bid" :key="index">
+                <tr v-for="(item, index) in information.summary_of_bid" :key="index">
                     <td class="border border-black p-2">
                         {{ item.part_no }}
                     </td>
@@ -74,32 +84,11 @@
                     </td>
                 </tr>
             </table>
-
-            <p><span class="mb-6">Project to be completed within 237 calendar days</span></p>
+            <p><span class="mb-6">Project to be completed within {{ information.duration }} (Calendar Days)</span></p>
         </div>
         <LayoutPrint v-if="print">
             <ProjectsPrintBidSummary />
         </LayoutPrint>
-        <div class="flex justify-end py-4">
-            <button v-if="!print" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-12 h-8" @click="print = true">
-                <Icon name="ic:outline-local-printshop" class="text-white h-6 w-6" />
-            </button>
-            <button v-else class="bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 select-none text-white rounded-lg text-sm px-4 py-2" @click="print = false">
-                Hide Print Layout
-            </button>
-        </div>
+        <projectsCommonPrintButton :print="print" @change-print="changePrint" />
     </div>
 </template>
-
-<script lang="ts" setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-const projectStore = useProjectStore()
-const print = ref(false)
-const totalAmount = computed(() => {
-    return projectStore.information.summary_of_bid.reduce((total, item) => total + item.total_amount, 0)
-})
-</script>
-
-<style>
-
-</style>

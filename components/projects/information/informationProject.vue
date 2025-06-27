@@ -1,3 +1,32 @@
+<script setup>
+defineProps({
+    label: {
+        type: String,
+        required: false,
+        default: "Project Information",
+    },
+    code: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    name: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    location: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    license: {
+        type: String,
+        required: false,
+        default: null,
+    }
+})
+</script>
 <template>
     <div>
         <div class="w-full flex items-center justify-center">
@@ -42,32 +71,3 @@
         </div>
     </div>
 </template>
-<script setup>
-defineProps({
-    label: {
-        type: String,
-        required: false,
-        default: "Project Information",
-    },
-    code: {
-        type: String,
-        required: false,
-        default: null,
-    },
-    name: {
-        type: String,
-        required: false,
-        default: null,
-    },
-    location: {
-        type: String,
-        required: false,
-        default: null,
-    },
-    license: {
-        type: String,
-        required: false,
-        default: null,
-    }
-})
-</script>

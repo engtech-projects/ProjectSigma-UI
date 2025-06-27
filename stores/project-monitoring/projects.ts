@@ -185,9 +185,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.draftList.list = response._data.data
                             this.draftList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -214,9 +214,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.proposalList.list = response._data.data
                             this.proposalList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -243,9 +243,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.biddingList.list = response._data.data
                             this.biddingList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -272,9 +272,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.onHoldList.list = response._data.data
                             this.onHoldList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -301,9 +301,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.awardedList.list = response._data.data
                             this.awardedList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -330,9 +330,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.archivedList.list = response._data.data
                             this.archivedList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -360,9 +360,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.myProjectList.list = response._data.data
                             this.myProjectList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },

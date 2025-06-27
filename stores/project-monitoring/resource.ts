@@ -199,7 +199,7 @@ export const useResourceStore = defineStore("resourceStore", {
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
-                this.errorMessage = "Error"
+                this.errorMessage = error.value.data.message
                 return error
             }
         },

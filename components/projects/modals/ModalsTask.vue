@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { useTaskStore } from "@/stores/project-monitoring/task"
 import { usePhaseStore } from "@/stores/project-monitoring/phase"
 import { useResourceStore } from "@/stores/project-monitoring/resource"

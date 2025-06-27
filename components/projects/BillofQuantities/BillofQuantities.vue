@@ -7,6 +7,9 @@ const taskStore = useTaskStore()
 const projectStore = useProjectStore()
 const phaseStore = usePhaseStore()
 const boardLoading = ref(false)
+const changePrint = () => {
+    print.value = !print.value
+}
 
 const edit = projectStore.viewState
 const currentPhase = ref(null)
@@ -236,15 +239,8 @@ const removePhase = async (phase) => {
             <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" @save="saveTask" />
         </div>
         <LayoutPrint v-if="print">
-            <ProjectsPrintCashFlow />
+            <ProjectsPrintBillOfQuantities />
         </LayoutPrint>
-        <div class="flex justify-end py-4">
-            <button v-if="!print" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-12 h-8" @click="print = true">
-                <Icon name="ic:outline-local-printshop" class="text-white h-6 w-6" />
-            </button>
-            <button v-else class="bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 select-none text-white rounded-lg text-sm px-4 py-2" @click="print = false">
-                Hide Print Layout
-            </button>
-        </div>
+        <projectsCommonPrintButton :print="print" @change-print="changePrint" />
     </div>
 </template>
