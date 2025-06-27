@@ -36,25 +36,23 @@ const removeItem = (id: number) => {
 </script>
 
 <template>
-    <div class="w-full h-full bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+    <div class="w-full h-full bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200">
         <h5
             v-if="title"
-            class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white border-b px-4 py-3 bg-slate-100 dark:bg-slate-700 flex justify-between"
+            class="text-lg md:text-xl font-semibold text-gray-800 dark:text-white border-b px-4 py-3 bg-slate-100 dark:bg-slate-700 flex justify-between items-center"
         >
             {{ title }}
             <button
-                class="bg-green-400 text-white hover:bg-green-600 active:bg-green-500 rounded-full w-6 h-6 flex items-center justify-center shadow-md transition duration-150 ease-in-out"
+                type="button"
                 title="Add item"
+                class="bg-green-500 hover:bg-green-600 active:bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-md transition duration-150"
                 @click="addItem"
             >
-                <Icon name="mdi:plus" class="h-8 w-8 text-white" />
+                <Icon name="mdi:plus" class="h-5 w-5" />
             </button>
         </h5>
 
-        <div
-            class="overflow-x-auto transition-all duration-300 ease-in-out"
-            :class="bomRequest.details.length > 0 ? 'max-h-screen' : 'max-h-32'"
-        >
+        <div class="overflow-visible transition-all duration-300 ease-in-out">
             <table class="w-full border-collapse">
                 <thead class="sticky top-0 z-10 bg-white dark:bg-gray-700 shadow-sm">
                     <tr>
@@ -62,7 +60,7 @@ const removeItem = (id: number) => {
                             v-for="(dataHeader, index) in headerColumns"
                             :key="index"
                             scope="col"
-                            class="text-left text-sm font-semibold text-gray-600 dark:text-gray-300 px-4 py-3 border-b border-gray-200"
+                            class="text-center text-sm font-semibold text-gray-600 dark:text-gray-300 px-4 py-3 border-b border-gray-200"
                         >
                             {{ dataHeader.name }}
                         </th>
