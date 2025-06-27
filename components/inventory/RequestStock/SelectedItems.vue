@@ -19,15 +19,15 @@ const emit = defineEmits(["updateField", "removeItem"])
 const compId = useId()
 
 const getUomName = (dataValue) => {
-    if (dataValue.convertable_units && dataValue.convertable_units.length >= 1) {
-        const foundUnit = dataValue.convertable_units.find(u => u.id === dataValue.unit)
-        return foundUnit?.name || "N/A"
+    if (!dataValue) {
+        return "N/A"
     }
-
-    const itemFromEnum = itemEnum.value.list.find(item => item.id === dataValue.item_id)
-    return itemFromEnum?.uom_name || dataValue.old_unit || "N/A"
+    if (dataValue.convertable_units?.length) {
+        const foundUnit = dataValue.convertable_units.find(u => u.id === dataValue.unit)
+        return foundUnit?.name?.toString().toUpperCase() || "N/A"
+    }
+    return (dataValue.uom || itemEnum.value.list.find(item => item.id === dataValue.item_id)?.uom)?.toString().toUpperCase() || "N/A"
 }
-
 // Function to handle unit changes and track the previous unit
 const changeUnit = (index, newUnit) => {
     const item = data.value[index]
@@ -105,7 +105,7 @@ const changeUnitAndConvert = (index, newUnit) => {
     <table class="min-w-full table-auto w-full border-collapse">
         <thead>
             <tr>
-                <th v-for="header in headerColumns" :key="header.name" class="p-2">
+                <th v-for="header in headerColumns" :key="header.name" class="sticky top-0 bg-white p-2">
                     {{ header.name }}
                 </th>
                 <th>Actions</th>
@@ -113,7 +113,7 @@ const changeUnitAndConvert = (index, newUnit) => {
         </thead>
         <tbody>
             <tr v-if="dataColumns.length === 0">
-                <td :colspan="headerColumns.length + 1" class="text-center p-2">
+                <td :colspan="headerColumns.length + 1" class="text-center p-2 italic">
                     NO ITEMS SELECTED
                 </td>
             </tr>
@@ -139,7 +139,7 @@ const changeUnitAndConvert = (index, newUnit) => {
                             class="block w-full cursor-pointer"
                             @click="dataValue.showUomSelector = true"
                         >
-                            {{ ((dataValue.convertable_units.find(u => u.id === dataValue.unit)?.name || 'N/A')).toString().toUpperCase() }}
+                            {{ (dataValue.convertable_units.find(u => u.id === dataValue.unit)?.name).toString().toUpperCase() }}
                         </span>
                         <InventoryRequestStockItemUomSelector
                             v-if="dataValue.showUomSelector"

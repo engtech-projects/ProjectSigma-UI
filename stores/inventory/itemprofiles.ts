@@ -225,7 +225,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getUOM () {
             await useInventoryApiO(
-                "/api/uom/all",
+                "/api/uom/list",
                 {
                     method: "GET",
                     watch: false,

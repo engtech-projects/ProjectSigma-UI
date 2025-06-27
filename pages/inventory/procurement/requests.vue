@@ -1,92 +1,47 @@
 <script setup>
 import { useNcpoStore } from "~/stores/inventory/procurement/ncpo"
+import { useProcurementRequestStore } from "~/stores/inventory/procurement/request"
+const procurementRequestStore = useProcurementRequestStore()
 const mainStore = useNcpoStore()
 const { ncpoRequest } = storeToRefs(mainStore)
+const { selectedItem, viewRequests } = storeToRefs(procurementRequestStore)
 
 const isShowTable = ref(true)
 const isShowSecondPage = ref(false)
 const isShowThirdPage = ref(false)
-const selectedItem = ref(null)
 
 const headers = [
     { name: "Supplier", id: "supplier_name" },
     { name: "Quotation Date", id: "quot_date" },
 ]
-const rsHeaders = [
-    { name: "RS No.", id: "rsNo" },
-    { name: "Date", id: "date" },
-    { name: "Status", id: "status" },
-]
-
 const rsInfoHeaders = [
-    { name: "QTY", id: "qty" },
-    { name: "Unit", id: "unit" },
-    { name: "Item Description", id: "itemDescription" },
+    { name: "QTY", id: "quantity" },
+    { name: "Unit", id: "unit_uom" },
+    { name: "Item Description", id: "item_description" },
     { name: "Specification", id: "specification" },
-    { name: "Preferred Brand", id: "preferredBrand" },
-    { name: "Reason for Request", id: "reasonForRequest" },
+    { name: "Preferred Brand", id: "preferred_brand" },
+    { name: "Reason for Request", id: "reason_for_request" },
     { name: "No. of Price Quotations", id: "noOfPriceQuotation" },
 ]
-
-const actions = {
-    showTable: true,
-    edit: false,
-    delete: false,
-}
+const route = useRoute()
+const router = useRouter()
 
 const prDetails = [
     { supplier_name: "Supplier 1", quot_date: "2022-02-26" },
     { supplier_name: "Supplier 2", quot_date: "2022-02-26" },
     { supplier_name: "Supplier 3", quot_date: "2022-02-26" },
 ]
-const onGoing = [
-    { rsNo: 1, date: "2022-02-16", status: "Served" },
-    { rsNo: 2, date: "2022-02-4", status: "Unserved" },
-    { rsNo: 3, date: "2022-02-26", status: "Served" },
-]
-const all = [
-    { rsNo: 1, date: "2022-02-2", status: "Served" },
-    { rsNo: 2, date: "2022-02-18", status: "Served" },
-    { rsNo: 3, date: "2022-02-22", status: "Unserved" },
-]
-const rsInfo = [
-    {
-        qty: 1,
-        unit: "PCS",
-        itemDescription: "Item 1",
-        specification: "Specification 1",
-        preferredBrand: "Brand 1",
-        reasonForRequest: "Reason 1",
-        noOfPriceQuotation: 1,
-    },
-    {
-        qty: 2,
-        unit: "BOX",
-        itemDescription: "Item 2",
-        specification: "Specification 2",
-        preferredBrand: "Brand 2",
-        reasonForRequest: "Reason 2",
-        noOfPriceQuotation: 1,
-    },
-    {
-        qty: 3,
-        unit: "PCS",
-        itemDescription: "Item 3",
-        specification: "Specification 3",
-        preferredBrand: "Brand 3",
-        reasonForRequest: "Reason 3",
-        noOfPriceQuotation: 1,
-    },
-]
 
-const showInformation = (item) => {
-    selectedItem.value = item
+const showInformation = (eventItem) => {
+    router.push({ query: { id: eventItem.id } })
+    procurementRequestStore.getOne(eventItem.id)
     isShowTable.value = false
     isShowSecondPage.value = true
     isShowThirdPage.value = false
 }
 
 const goBack = () => {
+    router.replace({ query: {} })
     if (isShowThirdPage.value) {
         isShowThirdPage.value = false
         isShowSecondPage.value = true
@@ -104,6 +59,20 @@ const showThirdPage = (formType) => {
     isShowSecondPage.value = false
     isShowThirdPage.value = true
 }
+
+const hasIdParam = () => {
+    if (route.query.id) {
+        procurementRequestStore.getOne(route.query.id)
+        if (viewRequests.value.details.requisition_slip) {
+            showInformation({ id: route.query.id })
+        } else {
+            goBack()
+        }
+    }
+}
+
+hasIdParam()
+
 const form = ref({
     date: "",
     quotation_no: "",
@@ -137,10 +106,6 @@ const currentForm = ref(null)
             <div v-if="isShowTable" class="border border-gray-300 flex-1 rounded-md p-4 bg-white">
                 <InventoryCommonLayoutRequestTable
                     :is-show="isShowTable"
-                    :headers="rsHeaders"
-                    :actions="actions"
-                    :datas="onGoing ?? []"
-                    :all-datas="all ?? []"
                     title="PROCUREMENT REQUESTS"
                     class="rounded-md shadow-sm"
                     @show-table="showInformation"
@@ -152,18 +117,19 @@ const currentForm = ref(null)
                         <Icon name="mdi:close" class="h-5 w-5" />
                     </button>
                 </div>
-                <div v-if="selectedItem" class="mt-4 p-4 bg-white rounded-md border-4 border-sky-200">
+                <div class="mt-4 p-4 bg-white rounded-md border-4 border-sky-200">
                     <InventoryCommonLayoutRequisitionSlip
-                        :selected-item="!!selectedItem"
-                        office-project="SUYUTAN-123"
-                        address="SUYUTAN TUBAY ADN"
-                        reference-no="RS-123-345"
+                        v-if="viewRequests.details.requisition_slip"
+                        :office-project="viewRequests.details.requisition_slip.office_project ?? ''"
+                        :address="viewRequests.details.requisition_slip.address"
+                        :reference-no="viewRequests.details.requisition_slip.reference_no"
+                        :date-needed="viewRequests.details.requisition_slip.date_needed"
+                        :date-prepared="viewRequests.details.requisition_slip.date_prepared"
                         :rs-info-headers="rsInfoHeaders"
-                        :rs-info="rsInfo"
+                        :rs-info="viewRequests.details"
                         title="REQUISITION SLIP"
                     />
                 </div>
-
                 <LayoutAcessContainer
                     :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP,
                     ])"

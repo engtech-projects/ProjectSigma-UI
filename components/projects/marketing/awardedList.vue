@@ -5,7 +5,6 @@ const projectStore = useProjectStore()
 
 const { awardedList } = storeToRefs(projectStore)
 
-await projectStore.getAwardedProjects()
 const changePaginate = (newParams) => {
     awardedList.value.params.page = newParams.page ?? ""
 }
