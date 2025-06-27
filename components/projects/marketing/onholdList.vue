@@ -5,7 +5,6 @@ const projectStore = useProjectStore()
 
 const { onHoldList } = storeToRefs(projectStore)
 
-await projectStore.getOnHoldProjects()
 const changePaginate = (newParams) => {
     onHoldList.value.params.page = newParams.page ?? ""
 }

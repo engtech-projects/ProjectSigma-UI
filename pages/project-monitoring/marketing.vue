@@ -1,16 +1,13 @@
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+            AccessibilityTypes.PROJECTMONITORING_MARKETING_GROUP,
         ])"
     >
         <div class="flex flex-col gap-4">
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
-                        v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROJECT_FORM,
-                        ])"
                         title="Project Contract Creation"
                         target-id="projectForm"
                     />
@@ -20,13 +17,7 @@
                         ])"
                         title="My Projects"
                         target-id="myProjects"
-                    />
-                    <AccountingCommonTabsTabTitle
-                        v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_DRAFT_LIST,
-                        ])"
-                        title="Drafts"
-                        target-id="drafts"
+                        @click.once="projectStore.getMyProjects()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -34,6 +25,7 @@
                         ])"
                         title="Proposals"
                         target-id="proposals"
+                        @click.once="projectStore.getProposalProjects()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -41,6 +33,7 @@
                         ])"
                         title="Bidding"
                         target-id="bidding"
+                        @click.once="projectStore.getBiddingProjects()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -48,6 +41,7 @@
                         ])"
                         title="Awarded"
                         target-id="awarded"
+                        @click.once="projectStore.getAwardedProjects()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -55,6 +49,7 @@
                         ])"
                         title="Archived"
                         target-id="archived"
+                        @click.once="projectStore.getArchivedProjects()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -62,6 +57,7 @@
                         ])"
                         title="On Hold"
                         target-id="onHold"
+                        @click.once="projectStore.getOnHoldProjects()"
                     />
                 </template>
                 <template #tab-containers>
@@ -70,9 +66,6 @@
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="myProjects">
                         <ProjectsMarketingProjectList />
-                    </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="drafts">
-                        <ProjectsMarketingDraftList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="proposals">
                         <ProjectsMarketingProposalList />

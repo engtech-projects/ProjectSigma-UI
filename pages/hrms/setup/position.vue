@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { usePositionStore } from "@/stores/hrms/setup/position"
 const positions = usePositionStore()
 const { isEdit } = storeToRefs(positions)
-positions.getPosition()
+positions.getAllPositions()
 
 useHead({
     title: "Position",
