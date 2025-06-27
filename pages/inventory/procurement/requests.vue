@@ -118,17 +118,34 @@ const currentForm = ref(null)
                     </button>
                 </div>
                 <div class="mt-4 p-4 bg-white rounded-md border-4 border-sky-200">
-                    <InventoryCommonLayoutRequisitionSlip
-                        v-if="viewRequests.details.requisition_slip"
-                        :office-project="viewRequests.details.requisition_slip.office_project ?? ''"
-                        :address="viewRequests.details.requisition_slip.address"
-                        :reference-no="viewRequests.details.requisition_slip.reference_no"
-                        :date-needed="viewRequests.details.requisition_slip.date_needed"
-                        :date-prepared="viewRequests.details.requisition_slip.date_prepared"
-                        :rs-info-headers="rsInfoHeaders"
-                        :rs-info="viewRequests.details"
-                        title="REQUISITION SLIP"
-                    />
+                    <LayoutPrintAdvanced class="min-h-40">
+                        <template #print-layout>
+                            <InventoryProcurementRequestPrintDetailsLayout
+                                v-if="viewRequests.details.requisition_slip"
+                                :office-project="viewRequests.details.requisition_slip.office_project ?? ''"
+                                :address="viewRequests.details.requisition_slip.address"
+                                :reference-no="viewRequests.details.requisition_slip.reference_no"
+                                :date-needed="viewRequests.details.requisition_slip.date_needed"
+                                :date-prepared="viewRequests.details.requisition_slip.date_prepared"
+                                :rs-info-headers="rsInfoHeaders"
+                                :rs-info="viewRequests.details"
+                                title="REQUISITION SLIP"
+                            />
+                        </template>
+                        <template #system-layout>
+                            <InventoryProcurementRequestSystemDetailsLayout
+                                v-if="viewRequests.details.requisition_slip"
+                                :office-project="viewRequests.details.requisition_slip.office_project ?? ''"
+                                :address="viewRequests.details.requisition_slip.address"
+                                :reference-no="viewRequests.details.requisition_slip.reference_no"
+                                :date-needed="viewRequests.details.requisition_slip.date_needed"
+                                :date-prepared="viewRequests.details.requisition_slip.date_prepared"
+                                :rs-info-headers="rsInfoHeaders"
+                                :rs-info="viewRequests.details"
+                                title="REQUISITION SLIP"
+                            />
+                        </template>
+                    </LayoutPrintAdvanced>
                 </div>
                 <LayoutAcessContainer
                     :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP,
