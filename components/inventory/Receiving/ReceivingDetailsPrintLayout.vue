@@ -138,7 +138,6 @@ defineProps<{
                                     <div v-if="item.metadata?.status === 'Rejected'" class="flex items-center justify-center">
                                         <Icon name="mdi:close-circle" class="h-5 w-5 text-red-700" />
                                     </div>
-                                    {{ item.metadata?.remarks }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
                                     {{ item.metadata?.remarks }}
