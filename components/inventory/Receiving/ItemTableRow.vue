@@ -52,6 +52,7 @@ const acceptWithDetails = async ({
         actual_brand_purchase: model.value.metadata?.actual_brand_purchase,
         unit_price: model.value.metadata?.unit_price || 0,
         specification: model.value.metadata?.specification || null,
+        accepted_quantity: model.value.metadata?.accepted_quantity
     }
 
     try {

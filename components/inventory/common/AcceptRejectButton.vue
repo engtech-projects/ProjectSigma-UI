@@ -94,7 +94,7 @@ const setMaxQuantity = () => {
                 :disabled="isDisabled"
                 @click="acceptAll"
             >
-                Accept
+                Accept All
             </button>
 
             <button
