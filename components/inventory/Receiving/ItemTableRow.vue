@@ -5,11 +5,8 @@ const snackbar = useSnackbar()
 
 const main = useReceivingStore()
 const model = defineModel<Record<string, any>>({ default: () => ({}) })
-const remarks = ref<string>("")
 const extendedPrice = computed(() => {
-    const unitPrice = model.value.metadata?.unit_price || 0
-    const acceptedQty = model.value.metadata?.accepted_quantity || 0
-    return unitPrice * acceptedQty
+    return model.value.metadata?.unit_price * model.value.metadata?.accepted_quantity
 })
 watch(extendedPrice, (newValue) => {
     model.value.metadata.ext_price = newValue
@@ -169,11 +166,9 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
 
         <td class="border px-2 py-1 text-center z-50">
             <InventoryCommonAcceptRejectButton
-                v-model:accept-remarks="remarks"
-                v-model:reject-remarks="remarks"
+                v-model:accepted-quantity="model.metadata.accepted_quantity"
                 :max-quantity="model.quantity"
                 :request-id="model.id"
-                :initial-accepted-qty="model.metadata?.accepted_quantity"
                 :disabled="!!model.metadata?.remarks"
                 :class="{ 'opacity-60 cursor-not-allowed pointer-events-none': !!model.metadata?.remarks }"
                 @accept-all="acceptAll"
