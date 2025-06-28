@@ -9,10 +9,6 @@ const props = defineProps({
         type: Number,
         required: true,
     },
-    initialAcceptedQty: {
-        type: Number,
-        default: null
-    },
     disabled: {
         type: Boolean,
         default: false
@@ -20,8 +16,11 @@ const props = defineProps({
 })
 const rejectRemarks = ref("")
 const acceptRemarks = ref("")
-const acceptedQty = ref(1)
-const emit = defineEmits(["acceptAll", "accept", "reject", "update-accepted-qty"])
+const emit = defineEmits(["acceptAll", "accept", "reject"])
+const acceptedQuantity = defineModel("acceptedQuantity", {
+    type: Number,
+    default: null
+})
 
 const acceptPopoverId = computed(() => `popover-accept-${props.requestId}`)
 const rejectPopoverId = computed(() => `popover-reject-${props.requestId}`)
@@ -32,37 +31,15 @@ watch(() => props.disabled, (newValue) => {
     isDisabled.value = newValue
 })
 
-watch(acceptedQty, (newQty) => {
-    if (newQty > props.maxQuantity) {
-        acceptedQty.value = props.maxQuantity
-    }
-    emit("update-accepted-qty", props.requestId, newQty)
-})
-
-watch(() => props.initialAcceptedQty, (newValue) => {
-    if (newValue !== null && newValue !== undefined) {
-        acceptedQty.value = newValue
-    }
-}, { immediate: true })
-
-onMounted(() => {
-    const initialValue = props.initialAcceptedQty !== null && props.initialAcceptedQty !== undefined
-        ? props.initialAcceptedQty
-        : props.maxQuantity
-
-    acceptedQty.value = initialValue
-    emit("update-accepted-qty", props.requestId, initialValue)
-})
-
 const acceptAll = () => {
     isDisabled.value = true
-    emit("acceptAll", { requestId: props.requestId, remarks: acceptRemarks.value })
+    emit("acceptAll", { requestId: props.requestId })
     clearRemarks()
 }
 
 const acceptWithDetails = () => {
     isDisabled.value = true
-    emit("accept", { requestId: props.requestId, acceptedQty: acceptedQty.value, remarks: acceptRemarks.value })
+    emit("accept", { requestId: props.requestId, remarks: acceptRemarks.value })
     clearRemarks()
 }
 
@@ -75,14 +52,10 @@ const rejectRequest = () => {
 const clearRemarks = () => {
     rejectRemarks.value = ""
     acceptRemarks.value = ""
-    const resetValue = props.initialAcceptedQty !== null && props.initialAcceptedQty !== undefined
-        ? props.initialAcceptedQty
-        : props.maxQuantity
-    acceptedQty.value = resetValue
 }
 
 const setMaxQuantity = () => {
-    acceptedQty.value = props.maxQuantity
+    acceptedQuantity.value = props.maxQuantity
 }
 </script>
 
@@ -112,7 +85,7 @@ const setMaxQuantity = () => {
                         <div class="py-2 flex-col flex gap-2 text-white">
                             <label for="accept-quantity">Quantity</label>
                             <div class="flex gap-2">
-                                <input v-model.number="acceptedQty" type="number" min="1" :max="maxQuantity" class="w-full p-1 text-black">
+                                <input v-model.number="acceptedQuantity" type="number" min="1" :max="maxQuantity" class="w-full p-1 text-black">
                                 <button class="bg-green-600 p-1 hover:bg-green-900 text-white rounded-sm" @click="setMaxQuantity">
                                     Max
                                 </button>
