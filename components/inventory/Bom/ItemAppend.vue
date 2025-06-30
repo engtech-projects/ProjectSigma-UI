@@ -13,16 +13,8 @@ defineProps({
 
 const emit = defineEmits(["removeItem", "itemSelected"])
 const doRemoveItem = (item: any) => emit("removeItem", item)
-
 const item = defineModel("item", { required: true, type: Object, default: null })
-
 const compId = useId()
-const selectedItem = ref({})
-const selectedItemId = ref(null)
-const searchQuery = ref("")
-const selectedUom = ref({})
-const selectedUomId = ref(null)
-const uomSearchQuery = ref("")
 
 onMounted(() => {
     if (!itemEnum.value.isLoaded) {
@@ -34,7 +26,7 @@ const amount = computed(() => {
     return item.value.unit_price * item.value.quantity
 })
 
-const watchUnitChange = (selectedUomOption) => {
+const watchUnitChange = (selectedUomOption: { conversion: number; id: any; name: any }) => {
     if (item.value.conversion) {
         const baseValue = parseFloat(item.value.quantity) / parseFloat(item.value.conversion)
         item.value.conversion = selectedUomOption.conversion
@@ -46,6 +38,7 @@ const watchUnitChange = (selectedUomOption) => {
     item.value.uom_id = selectedUomOption.id
     item.value.uom_name = selectedUomOption.name
 }
+
 const uomOptions = computed(() => {
     if (!item.value || !item.value.item_id) { return [] }
     if (!item.value.convertable_units || item.value.convertable_units.length === 0) {
@@ -57,6 +50,7 @@ const uomOptions = computed(() => {
     }
     return item.value.convertable_units
 })
+
 const handleItemSelected = (selectedOption) => {
     item.value.item_id = selectedOption.id
     item.value.item_code = selectedOption.item_code
@@ -66,27 +60,18 @@ const handleItemSelected = (selectedOption) => {
     item.value.uom_name = selectedOption.uom_name
     item.value.conversion = 1
 
-    // Save convertable_units in item itself
     item.value.convertable_units = selectedOption.convertable_units || []
 
     emit("itemSelected", selectedOption)
 
-    // Auto-set default UOM if only one option exists
     if (uomOptions.value.length === 1) {
-        selectedUom.value = uomOptions.value[0]
-        selectedUomId.value = uomOptions.value[0].id
         watchUnitChange(uomOptions.value[0])
     }
 }
 
-watch(searchQuery, (newVal) => {
-    itemEnum.value.params.query = newVal
-})
 watch(() => itemEnum.value.itemGroupFilter, (newFilter) => {
     if (newFilter && newFilter.length === 1) {
         const singleOption = newFilter[0]
-        selectedUom.value = singleOption
-        selectedUomId.value = singleOption.id
         watchUnitChange(singleOption)
     }
 }, { immediate: true })
@@ -99,29 +84,20 @@ const isDisabled = computed(() => {
 <template>
     <tr class="border-b-2 border-gray-300">
         <td colspan="1" class="px-2 py-2 font-medium text-gray-900 whitespace-nowrap">
-            <LayoutFormPsSelectSearch
-                v-model:result="selectedItem"
-                v-model:result-id="selectedItemId"
-                v-model:search-input="searchQuery"
-                :search-list="itemEnum.list"
-                :loading="itemEnum.isLoading"
-                title="item_summary"
-                placeholder="Search item..."
-                @update:result="handleItemSelected"
+            <InventoryBomItemSelector
+                v-model="item.item_id"
+                class="min-w-[200px]"
+                @item-selected="handleItemSelected"
             />
         </td>
         <td colspan="1" class="px-2 py-2 font-medium text-gray-900 whitespace-nowrap">
-            <LayoutFormPsSelectSearch
+            <InventoryBomItemUomSelector
                 v-if="!isDisabled"
-                v-model:result="selectedUom"
-                v-model:result-id="selectedUomId"
-                v-model:search-input="uomSearchQuery"
-                :search-list="uomOptions"
-                :loading="false"
-                title="name"
-                placeholder="Search UOM..."
+                v-model="item.uom_id"
+                :conversion="item.conversion || 0"
+                :item-id="item.item_id"
                 class="min-w-[200px]"
-                @update:result="watchUnitChange"
+                @watch-item="watchUnitChange"
             />
             <span v-else class="text-sm text-gray-800 flex items-center justify-center">
                 {{ item.default_uom_name }}
