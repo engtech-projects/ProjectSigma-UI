@@ -64,7 +64,6 @@ const isDisabled = computed(() => {
 </script>
 
 <template>
-    <pre>{{ item }}</pre>
     <tr class="border-b-2 border-gray-300">
         <td colspan="1" class="px-2 py-2 font-medium text-gray-900 whitespace-nowrap">
             <InventoryBomItemSelector
