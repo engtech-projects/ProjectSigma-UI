@@ -4,6 +4,10 @@ defineProps({
         type: String,
         default: ""
     },
+    requestFor: {
+        type: String,
+        default: "N/A"
+    },
     officeProject: {
         type: String,
         default: "N/A"
@@ -47,7 +51,7 @@ defineProps({
         </h2>
         <div class="grid grid-cols-2 gap-4 justify-center items-center mt-4 p-4">
             <div class="flex flex-col gap-1">
-                <InventoryCommonFormPsFormLabel title="Request For" value="Goods" />
+                <InventoryCommonFormPsFormLabel title="Request For" :value="requestFor" />
                 <InventoryCommonFormPsFormLabel title="Office/Project" :value="officeProject" />
                 <InventoryCommonFormPsFormLabel title="Address" :value="address" />
             </div>
