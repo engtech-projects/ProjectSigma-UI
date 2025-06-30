@@ -31,6 +31,14 @@
             icon="material-symbols:linked-services"
             single-nav-title="Technical Service"
         />
+        <LayoutNavSingle
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.PROJECTMONITORING_TSS,
+            ])"
+            linkarea="/project-monitoring/gantt"
+            icon="material-symbols:area-chart"
+            single-nav-title="Gantt Chart"
+        />
         <LayoutNavGroup
             v-if="useCheckAccessibility([
                 AccessibilityTypes.PROJECTMONITORING_SETUP_GROUP,
