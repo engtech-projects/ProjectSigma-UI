@@ -98,7 +98,7 @@ const currentForm = ref(null)
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_REQUESTLISTALL,
+            AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP,
         ])"
         class="w-full"
     >
