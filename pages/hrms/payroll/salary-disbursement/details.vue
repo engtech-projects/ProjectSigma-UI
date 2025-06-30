@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useSalaryDisbursementStore } from "@/stores/hrms/payroll/salaryDisbursement"
-const { data: userData } = useAuth()
 useHead({
     title: "Payroll Summary Details",
 })
@@ -96,7 +95,7 @@ const submitToAccounting = async (id: any) => {
                 <div class="w-full">
                     <HrmsPayrollSalaryDisbursementDetailsTable :data="salaryDisbursement.data" />
                 </div>
-                <div v-if="salaryDisbursement?.data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+                <div v-if="salaryDisbursement?.data.next_approval && useCheckIsCurrentUser(salaryDisbursement?.data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
                     <HrmsCommonApprovalDenyButton
                         v-model:deny-remarks="denyRemarks"
                         :request-id="salaryDisbursement?.data.id"

@@ -9,7 +9,6 @@ defineProps({
     },
 })
 
-const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const pan = usePersonelActionNotice()
@@ -70,7 +69,7 @@ const approvedRequest = async (id) => {
             </div>
         </template>
         <template #footer>
-            <div v-if="data.next_approval?.user_id === userData?.id || useCheckAccessibility([AccessibilityTypes.SUPERADMIN])" class="flex gap-2 p-2 justify-end">
+            <div v-if="data.next_approval && useCheckIsCurrentUser(data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end">
                 <HrmsCommonApprovalDenyButton
                     v-model:deny-remarks="remarks"
                     :request-id="data.id"

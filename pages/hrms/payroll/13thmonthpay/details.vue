@@ -85,7 +85,7 @@ const denyRequest = async (id : any) => {
                             :data="requestDetailsData?.data"
                         />
                         <LayoutApprovalsListView :approvals="requestDetailsData?.data.approvals" :signature-view="false" />
-                        <div v-if="useCheckIsCurrentUser(requestDetailsData?.data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
+                        <div v-if="requestDetailsData?.data.next_approval && useCheckIsCurrentUser(requestDetailsData?.data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
                             <HrmsCommonApprovalDenyButton
                                 v-model:deny-remarks="denyRemarks"
                                 :request-id="requestDetailsData?.data.id"
