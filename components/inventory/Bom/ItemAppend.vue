@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import { useInventoryEnumsStore } from "@/stores/inventory/enum"
-
-const enums = useInventoryEnumsStore()
-const { itemEnum } = storeToRefs(enums)
-
 defineProps({
     index: {
         type: Number,
@@ -15,12 +10,6 @@ const emit = defineEmits(["removeItem", "itemSelected"])
 const doRemoveItem = (item: any) => emit("removeItem", item)
 const item = defineModel("item", { required: true, type: Object, default: null })
 const compId = useId()
-
-onMounted(() => {
-    if (!itemEnum.value.isLoaded) {
-        enums.getItems()
-    }
-})
 
 const amount = computed(() => {
     return item.value.unit_price * item.value.quantity
@@ -69,19 +58,13 @@ const handleItemSelected = (selectedOption) => {
     }
 }
 
-watch(() => itemEnum.value.itemGroupFilter, (newFilter) => {
-    if (newFilter && newFilter.length === 1) {
-        const singleOption = newFilter[0]
-        watchUnitChange(singleOption)
-    }
-}, { immediate: true })
-
 const isDisabled = computed(() => {
     return uomOptions.value.length <= 1
 })
 </script>
 
 <template>
+    <pre>{{ item }}</pre>
     <tr class="border-b-2 border-gray-300">
         <td colspan="1" class="px-2 py-2 font-medium text-gray-900 whitespace-nowrap">
             <InventoryBomItemSelector
@@ -94,7 +77,7 @@ const isDisabled = computed(() => {
             <InventoryBomItemUomSelector
                 v-if="!isDisabled"
                 v-model="item.uom_id"
-                :conversion="item.conversion || 0"
+                :conversion="item.conversion"
                 :item-id="item.item_id"
                 class="min-w-[200px]"
                 @watch-item="watchUnitChange"
