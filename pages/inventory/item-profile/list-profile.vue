@@ -46,7 +46,9 @@ const changePaginate = (newParams) => {
             AccessibilityTypes.inventory_item_profile,
         ])"
     >
-        <LayoutLoadingContainer class="w-full" :loading="itemDetails.isLoading">
+        <LayoutBoards
+            :loading="itemDetails.isLoading"
+        >
             <div class="flex flex-col md:flex-row gap-4 mb-4">
                 <InventoryItemProfileList
                     title="Item Profile List"
@@ -61,6 +63,6 @@ const changePaginate = (newParams) => {
                     @change-params="changePaginate"
                 />
             </div>
-        </LayoutLoadingContainer>
+        </LayoutBoards>
     </LayoutAcessContainer>
 </template>

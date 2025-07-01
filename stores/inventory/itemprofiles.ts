@@ -1,5 +1,7 @@
 import { defineStore } from "pinia"
 
+const config = useRuntimeConfig()
+
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
 export const DENIED = "Denied"
@@ -114,6 +116,19 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             params: {},
             pagination: {},
         },
+        exportList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            itemFilters: [],
+            filters: [],
+            headers: [],
+            tempFile: "",
+            params: {},
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
         approval: {
             params: {
                 id: null,
@@ -210,7 +225,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getUOM () {
             await useInventoryApiO(
-                "/api/uom/all",
+                "/api/uom/list",
                 {
                     method: "GET",
                     watch: false,
@@ -464,6 +479,32 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data
+                        }
+                    },
+                }
+            )
+        },
+        async getExportList () {
+            await useInventoryApi(
+                "/api/export/item-list",
+                {
+                    params: this.exportList.params,
+                    method: "GET",
+                    watch: false,
+                    onRequest: () => {
+                        this.exportList.isLoading = true
+                        this.exportList.tempFile = ""
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.exportList.isLoading = false
+                        this.exportList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.exportList.isLoading = false
+                        if (response.ok) {
+                            this.exportList.successMessage = response._data.message
+                            this.exportList.tempFile = config.public.INVENTORY_API_URL + response._data.url
                         }
                     },
                 }

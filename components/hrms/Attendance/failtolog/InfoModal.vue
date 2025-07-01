@@ -13,7 +13,6 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
 const failtologs = useFailToLogStore()
 const { remarks } = storeToRefs(failtologs)
 
-const { data: userData } = useAuth()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
@@ -98,7 +97,7 @@ const denyRequest = async (id) => {
             </div>
         </template>
         <template #footer>
-            <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end">
+            <div v-if="data.next_approval && useCheckIsCurrentUser(data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end">
                 <HrmsCommonApprovalDenyButton
                     v-model:deny-remarks="remarks"
                     :request-id="data.id"

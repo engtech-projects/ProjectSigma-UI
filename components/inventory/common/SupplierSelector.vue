@@ -18,19 +18,24 @@ const props = defineProps({
     placeholder: { type: String, default: null },
 })
 
-// watchEffect(() => {
-//     if (props.defaultValue && !model.value) {
-//         const currentSupplier = supplierEnum.value.list.find(sup => sup.company_name === props.defaultValue)
-//         if (currentSupplier) {
-//             model.value = currentSupplier.id
-//         }
-//     }
-// })
 watch(
-    [() => props.defaultValue, () => model.value],
-    ([defaultValue, value]) => {
-        if (defaultValue && !value) {
+    () => props.defaultValue,
+    (defaultValue) => {
+        if (defaultValue && !model.value && supplierEnum.value.list.length > 0) {
             const currentSupplier = supplierEnum.value.list.find(sup => sup.company_name === defaultValue)
+            if (currentSupplier) {
+                model.value = currentSupplier.id
+            }
+        }
+    },
+    { immediate: true }
+)
+
+watch(
+    () => supplierEnum.value.list,
+    (list) => {
+        if (props.defaultValue && !model.value && list.length > 0) {
+            const currentSupplier = list.find(sup => sup.company_name === props.defaultValue)
             if (currentSupplier) {
                 model.value = currentSupplier.id
             }
@@ -59,7 +64,7 @@ const placeholderText = computed(() => {
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         required
     >
-        <option :value="null" disabled :selected="!model">
+        <option :value="null" disabled>
             {{ placeholderText }}
         </option>
         <option v-if="showAll" :value="null">

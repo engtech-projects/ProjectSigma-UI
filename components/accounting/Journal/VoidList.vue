@@ -8,7 +8,6 @@ const { voidEntries } = storeToRefs(journalStore)
 const entryData = ref(null)
 const showInformationModal = ref(false)
 
-await journalStore.getVoidEntries()
 const showInformation = (data) => {
     entryData.value = data
     showInformationModal.value = true

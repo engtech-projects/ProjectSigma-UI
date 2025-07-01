@@ -36,7 +36,7 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <InventoryRequestStockDetails title="Requisition Slip" :data="requestStock.details" :header-columns="headers" />
+            <InventoryRequestStockPrintDetailsLayout title="Requisition Slip" :data="requestStock.details" :header-columns="headers" />
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">

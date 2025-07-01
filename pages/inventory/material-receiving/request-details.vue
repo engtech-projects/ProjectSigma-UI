@@ -1,6 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router"
 import { useReceivingStore } from "@/stores/inventory/receiving"
+
 const mainStore = useReceivingStore()
 const { receiving } = storeToRefs(mainStore)
 const route = useRoute()
@@ -12,7 +13,7 @@ if (route.query.key) {
     validKey.value = false
 }
 
-const headers = [
+const systemHeaders = [
     { name: "Item Code", id: "item_code" },
     { name: "Item Description", id: "item_profile" },
     { name: "Specification", id: "specification" },
@@ -27,11 +28,25 @@ const headers = [
     { name: "Action", id: "" },
 ]
 
+const printHeaders = [
+    { name: "Item Code", id: "item_code" },
+    { name: "Item Description", id: "item_profile" },
+    { name: "Specification", id: "specification" },
+    { name: "Actual Brand Purchase", id: "actual_brand" },
+    { name: "Quantity", id: "accepted_qty" },
+    { name: "Unit of Measurement", id: "uom" },
+    { name: "Unit Price", id: "unit_price" },
+    { name: "Ext. Price", id: "ext_price" },
+    { name: "Accepted", id: "accepted" },
+    { name: "Rejected", id: "rejected" },
+    { name: "Remarks", id: "remarks" },
+]
+
 useHead({
     title: "Materials Receiving Report",
 })
-
 </script>
+
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
@@ -39,7 +54,24 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <InventoryReceivingDetails title="Materials Receiving Report" :data="receiving.details" :header-columns="headers" />
+            <div class="space-x-4">
+                <LayoutPrintAdvanced class="min-h-40">
+                    <template #print-layout>
+                        <InventoryReceivingDetailsPrintLayout
+                            :data="receiving.details"
+                            title="Materials Receiving Report"
+                            :header-columns="printHeaders"
+                        />
+                    </template>
+                    <template #system-layout>
+                        <InventoryReceivingDetails
+                            v-model="receiving.details"
+                            title="Materials Receiving Report"
+                            :header-columns="systemHeaders"
+                        />
+                    </template>
+                </LayoutPrintAdvanced>
+            </div>
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">

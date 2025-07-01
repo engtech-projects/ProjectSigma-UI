@@ -22,6 +22,7 @@ export interface Item {
     item_name: String,
     item_id: Number | null,
     uom_id: Number | null,
+    uom_name: String,
     unit_price: String,
     quantity: Number | null,
     uom: Array<any>,
@@ -66,6 +67,9 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
             isLoaded: false,
             successMessage: "",
             errorMessage: "",
+            localFilter: {
+                item_summary: "",
+            },
         },
         curentBomEnum: {
             list: [] as CurrentBom[],
@@ -85,6 +89,14 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
             errorMessage: "",
         },
     }),
+    getters: {
+        filteredItemList (state) : any[] {
+            return state.itemEnum.list.filter((item:any) => {
+                const formattedItem = `[${item.item_code || ""}] ${item.item_summary || ""}`
+                return formattedItem.toLowerCase().includes(state.itemEnum.localFilter.item_summary.toLowerCase())
+            })
+        }
+    },
     actions: {
         async getItemGroups () {
             this.itemGroupEnum.isLoaded = true
@@ -128,7 +140,29 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
         },
         async getItems () {
             await useInventoryApi(
-                "/api/item-profile/search",
+                "/api/item-profile/search?query=",
+                {
+                    method: "GET",
+                    params: this.itemEnum.params,
+                    onRequest: () => {
+                        this.itemEnum.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.itemEnum.isLoading = false
+                        if (response.ok) {
+                            this.itemEnum.list = response._data.data ?? []
+                        }
+                    },
+                }
+            )
+        },
+        async getItemList () {
+            this.itemEnum.isLoading = true
+            await useInventoryApi(
+                "/api/item-profile/item-list",
                 {
                     method: "GET",
                     params: this.itemEnum.params,

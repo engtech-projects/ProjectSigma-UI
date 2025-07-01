@@ -138,8 +138,7 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 
 const totalAmount = computed(() => {
-    if (!projectStore.information.summary_of_bid) { return 0 }
-    return projectStore.information.summary_of_bid.reduce((total, item) => {
+    return (projectStore.information.summary_of_bid ?? []).reduce((total, item) => {
         return total + item.total_amount
     }, 0)
 })

@@ -44,7 +44,7 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
 </script>
 
 <template>
-    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
+    <PsModal v-model:show-modal="showModal" title="">
         <template #body>
             <AccountingStatusRibbon :type="ribbonTypes[entryData?.status.toLowerCase()]" position="top-left" :status="entryData?.status" class="z-30" />
             <div class="p-2 py-4 flex gap-2 w-full mb-4">

@@ -19,7 +19,6 @@ const ribbonTypes = ref({
     approved: "success",
     denied: "error"
 })
-const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 const printPreview = ref(false)
 
@@ -118,7 +117,7 @@ watch(showModal, (newVal) => {
             </LayoutPrint>
         </template>
         <template #footer>
-            <div v-if="voucherData?.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="voucherData.next_approval && useCheckIsCurrentUser(voucherData.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
                 <HrmsCommonApprovalDenyButton
                     v-model:deny-remarks="remarks"
                     :request-id="voucherData.id"

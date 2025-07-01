@@ -2,7 +2,6 @@
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 const cashAdvanceStore = useCashadvanceStore()
 const { remarks, paymentData } = storeToRefs(cashAdvanceStore)
-const { data: userData } = useAuth()
 const props = defineProps({
     data: {
         type: Object,
@@ -126,7 +125,7 @@ const showMakePayment = () => {
         <div class="w-full">
             <LayoutApprovalsListView :approvals="data.approvals" />
         </div>
-        <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end">
+        <div v-if="data.next_approval && useCheckIsCurrentUser(data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end">
             <HrmsCommonApprovalDenyButton
                 v-model:deny-remarks="remarks"
                 :request-id="data.id"
