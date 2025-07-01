@@ -543,5 +543,29 @@ export const useProjectStore = defineStore("projects", {
             )
         },
 
+        async updateProjectStage (projectId: number | null, stage: string) {
+            this.successMessage = ""
+            this.errorMessage = ""
+
+            await useProjectsApi(
+                `/api/projects/${projectId}/stage`,
+                {
+                    method: "PATCH",
+                    body: { stage },
+                    watch: false,
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data.message || "Failed to update project stage."
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.getProjectsInformation(projectId)
+                            this.successMessage = response._data.message || "Project stage updated successfully."
+                        }
+                    },
+                }
+            )
+        },
+
     },
 })
