@@ -14,7 +14,7 @@
             </div>
             <div class="w-[400px] h-2 border-y-2 border-black border-dashed" />
         </div>
-        <IsoCard :page="page" />
+        <IsoCard :page="page" :document-code="documentCode" />
     </div>
 </template>
 
@@ -22,7 +22,14 @@
 defineProps({
     page: {
         type: Object,
-        default: null
+        default: () => ({
+            currentPage: 1,
+            totalPages: 1
+        }),
+    },
+    documentCode: {
+        type: String,
+        default: ""
     }
 })
 </script>

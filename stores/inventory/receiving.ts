@@ -10,12 +10,14 @@ export const REQ_STATUS = [
     DENIED,
 ]
 export const PREPAYMENT_IN_FULL = "PREPAYMENT IN FULL"
+export const CASH = "CASH"
 export const CREDIT_7_DAYS = "CREDIT 7 DAYS"
 export const CREDIT_15_DAYS = "CREDIT 15 DAYS"
 export const CREDIT_30_DAYS = "CREDIT 30 DAYS"
 export const PROGRESS_BILLING = "PROGRESS BILLING"
 export const TERMS = [
     PREPAYMENT_IN_FULL,
+    CASH,
     CREDIT_7_DAYS,
     CREDIT_15_DAYS,
     CREDIT_30_DAYS,
@@ -49,6 +51,11 @@ export interface ReceivingItem {
     ext_price: string;
     status: string;
     remarks: string;
+}
+export interface HeaderColumn {
+    name: string
+    id: string
+    style: string
 }
 
 export const useReceivingStore = defineStore("receivingStore", {
@@ -328,7 +335,7 @@ export const useReceivingStore = defineStore("receivingStore", {
                 }
             )
         },
-        async acceptAllItem (id: number, data: { remarks: string }) {
+        async acceptAllItem (id: number, data: any) {
             this.errorMessage = ""
             this.successMessage = ""
 
@@ -353,7 +360,7 @@ export const useReceivingStore = defineStore("receivingStore", {
                 }
             )
         },
-        async acceptQtyRemarks (id: number, data: { acceptedQty: number, remarks: string }) {
+        async acceptQtyRemarks (id: number, data: any) {
             this.errorMessage = ""
             this.successMessage = ""
 

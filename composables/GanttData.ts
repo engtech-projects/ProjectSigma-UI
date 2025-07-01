@@ -1,0 +1,770 @@
+export const useGanttData = () => {
+    return {
+        gantt: [
+            {
+                pID: 1,
+                pName: "PART A.",
+                pGroup: 1,
+                pParent: 0,
+                pOpen: 1,
+                pStart: "", // Groups usually don't have start/end dates in this format
+                pEnd: "", // Groups usually don't have start/end dates in this format
+                pClass: "ggroupblack",
+                description: "FACILITIES FOR THE ENGINEER"
+            },
+            {
+                pID: 2,
+                pName: "A.1.1(8)",
+                pGroup: 0,
+                pParent: 1,
+                pStart: "2024-03-10",
+                pEnd: "2024-05-15",
+                description: "Provision of Field Office for the Engineer (Rental Basis)",
+                quantity: "8.50",
+                unit: "mo.",
+                unitCost: "6,720.00",
+                contractAmount: "57,120.00",
+                relativeWeight: "0.059%",
+                pClass: "gtaskpurple",
+                totalDays: "255" // This value can influence the date generation in a real app, but here it's illustrative
+            },
+            {
+                pID: 3,
+                pName: "A.1.1(11)",
+                pGroup: 0,
+                pParent: 1,
+                pStart: "2024-03-05",
+                pEnd: "2024-04-20",
+                description: "Provision of Furnitures/Fixtures, Equipment and Appliances for The Field Office for The Engineer",
+                quantity: "1.00",
+                unit: "l.s.",
+                unitCost: "40,320.00",
+                contractAmount: "40,320.00",
+                relativeWeight: "0.042%",
+                pClass: "gtaskpurple",
+                totalDays: "255"
+            },
+            {
+                pID: 4,
+                pName: "A.1.2(2)",
+                pGroup: 0,
+                pParent: 1,
+                pStart: "2024-04-01",
+                pEnd: "2024-05-30",
+                description: "Provision of 4×4 Pick-up Service Vehicle for the Engineers on Bare Rental Basis",
+                quantity: "4.00",
+                unit: "mo.",
+                unitCost: "26,880.00",
+                contractAmount: "107,520.00",
+                relativeWeight: "0.111%",
+                pClass: "gtaskpurple",
+                totalDays: "120"
+            },
+            {
+                pID: 5,
+                pName: "PART B.",
+                pGroup: 1,
+                pParent: 0,
+                pOpen: 1,
+                pStart: "",
+                pEnd: "",
+                pClass: "ggroupblack",
+                description: "OTHER GENERAL REQUIREMENTS"
+            },
+            {
+                pID: 6,
+                pName: "B.5",
+                pGroup: 0,
+                pParent: 5,
+                pStart: "2024-03-20",
+                pEnd: "2024-04-10",
+                description: "Project Billboard/Signboard",
+                quantity: "3.00",
+                unit: "Each",
+                unitCost: "6,543.04",
+                contractAmount: "19,629.12",
+                relativeWeight: "0.020%",
+                pClass: "gtaskpurple",
+                totalDays: "255"
+            },
+            {
+                pID: 7,
+                pName: "B.7(1)",
+                pGroup: 0,
+                pParent: 5,
+                pStart: "2024-03-15",
+                pEnd: "2024-06-25",
+                description: "Occupational Safety and Health Program",
+                quantity: "8.50",
+                unit: "mo.",
+                unitCost: "33,906.09",
+                contractAmount: "288,201.77",
+                relativeWeight: "0.299%",
+                pClass: "gtaskpurple",
+                totalDays: "255"
+            },
+            {
+                pID: 8,
+                pName: "B.8(2)",
+                pGroup: 0,
+                pParent: 5,
+                pStart: "2024-04-10",
+                pEnd: "2024-05-15",
+                description: "Traffic Management",
+                quantity: "1.00",
+                unit: "l.s.",
+                unitCost: "84,392.00",
+                contractAmount: "84,392.00",
+                relativeWeight: "0.087%",
+                pClass: "gtaskpurple",
+                totalDays: "255"
+            },
+            {
+                pID: 9,
+                pName: "B.9",
+                pGroup: 0,
+                pParent: 5,
+                pStart: "2024-03-01",
+                pEnd: "2024-03-25",
+                description: "Mobilization/Demobilization",
+                quantity: "1.00",
+                unit: "l.s.",
+                unitCost: "61,600.00",
+                contractAmount: "61,600.00",
+                relativeWeight: "0.064%",
+                pClass: "gtaskpurple",
+                totalDays: "25"
+            },
+            {
+                pID: 10,
+                pName: "PART C.",
+                pGroup: 1,
+                pParent: 0,
+                pOpen: 1,
+                pStart: "",
+                pEnd: "",
+                pClass: "ggroupblack",
+                description: "EARTHWORKS"
+            },
+            {
+                pID: 11,
+                pName: "100(3)a2",
+                pGroup: 0,
+                pParent: 10,
+                pStart: "2024-04-05",
+                pEnd: "2024-04-28",
+                description: "Individual Removal of Trees (301–500mm dia.)",
+                quantity: "6.00",
+                unit: "Each",
+                unitCost: "2,486.40",
+                contractAmount: "14,918.40",
+                relativeWeight: "0.015%",
+                pClass: "gtaskpurple",
+                totalDays: "25"
+            },
+            {
+                pID: 12,
+                pName: "PART F.",
+                pGroup: 1,
+                pParent: 0,
+                pOpen: 1,
+                pStart: "",
+                pEnd: "",
+                pClass: "ggroupblack",
+                description: "BRIDGE CONSTRUCTION"
+            },
+            {
+                pID: 13,
+                pName: "404(1)a",
+                pGroup: 0,
+                pParent: 12,
+                pStart: "2024-07-20", // Random date
+                pEnd: "2024-08-15", // Random date (after pStart)
+                description: "Reinforcing Steel (Deformed), Grade 40",
+                quantity: "15,520.62",
+                unit: "kgs.",
+                unitCost: "92.33",
+                contractAmount: "1,433,018.84",
+                relativeWeight: "1.485%",
+                totalDays: "83",
+                pClass: "gtaskpurple",
+            },
+            {
+                pID: 14,
+                pName: "405(1)a3",
+                pGroup: 0,
+                pParent: 12,
+                pStart: "2024-08-01", // Random date
+                pEnd: "2024-09-01", // Random date (after pStart)
+                description: "Structural Concrete, 20.68Mpa, Class A, 28 days",
+                quantity: "423.64",
+                unit: "cu.m.",
+                unitCost: "6,177.88",
+                contractAmount: "2,617,197.08",
+                relativeWeight: "2.712%",
+                totalDays: "83",
+                pClass: "gtaskpurple",
+            },
+            {
+                pID: 15,
+                pName: "PART H.",
+                pGroup: 1,
+                pParent: 0,
+                pOpen: 1,
+                pStart: "",
+                pEnd: "",
+                pClass: "ggroupblack",
+                description: "MISCELLANEOUS STRUCTURES"
+            },
+            {
+                pID: 16,
+                pName: "611(1)",
+                pGroup: 0,
+                pParent: 15,
+                pStart: "2024-09-10", // Random date
+                pEnd: "2024-10-05", // Random date (after pStart)
+                description: "Trees Furnishing and Transplanting",
+                quantity: "19,300.00",
+                unit: "each",
+                unitCost: "14.15",
+                contractAmount: "273,095.00",
+                relativeWeight: "0.283%",
+                totalDays: "83",
+                pClass: "gtaskpurple",
+            },
+            {
+                pID: 17,
+                pName: "PART I.",
+                pGroup: 1,
+                pParent: 0,
+                pOpen: 1,
+                pStart: "",
+                pEnd: "",
+                pClass: "ggroupblack",
+                description: "WATER SUPPLY"
+            },
+            {
+                pID: 18,
+                pName: "1600(3)",
+                pGroup: 0,
+                pParent: 17,
+                pStart: "2024-10-01", // Random date
+                pEnd: "2024-10-28", // Random date (after pStart)
+                description: "Dewatering",
+                quantity: "1.00",
+                unit: "l.s.",
+                unitCost: "313,850.88",
+                contractAmount: "313,850.88",
+                relativeWeight: "0.325%",
+                totalDays: "83",
+                pClass: "gtaskpurple",
+            },
+            {
+                pID: 19,
+                pName: "PART J.",
+                pGroup: 1,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                description: "FLOOD CONTROL AND DRAINAGE"
+            },
+            {
+                pID: 20,
+                pName: "1700(1)",
+                pGroup: 0,
+                pParent: 19,
+                pStart: "2024-10-15", // Random date
+                pEnd: "2024-11-05", // Random date (after pStart)
+                description: "Clearing and Grubbing",
+                quantity: "10,400.00",
+                unit: "sq.m.",
+                unitCost: "29.43",
+                contractAmount: "306,072.00",
+                relativeWeight: "0.317%",
+                totalDays: "25",
+                pClass: "gtaskpurple",
+            },
+            {
+                pID: 21,
+                pName: "1701(2)",
+                pGroup: 0,
+                pParent: 19,
+                pStart: "2024-11-01", // Random date
+                pEnd: "2024-12-10", // Random date (after pStart)
+                description: "Surplus Common Excavation",
+                quantity: "54,919.91",
+                unit: "cu.m.",
+                unitCost: "334.63",
+                contractAmount: "18,377,849.48",
+                relativeWeight: "19.046%",
+                totalDays: "122",
+                pClass: "gtaskpurple",
+            },
+            {
+                pID: 22,
+                pName: "1704(1)a",
+                pGroup: 0,
+                pParent: 19,
+                pStart: "2024-11-05", // Random date
+                pEnd: "2024-12-15", // Random date (after pStart)
+                description: "Embankment (from Excavation)",
+                quantity: "559.53",
+                unit: "cu.m.",
+                unitCost: "1,432.01",
+                contractAmount: "801,252.56",
+                relativeWeight: "0.830%",
+                totalDays: "122",
+                pClass: "gtaskpurple",
+            },
+            {
+                pID: 23,
+                pName: "1716(1)",
+                pGroup: 0,
+                pParent: 19,
+                pStart: "2024-12-01", // Random date
+                pEnd: "2025-01-20", // Random date (after pStart)
+                description: "Structural Steel Sheet Pile, Furnished",
+                quantity: "8,400.00",
+                unit: "m.",
+                unitCost: "7,690.16",
+                contractAmount: "64,957,344.00",
+                relativeWeight: "66.945%",
+                totalDays: "61",
+                pClass: "gtaskpurple",
+            },
+            {
+                pID: 24,
+                pName: "1716(12)",
+                pGroup: 0,
+                pParent: 19,
+                pStart: "2024-12-05", // Random date
+                pEnd: "2025-01-25", // Random date (after pStart)
+                description: "Structural Steel Sheet Pile (Driven)",
+                quantity: "8,225.00",
+                unit: "m.",
+                unitCost: "863.24",
+                contractAmount: "7,100,149.00",
+                relativeWeight: "7.358%",
+                totalDays: "61",
+                pClass: "gtaskpurple",
+            },
+            {
+                pID: 25,
+                pName: "TOTAL PROJECT COST",
+                pGroup: 1,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                description: "",
+                contractAmount: "1,250,451.00",
+                relativeWeight: "100%"
+            },
+        ],
+        equipment: [
+            {
+                pID: 1,
+                pName: "Payloader",
+                pGroup: 0, // Assuming each listed item is an individual task/item
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack", // No specific class mentioned, can be added if needed for styling
+                unit: "1", // Assuming common unit for equipment
+                pStart: "2024-07-01",
+                pEnd: "2024-07-20"
+            },
+            {
+                pID: 2,
+                pName: "Dump Truck",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: "2024-07-05",
+                pEnd: "2024-07-25"
+            },
+            {
+                pID: 3,
+                pName: "Water Truck",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: "2024-07-10",
+                pEnd: "2024-07-30"
+            },
+            {
+                pID: 4,
+                pName: "Concrete Vibrator",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: "2024-07-15",
+                pEnd: "2024-08-05"
+            },
+            {
+                pID: 5,
+                pName: "Bar Cutter",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: "2024-07-20",
+                pEnd: "2024-08-10"
+            },
+            {
+                pID: 6,
+                pName: "Bar Bender",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: "2024-07-25",
+                pEnd: "2024-08-15"
+            },
+            {
+                pID: 7,
+                pName: "Backhoe",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: "2024-08-01",
+                pEnd: "2024-08-20"
+            },
+            {
+                pID: 8,
+                pName: "Concrete Mixer (One-Bagger)",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: "2024-08-05",
+                pEnd: "2024-08-25"
+            },
+            {
+                pID: 9,
+                pName: "Water Pump",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: "2024-08-10",
+                pEnd: "2024-08-30"
+            },
+            {
+                pID: 10,
+                pName: "Cutting Outfit",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: "2024-08-15",
+                pEnd: "2024-09-05"
+            },
+            {
+                pID: 11,
+                pName: "Vibro Hammer",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: "2024-08-20",
+                pEnd: "2024-09-10"
+            },
+            {
+                pID: 12,
+                pName: "Motorized Road Grader",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: "2024-08-25",
+                pEnd: "2024-09-15"
+            },
+            {
+                pID: 13,
+                pName: "Bulldozer",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: "2024-09-01",
+                pEnd: "2024-09-20"
+            },
+            {
+                pID: 14,
+                pName: "Vibratory Roller",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: "2024-09-05",
+                pEnd: "2024-09-25"
+            },
+            {
+                pID: 15,
+                pName: "Truck Mounted Crane",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: "2024-09-10",
+                pEnd: "2024-09-30"
+            }
+        ],
+        equipment_print: [
+            {
+                pID: 1,
+                pName: "Payloader",
+                pGroup: 0, // Assuming each listed item is an individual task/item
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack", // No specific class mentioned, can be added if needed for styling
+                unit: "1", // Assuming common unit for equipment
+                pStart: 1,
+                pEnd: 7
+            },
+            {
+                pID: 2,
+                pName: "Dump Truck",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: 3,
+                pEnd: 10
+            },
+            {
+                pID: 3,
+                pName: "Water Truck",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: 2,
+                pEnd: 9
+            },
+            {
+                pID: 4,
+                pName: "Concrete Vibrator",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: 5,
+                pEnd: 9
+            },
+            {
+                pID: 5,
+                pName: "Bar Cutter",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: 1,
+                pEnd: 5
+            },
+            {
+                pID: 6,
+                pName: "Bar Bender",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: 4,
+                pEnd: 9
+            },
+            {
+                pID: 7,
+                pName: "Backhoe",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: 3,
+                pEnd: 9
+            },
+            {
+                pID: 8,
+                pName: "Concrete Mixer (One-Bagger)",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: 5,
+                pEnd: 10
+            },
+            {
+                pID: 9,
+                pName: "Water Pump",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: 1,
+                pEnd: 5
+            },
+            {
+                pID: 10,
+                pName: "Cutting Outfit",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: 4,
+                pEnd: 9
+            },
+            {
+                pID: 11,
+                pName: "Vibro Hammer",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: 2,
+                pEnd: 7
+            },
+            {
+                pID: 12,
+                pName: "Motorized Road Grader",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "1",
+                pStart: 5,
+                pEnd: 9
+            },
+            {
+                pID: 13,
+                pName: "Bulldozer",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: 1,
+                pEnd: 5
+            },
+            {
+                pID: 14,
+                pName: "Vibratory Roller",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: 4,
+                pEnd: 9
+            },
+            {
+                pID: 15,
+                pName: "Truck Mounted Crane",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "ggroupblack",
+                unit: "2",
+                pStart: 2,
+                pEnd: 9
+            }
+        ],
+        manpower: [
+            {
+                pID: 1,
+                pName: "Project Engineer",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "gtaskblue",
+                pStart: "2025-07-01",
+                pEnd: "2026-01-15"
+            },
+            {
+                pID: 2,
+                pName: "Materials Engineer",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "gtaskblue",
+                pStart: "2025-07-10",
+                pEnd: "2026-01-05"
+            },
+            {
+                pID: 3,
+                pName: "Construction Foreman",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "gtaskblue",
+                pStart: "2025-07-05",
+                pEnd: "2025-12-20"
+            },
+            {
+                pID: 4,
+                pName: "Safety Engineer",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "gtaskblue",
+                pStart: "2025-07-15",
+                pEnd: "2025-12-25"
+            },
+            {
+                pID: 5,
+                pName: "Skilled Worker",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "gtaskblue",
+                pStart: "2025-07-20",
+                pEnd: "2026-01-10"
+            },
+            {
+                pID: 6,
+                pName: "Laborer",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "gtaskblue",
+                pStart: "2025-07-25",
+                pEnd: "2026-01-20"
+            },
+            {
+                pID: 7,
+                pName: "Operator/Driver",
+                pGroup: 0,
+                pParent: 0,
+                pOpen: 1,
+                pClass: "gtaskblue",
+                pStart: "2025-07-01",
+                pEnd: "2026-01-15"
+            }
+        ]
+    }
+}

@@ -181,7 +181,7 @@ const removePhase = async (phase) => {
                                         In Words
                                     </h4>
                                     <span class="pl-4">
-                                        {{ amountToWords(task.unit_price?? 0) }}
+                                        {{ amountToWords(task.unit_price ?? 0) }}
                                     </span>
                                 </div>
                                 <div class="flex flex-col p-2">
@@ -201,7 +201,7 @@ const removePhase = async (phase) => {
                                                 In Words
                                             </h4>
                                             <span class="pl-4 flex-1">
-                                                {{ amountToWords(task.amount?? 0) }}
+                                                {{ amountToWords(task.amount ?? 0) }}
                                             </span>
                                         </div>
                                         <div class="flex flex-col p-2">

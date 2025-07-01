@@ -9,7 +9,6 @@ defineProps({
     },
 })
 
-const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const resourceStore = useGenerateAllowanceStore()
@@ -145,7 +144,7 @@ const employeeAllowanceHeaders = [
             </LayoutPrint>
         </template>
         <template #footer>
-            <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="data.next_approval && useCheckIsCurrentUser(data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
                 <HrmsCommonApprovalDenyButton
                     v-model:deny-remarks="remarks"
                     :request-id="data.id"
