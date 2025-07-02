@@ -211,8 +211,9 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
         },
         async getSupplierSearch () {
             this.searchSupplier.isLoading = true
-            try {
-                await useInventoryApi("/api/request-supplier/search?search_key=", {
+            await useInventoryApi(
+                "/api/request-supplier/search?search_key=",
+                {
                     method: "GET",
                     params: this.searchSupplier.params,
                     onResponseError: ({ response }: any) => {
@@ -224,13 +225,8 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
                             this.searchSupplier.isLoaded = true
                         }
                     },
-                })
-            } catch (error) {
-                this.searchSupplier.errorMessage = error instanceof Error ? error.message : "Unknown error"
-                this.searchSupplier.list = []
-            } finally {
-                this.searchSupplier.isLoading = false
-            }
+                }
+            )
         },
 
     },
