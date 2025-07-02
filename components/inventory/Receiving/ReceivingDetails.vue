@@ -51,6 +51,11 @@ onUnmounted(() => {
     if (autoSaveTimeout.value) { clearTimeout(autoSaveTimeout.value) }
 })
 
+watchEffect(() => {
+    if (model.value && !model.value.metadata) {
+        model.value.metadata = {}
+    }
+})
 </script>
 
 <template>
@@ -94,12 +99,9 @@ onUnmounted(() => {
                         <div class="p-4">
                             <div class="grid grid-cols-2 items-center w-full gap-y-2">
                                 <label class="text-sm font-medium text-gray-700">Supplier:</label>
-                                <InventoryCommonSupplierSelector
+                                <InventoryCommonSearchSupplierSelector
                                     v-model="model.metadata.supplier_id"
-                                    class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md"
-                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
                                     :disabled="hasAcceptedItems"
-                                    @update:model-value="!hasAcceptedItems && updateMetadata('supplier_id', $event)"
                                 />
 
                                 <label class="text-sm font-medium text-gray-700">Reference:</label>
