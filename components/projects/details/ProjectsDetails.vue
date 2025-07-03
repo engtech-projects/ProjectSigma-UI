@@ -1,5 +1,7 @@
 <script setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
 const router = useRouter()
+const projectStore = useProjectStore()
 const goBackOrHome = () => {
     if (router.options.history.state.back) {
         router.back()
@@ -91,5 +93,8 @@ defineProps({
         </AccountingCommonTabsMainContainer>
         <!-- <ProjectsDetailsTask />
         <ProjectsModalsCategory :show-modal="showCategoryModal" @hide-modal="showCategoryModal = false" /> -->
+        <div v-if="projectStore.information.stage.toLowerCase() !== projectStore.statusList[projectStore.statusList.length - 1].toLowerCase()" class="flex justify-end gap-4 items-center">
+            <ProjectsStageButton :status="projectStore.information.stage" />
+        </div>
     </div>
 </template>
