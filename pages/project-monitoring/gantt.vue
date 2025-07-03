@@ -14,10 +14,7 @@
 </template>
 
 <script setup lang="ts">
-const print = ref(false)
 </script>
 
 <style>
-#app {
-}
 </style>

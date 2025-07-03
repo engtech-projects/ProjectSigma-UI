@@ -1,5 +1,5 @@
 <template>
-    <button @click="updateStage" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-lg text-sm w-36 h-10" @click="changeStatus">
+    <button class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-lg text-sm w-36 h-10" @click="updateStage">
         {{ nextStage }}
     </button>
 </template>
