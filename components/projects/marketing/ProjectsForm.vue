@@ -19,7 +19,6 @@ onMounted(() => {
 const handleSubmit = async () => {
     try {
         projectStore.isLoading.create = true
-        projectStore.information.employee_id = 1
         await projectStore.createProject()
         if (projectStore.errorMessage !== "") {
             snackbar.add({
@@ -88,9 +87,10 @@ const handleSubmit = async () => {
                         placeholder="License"
                     />
                     <LayoutFormPsTextInput
-                        v-model="projectStore.information.designation"
-                        :title="'Designation'"
-                        placeholder="Designation"
+                        v-model="projectStore.information.designator"
+                        :title="'Designator'"
+                        placeholder="Designator"
+                        :required="true"
                     />
                     <LayoutFormPsSelectWithValue
                         v-model="projectStore.information.position_id"
