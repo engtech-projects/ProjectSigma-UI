@@ -60,7 +60,7 @@ export const useProjectStore = defineStore("projects", {
             phases: [],
             approvals: []
         } as Project,
-        statusList: ["Draft", "Proposal", "Bidding", "Awarded", "Archived"],
+        stages: ["Draft", "Proposal", "Bidding", "Awarded", "Archived"],
         list: [] as Project[],
         myProjectList: {
             isLoading: false,
