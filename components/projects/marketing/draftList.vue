@@ -12,7 +12,7 @@ const headers = [
     { name: "PROJECT NAME", id: "name", style: "text-left" },
     { name: "LOCATION", id: "location", style: "text-left" },
     { name: "AMOUNT", id: "amount", style: "text-left" },
-    { name: "CREATED AT", id: "created_at", style: "text-left" },
+    { name: "DATE CREATED", id: "created_at", style: "text-left" },
     { name: "STATUS", id: "stage", style: "text-left" },
 ]
 const actions = {
