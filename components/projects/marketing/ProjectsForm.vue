@@ -19,7 +19,6 @@ onMounted(() => {
 const handleSubmit = async () => {
     try {
         projectStore.isLoading.create = true
-        projectStore.information.employee_id = 1
         await projectStore.createProject()
         if (projectStore.errorMessage !== "") {
             snackbar.add({
