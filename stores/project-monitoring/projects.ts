@@ -26,6 +26,7 @@ interface Project {
     ntp_date: null | String,
     license: null | String,
     uuid: null | String,
+    position_id: null | Number,
     designator: null | Number,
     employee_id: null | Number,
     employees: Array<Employee>
@@ -41,6 +42,7 @@ export const useProjectStore = defineStore("projects", {
         {
             id: null,
             uuid: null,
+            position_id: null,
             parent_project_id: null,
             contract_id: null,
             code: null,
