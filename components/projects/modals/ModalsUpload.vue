@@ -1,3 +1,33 @@
+<script setup lang="ts">
+import ProjectsCreateUploadJvAgreement from "../create/upload/JvAgreement.vue"
+import ProjectsCreateUploadJvLicense from "../create/upload/JvLicense.vue"
+import ProjectsCreateUploadBioDocsAgency from "../create/upload/BioDocsAgency.vue"
+import ProjectsCreateUploadBidDocsSubmitted from "../create/upload/BidDocsSubmitted.vue"
+import ProjectsCreateUploadNoaContract from "../create/upload/NoaContract.vue"
+
+defineProps({
+    showModal: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
+})
+const emit = defineEmits(["hideModal"])
+const currentTab = ref(null)
+const tabs = ref([
+    { name: "JV Agreement", component: markRaw(ProjectsCreateUploadJvAgreement) },
+    { name: "JV License", component: markRaw(ProjectsCreateUploadJvLicense) },
+    { name: "Bid Docs (Agency)", component: markRaw(ProjectsCreateUploadBioDocsAgency) },
+    { name: "Bid Docs (Submitted)", component: markRaw(ProjectsCreateUploadBidDocsSubmitted) },
+    { name: "NOA Contract NTPCSHP", component: markRaw(ProjectsCreateUploadNoaContract) }
+])
+const currentTabComponent = computed(() => {
+    return tabs.value.find(tab => tab.name === currentTab.value?.name)?.component
+})
+onMounted(() => {
+    currentTab.value = tabs.value[0] ?? null
+})
+</script>
 <template>
     <ModalContainer
         :show="showModal"
@@ -29,53 +59,3 @@
         </div>
     </ModalContainer>
 </template>
-
-<script lang="ts" setup>
-import ProjectsCreateUploadJvAgreement from "../create/upload/JvAgreement.vue"
-import ProjectsCreateUploadJvLicense from "../create/upload/JvLicense.vue"
-import ProjectsCreateUploadBioDocsAgency from "../create/upload/BioDocsAgency.vue"
-import ProjectsCreateUploadBidDocsSubmitted from "../create/upload/BidDocsSubmitted.vue"
-import ProjectsCreateUploadNoaContract from "../create/upload/NoaContract.vue"
-
-defineProps({
-    showModal: {
-        type: Boolean,
-        required: true,
-        default: false
-    }
-})
-const emit = defineEmits(["hideModal"])
-const currentTab = ref(null)
-const tabs = ref([
-    {
-        name: "JV Agreement",
-        component: markRaw(ProjectsCreateUploadJvAgreement),
-    },
-    {
-        name: "JV License",
-        component: markRaw(ProjectsCreateUploadJvLicense),
-    },
-    {
-        name: "Bid Docs (Agency)",
-        component: markRaw(ProjectsCreateUploadBioDocsAgency),
-    },
-    {
-        name: "Bid Docs (Submitted)",
-        component: markRaw(ProjectsCreateUploadBidDocsSubmitted),
-    },
-    {
-        name: "NOA Contract NTPCSHP",
-        component: markRaw(ProjectsCreateUploadNoaContract)
-    }
-])
-const currentTabComponent = computed(() => {
-    return tabs.value.find(tab => tab.name === currentTab.value?.name)?.component
-})
-onMounted(() => {
-    currentTab.value = tabs.value[0] ?? null
-})
-</script>
-
-<style>
-
-</style>

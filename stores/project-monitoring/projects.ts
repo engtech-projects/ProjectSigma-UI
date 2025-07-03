@@ -26,7 +26,8 @@ interface Project {
     ntp_date: null | String,
     license: null | String,
     uuid: null | String,
-    designation: null | Number,
+    position_id: null | Number,
+    designator: null | Number,
     employee_id: null | Number,
     employees: Array<Employee>
     phases: Array<any>
@@ -41,6 +42,7 @@ export const useProjectStore = defineStore("projects", {
         {
             id: null,
             uuid: null,
+            position_id: null,
             parent_project_id: null,
             contract_id: null,
             code: null,
@@ -54,8 +56,7 @@ export const useProjectStore = defineStore("projects", {
             noa_date: null,
             ntp_date: null,
             license: null,
-            designation: null,
-            position_id: null,
+            designator: null,
             phases: [],
             approvals: []
         } as Project,
@@ -186,9 +187,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.draftList.list = response._data.data
                             this.draftList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -215,9 +216,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.proposalList.list = response._data.data
                             this.proposalList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -244,9 +245,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.biddingList.list = response._data.data
                             this.biddingList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -273,9 +274,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.onHoldList.list = response._data.data
                             this.onHoldList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -302,9 +303,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.awardedList.list = response._data.data
                             this.awardedList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -331,9 +332,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.archivedList.list = response._data.data
                             this.archivedList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
@@ -361,9 +362,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.myProjectList.list = response._data.data
                             this.myProjectList.pagination = {
-                                first_page: response._data.first_page_url,
-                                pages: response._data.links,
-                                last_page: response._data.last_page_url,
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
                             }
                         }
                     },
