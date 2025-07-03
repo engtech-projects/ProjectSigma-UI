@@ -27,7 +27,6 @@ interface Project {
     license: null | String,
     uuid: null | String,
     designator: null | Number,
-    position_id: null | Number,
     employee_id: null | Number,
     employees: Array<Employee>
     phases: Array<any>
@@ -56,10 +55,9 @@ export const useProjectStore = defineStore("projects", {
             ntp_date: null,
             license: null,
             designator: null,
-            position_id: null,
             phases: [],
             approvals: []
-        } as unknown as Project,
+        } as Project,
         list: [] as Project[],
         myProjectList: {
             isLoading: false,
