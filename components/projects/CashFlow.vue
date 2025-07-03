@@ -1,7 +1,7 @@
 <template>
-    <LayoutPrintAdvance>
+    <LayoutPrintAdvanced>
         <template #system-layout>
-            <div v-if="!print" class="p-4 mx-auto">
+            <div class="p-4 mx-auto">
                 <h1 class="text-2xl font-bold mb-4 text-center">
                     CASHFLOW BY QUARTER AND PAYMENT SCHEDULE
                 </h1>
@@ -185,8 +185,8 @@
                 </div>
             </div>
         </template>
-        <template #report-layout>
+        <template #print-layout>
             <ProjectsPrintCashFlow />
         </template>
-    </layoutPrintAdvance>
+    </layoutPrintAdvanced>
 </template>

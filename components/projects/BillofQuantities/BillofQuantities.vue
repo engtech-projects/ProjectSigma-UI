@@ -92,9 +92,9 @@ const removePhase = async (phase) => {
 </script>
 <template>
     <div>
-        <layoutPrintAdvance>
+        <LayoutPrintAdvanced>
             <template #system-layout>
-                <div v-if="!print">
+                <div>
                     <AccountingLoadScreen :is-loading="boardLoading" />
                     <div class="flex flex-col gap-6 border-t-2 border-gray-800 pt-6 mb-4">
                         <div class="flex justify-between">
@@ -240,6 +240,6 @@ const removePhase = async (phase) => {
             <template #print-layout>
                 <ProjectsPrintBillOfQuantities />
             </template>
-        </layoutPrintAdvance>
+        </LayoutPrintAdvanced>
     </div>
 </template>
