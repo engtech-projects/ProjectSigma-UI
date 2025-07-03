@@ -88,6 +88,16 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
             successMessage: "",
             errorMessage: "",
         },
+        searchSupplier: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as any[],
+            params: {
+                search_key: ""
+            },
+            successMessage: "",
+            errorMessage: "",
+        },
     }),
     getters: {
         filteredItemList (state) : any[] {
@@ -194,6 +204,25 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.supplierEnum.list = response._data.data ?? []
+                        }
+                    },
+                }
+            )
+        },
+        async getSupplierSearch () {
+            this.searchSupplier.isLoading = true
+            await useInventoryApi(
+                "/api/request-supplier/search?search_key=",
+                {
+                    method: "GET",
+                    params: this.searchSupplier.params,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.searchSupplier.list = response._data.data ?? []
+                            this.searchSupplier.isLoaded = true
                         }
                     },
                 }
