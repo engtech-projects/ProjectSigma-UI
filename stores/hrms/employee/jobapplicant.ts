@@ -356,11 +356,11 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                     onResponse: ({ response }) => {
                         this.allJobApplicants.isLoading = false
                         if (response.ok) {
-                            this.allJobApplicants.list = response._data.data.data
+                            this.allJobApplicants.list = response._data.data
                             this.allJobApplicants.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message

@@ -47,14 +47,14 @@ export const useMain = defineStore("Settings", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data
-                        this.updateSettings = response._data.data.data
+                        this.list = response._data.data
+                        this.updateSettings = response._data.data
                         // this.settingsOne.setting_name = response._data.data.data[0].setting_name
                         // this.settingsOne.setting_name = "test"
                         this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     },
                 }

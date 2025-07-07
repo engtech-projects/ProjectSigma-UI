@@ -98,11 +98,11 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
                     this.allList.isLoading = false
                     if (response.ok) {
                         this.allList.isLoaded = true
-                        this.allList.list = response._data.data.data
+                        this.allList.list = response._data.data
                         this.allList.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     }
                 },
@@ -122,11 +122,11 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
                     this.ongoingList.isLoading = false
                     if (response.ok) {
                         this.ongoingList.isLoaded = true
-                        this.ongoingList.list = response._data.data.data
+                        this.ongoingList.list = response._data.data
                         this.ongoingList.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     }
                 },
@@ -146,11 +146,11 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
                     this.paidList.isLoading = false
                     if (response.ok) {
                         this.paidList.isLoaded = true
-                        this.paidList.list = response._data.data.data
+                        this.paidList.list = response._data.data
                         this.paidList.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     }
                 },
@@ -170,11 +170,11 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
                     this.paymentsList.isLoading = false
                     if (response.ok) {
                         this.paymentsList.isLoaded = true
-                        this.paymentsList.list = response._data.data.data
+                        this.paymentsList.list = response._data.data
                         this.paymentsList.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     }
                 },

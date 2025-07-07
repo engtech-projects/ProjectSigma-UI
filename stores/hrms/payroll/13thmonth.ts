@@ -95,11 +95,11 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.list = response._data.data.data
+                            this.allRequests.list = response._data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     },
@@ -119,11 +119,11 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
                     onResponse: ({ response }) => {
                         this.myRequests.isLoading = false
                         if (response.ok) {
-                            this.myRequests.list = response._data.data.data
+                            this.myRequests.list = response._data.data
                             this.myRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.myRequests.errorMessage = response._data.message
@@ -146,12 +146,12 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
                     onResponse: ({ response }) => {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
-                            this.myApprovals.list = response._data.data.data
+                            this.myApprovals.list = response._data.data
                             this.myApprovals.successMessage = response._data.message
                             this.myApprovals.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.myApprovals.errorMessage = response._data.message

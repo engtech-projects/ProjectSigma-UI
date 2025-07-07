@@ -336,11 +336,11 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.approvedPositions.isLoading = false
                         if (response.ok) {
-                            this.approvedPositions.list = response._data.data.data
+                            this.approvedPositions.list = response._data.data
                             this.approvedPositions.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -363,11 +363,11 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.openPositions.isLoading = false
                         if (response.ok) {
-                            this.openPositions.list = response._data.data.data
+                            this.openPositions.list = response._data.data
                             this.openPositions.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -390,11 +390,11 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.list = response._data.data.data
+                            this.allRequests.list = response._data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -417,11 +417,11 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.myRequests.isLoading = false
                         if (response.ok) {
-                            this.myRequests.list = response._data.data.data
+                            this.myRequests.list = response._data.data
                             this.myRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -444,11 +444,11 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
-                            this.myApprovals.list = response._data.data.data
+                            this.myApprovals.list = response._data.data
                             this.myApprovals.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -471,11 +471,11 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.forHiringRequests.isLoading = false
                         if (response.ok) {
-                            this.forHiringRequests.list = response._data.data.data
+                            this.forHiringRequests.list = response._data.data
                             this.forHiringRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message

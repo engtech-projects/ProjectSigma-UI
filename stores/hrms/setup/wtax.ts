@@ -45,7 +45,7 @@ export const useWtaxStore = defineStore("withholdings", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data
+                        this.list = response._data.data
                         // this.list = response._data.data.data.map((val) => {
                         //     return {
                         //         id: val.id,
@@ -58,9 +58,9 @@ export const useWtaxStore = defineStore("withholdings", {
                         //         tax_percent_over_base_view: JSON.parse(val.tax_percent_over_base_view).toString(),
                         //     }
                         this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     },
                 }
