@@ -46,17 +46,6 @@ export const useWtaxStore = defineStore("withholdings", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data
-                        // this.list = response._data.data.data.map((val) => {
-                        //     return {
-                        //         id: val.id,
-                        //         range_from: val.range_from,
-                        //         range_to: val.range_to,
-                        //         tax_base: val.tax_base,
-                        //         tax_amount: val.tax_amount,
-                        //         tax_percent_over_base: val.tax_percent_over_base,
-                        //         tax_percent_over_base: JSON.parse(val.tax_percent_over_base),
-                        //         tax_percent_over_base_view: JSON.parse(val.tax_percent_over_base_view).toString(),
-                        //     }
                         this.pagination = {
                             first_page: response._data.links.first,
                             pages: response._data.meta.links,

@@ -5,10 +5,6 @@ interface Settings {
     id: BigInteger,
     setting_name: String,
     value: BigInteger,
-    // title: String,
-    // content: String,
-    // start_date: String,
-    // end_date: String
 }
 export const useMain = defineStore("Settings", {
     state: () => ({
@@ -49,8 +45,6 @@ export const useMain = defineStore("Settings", {
                     onResponse: ({ response }) => {
                         this.list = response._data.data
                         this.updateSettings = response._data.data
-                        // this.settingsOne.setting_name = response._data.data.data[0].setting_name
-                        // this.settingsOne.setting_name = "test"
                         this.pagination = {
                             first_page: response._data.links.first,
                             pages: response._data.meta.links,
@@ -65,33 +59,6 @@ export const useMain = defineStore("Settings", {
                 return error
             }
         },
-        // async createone () {
-        //     this.successMessage = ""
-        //     this.errorMessage = ""
-        //     await useFetch(
-        //         "/api/settings",
-        //         {
-        //             baseURL: config.public.HRMS_API_URL,
-        //             method: "POST",
-        //             headers: {
-        //                 Authorization: token.value + "",
-        //                 Accept: "application/json"
-        //             },
-        //             body: this.settings,
-        //             watch: false,
-        //             onResponse: ({ response }) => {
-        //                 if (!response.ok) {
-        //                     this.errorMessage = response._data.message
-        //                 } else {
-        //                     this.getAll()
-        //                     this.reset()
-        //                     this.successMessage = response._data.message
-        //                 }
-        //             },
-        //         }
-        //     )
-        // },
-
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
