@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col gap-4">
         <ProjectsDetails :project-details="projectStore.information" />
-        <div v-if="projectStore.information.stage.toLowerCase() !== projectStore.stages[projectStore.stages.length - 1].toLowerCase()" class="flex justify-end gap-4 items-center pb-6">
+        <div v-if="projectStore.information.stage.toLowerCase() !== useProjectEnums.stages[useProjectEnums.stages.length - 1].toLowerCase()" class="flex justify-end gap-4 items-center pb-6">
             <ProjectsStageButton :stage="projectStore.information.stage" />
         </div>
     </div>
