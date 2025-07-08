@@ -35,7 +35,7 @@ const deleteLeaves = async (res) => {
 }
 
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    allList.params.value.page = newParams.page ?? ""
 }
 
 const headers = [
