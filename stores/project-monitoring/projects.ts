@@ -549,7 +549,7 @@ export const useProjectStore = defineStore("projects", {
             this.errorMessage = ""
 
             await useProjectsApi(
-                `/api/projects/${projectId}/stage`,
+                `api/projects/${projectId}/update-stage`,
                 {
                     method: "PATCH",
                     body: { stage },
