@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+
 interface Employee {
     employee_id: number,
     name: String,
@@ -81,6 +82,14 @@ export const useProjectStore = defineStore("projects", {
             pagination: {},
             errorMessage: "",
             successMessage: "",
+        },
+        attachments: {
+            form: {
+                attachment_name: "",
+                other_type: "",
+                file: null,
+            },
+            list: [],
         },
         proposalList: {
             isLoading: false,
@@ -392,6 +401,27 @@ export const useProjectStore = defineStore("projects", {
             } else if (error) {
                 return error
             }
+        },
+
+        async uploadAttachments (projectId: number, params: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useProjectsApi(
+                "/api/v1/Project/" + projectId + "/Marketing/Attachments",
+                {
+                    method: "POST",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
         },
 
         async createProject () {
