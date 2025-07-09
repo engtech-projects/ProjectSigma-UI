@@ -145,11 +145,11 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     onResponse: ({ response }) => {
                         this.cashAdvanceList.isLoading = false
                         if (response.ok) {
-                            this.cashAdvanceList.list = response._data.data.data
+                            this.cashAdvanceList.list = response._data.data
                             this.cashAdvanceList.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     },
@@ -169,11 +169,11 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     onResponse: ({ response }) => {
                         this.myRequestList.isLoading = false
                         if (response.ok) {
-                            this.myRequestList.list = response._data.data.data
+                            this.myRequestList.list = response._data.data
                             this.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     },
@@ -192,12 +192,12 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     onResponse: ({ response }) => {
                         this.ongoingCashAdvanceList.isLoading = false
                         if (response.ok) {
-                            this.ongoingCashAdvanceList.list = response._data.data.data
+                            this.ongoingCashAdvanceList.list = response._data.data
                             this.ongoingCashAdvanceList.isLoaded = true
                             this.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     },
@@ -216,12 +216,12 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     onResponse: ({ response }) => {
                         this.paidCashAdvanceList.isLoading = false
                         if (response.ok) {
-                            this.paidCashAdvanceList.list = response._data.data.data
+                            this.paidCashAdvanceList.list = response._data.data
                             this.paidCashAdvanceList.isLoaded = true
                             this.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     },
@@ -241,11 +241,11 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     onResponse: ({ response }) => {
                         this.myApprovalRequestList.isLoading = false
                         if (response.ok) {
-                            this.myApprovalRequestList.list = response._data.data.data
+                            this.myApprovalRequestList.list = response._data.data
                             this.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     },
@@ -264,12 +264,12 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     onResponse: ({ response }) => {
                         this.paymentCashAdvanceList.isLoading = false
                         if (response.ok) {
-                            this.paymentCashAdvanceList.list = response._data.data.data
+                            this.paymentCashAdvanceList.list = response._data.data
                             this.paymentCashAdvanceList.isLoaded = true
                             this.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     },
