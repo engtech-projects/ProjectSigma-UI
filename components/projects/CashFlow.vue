@@ -34,65 +34,81 @@
                             <td class="border border-gray-300 p-2">
                                 ACCOMPLISHMENT
                             </td>
-                            <td class="border border-gray-300 p-2" />
                             <td class="border border-gray-300 p-2 text-right">
-                                22%
+                                {{ projectStore.information.cash_flow.wtax.accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                32%
+                                {{ projectStore.information.cash_flow.q1.accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                46%
+                                {{ projectStore.information.cash_flow.q2.accomplishment }}%
                             </td>
-                            <td class="border border-gray-300 p-2" />
+                            <td class="border border-gray-300 p-2 text-right">
+                                {{ projectStore.information.cash_flow.q3.accomplishment }}%
+                            </td>
+                            <td class="border border-gray-300 p-2 text-right">
+                                {{ projectStore.information.cash_flow.q4.accomplishment }}%
+                            </td>
                         </tr>
                         <tr>
                             <td class="border border-gray-300 p-2">
                                 CASH FLOW
                             </td>
-                            <td class="border border-gray-300 p-2" />
                             <td class="border border-gray-300 p-2 text-right">
-                                21,043,353.32
+                                {{ projectStore.information.cash_flow.wtax.cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                30,608,513.91
+                                {{ projectStore.information.cash_flow.q1.cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                43,999,738.75
+                                {{ projectStore.information.cash_flow.q2.cashflow }}%
                             </td>
-                            <td class="border border-gray-300 p-2" />
+                            <td class="border border-gray-300 p-2 text-right">
+                                {{ projectStore.information.cash_flow.q3.cashflow }}%
+                            </td>
+                            <td class="border border-gray-300 p-2 text-right">
+                                {{ projectStore.information.cash_flow.q4.cashflow }}%
+                            </td>
                         </tr>
                         <tr>
                             <td class="border border-gray-300 p-2">
                                 CUMULATIVE ACCOMPLISHMENT
                             </td>
-                            <td class="border border-gray-300 p-2" />
                             <td class="border border-gray-300 p-2 text-right">
-                                22%
+                                {{ projectStore.information.cash_flow.wtax.culmutative_accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                54%
+                                {{ projectStore.information.cash_flow.q1.culmutative_accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                100%
+                                {{ projectStore.information.cash_flow.q2.culmutative_accomplishment }}%
                             </td>
-                            <td class="border border-gray-300 p-2" />
+                            <td class="border border-gray-300 p-2 text-right">
+                                {{ projectStore.information.cash_flow.q3.culmutative_accomplishment }}%
+                            </td>
+                            <td class="border border-gray-300 p-2 text-right">
+                                {{ projectStore.information.cash_flow.q4.culmutative_accomplishment }}%
+                            </td>
                         </tr>
                         <tr>
                             <td class="border border-gray-300 p-2">
                                 CUMULATIVE CASH FLOW
                             </td>
-                            <td class="border border-gray-300 p-2" />
                             <td class="border border-gray-300 p-2 text-right">
-                                21,043,353.32
+                                {{ projectStore.information.cash_flow.wtax.culmutative_cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                51,651,867.23
+                                {{ projectStore.information.cash_flow.q1.culmutative_cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                95,651,605.98
+                                {{ projectStore.information.cash_flow.q2.culmutative_cashflow }}%
                             </td>
-                            <td class="border border-gray-300 p-2" />
+                            <td class="border border-gray-300 p-2 text-right">
+                                {{ projectStore.information.cash_flow.q3.culmutative_cashflow }}%
+                            </td>
+                            <td class="border border-gray-300 p-2 text-right">
+                                {{ projectStore.information.cash_flow.q4.culmutative_cashflow }}%
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -222,4 +238,7 @@ const updateCashFlow = async () => {
         })
     }
 }
+onMounted(() => {
+    console.log(projectStore.information)
+})
 </script>
