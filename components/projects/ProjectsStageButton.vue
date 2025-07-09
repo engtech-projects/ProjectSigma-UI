@@ -1,5 +1,5 @@
 <template>
-    <LayoutFormPsButton :button-title="nextStage" @click="updateStage" />
+    <LayoutFormPsButton :button-title="upperFirst(nextStage)" @click="updateStage" />
 </template>
 
 <script lang="ts" setup>
