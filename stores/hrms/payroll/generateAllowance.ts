@@ -39,6 +39,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
             isLoaded: false,
             list: [],
             params: {},
+            pagination: {},
             errorMessage: "",
             successMessage: "",
         },
@@ -113,11 +114,11 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                         this.allRequests.isLoading = false
                         if (response.ok) {
                             this.allRequests.isLoaded = true
-                            this.allRequests.list = response._data.data.data
+                            this.allRequests.list = response._data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     },
@@ -137,11 +138,11 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                         this.myRequests.isLoading = false
                         if (response.ok) {
                             this.myRequests.isLoaded = true
-                            this.myRequests.list = response._data.data.data
+                            this.myRequests.list = response._data.data
                             this.myRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.myRequests.errorMessage = response._data.message
@@ -167,7 +168,11 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                             this.myApprovals.list = response._data.data
                             this.myApprovals.successMessage = response._data.message
                         } else {
-                            this.myApprovals.errorMessage = response._data.message
+                            this.myApprovals.pagination = {
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
+                            }
                             throw new Error(response._data.message)
                         }
                     },

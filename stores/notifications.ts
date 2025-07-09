@@ -26,11 +26,11 @@ export const useNotificationsStore = defineStore("notificationsStore", {
                 onResponse: ({ response } : any) => {
                     this.allListLoading = false
                     if (response.ok) {
-                        this.allList = response._data.data.data ?? []
+                        this.allList = response._data.data ?? []
                         this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     }
                 },

@@ -195,11 +195,11 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.list = response._data.data.data ?? []
+                            this.allRequests.list = response._data.data ?? []
                             this.allRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -227,11 +227,11 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     params: this.myApprovals.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.myApprovals.list = response._data.data.data ?? []
+                            this.myApprovals.list = response._data.data ?? []
                             this.myApprovals.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -255,11 +255,11 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     params: this.myRequests.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.myRequests.list = response._data.data.data ?? []
+                            this.myRequests.list = response._data.data ?? []
                             this.myRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message

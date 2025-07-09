@@ -96,7 +96,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                     onResponse: ({ response }) => {
                         this.hrmsApprovals.isLoading = false
                         if (response.ok) {
-                            this.hrmsApprovals.list = response._data.data.data.map((val: any) => {
+                            this.hrmsApprovals.list = response._data.data.map((val: any) => {
                                 return {
                                     id: val.id,
                                     form: val.form,
@@ -104,9 +104,9 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                                 }
                             })
                             this.hrmsApprovals.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                             this.hrmsApprovals.successMessage = response._data.message
                         }
@@ -131,7 +131,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                     onResponse: ({ response }) => {
                         this.accountingApprovals.isLoading = false
                         if (response.ok) {
-                            this.accountingApprovals.list = response._data.data.data.map((val: any) => {
+                            this.accountingApprovals.list = response._data.data.map((val: any) => {
                                 return {
                                     id: val.id,
                                     form: val.form,
@@ -139,9 +139,9 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                                 }
                             })
                             this.accountingApprovals.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                             this.accountingApprovals.successMessage = response._data.message
                         }
@@ -166,7 +166,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                     onResponse: ({ response }) => {
                         this.inventoryApprovals.isLoading = false
                         if (response.ok) {
-                            this.inventoryApprovals.list = response._data.data.data.map((val: any) => {
+                            this.inventoryApprovals.list = response._data.data.map((val: any) => {
                                 return {
                                     id: val.id,
                                     form: val.form,
@@ -174,9 +174,9 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                                 }
                             })
                             this.inventoryApprovals.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                             this.inventoryApprovals.successMessage = response._data.message
                         }
@@ -201,7 +201,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                     onResponse: ({ response }) => {
                         this.projectsApprovals.isLoading = false
                         if (response.ok) {
-                            this.projectsApprovals.list = response._data.data.data.map((val: any) => {
+                            this.projectsApprovals.list = response._data.data.map((val: any) => {
                                 return {
                                     id: val.id,
                                     form: val.form,
@@ -209,9 +209,9 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                                 }
                             })
                             this.projectsApprovals.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                             this.projectsApprovals.successMessage = response._data.message
                         }

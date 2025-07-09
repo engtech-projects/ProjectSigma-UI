@@ -70,9 +70,9 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
                         this.isLoading = false
                         this.list = response._data.data
                         this.pagination = {
-                            first_page: response._data.first_page_url,
-                            pages: response._data.links,
-                            last_page: response._data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     },
                 }
