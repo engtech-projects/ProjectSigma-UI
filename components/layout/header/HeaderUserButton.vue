@@ -1,6 +1,9 @@
 <script setup>
 const { data: userData } = useAuth()
 const profilePhoto = computed(() => {
+    if (!userData.value) {
+        return "/avatarexample.png"
+    }
     if (userData.value.employee?.profile_photo && userData.value.employee?.profile_photo.base64 !== "File doesn't exists.") {
         return userData.value.employee.profile_photo.base64
     }
