@@ -97,92 +97,102 @@
                     </tbody>
                 </table>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="border border-gray-300 p-4">
-                        <h3 class="font-bold mb-2 text-4xl">
-                            Q1
-                        </h3>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                <form @submit.prevent="updateCashFlow">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="border border-gray-300 p-4">
+                            <h3 class="font-bold mb-2 text-4xl">
+                                Q1
+                            </h3>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q1.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q1.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q1.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q1.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                            </div>
                         </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                        <div class="border border-gray-300 p-4">
+                            <h3 class="font-bold mb-2 text-4xl">
+                                Q2
+                            </h3>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q2.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q2.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q2.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q2.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                            </div>
                         </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                        <div class="border border-gray-300 p-4">
+                            <h3 class="font-bold mb-2 text-4xl">
+                                Q3
+                            </h3>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q3.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q3.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q3.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q3.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                            </div>
                         </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                        <div class="border border-gray-300 p-4">
+                            <h3 class="font-bold mb-2 text-4xl">
+                                Q4
+                            </h3>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q4.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q4.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q4.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
+                                <input v-model="projectStore.cashFlowByQuarter.q4.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                            </div>
                         </div>
                     </div>
-                    <div class="border border-gray-300 p-4">
-                        <h3 class="font-bold mb-2 text-4xl">
-                            Q2
-                        </h3>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
-                        </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
-                        </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
-                        </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
-                        </div>
+                    <div class="flex justify-end my-8">
+                        <button
+                            type="submit"
+                            class="flex justify-end items-center  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                            Update Cash Flow
+                        </button>
                     </div>
-                    <div class="border border-gray-300 p-4">
-                        <h3 class="font-bold mb-2 text-4xl">
-                            Q3
-                        </h3>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
-                        </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
-                        </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
-                        </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
-                        </div>
-                    </div>
-                    <div class="border border-gray-300 p-4">
-                        <h3 class="font-bold mb-2 text-4xl">
-                            Q4
-                        </h3>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
-                        </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
-                        </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
-                        </div>
-                        <div class="mb-2">
-                            <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
-                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
         </template>
         <template #print-layout>
@@ -190,3 +200,26 @@
         </template>
     </layoutPrintAdvanced>
 </template>
+
+<script setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+const projectStore = useProjectStore()
+const snackbar = useSnackbar()
+
+const updateCashFlow = async () => {
+    try {
+        await projectStore.updateCashFlow()
+        if (projectStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: projectStore.errorMessage
+            })
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error.message || "An error occurred while updating cash flow."
+        })
+    }
+}
+</script>
