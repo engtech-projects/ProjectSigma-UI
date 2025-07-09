@@ -23,7 +23,7 @@ const edit = async () => {
 
 </script>
 <template>
-    <LayoutEditBoards title="Edit Leaves" :loading="editData.isLoading">
+    <LayoutEditBoards title="Edit HRMS - Accounting Particulars" :loading="editData.isLoading">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="edit">
                 <LayoutFormPsSelect v-model="editData.params.type" :options-list="['Loan', 'Other Deduction']" title="Deduction Type" />

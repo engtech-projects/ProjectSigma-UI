@@ -20,7 +20,7 @@ const addLeave = async () => {
 
 </script>
 <template>
-    <LayoutBoards title="Leaves" :loading="createData.isLoading">
+    <LayoutBoards title="HRMS - Accounting Particulars" :loading="createData.isLoading">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="addLeave">
                 <LayoutFormPsSelect v-model="createData.params.type" :options-list="['Loan', 'Other Deduction']" title="Deduction Type" />

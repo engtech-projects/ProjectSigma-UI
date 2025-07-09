@@ -60,9 +60,9 @@ export const usePayrollParticularTerms = defineStore("PayrollParticularTerms", {
                         this.allList.list = response._data.data.data
                         this.allList.isLoaded = true
                         this.allList.pagination = {
-                            first_page: response._data.data.links.first,
-                            pages: response._data.data.meta.links,
-                            last_page: response._data.data.links.last,
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
                         }
                     }
                 },
