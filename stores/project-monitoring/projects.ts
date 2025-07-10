@@ -44,11 +44,10 @@ export const useProjectStore = defineStore("projects", {
     state: () => ({
         isEdit: false,
         viewState: false,
-        information:
-        {
+        information: {
             id: null,
             uuid: null,
-            position_id: null,
+            position: null,
             parent_project_id: null,
             contract_id: null,
             code: null,
@@ -71,9 +70,7 @@ export const useProjectStore = defineStore("projects", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {
-                status: ProjectStatus.MY_PROJECTS
-            },
+            params: {},
             pagination: {},
             errorMessage: "",
             successMessage: "",
@@ -83,7 +80,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                status: ProjectStatus.DRAFT
+                stage: ProjectStatus.DRAFT
             },
             pagination: {},
             errorMessage: "",
@@ -94,7 +91,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                status: ProjectStatus.PROPOSAL
+                stage: ProjectStatus.PROPOSAL
             },
             pagination: {},
             errorMessage: "",
@@ -105,7 +102,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                status: ProjectStatus.BIDDING
+                stage: ProjectStatus.BIDDING
             },
             pagination: {},
             errorMessage: "",
@@ -116,7 +113,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                status: ProjectStatus.ON_HOLD
+                stage: ProjectStatus.ON_HOLD
             },
             pagination: {},
             errorMessage: "",
@@ -127,7 +124,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                status: ProjectStatus.AWARDED
+                stage: ProjectStatus.AWARDED
             },
             pagination: {},
             errorMessage: "",
@@ -138,7 +135,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                status: ProjectStatus.ARCHIVED
+                stage: ProjectStatus.ARCHIVED
             },
             pagination: {},
             errorMessage: "",
@@ -183,7 +180,7 @@ export const useProjectStore = defineStore("projects", {
         async getProjectsInformation (id: any) {
             this.isLoading.list = true
             const { data, error } = await useProjectsApi(
-                "/api/projects/" + id,
+                "/api/projects/resource/" + id,
                 {
                     method: "GET",
                     params: this.getParams,
@@ -206,7 +203,7 @@ export const useProjectStore = defineStore("projects", {
                 status: ProjectStatus.DRAFT
             }
             const { data, error } = await useProjectsApi(
-                "/api/projects",
+                "/api/projects/resource",
                 {
                     method: "GET",
                     params: this.draftList.params,
@@ -235,7 +232,7 @@ export const useProjectStore = defineStore("projects", {
         async getProposalProjects () {
             this.proposalList.isLoading = true
             const { data, error } = await useProjectsApi(
-                "/api/projects",
+                "/api/projects/resource",
                 {
                     method: "GET",
                     params: this.proposalList.params,
@@ -264,7 +261,7 @@ export const useProjectStore = defineStore("projects", {
         async getBiddingProjects () {
             this.biddingList.isLoading = true
             const { data, error } = await useProjectsApi(
-                "/api/projects",
+                "/api/projects/resource",
                 {
                     method: "GET",
                     params: this.biddingList.params,
@@ -293,7 +290,7 @@ export const useProjectStore = defineStore("projects", {
         async getOnHoldProjects () {
             this.onHoldList.isLoading = true
             const { data, error } = await useProjectsApi(
-                "/api/projects",
+                "/api/projects/resource",
                 {
                     method: "GET",
                     params: this.onHoldList.params,
@@ -322,7 +319,7 @@ export const useProjectStore = defineStore("projects", {
         async getAwardedProjects () {
             this.awardedList.isLoading = true
             const { data, error } = await useProjectsApi(
-                "/api/projects",
+                "/api/projects/resource",
                 {
                     method: "GET",
                     params: this.awardedList.params,
@@ -351,7 +348,7 @@ export const useProjectStore = defineStore("projects", {
         async getArchivedProjects () {
             this.archivedList.isLoading = true
             const { data, error } = await useProjectsApi(
-                "/api/projects",
+                "/api/projects/resource",
                 {
                     method: "GET",
                     params: this.archivedList.params,
@@ -381,7 +378,7 @@ export const useProjectStore = defineStore("projects", {
             this.myProjectList.isLoading = true
 
             const { data, error } = await useProjectsApi(
-                "/api/projects",
+                "/api/projects/resource",
                 {
                     method: "GET",
                     params: this.myProjectList.params,
@@ -410,7 +407,7 @@ export const useProjectStore = defineStore("projects", {
         async getProject (id: number) {
             this.isLoading.list = true
             const { data, error } = await useProjectsApi(
-                "/api/projects/" + id,
+                "/api/projects/resource" + id,
                 {
                     method: "GET",
                     params: this.getParams,
@@ -431,7 +428,7 @@ export const useProjectStore = defineStore("projects", {
             this.successMessage = ""
             this.errorMessage = ""
             await useProjectsApi(
-                "/api/projects",
+                "/api/projects/resource",
                 {
                     method: "POST",
                     body: this.information,

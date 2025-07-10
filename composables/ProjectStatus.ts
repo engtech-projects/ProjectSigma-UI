@@ -5,7 +5,7 @@ export enum ProjectStatus {
     BIDDING = "bidding",
     AWARDED = "awarded",
     COMPLETED = "completed",
-    ON_HOLD = "onhold",
+    ON_HOLD = "on-hold",
     MY_PROJECTS = "myProjects",
     ARCHIVED = "archived",
 }
