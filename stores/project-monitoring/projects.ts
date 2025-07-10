@@ -407,7 +407,7 @@ export const useProjectStore = defineStore("projects", {
         async getProject (id: number) {
             this.isLoading.list = true
             const { data, error } = await useProjectsApi(
-                "/api/projects/resource" + id,
+                "/api/projects/resource/" + id,
                 {
                     method: "GET",
                     params: this.getParams,
