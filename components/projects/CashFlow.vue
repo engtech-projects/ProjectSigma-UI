@@ -1,3 +1,25 @@
+<script setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+const projectStore = useProjectStore()
+const snackbar = useSnackbar()
+
+const updateCashFlow = async () => {
+    try {
+        await projectStore.updateCashFlow()
+        if (projectStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: projectStore.errorMessage
+            })
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error.message || "An error occurred while updating cash flow."
+        })
+    }
+}
+</script>
 <template>
     <LayoutPrintAdvanced>
         <template #system-layout>
@@ -216,26 +238,3 @@
         </template>
     </layoutPrintAdvanced>
 </template>
-
-<script setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-const projectStore = useProjectStore()
-const snackbar = useSnackbar()
-
-const updateCashFlow = async () => {
-    try {
-        await projectStore.updateCashFlow()
-        if (projectStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: projectStore.errorMessage
-            })
-        }
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error.message || "An error occurred while updating cash flow."
-        })
-    }
-}
-</script>
