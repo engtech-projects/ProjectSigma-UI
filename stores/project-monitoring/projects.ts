@@ -413,7 +413,7 @@ export const useProjectStore = defineStore("projects", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.information = response._data
+                        this.information = response._data.data
                     },
                 }
             )
