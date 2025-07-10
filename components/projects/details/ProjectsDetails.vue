@@ -1,82 +1,20 @@
 <script setup lang="ts">
-import { useProjectStore } from "@/stores/project-monitoring/projects"
+import ProjectAttachmentUploadButton from "@components/projects/details/ProjectAttachmentUploadButton.vue"
+import ProjectAttachmentViewButton from "@components/projects/details/ProjectAttachmentViewButton.vue"
 
 const route = useRoute()
-const snackbar = useSnackbar()
-const attachments = ref()
+const uploadRef = ref()
+const viewRef = ref()
 
-const projectStore = useProjectStore()
-
-const uploadAttachment = async (event: any) => {
-    try {
-        const projectId = Number(route.params?.id)
-        if (!projectId) {
-            throw new Error("Missing project ID from route")
-        }
-
-        const file = event.target.files[0]
-        if (!file) {
-            throw new Error("No file selected")
-        }
-        const formData = new FormData()
-        formData.append("attachments", file)
-
-        const files: File[] = [file]
-        await projectStore.uploadAttachments(projectId, files)
-
-        snackbar.add({
-            type: "success",
-            text: "File uploaded successfully",
-        })
-    } catch (error: any) {
-        snackbar.add({
-            type: "error",
-            text: error.message || "Upload failed",
-        })
-    }
+const uploadAttachment = (event: Event) => {
+    uploadRef.value?.handleUpload(event)
 }
-
-const viewDocumentAttachments = async () => {
-    const projectId = Number(route.params?.id)
-
-    if (!projectId) {
-        snackbar.add({
-            type: "error",
-            text: "Missing project ID from route.",
-        })
-        return
-    }
-
-    try {
-        const { data, error } = await useFetch(`/api/v1/projects/${projectId}/document-viewer`, {
-            method: "GET",
-        })
-
-        if (error.value) {
-            throw new Error(error.value?.data?.message || "Unable to get viewer link")
-        }
-
-        const viewerUrl = data.value
-        if (!viewerUrl) {
-            throw new Error("Empty viewer URL received")
-        }
-
-        window.open(viewerUrl, "_blank")
-        // Optional success snackbar (remove if not needed)
-        snackbar.add({
-            type: "success",
-            text: "Opening document viewer..."
-        })
-    } catch (err: any) {
-        snackbar.add({
-            type: "error",
-            text: err.message || "Failed to open document viewer"
-        })
-    }
+const viewDocumentAttachments = () => {
+    viewRef.value?.handleView()
 }
 const goBackOrHome = () => {
-    if (router.options.history.state.back) {
-        router.back()
+    if (route.options.history.state.back) {
+        route.back()
     } else {
         navigateTo("/project-monitoring/marketing")
     }
@@ -137,50 +75,22 @@ defineProps({
                         {{ projectDetails.location }}
                     </span>
                 </div>
-                <div class="flex flex-col gap-4">
-                    <div class="flex flex-row gap-4 justify-start mt-4">
-                        LayoutFormPsSelect
-                        v-model="attachments.form.attachment_name"
-                        :options-list="[
-                        'PLANS',
-                        'PROGRAM OF WORKS',
-                        'CONTRACT AGREEMENT',
-                        'PERMIT',
-                        'OTHERS'
-                        ]"
-                        class="w-full"
-                        title="Attachment Type"
-                        >
-
-                        <LayoutFormPsTextInput
-                            v-if="attachments.form.attachment_name === 'OTHERS'"
-                            v-model="attachments.form.other_type"
-                            class="w-full"
-                            title="File Name"
-                        />
-
-                        <div class="w-full">
-                            <label class="block mb-1 text-sm font-medium text-gray-900">
-                                File
-                            </label>
-                            <input
-                                class="w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                type="file"
-                                accept=".doc, .docx, .pdf, .png, .jpeg"
-                                @change="uploadAttachment"
-                            >
-                        </div>
-
-                        <!-- View Documents Button -->
-                        <button
-                            class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded h-10 mt-6"
-                            @click="viewDocumentAttachments"
-                        >
-                            View Attachments
-                        </button>
-                    </div>
-                </div>
+                <ProjectAttachmentUploadButton ref="uploadRef" />
+                <input
+                    class="w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                    type="file"
+                    accept=".doc, .docx, .pdf, .png, .jpeg"
+                    @change="uploadAttachment"
+                >
             </div>
+            <ProjectAttachmentViewButton ref="viewRef" />
+
+            <button
+                class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded h-10 mt-6"
+                @click="viewDocumentAttachments"
+            >
+                View Attachments
+            </button>
         </div>
     </div>
     <AccountingCommonTabsMainContainer class="w-full">

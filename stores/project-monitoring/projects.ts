@@ -424,6 +424,36 @@ export const useProjectStore = defineStore("projects", {
             )
         },
 
+        async viewDocumentAttachments (projectId: number) {
+            this.errorMessage = ""
+            this.successMessage = ""
+
+            await useProjectsApi(
+                `/api/v1/project/${projectId}/document-viewer`,
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (!response.ok) {
+                            this.errorMessage = response._data?.message || "Unable to get viewer link"
+                            throw new Error(this.errorMessage)
+                        }
+
+                        const viewerUrl: string = response._data
+                        if (!viewerUrl) {
+                            throw new Error("Empty viewer URL received")
+                        }
+
+                        window.open(viewerUrl, "_blank")
+                        this.successMessage = "Opening document viewer..."
+                    },
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data?.message || "Failed to open document viewer"
+                        throw new Error(this.errorMessage)
+                    },
+                }
+            )
+        },
+
         async createProject () {
             this.successMessage = ""
             this.errorMessage = ""
