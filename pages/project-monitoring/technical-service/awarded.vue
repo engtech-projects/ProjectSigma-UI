@@ -18,17 +18,10 @@ const search = (value: string) => {
         await projectStore.getAwardedTss()
     }, 500)
 }
-
 </script>
 
 <template>
-    <div class="px-8">
-        <div class="flex justify-between items-center gap-4">
-            <h1 class="text-2xl font-bold text-slate-600 my-8 text-left">
-                Awarded List Table
-            </h1>
-            <BasicSearchBar class="w-1/3" @search="search" />
-        </div>
-        <ProjectsMarketingAwardedList />
+    <div class="px-4 pt-4">
+        <ProjectsMarketingAwardedList title="Awarded List Table" :show-search="true" @search="search" />
     </div>
 </template>
