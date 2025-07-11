@@ -11,7 +11,7 @@ onMounted(() => {
 })
 
 const changePaginate = (newParams) => {
-    allRequests.value.params.page = newParams.page ?? ""
+    myApprovals.value.params.page = newParams.page ?? ""
 }
 
 const headers = [
@@ -48,6 +48,6 @@ const showInformation = (data) => {
         </LayoutLoadingContainer>
     </div>
     <div class="flex justify-center mx-auto">
-        <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
+        <CustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
     </div>
 </template>
