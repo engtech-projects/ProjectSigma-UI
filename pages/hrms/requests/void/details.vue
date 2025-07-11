@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useVoidStore } from "~/stores/hrms/requests/void"
+
 useHead({
     title: "Void Request Details",
 })
@@ -88,19 +89,19 @@ const denyRequest = async (id : any) => {
             </template>
         </LayoutBoards>
         <LayoutBoards v-if="voidRequest?.data" title="Attached Request">
-            <HrmsLeaveRequestInformation
+            <HrmsLeaveRequestDetails
                 v-if="voidRequest.data.void_type === 'RequestLeaves'"
                 :leave-data="voidRequest.data.request"
             />
-            <HrmsOvertimeRequestInformation
+            <HrmsOvertimeRequestDetails
                 v-if="voidRequest.data.void_type === 'RequestOvertime'"
                 :overtime-data="voidRequest.data.request"
             />
-            <HrmsTravelOrderRequestInformation
+            <HrmsTravelOrderRequestDetails
                 v-if="voidRequest.data.void_type === 'RequestTravelOrder'"
                 :travel-order-data="voidRequest.data.request"
             />
-            <HrmsPayrollAllowanceRequestInformation
+            <HrmsPayrollAllowanceRequestDetails
                 v-if="voidRequest.data.void_type === 'RequestAllowance'"
                 :allowance-data="voidRequest.data.request"
             />

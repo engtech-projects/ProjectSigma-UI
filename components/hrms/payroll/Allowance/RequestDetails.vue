@@ -16,7 +16,6 @@ const employeeAllowanceHeaders = [
 
 </script>
 <template>
-    <!-- <pre>{{ allowanceData }}</pre> -->
     <div class="grid md:grid-cols-3 gap-2 md:justify-between">
         <div class="p-2 flex flex-col gap-1">
             <span class="text-teal-600 text-light">
