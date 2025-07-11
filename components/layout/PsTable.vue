@@ -19,6 +19,10 @@ defineProps({
         required: false,
         default: null,
     },
+    clickableRows: {
+        type: Boolean,
+        default: true,
+    },
 })
 
 const emit = defineEmits(["editRow", "deleteRow", "showTable", "detailRow", "customAction"])
@@ -70,7 +74,7 @@ const isActiveRow = (index: any) => {
                     </td>
                 </tr>
                 <template v-else>
-                    <tr v-for="dataValue, index in datas" :key="index" class="border text-center" :class="{ 'active': isActiveRow(index) }" @click="setActiveRow(index)">
+                    <tr v-for="dataValue, index in datas" :key="index" class="border text-center" :class="{ 'active': clickableRows && isActiveRow(index) }" @click="clickableRows ? setActiveRow(index) : null">
                         <td
                             v-for="header in headerColumns"
                             :key="header+'headerRow'"

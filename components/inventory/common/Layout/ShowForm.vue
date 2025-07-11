@@ -15,13 +15,21 @@
         <PrintTableFormat>
             <InventoryPriceQuotationForm
                 v-if="currentForm === 'priceQuotation'"
-                v-model="localForm"
+                v-model="priceQuotationForm"
                 :request-details="requestDetails"
                 title="REQUEST FOR PRICE QUOTATION"
+                @submit-success="$emit('submit-success')"
+            />
+            <InventoryPriceQuotationFormEdit
+                v-else-if="currentForm === 'priceQuotationEdit'"
+                v-model="priceQuotationFormEdit"
+                :request-details="requestDetails"
+                title="REQUEST FOR PRICE QUOTATION"
+                @submit-success="$emit('submit-success')"
             />
             <InventoryCanvassSummaryForm
-                v-else-if="currentForm === 'canvassSummary'"
-                v-model="localForm"
+                v-else
+                v-model="canvassSummaryForm"
                 :request-details="requestDetails"
                 title="CANVASS SUMMARY"
             />
@@ -30,8 +38,8 @@
 </template>
 
 <script setup>
-
-const props = defineProps({
+defineEmits(["submit-success"])
+defineProps({
     isVisible: Boolean,
     currentForm: {
         type: String,
@@ -41,29 +49,23 @@ const props = defineProps({
         type: Object,
         default: () => ({})
     },
-    requestDetails: {
-        type: Object,
-        default: () => ({})
-    },
     onClose: {
         type: Function,
         default: () => {}
     }
 })
 
-const emit = defineEmits(["update:form"])
+const priceQuotationForm = defineModel("priceQuotationForm", {
+    required: true,
+    type: Object
+})
+const priceQuotationFormEdit = defineModel("priceQuotationFormEdit", {
+    required: true,
+    type: Object
+})
 
-const localForm = ref({ ...props.form })
-
-watch(
-    () => props.form,
-    (newVal) => {
-        localForm.value = { ...newVal }
-    },
-    { deep: true, immediate: true }
-)
-
-watch(localForm, (val) => {
-    emit("update:form", val)
-}, { deep: true })
+const canvassSummaryForm = defineModel("canvassSummaryForm", {
+    required: true,
+    type: Object
+})
 </script>

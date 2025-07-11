@@ -30,6 +30,7 @@ defineProps({
             {{ title }}
         </label>
         <input
+            v-bind="$attrs"
             :id="compId"
             v-model="model"
             type="text"
