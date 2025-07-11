@@ -20,7 +20,7 @@ const headers = [
 ]
 
 const changePaginate = (newParams) => {
-    myRequests.value.params.page = newParams.page ?? ""
+    myApprovals.value.params.page = newParams.page ?? ""
 }
 const actions = {
     showTable: true,
