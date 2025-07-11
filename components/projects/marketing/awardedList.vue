@@ -8,7 +8,22 @@ const { awardedList } = storeToRefs(projectStore)
 const changePaginate = (newParams) => {
     awardedList.value.params.page = newParams.page ?? ""
 }
-
+const props = defineProps({
+    title: {
+        type: String,
+        default: "",
+    },
+    showSearch: {
+        type: Boolean,
+        default: false,
+    }
+})
+const emit = defineEmits([
+    "search"
+])
+const search = (value) => {
+    emit("search", value)
+}
 const headers = [
     { name: "PROJECT NAME", id: "name", style: "text-left" },
     { name: "LOCATION", id: "location", style: "text-left" },
@@ -27,7 +42,10 @@ const projectDetails = (data) => {
 }
 </script>
 <template>
-    <LayoutBoards class="w-full" :loading="awardedList.isLoading">
+    <LayoutBoards class="w-full" :title="props.title" :loading="awardedList.isLoading">
+        <template v-if="props.showSearch" #header-options>
+            <BasicSearchBar class="w-1/3 mb-2" @search="search" />
+        </template>
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
                 AccessibilityTypes.PROJECT_MONITORING_MARKETING_AWARDED_LIST,
