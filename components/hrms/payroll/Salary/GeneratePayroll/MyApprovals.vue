@@ -19,6 +19,9 @@ const headers = [
     { name: "Request Status", id: "request_status" },
 ]
 
+const changePaginate = (newParams) => {
+    myRequests.value.params.page = newParams.page ?? ""
+}
 const actions = {
     showTable: true,
 }
@@ -67,6 +70,9 @@ const filterType = ref("")
                 @show-table="showInformation"
             />
         </LayoutLoadingContainer>
+    </div>
+    <div class="flex justify-center mx-auto">
+        <CustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
     </div>
     <HrmsPayrollSalaryGeneratePayrollInfoModal
         v-model:show-modal="showInfoModal"

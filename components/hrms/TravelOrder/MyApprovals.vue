@@ -32,6 +32,9 @@ const actions = {
     showTable: true,
 }
 
+const changePaginate = (newParams) => {
+    approvalList.value.params.page = newParams.page ?? ""
+}
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="approvalList.isLoading">

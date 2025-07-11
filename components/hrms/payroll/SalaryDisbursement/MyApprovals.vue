@@ -28,6 +28,9 @@ const showInformation = (data) => {
     showInfoModal.value = true
 }
 
+const changePaginate = (newParams) => {
+    myRequests.value.params.page = newParams.page ?? ""
+}
 </script>
 <template>
     <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
@@ -59,6 +62,9 @@ const showInformation = (data) => {
                 @show-table="showInformation"
             />
         </LayoutLoadingContainer>
+    </div>
+    <div class="flex justify-center mx-auto">
+        <CustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
     </div>
     <HrmsPayrollSalaryDisbursementInfoModal
         v-model:show-modal="showInfoModal"

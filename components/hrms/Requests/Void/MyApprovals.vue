@@ -9,6 +9,11 @@ onMounted(() => {
         voidStore.getMyApprovals()
     }
 })
+
+const changePaginate = (newParams) => {
+    allRequests.value.params.page = newParams.page ?? ""
+}
+
 const headers = [
     { name: "Void Type", id: "void_type" },
     { name: "Requested By", id: "created_by_user_name" },
@@ -41,5 +46,8 @@ const showInformation = (data) => {
                 @show-table="showInformation"
             />
         </LayoutLoadingContainer>
+    </div>
+    <div class="flex justify-center mx-auto">
+        <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
     </div>
 </template>
