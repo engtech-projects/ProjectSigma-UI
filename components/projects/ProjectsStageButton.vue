@@ -25,7 +25,11 @@ const nextStage = computed(() => {
 const snackbar = useSnackbar()
 const updateStage = async () => {
     try {
+        if (!projectStore.information?.id || !nextStage?.value) {
+            throw new Error("Missing project ID or stage value")
+        }
         await projectStore.updateProjectStage(projectStore.information.id, nextStage.value)
+        await projectStore.getProject(projectStore.information.id)
     } catch (error) {
         snackbar.add({
             type: "error",
