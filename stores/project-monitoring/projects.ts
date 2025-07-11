@@ -130,6 +130,18 @@ export const useProjectStore = defineStore("projects", {
             errorMessage: "",
             successMessage: "",
         },
+        awardedTssList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                project_key: "",
+                stage_status: ProjectStatus.AWARDED
+            },
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         archivedList: {
             isLoading: false,
             isLoaded: false,
@@ -331,6 +343,35 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.awardedList.list = response._data.data
                             this.awardedList.pagination = {
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
+                            }
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getAwardedTss () {
+            this.awardedList.isLoading = true
+            const { data, error } = await useProjectsApi(
+                "/api/projects/filter",
+                {
+                    method: "GET",
+                    params: this.awardedTssList.params,
+                    onRequest: () => {
+                        this.awardedList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.awardedList.isLoading = false
+                        if (response.ok) {
+                            this.awardedTssList.list = response._data.data
+                            this.awardedTssList.pagination = {
                                 first_page: response._data.meta.first,
                                 pages: response._data.meta.links,
                                 last_page: response._data.meta.last,

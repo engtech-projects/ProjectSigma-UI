@@ -1,3 +1,17 @@
+<script setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { usePositionStore } from "@/stores/project-monitoring/positions"
+const positionStore = usePositionStore()
+const projectStore = useProjectStore()
+projectStore.$reset()
+positionStore.getAllPositions()
+definePageMeta({
+    layout: "default",
+})
+useHead({
+    title: "Marketing",
+})
+</script>
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
@@ -87,11 +101,3 @@
         </div>
     </LayoutAcessContainer>
 </template>
-<script setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-import { usePositionStore } from "@/stores/project-monitoring/positions"
-const positionStore = usePositionStore()
-const projectStore = useProjectStore()
-projectStore.$reset()
-positionStore.getAllPositions()
-</script>
