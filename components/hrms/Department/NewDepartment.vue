@@ -50,7 +50,6 @@ const addDepartment = async () => {
                     type="text"
                     class="w-full rounded-lg"
                 >
-
                 <div class="flex justify-end">
                     <button
                         type="submit"
