@@ -87,10 +87,22 @@ const denyRequest = async (id : any) => {
                 </div>
             </template>
         </LayoutBoards>
-        <LayoutBoards title="Attached Request">
+        <LayoutBoards v-if="voidRequest?.data" title="Attached Request">
             <HrmsLeaveRequestInformation
                 v-if="voidRequest.data.void_type === 'RequestLeaves'"
                 :leave-data="voidRequest.data.request"
+            />
+            <HrmsOvertimeRequestInformation
+                v-if="voidRequest.data.void_type === 'RequestOvertime'"
+                :overtime-data="voidRequest.data.request"
+            />
+            <HrmsTravelOrderRequestInformation
+                v-if="voidRequest.data.void_type === 'RequestTravelOrder'"
+                :travel-order-data="voidRequest.data.request"
+            />
+            <HrmsPayrollAllowanceRequestInformation
+                v-if="voidRequest.data.void_type === 'RequestAllowance'"
+                :allowance-data="voidRequest.data.request"
             />
         </LayoutBoards>
     </LayoutAcessContainer>
