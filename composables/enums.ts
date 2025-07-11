@@ -10,6 +10,9 @@ export const useAccountingEnums = {
     cv: "FM-ACS-001-1",
     dv: "FM-ACS-001-1",
 }
+export const useProjectEnums = {
+    stages: ["draft", "proposal", "bidding", "awarded", "archived"]
+}
 export const useInventoryDocCode = {
     requisition_slip: "FM-IMS-001-1",
     daily_inventory_report: "FM-IMS-002-7",

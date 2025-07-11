@@ -19,7 +19,7 @@ export const usePositionStore = defineStore("positionStore", {
         async getPositions () {
             this.isLoading = true
             const { data, error } = await useProjectsApi(
-                "/api/positions",
+                "/api/lookups/positions",
                 {
                     method: "GET",
                     params: this.getParams,
@@ -43,7 +43,7 @@ export const usePositionStore = defineStore("positionStore", {
         async getAllPositions () {
             this.isLoading = true
             const { data, error } = await useProjectsApi(
-                "/api/all-position",
+                "/api/lookups/all-position",
                 {
                     method: "GET",
                     params: this.getParams,
@@ -62,7 +62,7 @@ export const usePositionStore = defineStore("positionStore", {
 
         async showPosition (id:any) {
             const { data, error } = await useProjectsApi(
-                "/api/positions/" + id,
+                "/api/lookups/positions/" + id,
                 {
                     method: "GET",
                     params: this.getParams,
@@ -82,7 +82,7 @@ export const usePositionStore = defineStore("positionStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useProjectsApi(
-                "/api/positions",
+                "/api/lookups/positions",
                 {
                     method: "POST",
                     body: this.position,
@@ -103,7 +103,7 @@ export const usePositionStore = defineStore("positionStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useProjectsApi(
-                "/api/positions/" + this.position.id,
+                "/api/lookups/positions/" + this.position.id,
                 {
                     method: "PATCH",
                     body: this.position,
@@ -123,7 +123,7 @@ export const usePositionStore = defineStore("positionStore", {
         async deletePosition (id: number) {
             this.isLoading = true
             const { data, error } = await useProjectsApi(
-                "/api/positions/" + id,
+                "/api/lookups/positions/" + id,
                 {
                     method: "DELETE",
                     body: this.position,

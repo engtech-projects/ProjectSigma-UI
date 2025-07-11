@@ -9,7 +9,7 @@ const requestData = ref(null)
 const showInformationModal = ref(false)
 
 const draftDetails = (data) => {
-    navigateTo(`/project-monitoring/my-proposal?id=${data.id}`)
+    navigateTo(`/project-monitoring/information?id=${data.id}`)
 }
 const changePaginate = (newParams) => {
     proposalList.value.params.page = newParams.page ?? ""

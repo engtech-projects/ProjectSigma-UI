@@ -77,7 +77,7 @@ const voidRequest = async (id) => {
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="LEAVE REQUEST">
         <template #body>
-            <HrmsLeaveRequestInformation :leave-data="data" />
+            <HrmsLeaveRequestDetails :leave-data="data" />
         </template>
         <template #footer>
             <div v-if="data.next_approval && useCheckIsCurrentUser(data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">

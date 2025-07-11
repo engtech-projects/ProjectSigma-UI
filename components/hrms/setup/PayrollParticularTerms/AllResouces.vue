@@ -35,7 +35,7 @@ const deleteLeaves = async (res) => {
 }
 
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    allList.value.params.page = newParams.page ?? ""
 }
 
 const headers = [
@@ -50,7 +50,7 @@ const shownActions = {
 }
 </script>
 <template>
-    <LayoutBoards title="Leave List" class="w-full" :loading="allList.isLoading">
+    <LayoutBoards title="HRMS - Accounting Particulars" class="w-full" :loading="allList.isLoading">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="allList.list" :actions="shownActions" @edit-row="setEdit" @delete-row="deleteLeaves" />
         </div>
