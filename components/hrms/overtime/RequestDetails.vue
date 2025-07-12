@@ -18,22 +18,22 @@ const headers = [
     </div>
     <div class="grid md:grid-cols-3 gap-2 md:justify-between">
         <div class="p-2 flex gap-2">
-            <span class="text-teal-600 text-light"> Charged to: </span> <span class="text-gray-900">{{ data.charging_name }}</span>
+            <span class="text-teal-600 text-light"> Charged to: </span> <span class="text-gray-900">{{ overtimeData.charging_name }}</span>
         </div>
         <div class="p-2 flex gap-2">
-            <span class="text-teal-600 text-light">Date of Overtime: </span> {{ data.overtime_date }}
+            <span class="text-teal-600 text-light">Date of Overtime: </span> {{ overtimeData.overtime_date }}
         </div>
         <div class="p-2 flex gap-2">
-            <span class="text-teal-600 text-light"> From: </span> {{ data.start_time_human }}
+            <span class="text-teal-600 text-light"> From: </span> {{ overtimeData.start_time_human }}
         </div>
         <div class="p-2 flex gap-2">
-            <span class="text-teal-600 text-light"> To: </span> {{ data.end_time_human }}
+            <span class="text-teal-600 text-light"> To: </span> {{ overtimeData.end_time_human }}
         </div>
         <div class="p-2 flex gap-2">
-            <span class="text-teal-600 text-light"> Meal Deduction: </span> {{ data.meal_deduction ? "Yes" : "No" }}
+            <span class="text-teal-600 text-light"> Meal Deduction: </span> {{ overtimeData.meal_deduction ? "Yes" : "No" }}
         </div>
         <div class="p-2 flex gap-2">
-            <span class="text-teal-600 text-light"> Purpose/Reason: </span> {{ data.reason }}
+            <span class="text-teal-600 text-light"> Purpose/Reason: </span> {{ overtimeData.reason }}
         </div>
     </div>
     <div class="w-full">
@@ -43,16 +43,15 @@ const headers = [
         <LayoutPsTable
             class="max-h-[180px] overflow-auto"
             :header-columns="headers"
-            :datas="data.employees"
-            :actions="actions"
+            :datas="overtimeData.employees"
         />
     </div>
     <div class="grid md:grid-cols-3 gap-2 md:justify-between">
         <div class="p-2 flex gap-2">
-            <span class="text-teal-600 text-light"> Prepared by: </span> {{ data.created_by_user }}
+            <span class="text-teal-600 text-light"> Prepared by: </span> {{ overtimeData.created_by_user }}
         </div>
         <div class="p-2 flex gap-2">
-            <span class="text-teal-600 text-light"> Prepared on: </span> {{ data.created_at_human }}
+            <span class="text-teal-600 text-light"> Prepared on: </span> {{ overtimeData.created_at_human }}
         </div>
     </div>
     <div class="w-full mt-2">

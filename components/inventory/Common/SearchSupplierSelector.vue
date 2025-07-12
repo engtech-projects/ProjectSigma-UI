@@ -8,13 +8,13 @@ const { searchSupplier } = storeToRefs(enums)
 const snackbar = useSnackbar()
 const emit = defineEmits(["supplierSelected"])
 const resultObject = ref({})
-onMounted(() => {
-    try {
-        if (!searchSupplier.value.isLoaded) {
-            enums.getSupplierSearch()
+onMounted(async () => {
+    if (!searchSupplier.value.isLoaded) {
+        try {
+            await enums.getSupplierSearch()
+        } catch (error) {
+            snackbar.show("Failed to load Supplier Search", "error")
         }
-    } catch (error) {
-        snackbar.show("Failed to load Supplier Search", "error")
     }
 })
 

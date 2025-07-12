@@ -8,7 +8,6 @@ defineProps({
 
 </script>
 <template>
-    <!-- <pre>{{ travelOrderData }}</pre> -->
     <div class="grid gap-2 md:justify-between">
         <div class="p-2 flex gap-2">
             <span class="text-gray-900 text-4xl">TRAVEL REQUEST TO: {{ travelOrderData.destination }}</span>

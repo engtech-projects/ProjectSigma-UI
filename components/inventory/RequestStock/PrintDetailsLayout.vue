@@ -26,7 +26,6 @@ defineProps({
     },
 })
 
-const { data: userData } = useAuth()
 const main = useRequestStockStore()
 const snackbar = useSnackbar()
 const { remarks } = storeToRefs(main)
@@ -52,11 +51,11 @@ const approvedRequest = async (id:number) => {
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: error || "something went wrong."
+            text: error || "Something went wrong."
         })
     }
 }
-const denyRequest = async (id:any) => {
+const denyRequest = async (id: number) => {
     try {
         await main.denyApprovalForm(id)
         if (main.errorMessage !== "") {
@@ -100,10 +99,10 @@ const denyRequest = async (id:any) => {
                             Request For: <span class="underline">{{ data.request_for }}</span>
                         </p>
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Office/Project: <span class="underline">{{ data.section_type ?? data.office_project }}</span>
+                            Office/Project: <span class="underline">{{ data.section_type || data.office_project }}</span>
                         </p>
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Address: <span class="underline">{{ data.office_project_address ?? data.address }}</span>
+                            Address: <span class="underline">{{ data.office_project_address || data.address }}</span>
                         </p>
                     </div>
                     <div class="flex-1">
@@ -207,7 +206,7 @@ const denyRequest = async (id:any) => {
                 </div>
             </div>
             <div id="footer">
-                <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+                <div v-if="data.next_approval && useCheckIsCurrentUser(data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
                     <HrmsCommonApprovalDenyButton
                         v-model:deny-remarks="remarks"
                         :request-id="data.id"

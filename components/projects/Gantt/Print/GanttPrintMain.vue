@@ -1,3 +1,31 @@
+<script lang="ts" setup>
+const equipmentTimeLine = (index: number, eq: any) => {
+    let res = false
+    const current = index + 1
+    const start = eq.pStart
+    const end = eq.pEnd
+
+    if (current > start && current <= end) {
+        res = true
+    }
+    return res
+}
+const gTimeline = (start: number, end: number, current: number, index: number) => {
+    let res = true
+
+    if (current < start) {
+        res = false
+    }
+
+    if (current > end && index > 0) {
+        res = false
+    }
+    if ((current + (index * 2)) >= 60 && index > 0) {
+        res = false
+    }
+    return res
+}
+</script>
 <template>
     <div>
         <div class="overflow-auto">
@@ -311,7 +339,7 @@
                     </tr>
                     <tr>
                         <td class="border-y border-black p-1" colspan="4">
-                            CUMMULATIVE ACCOMPLISHMENT PER MONTH
+                            CUMULATIVE ACCOMPLISHMENT PER MONTH
                         </td>
                         <td class="border-y border-black p-1" colspan="3">
                             %AGE
@@ -541,35 +569,6 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-const equipmentTimeLine = (index: number, eq: any) => {
-    let res = false
-    const current = index + 1
-    const start = eq.pStart
-    const end = eq.pEnd
-
-    if (current > start && current <= end) {
-        res = true
-    }
-    return res
-}
-const gTimeline = (start: number, end: number, current: number, index: number) => {
-    let res = true
-
-    if (current < start) {
-        res = false
-    }
-
-    if (current > end && index > 0) {
-        res = false
-    }
-    if ((current + (index * 2)) >= 60 && index > 0) {
-        res = false
-    }
-    return res
-}
-</script>
 
 <style>
 

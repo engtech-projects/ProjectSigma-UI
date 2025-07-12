@@ -66,7 +66,7 @@
                 </tr>
                 <tr>
                     <td class="border p-2 py-1">
-                        CUMMULATIVE ACCOMPLISHMENT PER MONTH
+                        CUMULATIVE ACCOMPLISHMENT PER MONTH
                     </td>
                     <td class="border p-2 py-1">
                         %AGE

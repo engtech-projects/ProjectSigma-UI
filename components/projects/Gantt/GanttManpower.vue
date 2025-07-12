@@ -1,12 +1,3 @@
-<template>
-    <div class="mb-6">
-        <h1 class="text-md font-bold mb-2 block">
-            MANPOWER UTILIZATION SCHEDULE
-        </h1>
-        <div id="GanttChartDIVManpower" />
-    </div>
-</template>
-
 <script setup>
 import * as JSGantt from "jsgantt-improved"
 import "jsgantt-improved/dist/jsgantt.css"
@@ -48,3 +39,11 @@ onMounted(() => {
     g.Draw()
 })
 </script>
+<template>
+    <div class="mb-6">
+        <h1 class="text-md font-bold mb-2 block">
+            MANPOWER UTILIZATION SCHEDULE
+        </h1>
+        <div id="GanttChartDIVManpower" />
+    </div>
+</template>

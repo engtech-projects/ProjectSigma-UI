@@ -47,13 +47,13 @@ defineProps({
                                 {{ item ? item.unit : "" }}
                             </td>
                             <td class="text-center">
-                                {{ item ? new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(item.price) : "" }}
+                                {{ item ? useFormatCurrency(item.price) : "" }}
                             </td>
                             <td class="text-center">
                                 {{ item ? item.quantity : "" }}
                             </td>
                             <td class="text-center">
-                                {{ item ? new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(item.amount) : "" }}
+                                {{ item ? useFormatCurrency(item.amount) : "" }}
                             </td>
                         </tr>
                     </tbody>

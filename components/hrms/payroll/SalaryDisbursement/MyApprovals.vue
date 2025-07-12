@@ -29,7 +29,7 @@ const showInformation = (data) => {
 }
 
 const changePaginate = (newParams) => {
-    myApprovals.value.params.page = newParams.page ?? ""
+    myApprovals.value.params.page = newParams.page ?? 1
 }
 </script>
 <template>

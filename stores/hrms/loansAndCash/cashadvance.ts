@@ -8,8 +8,6 @@ export const TERMS = [
     BIMONTHLY,
     WEEKLY,
 ]
-const utils = useUtilities()
-
 export interface CashAdvance {
     id: null | Number,
     employee_id: null | Number,
@@ -53,7 +51,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             id: null,
             cashadvance_id: null,
             amount_paid: null,
-            date_paid: utils.value.dateToString(new Date()),
+            date_paid: dateToString(new Date()),
             payment_type: "Manual",
             posting_status: "Posted",
             paymentAmount: null,

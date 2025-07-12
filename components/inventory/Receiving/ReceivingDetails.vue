@@ -51,11 +51,11 @@ onUnmounted(() => {
     if (autoSaveTimeout.value) { clearTimeout(autoSaveTimeout.value) }
 })
 
-watchEffect(() => {
-    if (model.value && !model.value.metadata) {
-        model.value.metadata = {}
+watch(() => model.value, (newValue) => {
+    if (newValue && !newValue.metadata) {
+        newValue.metadata = {}
     }
-})
+}, { immediate: true })
 </script>
 
 <template>
