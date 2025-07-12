@@ -5,7 +5,7 @@ useHead({
 </script>
 <template>
     <div class="flex flex-col w-full gap-6 bg-white p-8 min-h-[1000px]">
-        <AccountingCommonEvenparHeader :document-code="useAccountingEnums().cash_return_slip" :page="{currentPage: 1, totalPages: 1}" />
+        <AccountingCommonEvenparHeader :document-code="useAccountingDocCodeEnums.cash_return_slip" :page="{currentPage: 1, totalPages: 1}" />
         <div class="flex flex-col justify-center w-full">
             <h1 class="text-2xl font-bold uppercase text-center py-4">
                 Cash Return Slip

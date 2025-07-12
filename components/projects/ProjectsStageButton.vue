@@ -12,15 +12,11 @@ const props = defineProps({
     }
 })
 const nextStage = computed(() => {
-    let finalStage = ""
-    if (props.stage.toLowerCase() !== useProjectEnums.stages[useProjectEnums.stages.length - 1].toLowerCase()) {
-        for (const i in useProjectEnums.stages) {
-            if (useProjectEnums.stages[i].toLowerCase() === props.stage.toLowerCase()) {
-                finalStage = useProjectEnums.stages[parseInt(i) + 1]
-            }
-        }
-    }
-    return finalStage
+    const currentIndex = useProjectMarketingStatusEnums.stages.findIndex(
+        stage => stage.toLowerCase() === props.stage.toLowerCase()
+    )
+    const isLastStage = currentIndex === useProjectMarketingStatusEnums.stages.length - 1
+    return !isLastStage && currentIndex !== -1 ? useProjectMarketingStatusEnums.stages[currentIndex + 1] : ""
 })
 const snackbar = useSnackbar()
 const updateStage = async () => {

@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { useProjectStore } from "~/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
-await projectStore.getAwardedProjects()
+onMounted(async () => {
+    await projectStore.getAwardedProjects()
+})
 definePageMeta({
     layout: "default",
 })

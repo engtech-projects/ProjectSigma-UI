@@ -9,7 +9,7 @@ definePageMeta({
 useHead({
     title: "Awarded Projects",
 })
-let debounceTimer: string | number | NodeJS.Timeout | null | undefined = null
+let debounceTimer: NodeJS.Timeout | null
 const search = (value: string) => {
     if (debounceTimer) { clearTimeout(debounceTimer) } // Clear previous timer
 
