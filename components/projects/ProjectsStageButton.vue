@@ -1,5 +1,5 @@
 <template>
-    <LayoutFormPsButton :button-title="upperFirst(nextStage)" @click="updateStage" />
+    <LayoutFormPsButton :button-title="'Update Stage to ' + upperFirst(nextStage)" @click="updateStage" />
 </template>
 
 <script lang="ts" setup>
@@ -19,12 +19,26 @@ const nextStage = computed(() => {
     return !isLastStage && currentIndex !== -1 ? useProjectMarketingStatusEnums.stages[currentIndex + 1] : ""
 })
 const snackbar = useSnackbar()
+const emit = defineEmits(["updating-stage", "update-success"])
 const updateStage = async () => {
+    emit("updating-stage")
     try {
         if (!projectStore.information?.id || !nextStage?.value) {
             throw new Error("Missing project ID or stage value")
         }
         await projectStore.updateProjectStage(projectStore.information.id, nextStage.value)
+        if (projectStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: projectStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: projectStore.successMessage
+            })
+            emit("update-success")
+        }
         await projectStore.getProject(projectStore.information.id)
     } catch (error) {
         snackbar.add({

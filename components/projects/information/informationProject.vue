@@ -24,7 +24,12 @@ defineProps({
         type: String,
         required: false,
         default: null,
-    }
+    },
+    stageStatus: {
+        type: String,
+        required: false,
+        default: null,
+    },
 })
 </script>
 <template>
@@ -37,14 +42,14 @@ defineProps({
             </div>
         </div>
         <div class="flex flex-col gap-4">
-            <div class="flex items-end gap-1 mb-8">
+            <div class="flex items-first gap-1 mb-8">
                 <h1 class="text-2xl text-black uppercase font-semibold">
                     {{ label }}
                 </h1>
             </div>
             <div class="flex flex-col gap-3 mb-8">
-                <div class="flex items-end gap-3">
-                    <span class="text-gray-500 uppercase w-[140px] text-right">
+                <div class="flex items-start gap-3">
+                    <span class="text-gray-500 uppercase w-[140px] text-text-left">
                         Project Id:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
@@ -52,7 +57,7 @@ defineProps({
                     </span>
                 </div>
                 <div class="flex items-end gap-3">
-                    <span class="text-gray-500 uppercase w-[140px] text-right">
+                    <span class="text-gray-500 uppercase w-[140px] text-text-left">
                         Contract Name:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
@@ -60,11 +65,19 @@ defineProps({
                     </span>
                 </div>
                 <div class="flex items-end gap-3">
-                    <span class="text-gray-500 uppercase w-[140px] text-right">
+                    <span class="text-gray-500 uppercase w-[140px] text-text-left">
                         Location:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
                         {{ location }}
+                    </span>
+                </div>
+                <div v-if="stageStatus" class="flex items-center gap-3">
+                    <span class="text-gray-500 uppercase w-[140px] text-text-left">
+                        Stage Status:
+                    </span>
+                    <span class="text-black text-md uppercase flex-1 font-semibold">
+                        {{ stageStatus }}
                     </span>
                 </div>
             </div>
