@@ -154,12 +154,6 @@ const denyRequest = async (id: number) => {
                                 <td class="px-4 py-2 border text-center">
                                     {{ item.location }}
                                 </td>
-                                <td class="px-4 py-2 border text-center">
-                                    {{ item.location_qty }}
-                                </td>
-                                <td class="px-4 py-2 border text-center">
-                                    {{ item.status }}
-                                </td>
                             </tr>
                         </tbody>
                     </table>

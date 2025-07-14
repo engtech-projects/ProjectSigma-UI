@@ -1,8 +1,9 @@
 <script setup>
 import { useNcpoStore } from "~/stores/inventory/procurement/ncpo"
 import { useProcurementRequestStore } from "~/stores/inventory/procurement/request"
-const procurementRequestStore = useProcurementRequestStore()
+
 const mainStore = useNcpoStore()
+const procurementRequestStore = useProcurementRequestStore()
 const { ncpoRequest } = storeToRefs(mainStore)
 const { selectedItem, viewRequests } = storeToRefs(procurementRequestStore)
 
@@ -12,57 +13,94 @@ const isShowThirdPage = ref(false)
 
 const headers = [
     { name: "Supplier", id: "supplier_name" },
-    { name: "Quotation Date", id: "quot_date" },
+    { name: "Quotation Date", id: "created_at_human" },
 ]
 const rsInfoHeaders = [
     { name: "QTY", id: "quantity" },
-    { name: "Unit", id: "unit_uom" },
+    { name: "Unit", id: "uom" },
     { name: "Item Description", id: "item_description" },
     { name: "Specification", id: "specification" },
     { name: "Preferred Brand", id: "preferred_brand" },
-    { name: "Reason for Request", id: "reason_for_request" },
-    { name: "No. of Price Quotations", id: "noOfPriceQuotation" },
+    { name: "Reason", id: "reason" },
+    { name: "No. of Price Quotations", id: "price_quotation_count" },
 ]
 const route = useRoute()
 const router = useRouter()
 
-const prDetails = [
-    { supplier_name: "Supplier 1", quot_date: "2022-02-26" },
-    { supplier_name: "Supplier 2", quot_date: "2022-02-26" },
-    { supplier_name: "Supplier 3", quot_date: "2022-02-26" },
-]
+const priceQuotationData = ref({})
 
-const showInformation = (eventItem) => {
+const populateFormWithRequestDetails = () => {
+    if (viewRequests.value?.details?.requisition_slip) {
+        const requestDetails = viewRequests.value.details.requisition_slip
+        const commonData = {
+            id: route.query.id,
+            date: new Date().toISOString().split("T")[0],
+            items: requestDetails.request_stock_items || [],
+        }
+        priceQuotationData.value = { ...priceQuotationData.value, ...commonData }
+    }
+}
+
+const showInformation = async (eventItem) => {
     router.push({ query: { id: eventItem.id } })
-    procurementRequestStore.getOne(eventItem.id)
+    await procurementRequestStore.getOne(eventItem.id)
+
     isShowTable.value = false
     isShowSecondPage.value = true
     isShowThirdPage.value = false
 }
+const resetPageState = () => {
+    isShowTable.value = true
+    isShowSecondPage.value = false
+    isShowThirdPage.value = false
+    selectedItem.value = null
+}
 
 const goBack = () => {
-    router.replace({ query: {} })
+    router.replace({ query: { id: route.query.id } })
+
     if (isShowThirdPage.value) {
         isShowThirdPage.value = false
         isShowSecondPage.value = true
     } else {
-        isShowTable.value = true
-        isShowSecondPage.value = false
-        isShowThirdPage.value = false
-        selectedItem.value = null
+        resetPageState()
     }
 }
 
-const showThirdPage = (formType) => {
+const showThirdPage = (formType, editId = null) => {
     currentForm.value = formType
-    isShowTable.value = false
-    isShowSecondPage.value = false
+
+    if (editId) {
+        priceQuotationData.value.id = route.query.id
+    } else if (route.query.id) {
+        populateFormWithRequestDetails()
+    }
+
+    [isShowTable, isShowSecondPage, isShowThirdPage].forEach(state => (state.value = false))
     isShowThirdPage.value = true
 }
 
-const hasIdParam = () => {
+const handleFormSuccess = async () => {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    goBack()
     if (route.query.id) {
-        procurementRequestStore.getOne(route.query.id)
+        await priceQuotationStore.getAllList(route.query.id)
+    }
+}
+
+watch(
+    () => viewRequests.value?.details,
+    (newDetails) => {
+        if (newDetails?.requisition_slip) {
+            populateFormWithRequestDetails()
+        }
+    },
+    { deep: true }
+)
+
+const hasIdParam = async () => {
+    if (route.query.id) {
+        await procurementRequestStore.getOne(route.query.id)
         if (viewRequests.value.details.requisition_slip) {
             showInformation({ id: route.query.id })
         } else {
@@ -71,28 +109,10 @@ const hasIdParam = () => {
     }
 }
 
-hasIdParam()
-
-const form = ref({
-    date: "",
-    quotation_no: "",
-    conso_reference_no: "",
-    contact_no: "",
-    address: "",
-    contact_person: "",
-    requesting: "",
-    items: [],
+onMounted(() => {
+    hasIdParam()
 })
 
-const requestDetails = {
-    requestFor: "Goods",
-    officeOrProject: "241235",
-    address: "SUYUTAN TUBAY ADN",
-    referenceNo: `RS${selectedItem.rsNo}`,
-    datePrepared: new Date().toLocaleDateString(),
-    dateNeeded: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(),
-    equipmentNo: "N/A",
-}
 const currentForm = ref(null)
 </script>
 <template>
@@ -118,11 +138,11 @@ const currentForm = ref(null)
                     </button>
                 </div>
                 <div class="mt-4 p-4 bg-white rounded-md border-4 border-sky-200">
-                    <LayoutPrintAdvanced class="min-h-40">
+                    <!-- <LayoutPrintAdvanced class="min-h-40">
                         <template #print-layout>
                             <InventoryRequestStockPrintDetailsLayout title="Requisition Slip" :data="viewRequests.details.requisition_slip" :header-columns="rsInfoHeaders" />
                         </template>
-                        <template #system-layout>
+<template #system-layout>
                             <InventoryRequestStockSystemDetailsLayout
                                 v-if="viewRequests.details.requisition_slip"
                                 :request-for="viewRequests.details.requisition_slip.request_for"
@@ -136,14 +156,29 @@ const currentForm = ref(null)
                                 title="Requisition Slip"
                             />
                         </template>
-                    </LayoutPrintAdvanced>
+</LayoutPrintAdvanced> -->
+                    <InventoryCommonLayoutRequisitionSlip
+                        v-if="viewRequests.details.requisition_slip"
+                        :request-for="viewRequests.details.requisition_slip.request_for"
+                        :office-project="viewRequests.details.requisition_slip.office_project"
+                        :address="viewRequests.details.requisition_slip?.address ?? 'N/A'"
+                        :reference-no="viewRequests.details.requisition_slip.reference_no"
+                        :date-needed="viewRequests.details.requisition_slip.date_needed"
+                        :date-prepared="viewRequests.details.requisition_slip.date_prepared"
+                        :rs-info-headers="rsInfoHeaders"
+                        :items="viewRequests.details.requisition_slip.request_stock_items || []"
+                        :price-quotation-count="viewRequests.details.price_quotation_count"
+                        title="REQUISITION SLIP"
+                    />
                 </div>
                 <LayoutAcessContainer
                     :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP,
                     ])"
                     class="w-full mt-4"
                 >
-                    <HrmsCommonTabsMainContainer v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PRICEQUOTATION, AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_CANVASSSUMMARY, AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PURCHASEORDER_CREATENCPO])">
+                    <HrmsCommonTabsMainContainer
+                        v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PRICEQUOTATION, AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_CANVASSSUMMARY, AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PURCHASEORDER_CREATENCPO])"
+                    >
                         <template #tab-titles>
                             <HrmsCommonTabsTabTitle
                                 v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PRICEQUOTATION])"
@@ -165,10 +200,10 @@ const currentForm = ref(null)
                             <HrmsCommonTabsTabContainer id="rpq">
                                 <InventoryCommonLayoutFormCreate
                                     :headers="headers"
-                                    :datas="prDetails"
+                                    :datas="viewRequests.details?.price_quotations || []"
                                     :on-create="() => showThirdPage('priceQuotation')"
-                                    :on-edit="() => showThirdPage('priceQuotation')"
-                                    title="Price Quotations List"
+                                    :on-edit="() => showThirdPage('priceQuotationEdit')"
+                                    title="Price Quotations"
                                     icon-label="Create Price Quotations"
                                 />
                             </HrmsCommonTabsTabContainer>
@@ -184,7 +219,10 @@ const currentForm = ref(null)
                             </HrmsCommonTabsTabContainer>
                             <HrmsCommonTabsTabContainer id="ncpo">
                                 <PrintTableFormat>
-                                    <InventoryNoticeOfChangePOItemForm v-model="ncpoRequest.form" title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)" />
+                                    <InventoryNoticeOfChangePOItemForm
+                                        v-model="ncpoRequest.form"
+                                        title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)"
+                                    />
                                 </PrintTableFormat>
                             </HrmsCommonTabsTabContainer>
                         </template>
@@ -192,12 +230,12 @@ const currentForm = ref(null)
                 </LayoutAcessContainer>
             </div>
             <InventoryCommonLayoutShowForm
+                v-model:priceQuotationForm="priceQuotationData"
                 :is-visible="isShowThirdPage"
                 :current-form="currentForm"
-                :form="form"
-                :request-details="requestDetails"
+                :request-details="viewRequests.details?.requisition_slip"
                 :on-close="goBack"
-                @update:form="(val) => form.value = val"
+                @submit-success="handleFormSuccess"
             />
         </div>
     </LayoutAcessContainer>
