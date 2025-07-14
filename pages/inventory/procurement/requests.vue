@@ -40,7 +40,7 @@ onMounted(() => {
         procurementRequestStore.getOne(route.query.pr_id)
     }
     if (route.query.pq_id) {
-        procurementRequestStore.getPriceQuotation(route.query.pq_id)
+        procurementRequestStore.getPriceQuotationDetails(route.query.pq_id)
     }
 })
 const prId = computed(() => route.query.pr_id || null)
@@ -58,17 +58,19 @@ watch(prId, (newVal) => {
 })
 watch(pqId, (newVal) => {
     if (newVal) {
-        procurementRequestStore.getPriceQuotation(newVal)
+        procurementRequestStore.getPriceQuotationDetails(newVal)
     }
 })
 watch(csId, (newVal) => {
     if (newVal) {
-        procurementRequestStore.getPriceQuotation(newVal)
+        // eslint-disable-next-line no-console
+        console.log("Fetching Canvass Summary details for CS ID:", newVal)
     }
 })
 watch(ncpoId, (newVal) => {
     if (newVal) {
-        procurementRequestStore.getPriceQuotation(newVal)
+        // eslint-disable-next-line no-console
+        console.log("Fetching NCPO details for NCPO ID:", newVal)
     }
 })
 const closePrDetails = () => {

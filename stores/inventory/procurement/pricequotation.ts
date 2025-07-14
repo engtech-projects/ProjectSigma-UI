@@ -228,28 +228,6 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                 throw error
             }
         },
-        addItemToForm (item: PriceQuotationItemForm) {
-            this.createRequest.form.items.push(item)
-        },
-
-        removeItemFromForm (index: number) {
-            this.createRequest.form.items.splice(index, 1)
-        },
-
-        updateItemInForm (index: number, item: Partial<PriceQuotationItemForm>) {
-            if (this.createRequest.form.items[index]) {
-                this.createRequest.form.items[index] = {
-                    ...this.createRequest.form.items[index],
-                    ...item
-                }
-            }
-        },
-
-        // Helper method to set supplier
-        setSupplier (supplierId: number) {
-            this.createRequest.form.supplier_id = supplierId
-        },
-
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
