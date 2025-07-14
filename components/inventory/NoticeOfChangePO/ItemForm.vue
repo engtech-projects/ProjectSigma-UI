@@ -1,12 +1,11 @@
 <script setup>
-import { ref, defineModel } from "vue"
 import { storeToRefs } from "pinia"
 import { useNcpoStore, APPROVALS } from "@/stores/inventory/procurement/ncpo"
 import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 
 const mainStore = useNcpoStore()
 const { approvalList } = storeToRefs(mainStore)
-const form = defineModel({ required: true, type: Object })
+const form = ref({})
 
 const approvals = useApprovalStore()
 approvalList.value.list = await approvals.getApprovalByName(APPROVALS)

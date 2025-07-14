@@ -24,7 +24,17 @@ const rsInfoHeaders = [
         <div class="mt-4 p-4 bg-white rounded-md border-4 border-sky-200">
             <LayoutPrintAdvanced class="min-h-40">
                 <template #print-layout>
-                    <InventoryRequestStockPrintDetailsLayout title="Requisition Slip" :data="viewRequests.details.requisition_slip" :header-columns="rsInfoHeaders" />
+                    <LayoutLoadingContainer
+                        v-if="viewRequests.loading"
+                        class="w-full h-full flex items-center justify-center"
+                    >
+                        <InventoryRequestStockPrintDetailsLayout
+                            v-if="viewRequests.details.requisition_slip"
+                            title="Requisition Slip"
+                            :data="viewRequests.details.requisition_slip"
+                            :header-columns="rsInfoHeaders"
+                        />
+                    </LayoutLoadingContainer>
                 </template>
                 <template #system-layout>
                     <InventoryRequestStockSystemDetailsLayout
@@ -69,7 +79,7 @@ const rsInfoHeaders = [
                     <HrmsCommonTabsTabContainer id="rpq">
                         <InventoryCommonLayoutFormCreate
                             :headers="headers"
-                            :datas="prDetails"
+                            :datas="viewRequests.details"
                             :on-create="() => showThirdPage('priceQuotation')"
                             :on-edit="() => showThirdPage('priceQuotation')"
                             title="Price Quotations List"
@@ -79,7 +89,7 @@ const rsInfoHeaders = [
                     <HrmsCommonTabsTabContainer id="cs">
                         <InventoryCommonLayoutFormCreate
                             :headers="headers"
-                            :datas="prDetails"
+                            :datas="viewRequests.details"
                             :on-create="() => showThirdPage('canvassSummary')"
                             :on-edit="() => showThirdPage('canvassSummary')"
                             title="Canvass Summary List"
@@ -88,7 +98,7 @@ const rsInfoHeaders = [
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="ncpo">
                         <PrintTableFormat>
-                            <InventoryNoticeOfChangePOItemForm v-model="ncpoRequest.form" title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)" />
+                            <InventoryNoticeOfChangePOItemForm title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)" />
                         </PrintTableFormat>
                     </HrmsCommonTabsTabContainer>
                 </template>

@@ -35,30 +35,31 @@ watch(
     { deep: true }
 )
 
-const currentForm = ref(null)
-onMounted(() => {
-    if (route.query.pr_id) {
-        procurementRequestStore.getOne(route.query.pr_id)
-        showInformation({ id: route.query.pr_id })
-    }
-    if (route.query.pq_id) {
-        procurementRequestStore.getPriceQuotation(route.query.pq_id)
-    } else {
-        currentForm.value = "priceQuotation"
-    }
-})
 const prId = ref(route.query.pr_id || null)
 const createPq = ref(false)
-const pqId = ref(false)
+const pqId = ref(route.query.pq_id || null)
 const createCs = ref(false)
-const csId = ref(false)
+const csId = ref(route.query.cs_id || null)
 const createNcpo = ref(false)
-const ncpoId = ref(false)
-
+const ncpoId = ref(route.query.ncpo_id || null)
+onMounted(() => {
+    if (prId.value) {
+        procurementRequestStore.getOne(prId.value)
+    }
+    if (pqId.value) {
+        procurementRequestStore.getPriceQuotation(pqId.value)
+    }
+})
 watch(() => route.query.pr_id, (newVal) => {
     prId.value = newVal
     if (newVal) {
-        procurementRequestStore.getOne(prId)
+        procurementRequestStore.getOne(prId.value)
+    }
+})
+watch(() => route.query.pq_id, (newVal) => {
+    pqId.value = newVal
+    if (newVal) {
+        procurementRequestStore.getPriceQuotation(pqId.value)
     }
 })
 const closePrDetails = () => {
@@ -95,11 +96,13 @@ const closeEditNcpo = () => {
         class="w-full"
     >
         <div id="showOnlyOneChild" class="flex flex-col md:flex-cols gap-4 [&>*]:hidden [&>:last-child]:block">
-            <div class="border border-gray-300 flex-1 rounded-md p-4 bg-white">
+            <LayoutBoards
+                title="Procurement Requests"
+            >
                 <InventoryProcurementRequestMainLists
                     class="rounded-md shadow-sm"
                 />
-            </div>
+            </LayoutBoards>
             <LayoutBoards
                 v-if="prId"
                 title="Procurement Request Details"
@@ -114,7 +117,7 @@ const closeEditNcpo = () => {
                 </template>
             </LayoutBoards>
             <LayoutBoards
-                v-else-if="createPq"
+                v-if="createPq"
                 title="Create Price Quotation"
             >
                 <template #header-options>
@@ -123,14 +126,14 @@ const closeEditNcpo = () => {
                     </button>
                 </template>
                 <template #default>
-                    <InventoryProcurementRequestCreatePriceQuotation
+                    <InventoryProcurementRequestPriceQuotationForm
                         :pr-id="prId"
                         @close="closeCreatePq"
                     />
                 </template>
             </LayoutBoards>
             <LayoutBoards
-                v-else-if="!pqId"
+                v-if="pqId"
                 title="Procurement Request Details"
             >
                 <template #header-options>
@@ -143,7 +146,7 @@ const closeEditNcpo = () => {
                 </template>
             </LayoutBoards>
             <LayoutBoards
-                v-else-if="createCs"
+                v-if="createCs"
                 title="Create Canvass Summary"
             >
                 <template #header-options>
@@ -160,7 +163,7 @@ const closeEditNcpo = () => {
                 </template>
             </LayoutBoards>
             <LayoutBoards
-                v-else-if="csId"
+                v-if="csId"
                 title="Create Canvass Summary"
             >
                 <template #header-options>
@@ -173,9 +176,8 @@ const closeEditNcpo = () => {
                 </template>
             </LayoutBoards>
             <LayoutBoards
-                v-else-if="createNcpo"
+                v-if="createNcpo"
                 title="Create Canvass Summary"
-                loading
             >
                 <template #header-options>
                     <button class="text-gray-500 hover:text-white hover:bg-red-600" @click="closeCreateNcpo">
@@ -187,9 +189,8 @@ const closeEditNcpo = () => {
                 </template>
             </LayoutBoards>
             <LayoutBoards
-                v-else-if="ncpoId"
+                v-if="ncpoId"
                 title="Create Canvass Summary"
-                loading
             >
                 <template #header-options>
                     <button class="text-gray-500 hover:text-white hover:bg-red-600" @click="closeEditNcpo">
