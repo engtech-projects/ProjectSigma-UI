@@ -1,7 +1,3 @@
-<template>
-    <LayoutFormPsButton :button-title="'Update Stage to ' + upperFirst(nextStage)" @click="updateStage" />
-</template>
-
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
@@ -20,7 +16,10 @@ const nextStage = computed(() => {
 })
 const snackbar = useSnackbar()
 const emit = defineEmits(["updating-stage", "update-success"])
+const showModal = ref(false)
+
 const updateStage = async () => {
+    showModal.value = false
     emit("updating-stage")
     try {
         if (!projectStore.information?.id || !nextStage?.value) {
@@ -51,6 +50,7 @@ const updateStage = async () => {
 }
 </script>
 
-<style>
-
-</style>
+<template>
+    <LayoutFormPsButton :button-title="'Update Stage to ' + upperFirst(nextStage)" @click="showModal = true" />
+    <ProjectsModalsStageTransitionConfirmationModal :show-modal="showModal" :stage="nextStage" @update-stage="updateStage" @hide-modal="showModal = false" />
+</template>
