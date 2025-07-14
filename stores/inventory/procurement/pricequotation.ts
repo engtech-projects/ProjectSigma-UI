@@ -102,6 +102,8 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
             } as PriceQuotationForm,
             params: {},
             pagination: {},
+            errorMessage: "",
+            successMessage: "",
         },
         editRequest: {
             isLoading: false,
@@ -148,16 +150,16 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
     actions: {
         async storeRequest (id: any) {
             this.clearMessages()
-            this.createRequest.isLoading = true
-
             await useInventoryApiO(`/api/procurement-request/${id}/create-price-quotation`, {
                 method: "POST",
                 body: this.createRequest.form,
-                watch: false,
+                onRequest: () => {
+                    this.createRequest.isLoading = true
+                },
                 onResponse: ({ response }) => {
                     if (response.ok) {
                         this.reloadResources()
-                        this.successMessage = response._data.message
+                        this.createRequest.successMessage = response._data.message
                         this.createRequest.form = {
                             supplier_id: 0,
                             date: "",
@@ -168,18 +170,16 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                             quotation_no: "",
                             items: []
                         }
-                    } else {
-                        this.errorMessage = response._data.message
                     }
+                    this.createRequest.isLoading = false
                 },
                 onResponseError: ({ response }) => {
-                    this.errorMessage = response?._data?.message || "Unexpected server error while creating price quotation."
+                    this.createRequest.isLoading = false
+                    this.createRequest.errorMessage = response?._data?.message || "Unexpected server error while creating price quotation."
+                    throw new Error(this.createRequest.errorMessage || "Unexpected server error while creating price quotation.")
                 }
             })
-
-            this.createRequest.isLoading = false
         },
-
         async getPriceQuotationDetails (id: number) {
             return await useInventoryApiO(
                 "/api/procurement-request/price-quotation/" + id,

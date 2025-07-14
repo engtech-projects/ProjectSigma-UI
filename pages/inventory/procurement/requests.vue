@@ -35,31 +35,40 @@ watch(
     { deep: true }
 )
 
-const prId = ref(route.query.pr_id || null)
-const createPq = ref(false)
-const pqId = ref(route.query.pq_id || null)
-const createCs = ref(false)
-const csId = ref(route.query.cs_id || null)
-const createNcpo = ref(false)
-const ncpoId = ref(route.query.ncpo_id || null)
 onMounted(() => {
-    if (prId.value) {
-        procurementRequestStore.getOne(prId.value)
+    if (route.query.pr_id) {
+        procurementRequestStore.getOne(route.query.pr_id)
     }
-    if (pqId.value) {
-        procurementRequestStore.getPriceQuotation(pqId.value)
-    }
-})
-watch(() => route.query.pr_id, (newVal) => {
-    prId.value = newVal
-    if (newVal) {
-        procurementRequestStore.getOne(prId.value)
+    if (route.query.pq_id) {
+        procurementRequestStore.getPriceQuotation(route.query.pq_id)
     }
 })
-watch(() => route.query.pq_id, (newVal) => {
-    pqId.value = newVal
+const prId = computed(() => route.query.pr_id || null)
+const createPq = computed(() => !!route.query.create_pq)
+const pqId = computed(() => route.query.pq_id || null)
+const createCs = computed(() => !!route.query.create_cs)
+const csId = computed(() => route.query.cs_id || null)
+const createNcpo = computed(() => !!route.query.create_ncpo)
+const ncpoId = computed(() => route.query.ncpo_id || null)
+
+watch(prId, (newVal) => {
     if (newVal) {
-        procurementRequestStore.getPriceQuotation(pqId.value)
+        procurementRequestStore.getOne(newVal)
+    }
+})
+watch(pqId, (newVal) => {
+    if (newVal) {
+        procurementRequestStore.getPriceQuotation(newVal)
+    }
+})
+watch(csId, (newVal) => {
+    if (newVal) {
+        procurementRequestStore.getPriceQuotation(newVal)
+    }
+})
+watch(ncpoId, (newVal) => {
+    if (newVal) {
+        procurementRequestStore.getPriceQuotation(newVal)
     }
 })
 const closePrDetails = () => {
@@ -67,6 +76,7 @@ const closePrDetails = () => {
     prId.value = null
 }
 const closeCreatePq = () => {
+    router.replace({ query: { ...route.query, create_pq: undefined } })
     createPq.value = false
 }
 const closeEditPq = () => {
@@ -74,6 +84,7 @@ const closeEditPq = () => {
     pqId.value = null
 }
 const closeCreateCs = () => {
+    router.replace({ query: { ...route.query, create_cs: undefined } })
     createCs.value = false
 }
 const closeEditCs = () => {
@@ -81,6 +92,7 @@ const closeEditCs = () => {
     csId.value = null
 }
 const closeCreateNcpo = () => {
+    router.replace({ query: { ...route.query, create_ncpo: undefined } })
     createNcpo.value = false
 }
 const closeEditNcpo = () => {
@@ -95,6 +107,7 @@ const closeEditNcpo = () => {
         ])"
         class="w-full"
     >
+        <!-- [&>*]:hidden [&>:last-child]:block -->
         <div id="showOnlyOneChild" class="flex flex-col md:flex-cols gap-4 [&>*]:hidden [&>:last-child]:block">
             <LayoutBoards
                 title="Procurement Requests"
@@ -126,9 +139,9 @@ const closeEditNcpo = () => {
                     </button>
                 </template>
                 <template #default>
-                    <InventoryProcurementRequestPriceQuotationForm
+                    <InventoryPriceQuotationForm
                         :pr-id="prId"
-                        @close="closeCreatePq"
+                        @submit-success="closeCreatePq"
                     />
                 </template>
             </LayoutBoards>

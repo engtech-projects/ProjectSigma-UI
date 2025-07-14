@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useProcurementRequestStore } from "~/stores/inventory/procurement/request"
 
+const route = useRoute()
+const router = useRouter()
 const procurementRequestStore = useProcurementRequestStore()
 
 const { viewRequests } = storeToRefs(procurementRequestStore)
@@ -18,11 +20,21 @@ const rsInfoHeaders = [
     { name: "Reason for Request", id: "reason_for_request" },
     { name: "No. of Price Quotations", id: "price_quotation_count" },
 ]
+const createPq = () => {
+    router.push({
+        query: { ...route.query, create_pq: 1 },
+    })
+}
+const editPq = (pq: any) => {
+    router.push({
+        query: { ...route.query, pq_id: pq.id },
+    })
+}
 </script>
 <template>
     <div>
         <div class="mt-4 p-4 bg-white rounded-md border-4 border-sky-200">
-            <LayoutPrintAdvanced class="min-h-40">
+            <LayoutPrintAdvanced>
                 <template #print-layout>
                     <LayoutLoadingContainer
                         v-if="viewRequests.loading"
@@ -46,7 +58,7 @@ const rsInfoHeaders = [
                         :date-needed="viewRequests.details.requisition_slip.date_needed"
                         :date-prepared="viewRequests.details.requisition_slip.date_prepared"
                         :rs-info-headers="rsInfoHeaders"
-                        :rs-info="viewRequests.details"
+                        :rs-info="viewRequests.details.requisition_slip"
                         title="Requisition Slip"
                     />
                 </template>
@@ -79,9 +91,9 @@ const rsInfoHeaders = [
                     <HrmsCommonTabsTabContainer id="rpq">
                         <InventoryCommonLayoutFormCreate
                             :headers="headers"
-                            :datas="viewRequests.details"
-                            :on-create="() => showThirdPage('priceQuotation')"
-                            :on-edit="() => showThirdPage('priceQuotation')"
+                            :datas="viewRequests.details.price_quotations"
+                            :on-create="createPq"
+                            :on-edit="editPq"
                             title="Price Quotations List"
                             icon-label="Create Price Quotations"
                         />
@@ -89,7 +101,7 @@ const rsInfoHeaders = [
                     <HrmsCommonTabsTabContainer id="cs">
                         <InventoryCommonLayoutFormCreate
                             :headers="headers"
-                            :datas="viewRequests.details"
+                            :datas="viewRequests.details.canvass_summaries"
                             :on-create="() => showThirdPage('canvassSummary')"
                             :on-edit="() => showThirdPage('canvassSummary')"
                             title="Canvass Summary List"

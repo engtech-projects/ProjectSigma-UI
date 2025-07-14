@@ -16,7 +16,7 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
             details: {},
             params: {},
             pagination: {},
-        },
+        } as any,
         unserved: {
             isLoading: false,
             isLoaded: false,

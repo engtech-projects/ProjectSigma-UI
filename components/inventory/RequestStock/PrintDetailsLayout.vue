@@ -128,7 +128,7 @@ const denyRequest = async (id: number) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in data.items" :key="item.id" class="bg-white border-b">
+                            <tr v-for="item in data.requisition_slip.items" :key="item.id" class="bg-white border-b">
                                 <td class="px-4 py-2 border text-center">
                                     {{ item.quantity }}
                                 </td>
