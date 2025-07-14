@@ -30,7 +30,7 @@ const projectDetails = (data) => {
     <LayoutBoards class="w-full" :loading="archivedList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING_ARCHIVED_LIST,
+                AccessibilityTypes.PROJECTMONITORING_MARKETING_ARCHIVEDLIST,
             ])"
         >
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">

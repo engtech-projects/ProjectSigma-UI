@@ -30,7 +30,7 @@ const projectDetails = (data) => {
     <LayoutBoards class="w-full" :loading="onHoldList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING_ON_HOLD_LIST,
+                AccessibilityTypes.PROJECTMONITORING_MARKETING_ONHOLDLIST,
             ])"
         >
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">

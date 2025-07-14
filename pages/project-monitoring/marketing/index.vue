@@ -27,7 +27,7 @@ useHead({
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_MY_PROJECTS,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_MYPROJECTS,
                         ])"
                         title="My Projects"
                         target-id="myProjects"
@@ -35,7 +35,7 @@ useHead({
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROPOSAL_LIST,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_PROPOSALLIST,
                         ])"
                         title="Proposals"
                         target-id="proposals"
@@ -43,7 +43,7 @@ useHead({
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_BIDDING_LIST,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_BIDDINGLIST,
                         ])"
                         title="Bidding"
                         target-id="bidding"
@@ -51,7 +51,7 @@ useHead({
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_AWARDED_LIST,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_AWARDEDLIST,
                         ])"
                         title="Awarded"
                         target-id="awarded"
@@ -59,7 +59,7 @@ useHead({
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_ARCHIVED_LIST,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_ARCHIVEDLIST,
                         ])"
                         title="Archived"
                         target-id="archived"
@@ -67,7 +67,7 @@ useHead({
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_ON_HOLD_LIST,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_ONHOLDLIST,
                         ])"
                         title="On Hold"
                         target-id="onHold"

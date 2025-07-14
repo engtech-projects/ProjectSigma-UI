@@ -48,7 +48,7 @@ const projectDetails = (data) => {
         </template>
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING_AWARDED_LIST,
+                AccessibilityTypes.PROJECTMONITORING_MARKETING_AWARDEDLIST,
             ])"
         >
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
