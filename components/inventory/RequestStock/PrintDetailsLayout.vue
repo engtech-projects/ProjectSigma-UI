@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { useRequestStockStore } from "@/stores/inventory/requeststock"
-import { useHrmsEnumsStore } from "@/stores/hrms/enum"
-const enums = useHrmsEnumsStore()
-enums.getDepartmentEnums()
-enums.getProjectEnums()
 
 interface HeaderColumn {
     name: string,
@@ -153,12 +149,6 @@ const denyRequest = async (id: number) => {
                                 </td>
                                 <td class="px-4 py-2 border text-center">
                                     {{ item.location }}
-                                </td>
-                                <td class="px-4 py-2 border text-center">
-                                    {{ item.location_qty }}
-                                </td>
-                                <td class="px-4 py-2 border text-center">
-                                    {{ item.status }}
                                 </td>
                             </tr>
                         </tbody>
