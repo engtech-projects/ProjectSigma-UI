@@ -13,10 +13,6 @@ defineProps({
 })
 const emit = defineEmits(["hideModal", "update-stage"])
 const showAddModal = ref(false)
-// const resetModal = () => {
-//     showAddModal.value = false
-//     emit("hideModal")
-// }
 </script>
 <template>
     <ModalContainer
