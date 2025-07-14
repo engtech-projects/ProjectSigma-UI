@@ -30,7 +30,7 @@ const handleEmployeeChange = (value) => {
         <div class="flex flex-col gap-4">
             <div class="flex flex-col gap-2 justify-start items-start">
                 <div class="flex flex-row gap-2">
-                    <div v-if="AccessibilityTypes.ADMIN_ONLY">
+                    <div v-if="AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_SETCANVASSER">
                         <div v-if="!isSelecting" class="flex flex-row">
                             <button
                                 class="px-3 py-1 bg-purple-600 text-white text-xs font-bold rounded-md"
