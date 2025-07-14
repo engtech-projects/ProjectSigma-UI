@@ -30,7 +30,7 @@ const projectDetails = (data) => {
     <LayoutBoards class="w-full" :loading="myProjectList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING_MY_PROJECTS,
+                AccessibilityTypes.PROJECTMONITORING_MARKETING_MYPROJECTS,
             ])"
         >
             <div class="w-1/3 px-4">
