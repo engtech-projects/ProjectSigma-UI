@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { useRequestStockStore } from "@/stores/inventory/requeststock"
-import { useHrmsEnumsStore } from "@/stores/hrms/enum"
-const enums = useHrmsEnumsStore()
-enums.getDepartmentEnums()
-enums.getProjectEnums()
 
 interface HeaderColumn {
     name: string,
