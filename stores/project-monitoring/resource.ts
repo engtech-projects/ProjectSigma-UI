@@ -63,7 +63,7 @@ export const useResourceStore = defineStore("resourceStore", {
         async getResourceNames () {
             this.isLoading.list = true
             const { data, error } = await useFetch(
-                "/api/resource-names",
+                "/api/lookups/resource-names",
                 {
                     baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
@@ -93,7 +93,7 @@ export const useResourceStore = defineStore("resourceStore", {
         async getResourceUnits () {
             this.isLoading.list = true
             const { data, error } = await useFetch(
-                "/api/uom",
+                "/api/lookups/uom",
                 {
                     baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
@@ -199,7 +199,7 @@ export const useResourceStore = defineStore("resourceStore", {
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
-                this.errorMessage = "Error"
+                this.errorMessage = error.value.data.message
                 return error
             }
         },

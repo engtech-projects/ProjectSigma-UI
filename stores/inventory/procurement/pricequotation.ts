@@ -1,247 +1,188 @@
 import { defineStore } from "pinia"
 
-export const APPROVED = "Approved"
-export const PENDING = "Pending"
-export const DENIED = "Denied"
-export const APPROVALS = "Price Quotation"
-export const REQ_STATUS = [
-    APPROVED,
-    PENDING,
-    DENIED,
-]
-
-export interface PriceQuotationDetails {
-    date: string;
-    supplier_name: string;
-    address: string;
-    contact_person: string;
-    equipment_no: string;
-    conso_reference_no: string;
-    contact_number: string;
+export interface PriceQuotationItemForm {
+    price_quotation_id: number,
+    item_id: number,
+    item_description: string,
+    specification: string,
+    quantity: number,
+    uom: string,
+    preferred_brand: string,
+    actual_brand: string,
+    unit_price: number,
+    remarks_during_canvass: string
 }
-export interface PriceQuotationItems {
-    item_id: string;
-    specification: string;
-    qty: string;
-    unit: string;
-    preferred_brand: string;
-    actual_brand: string;
-    unit_price: string;
-    remarks: string;
+export interface PriceQuotationForm {
+    supplier_id: number,
+    date?: string,
+    address?: string,
+    contact_person?: string,
+    contact_no?: string,
+    conso_reference_no?: string,
+    quotation_no?: string,
+    items: Array<PriceQuotationItemForm>
+}
+export interface PriceQuotationMetadata {
+    date?: string,
+    address?: string,
+    contact_person?: string,
+    contact_no?: string,
+    conso_reference_no?: string,
+    quotation_no?: string,
+}
+export interface PriceQuotationItemMetadata {
+    item_description?: string,
+    specification?: string,
+    qty?: number,
+    uom?: string,
+    preferred_brand?: string,
+}
+export interface PriceQuotationItemDisplay {
+    id: number,
+    price_quotation_id: number,
+    item_id: number,
+    actual_brand?: string,
+    unit_price?: number,
+    remarks_during_canvass?: string,
+    created_at: string,
+    updated_at: string,
+    request_stock_item?: {
+        id: number,
+        item_profile: {
+            id: number,
+            name: string,
+            description: string,
+        },
+        uom: {
+            id: number,
+            name: string,
+        },
+    }
+}
+export interface PriceQuotationDisplay {
+    id: number,
+    request_procurement_id: number,
+    supplier_id: number,
+    metadata?: any,
+    created_at: string,
+    updated_at: string,
+    supplier?: {
+        id: number,
+        name: string,
+        address: string,
+        contact_person: string,
+        contact_number: string,
+    },
+    items: Array<PriceQuotationItemDisplay>
 }
 
 export const usePriceQuotationStore = defineStore("priceQuotationStore", {
     state: () => ({
-        priceQuotation: {
-            isLoading: false,
-            isLoaded: false,
-            form: {} as PriceQuotationDetails,
-            items: [] as Array<PriceQuotationItems>,
-            params: {
-                department_id: null as null | Number,
-            },
-            list: [] as Array<PriceQuotationDetails>,
-            pagination: {},
-        },
-        allRequests: {
+        allPQList: {
             isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
             pagination: {},
         },
-        myApprovals: {
+        createRequest: {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
-            pagination: {},
-        },
-        myRequests: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {},
-            pagination: {},
-        },
-        approvalList: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
+            details: {},
+            form: {
+                supplier_id: 0,
+                date: "",
+                address: "",
+                contact_person: "",
+                contact_no: "",
+                conso_reference_no: "",
+                quotation_no: "",
+                items: []
+            } as PriceQuotationForm,
             params: {},
             pagination: {},
             errorMessage: "",
             successMessage: "",
         },
+        editRequest: {
+            isLoading: false,
+            isLoaded: false,
+            details: {} as any,
+            form: {
+                supplier_id: 0,
+                date: "",
+                address: "",
+                contact_person: "",
+                contact_no: "",
+                conso_reference_no: "",
+                quotation_no: "",
+                items: []
+            } as PriceQuotationForm,
+            params: {},
+            pagination: {},
+        },
+        priceQuotationList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as PriceQuotationDisplay[],
+            details: {},
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        priceQuotation: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            details: {},
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        selectedItem: "",
         errorMessage: "",
         successMessage: "",
         remarks: "",
     }),
     actions: {
-        async getAllRequests () {
-            await useInventoryApi(
-                "/api/request-price-quotation/all-request",
-                {
-                    method: "GET",
-                    params: this.allRequests.params,
-                    onRequest: () => {
-                        this.allRequests.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.allRequests.isLoading = false
-                        if (response.ok) {
-                            this.allRequests.list = response._data.data.data
-                            this.allRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
-                            }
-                            this.allRequests.isLoaded = true
+        async storeRequest (id: any) {
+            this.clearMessages()
+            await useInventoryApiO(`/api/procurement-request/${id}/create-price-quotation`, {
+                method: "POST",
+                body: this.createRequest.form,
+                onRequest: () => {
+                    this.createRequest.isLoading = true
+                },
+                onResponse: ({ response }) => {
+                    if (response.ok) {
+                        this.reloadResources()
+                        this.createRequest.successMessage = response._data.message
+                        this.createRequest.form = {
+                            supplier_id: 0,
+                            date: "",
+                            address: "",
+                            contact_person: "",
+                            contact_no: "",
+                            conso_reference_no: "",
+                            quotation_no: "",
+                            items: []
                         }
-                    },
+                    }
+                    this.createRequest.isLoading = false
+                },
+                onResponseError: ({ response }) => {
+                    this.createRequest.isLoading = false
+                    this.createRequest.errorMessage = response?._data?.message || "Unexpected server error while creating price quotation."
+                    throw new Error(this.createRequest.errorMessage || "Unexpected server error while creating price quotation.")
                 }
-            )
+            })
         },
-        async getMyRequests () {
-            await useInventoryApi(
-                "/api/request-price-quotation/my-request",
-                {
-                    method: "GET",
-                    params: this.myRequests.params,
-                    onRequest: () => {
-                        this.myRequests.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.myRequests.isLoading = false
-                        if (response.ok) {
-                            this.myRequests.isLoaded = true
-                            this.myRequests.list = response._data.data.data
-                            this.myRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
-                            }
-                        } else {
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getMyApprovals () {
-            await useInventoryApi(
-                "/api/request-price-quotation/my-approvals",
-                {
-                    method: "GET",
-                    params: this.myApprovals.params,
-                    onRequest: () => {
-                        this.myApprovals.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.myApprovals.isLoading = false
-                        if (response.ok) {
-                            this.myApprovals.isLoaded = true
-                            this.myApprovals.list = response._data.data.data
-                            this.myApprovals.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
-                            }
-                        } else {
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async fetchQuotations () {
-            await useInventoryApi(
-                "/api/request-price-quotation/resource",
-                {
-                    method: "GET",
-                    params: this.priceQuotation.params,
-                    onRequest: () => {
-                        this.priceQuotation.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.priceQuotation.isLoading = false
-                        if (response.ok) {
-                            this.priceQuotation.list = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async fetchPriceQuotationDetails (id: any) {
-            await useInventoryApi(
-                "/api/request-price-quotation/resource/" + id,
-                {
-                    method: "GET",
-                    watch: false,
-                    onRequest: () => {
-                        this.priceQuotation.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.priceQuotation.isLoading = false
-                        if (response.ok) {
-                            this.priceQuotation.details = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async fetchPriceQuotationByWarehouseId (id: any) {
-            await useInventoryApi(
-                "/api/request-price-quotation/warehouse/" + id,
-                {
-                    method: "GET",
-                    watch: false,
-                    onRequest: () => {
-                        this.priceQuotation.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.priceQuotation.isLoading = false
-                        if (response.ok) {
-                            this.priceQuotation.details = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async storeRequest () {
-            await useInventoryApiO(
-                "/api/request-price-quotation/resource",
-                {
-                    method: "POST",
-                    body: {
-                        ...this.priceQuotation.form,
-                        details: this.priceQuotation.details, // Include details
-                    },
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.reloadResources()
-                            this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getOne (id: number) {
+        async getPriceQuotationDetails (id: number) {
             return await useInventoryApiO(
-                "/api/request-price-quotation/resource/" + id,
+                "/api/procurement-request/price-quotation/" + id,
                 {
                     method: "GET",
                     params: this.priceQuotation.params,
@@ -256,147 +197,62 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                 }
             )
         },
-        async approveApprovalForm (id: number) {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useInventoryApi(
-                "/api/approvals/approve/PriceQuotation/" + id,
-                {
-                    method: "POST",
-                    onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                            return response._data
-                        }
-                    },
-                }
-            )
-        },
-        async denyApprovalForm (id: string) {
-            this.successMessage = ""
-            this.errorMessage = ""
-            const formData = new FormData()
-            formData.append("id", id)
-            formData.append("remarks", this.remarks)
-            await useInventoryApi(
-                "/api/approvals/disapprove/PriceQuotation/" + id,
-                {
-                    method: "POST",
-                    body: formData,
-                    onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                            return response._data
-                        }
-                    },
-                }
-            )
-        },
-        async acceptAllItem (id: number, data: { remarks: string }) {
-            this.errorMessage = ""
-            this.successMessage = ""
 
-            await useInventoryApi(
-                `/api/request-price-quotation/item/${id}/accept-all`,
-                {
-                    method: "PATCH",
-                    body: JSON.stringify(data),
-                    watch: false,
-                    onRequest: () => {
-                        this.items.isLoading = true
-                    },
-                    onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        async acceptQtyRemarks (id: number, data: { acceptedQty: number, remarks: string }) {
-            this.errorMessage = ""
-            this.successMessage = ""
+        async updatePriceQuotationItem (itemId: number, itemData: Partial<PriceQuotationItemForm>) {
+            try {
+                this.priceQuotationList.isLoading = true
+                this.clearMessages()
 
-            await useInventoryApi(
-                `/api/request-price-quotation/item/${id}/accept-with-details`,
-                {
-                    method: "PATCH",
-                    body: JSON.stringify(data),
-                    watch: false,
-                    onRequest: () => {
-                        this.items.isLoading = true
-                    },
-                    onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
+                return await useInventoryApiO(
+                    `/api/price-quotation-item/${itemId}`,
+                    {
+                        method: "PUT",
+                        body: itemData,
+                        watch: false,
+                        onResponse: ({ response }) => {
+                            this.priceQuotationList.isLoading = false
+                            if (response.ok) {
+                                this.successMessage = response._data.message
+                                this.reloadResources()
+                                return response._data.data
+                            } else {
+                                this.errorMessage = response._data.message
+                                throw new Error(response._data.message)
+                            }
+                        },
+                    }
+                )
+            } catch (error) {
+                this.priceQuotationList.isLoading = false
+                this.errorMessage = error.message || "Failed to update price quotation item"
+                throw error
+            }
         },
-        async rejectItem (id: number, data: { remarks: string }) {
-            this.errorMessage = ""
-            this.successMessage = ""
-
-            await useInventoryApi(
-                `/api/request-price-quotation/item/${id}/reject`,
-                {
-                    method: "PATCH",
-                    body: JSON.stringify(data),
-                    watch: false,
-                    onRequest: () => {
-                        this.items.isLoading = true
-                    },
-                    onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
+            this.priceQuotationList.errorMessage = ""
+            this.priceQuotationList.successMessage = ""
         },
         reloadResources () {
-            const backup = this.approvalList.list
             const callFunctions = []
-            if (this.allRequests.isLoaded) {
-                callFunctions.push(this.getAllRequests)
+            let reloadOne = null
+            if (this.priceQuotation.isLoaded) {
+                reloadOne = this.priceQuotation.details.id
             }
-            if (this.myRequests.isLoaded) {
-                callFunctions.push(this.getMyRequests)
+            if (this.priceQuotationList.isLoaded) {
+                callFunctions.push(() => this.getPriceQuotationList(this.priceQuotationList.details.request_procurement_id))
             }
-            if (this.myApprovals.isLoaded) {
-                callFunctions.push(this.getMyApprovals)
-            }
+
             this.$reset()
-            this.approvalList.list = backup
+
             callFunctions.forEach((element) => {
                 element()
             })
+
+            if (reloadOne) {
+                this.getPriceQuotationList(reloadOne)
+            }
         },
     },
 })

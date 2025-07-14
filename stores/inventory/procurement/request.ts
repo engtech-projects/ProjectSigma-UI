@@ -1,5 +1,15 @@
 import { defineStore } from "pinia"
-
+export interface Canvasser {
+    id: Number,
+    user_id: Number,
+    procurement_id: Number,
+}
+export interface ProcurementRequestDetails {
+    id: Number,
+    request_requisition_slip_id: Number,
+    serve_status: String,
+    canvassers?: Array<any>,
+}
 export const useProcurementRequestStore = defineStore("procurementRequestStore", {
     state: () => ({
         allRequests: {
@@ -16,7 +26,7 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
             details: {},
             params: {},
             pagination: {},
-        },
+        } as any,
         unserved: {
             isLoading: false,
             isLoaded: false,
@@ -26,6 +36,16 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
             errorMessage: "",
             successMessage: "",
         },
+        canvasser: {
+            list: [] as Array<Canvasser>,
+            isLoading: false,
+            isLoaded: false,
+            params: {
+                user_ids: [],
+                procurement_id: 0
+            }
+        },
+        canvasserForm: {},
         selectedItem: "",
         errorMessage: "",
         successMessage: "",
@@ -93,6 +113,28 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
                             this.viewRequests.details = response._data.data
                             return response._data.data
                         } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async setCanvasser (id: any) {
+            await useInventoryApi(
+                "/api/procurement-request/set-canvasser/" + id,
+                {
+                    method: "PATCH",
+                    params: { user_ids: this.canvasserForm.user_ids },
+                    onRequest: () => {
+                        this.canvasser.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.canvasser.isLoading = false
+                        if (response.ok) {
+                            this.canvasser.list = response._data.data.canvassers
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },

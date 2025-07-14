@@ -88,6 +88,16 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
             successMessage: "",
             errorMessage: "",
         },
+        searchSupplier: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as any[],
+            params: {
+                search_key: ""
+            },
+            successMessage: "",
+            errorMessage: "",
+        },
     }),
     getters: {
         filteredItemList (state) : any[] {
@@ -140,7 +150,7 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
         },
         async getItems () {
             await useInventoryApi(
-                "/api/item-profile/search",
+                "/api/item-profile/search?query=",
                 {
                     method: "GET",
                     params: this.itemEnum.params,
@@ -195,6 +205,29 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
                         if (response.ok) {
                             this.supplierEnum.list = response._data.data ?? []
                         }
+                    },
+                }
+            )
+        },
+        async getSupplierSearch () {
+            await useInventoryApi(
+                "/api/request-supplier/search?search_key=",
+                {
+                    method: "GET",
+                    params: this.searchSupplier.params,
+                    onRequest: () => {
+                        this.searchSupplier.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.searchSupplier.isLoading = false
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.searchSupplier.list = response._data.data ?? []
+                            this.searchSupplier.isLoaded = true
+                        }
+                        this.searchSupplier.isLoading = false
                     },
                 }
             )

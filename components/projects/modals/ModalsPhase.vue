@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { usePhaseStore } from "@/stores/project-monitoring/phase"
 import { useProjectStore } from "~/stores/project-monitoring/projects"
 const phaseStore = usePhaseStore()

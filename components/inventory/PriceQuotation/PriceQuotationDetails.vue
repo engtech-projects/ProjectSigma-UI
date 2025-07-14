@@ -25,7 +25,6 @@ const props = defineProps({
 const main = usePriceQuotationStore()
 // const snackbar = useSnackbar()
 const { priceQuotation } = storeToRefs(main)
-const utils = useUtilities()
 
 const reactiveData = computed(() => props.data)
 
@@ -133,7 +132,7 @@ const reactiveData = computed(() => props.data)
                                             {{ item.actual_brand }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(item.unit_price) }}
+                                            {{ useFormatCurrency(item.unit_price) }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.remarks }}

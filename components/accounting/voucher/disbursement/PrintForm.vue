@@ -57,7 +57,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
 <template>
     <div id="toPrint" class="flex flex-col gap-2 bg-white left-0 top-0 w-screen max-w-[100%] p-2">
         <div v-for="page,i in numPages" :key="i" class="flex flex-col gap-2 pt-8 relative border-2 border-black pb-4 min-h-[1000px]">
-            <AccountingCommonEvenparHeader :page="{currentPage: i+1, totalPages: numPages.length}" :document-code="useAccountingEnums().dv" class="pb-4 border-b-4 border-green-400 mb-8" />
+            <AccountingCommonEvenparHeader :page="{currentPage: i+1, totalPages: numPages.length}" :document-code="useAccountingDocCodeEnums.dv" class="pb-4 border-b-4 border-green-400 mb-8" />
             <h1 v-if="i === 0" id="headText" class="text-2xl text-center font-bold text-block border-b-2 pb-2 border-black">
                 DISBURSEMENT VOUCHER
             </h1>

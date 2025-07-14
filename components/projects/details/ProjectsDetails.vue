@@ -1,5 +1,9 @@
 <script setup>
+import { useProjectStore } from "~/stores/project-monitoring/projects"
 const router = useRouter()
+const projectStore = useProjectStore()
+const boardLoading = ref(false)
+
 const goBackOrHome = () => {
     if (router.options.history.state.back) {
         router.back()
@@ -7,6 +11,7 @@ const goBackOrHome = () => {
         navigateTo("/project-monitoring/marketing")
     }
 }
+
 defineProps({
     projectDetails: {
         type: Object,
@@ -15,8 +20,8 @@ defineProps({
 })
 </script>
 <template>
-    <div class="flex flex-col gap-6 p-2">
-        <AccountingLoadScreen />
+    <div class="flex flex-col gap-6 p-2 relative">
+        <AccountingLoadScreen class="z-50" :is-loading="boardLoading" />
         <div class="flex items-center">
             <div class="flex-1 flex items-center gap-2 text-gray-500">
                 <div class="flex items-center border hover:bg-gray-500 hover:text-white gap-1 bg-gray-100 rounded-lg px-4 py-1 cursor-pointer" @click="goBackOrHome">
@@ -31,6 +36,7 @@ defineProps({
             :location="projectDetails.location"
             :license="projectDetails.license"
             :code="projectDetails.code"
+            :stage-status="projectDetails.stage"
         />
         <AccountingCommonTabsMainContainer class="w-full">
             <template #tab-titles>
@@ -69,6 +75,14 @@ defineProps({
                     title="BILL OF MATERIALS"
                     target-id="billOfMaterials"
                     class="hidden"
+                />
+            </template>
+            <template #tab-options>
+                <ProjectsStageButton
+                    v-if="projectStore.information.stage.toLowerCase() !== useProjectMarketingStatusEnums.stages[useProjectMarketingStatusEnums.stages.length - 1].toLowerCase()"
+                    :stage="projectDetails.stage"
+                    @updating-stage="boardLoading = true"
+                    @update-success="boardLoading = false"
                 />
             </template>
             <template #tab-containers>

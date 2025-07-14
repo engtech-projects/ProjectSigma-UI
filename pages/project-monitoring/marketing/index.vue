@@ -1,3 +1,17 @@
+<script setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { usePositionStore } from "@/stores/project-monitoring/positions"
+const positionStore = usePositionStore()
+const projectStore = useProjectStore()
+projectStore.$reset()
+positionStore.getAllPositions()
+definePageMeta({
+    layout: "default",
+})
+useHead({
+    title: "Marketing",
+})
+</script>
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
@@ -13,7 +27,7 @@
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_MY_PROJECTS,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_MYPROJECTS,
                         ])"
                         title="My Projects"
                         target-id="myProjects"
@@ -21,7 +35,7 @@
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROPOSAL_LIST,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_PROPOSALLIST,
                         ])"
                         title="Proposals"
                         target-id="proposals"
@@ -29,7 +43,7 @@
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_BIDDING_LIST,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_BIDDINGLIST,
                         ])"
                         title="Bidding"
                         target-id="bidding"
@@ -37,7 +51,7 @@
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_AWARDED_LIST,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_AWARDEDLIST,
                         ])"
                         title="Awarded"
                         target-id="awarded"
@@ -45,7 +59,7 @@
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_ARCHIVED_LIST,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_ARCHIVEDLIST,
                         ])"
                         title="Archived"
                         target-id="archived"
@@ -53,7 +67,7 @@
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_ON_HOLD_LIST,
+                            AccessibilityTypes.PROJECTMONITORING_MARKETING_ONHOLDLIST,
                         ])"
                         title="On Hold"
                         target-id="onHold"
@@ -87,11 +101,3 @@
         </div>
     </LayoutAcessContainer>
 </template>
-<script setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-import { usePositionStore } from "@/stores/project-monitoring/positions"
-const positionStore = usePositionStore()
-const projectStore = useProjectStore()
-projectStore.$reset()
-positionStore.getAllPositions()
-</script>

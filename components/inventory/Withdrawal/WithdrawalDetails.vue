@@ -26,7 +26,6 @@ const isDisabled = ref(false)
 const main = useReceivingStore()
 const snackbar = useSnackbar()
 const { receiving, remarks } = storeToRefs(main)
-const utils = useUtilities()
 
 const reactiveData = computed(() => props.data)
 
@@ -236,10 +235,10 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                             {{ item.uom }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(item.unit_price) }}
+                                            {{ useFormatCurrency(item.unit_price) }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(item.unit_price) }}
+                                            {{ useFormatCurrency(item.unit_price) }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             <template v-if="item.status === 'Rejected'">
@@ -287,19 +286,19 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                                         <strong>Total net of VAT cost:</strong>
                                                     </p>
                                                     <p v-if="title" class="text-md text-gray-900">
-                                                        {{ utils.formatCurrency(reactiveData.total_net_of_vat_cost) }}
+                                                        {{ useFormatCurrency(reactiveData.total_net_of_vat_cost) }}
                                                     </p>
                                                     <p v-if="title" class="text-md text-gray-900">
                                                         <strong>Total Input VAT:</strong>
                                                     </p>
                                                     <p v-if="title" class="text-md text-gray-900">
-                                                        {{ utils.formatCurrency(reactiveData.total_input_vat) }}
+                                                        {{ useFormatCurrency(reactiveData.total_input_vat) }}
                                                     </p>
                                                     <p v-if="title" class="text-md text-gray-900">
                                                         <strong> Grand Total:</strong>
                                                     </p>
                                                     <p v-if="title" class="text-md text-gray-900">
-                                                        {{ `₱${utils.formatCurrency(reactiveData.grand_total)}` }}
+                                                        {{ `₱${useFormatCurrency(reactiveData.grand_total)}` }}
                                                     </p>
                                                 </div>
                                             </div>

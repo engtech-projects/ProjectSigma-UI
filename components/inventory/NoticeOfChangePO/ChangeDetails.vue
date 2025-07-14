@@ -25,7 +25,6 @@ const props = defineProps({
 const main = useNcpoStore()
 // const snackbar = useSnackbar()
 const { ncpoRequest } = storeToRefs(main)
-const utils = useUtilities()
 
 const reactiveData = computed(() => props.data)
 const changesHeaders = [
@@ -108,16 +107,16 @@ const changesHeaders = [
                                                     {{ item.supplier_id }}
                                                 </td>
                                                 <td class="border px-2 py-1 text-center">
-                                                    {{ utils.formatCurrency(item.unit_price) }}
+                                                    {{ useFormatCurrency(item.unit_price) }}
                                                 </td>
                                                 <td class="border px-2 py-1 text-center">
-                                                    {{ utils.formatCurrency(item.net_of_vat) }}
+                                                    {{ useFormatCurrency(item.net_of_vat) }}
                                                 </td>
                                                 <td class="border px-2 py-1 text-center">
-                                                    {{ utils.formatCurrency(item.input_vat) }}
+                                                    {{ useFormatCurrency(item.input_vat) }}
                                                 </td>
                                                 <td class="border px-2 py-1 text-center">
-                                                    {{ utils.formatCurrency(item.gross_amount) }}
+                                                    {{ useFormatCurrency(item.gross_amount) }}
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -153,10 +152,10 @@ const changesHeaders = [
                                                     {{ item.uom }}
                                                 </td>
                                                 <td class="border px-2 py-1 text-center">
-                                                    {{ utils.formatCurrency(item.unit_price) }}
+                                                    {{ useFormatCurrency(item.unit_price) }}
                                                 </td>
                                                 <td class="border px-2 py-1 text-center">
-                                                    {{ utils.formatCurrency(item.gross_amount) }}
+                                                    {{ useFormatCurrency(item.gross_amount) }}
                                                 </td>
                                                 <td class="border px-2 py-1 text-center">
                                                     {{ item.brand || "-" }}
@@ -165,10 +164,10 @@ const changesHeaders = [
                                                     {{ item.cancel_item ? "Yes" : "No" }}
                                                 </td>
                                                 <!-- <td class="border px-2 py-1 text-center">
-                                                    {{ utils.formatCurrency(item.net_of_vat) }}
+                                                    {{ useFormatCurrency(item.net_of_vat) }}
                                                 </td>
                                                 <td class="border px-2 py-1 text-center">
-                                                    {{ utils.formatCurrency(item.gross_amount + item.input_vat) }}
+                                                    {{ useFormatCurrency(item.gross_amount + item.input_vat) }}
                                                 </td> -->
                                             </tr>
                                         </tbody>
@@ -183,7 +182,7 @@ const changesHeaders = [
                                 Total
                             </h3>
                             <p class="text-2xl font-bold">
-                                {{ utils.formatCurrency(total) }}
+                                {{ useFormatCurrency(total) }}
                             </p>
                         </div>
                         <div class="w-1/2 bg-white p-4 rounded-md border border-gray-300">
@@ -191,7 +190,7 @@ const changesHeaders = [
                                 New PO Total
                             </h3>
                             <p class="text-2xl font-bold">
-                                {{ utils.formatCurrency(new_po_total) }}
+                                {{ useFormatCurrency(new_po_total) }}
                             </p>
                         </div>
                     </div>

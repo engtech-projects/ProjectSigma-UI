@@ -5,7 +5,6 @@ import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 const cashadvances = useCashadvanceStore()
 const { myApprovalRequestList, pagination, getParams, ca } = storeToRefs(cashadvances)
 const showInformationModal = ref(false)
-const utils = useUtilities()
 onMounted(() => {
     if (!myApprovalRequestList.value.isLoaded) {
         cashadvances.getMyApprovalRequests()
@@ -13,18 +12,8 @@ onMounted(() => {
 })
 const showInformation = (data) => {
     ca.value = data
-    newPayment.value.cashadvance_id = data.id
     showInformationModal.value = true
 }
-const newPayment = ref({
-    id: null,
-    cashadvance_id: null,
-    amount_paid: null,
-    date_paid: utils.value.dateToString(new Date()),
-    payment_type: "Manual",
-    posting_status: "Posted",
-    paymentAmount: null,
-})
 const headers = [
     { name: "Employee Name", id: "employee.fullname_first" },
     { name: "Cash Advance Amount", id: "amount_formatted" },

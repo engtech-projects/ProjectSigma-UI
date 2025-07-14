@@ -10,7 +10,6 @@ const { employeeIsSearched, information } = storeToRefs(employee)
 const { employee_dtr: employeeDtr } = storeToRefs(dtrStore)
 
 const snackbar = useSnackbar()
-const utils = useUtilities()
 const loading = ref(false)
 const date = new Date()
 const y = date.getFullYear()
@@ -18,8 +17,8 @@ const m = date.getMonth()
 const defaultFrom = new Date(y, m, 1)
 const defaultTo = new Date(date.getFullYear(), date.getMonth() + 1, 0)
 const filterDate = ref({
-    from: utils.value.dateToString(defaultFrom),
-    to: utils.value.dateToString(defaultTo),
+    from: dateToString(defaultFrom),
+    to: dateToString(defaultTo),
     data: [],
     keys: [],
 })

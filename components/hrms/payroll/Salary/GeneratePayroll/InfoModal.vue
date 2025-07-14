@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 
-const { data: userData } = useAuth()
 defineProps({
     data: {
         type: Object,
@@ -114,7 +113,7 @@ const denyRequest = async (id : any) => {
             </LayoutPrint>
         </template>
         <template #footer>
-            <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="data.next_approval && useCheckIsCurrentUser(data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
                 <HrmsCommonApprovalDenyButton
                     v-model:deny-remarks="denyRemarks"
                     :request-id="data.id"

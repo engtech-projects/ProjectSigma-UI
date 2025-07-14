@@ -4,7 +4,6 @@ import { useModalStore } from "~/stores/modal"
 const modalStore = useModalStore()
 const salaryGradeStore = useSalaryGradeStore()
 await salaryGradeStore.getSalaryGrade()
-const utils = useUtilities()
 const snackbar = useSnackbar()
 const toDelete = ref({})
 
@@ -69,7 +68,7 @@ function setDelete (_sg: any) {
                             {{ sg.salary_grade_level }}
                         </td>
                         <td v-for="st in sg.salary_grade_step" :key="st.id" class="p-2 text-left border">
-                            {{ utils.formatCurrency(st.monthly_salary_amount) }}
+                            {{ useFormatCurrency(st.monthly_salary_amount) }}
                         </td>
                         <td>
                             <div class="flex gap-2 items-center pl-2">

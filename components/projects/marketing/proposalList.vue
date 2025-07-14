@@ -9,7 +9,7 @@ const requestData = ref(null)
 const showInformationModal = ref(false)
 
 const draftDetails = (data) => {
-    navigateTo(`/project-monitoring/my-proposal?id=${data.id}`)
+    navigateTo(`/project-monitoring/information?id=${data.id}`)
 }
 const changePaginate = (newParams) => {
     proposalList.value.params.page = newParams.page ?? ""
@@ -18,7 +18,7 @@ const headers = [
     { name: "PROJECT NAME", id: "name", style: "text-left" },
     { name: "LOCATION", id: "location", style: "text-left" },
     { name: "AMOUNT", id: "amount", style: "text-left" },
-    { name: "CREATED AT", id: "created_at", style: "text-left" },
+    { name: "DATE CREATED", id: "created_at", style: "text-left" },
     { name: "STATUS", id: "stage", style: "text-left" },
 ]
 const actions = {
@@ -32,7 +32,7 @@ const ddata = computed(() => {
     <LayoutBoards class="w-full" :loading="proposalList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROPOSAL_LIST,
+                AccessibilityTypes.PROJECTMONITORING_MARKETING_PROPOSALLIST,
             ])"
         >
             <div class="w-1/3 hidden">

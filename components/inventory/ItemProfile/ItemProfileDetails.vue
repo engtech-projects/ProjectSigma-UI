@@ -27,8 +27,6 @@ defineProps({
     },
 })
 
-const { data: userData } = useAuth()
-
 const profileStore = useItemProfileStore()
 
 const snackbar = useSnackbar()
@@ -230,7 +228,7 @@ const denyRequest = async (id:any) => {
                 </div>
             </LayoutPrint>
             <div id="footer">
-                <div v-if="request.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+                <div v-if="request.next_approval && useCheckIsCurrentUser(request.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
                     <HrmsCommonApprovalDenyButton
                         v-model:deny-remarks="remarks"
                         :request-id="request.id"

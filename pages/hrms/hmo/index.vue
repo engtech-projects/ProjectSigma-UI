@@ -4,7 +4,6 @@ import { useHMOStore } from "@/stores/hrms/setup/hmo"
 const hmoStore = useHMOStore()
 hmoStore.getHmo()
 const modalStore = useModalStore()
-const utils = useUtilities()
 const snackbar = useSnackbar()
 const currentHmo = ref({})
 const isLoading = ref(false)
@@ -81,10 +80,10 @@ const deleteHmo = async () => {
                         {{ hmo.hmo_end }}
                     </td>
                     <td>
-                        {{ utils.formatCurrency(hmo.employer_share) }}
+                        {{ useFormatCurrency(hmo.employer_share) }}
                     </td>
                     <td>
-                        {{ utils.formatCurrency(hmo.employee_share) }}
+                        {{ useFormatCurrency(hmo.employee_share) }}
                     </td>
                     <td class="py-2">
                         <div class="flex gap-3 items-center">

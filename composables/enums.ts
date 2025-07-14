@@ -1,4 +1,4 @@
-export const useAccountingEnums = {
+export const useAccountingDocCodeEnums = {
     prf: "FM-ACS-001-1",
     payroll_liquidation: "FM-TRS-001-1",
     cash_return_slip: "FM-TRS-002-3",
@@ -9,6 +9,9 @@ export const useAccountingEnums = {
     liquidation_form: "FM-TRS-001-1",
     cv: "FM-ACS-001-1",
     dv: "FM-ACS-001-1",
+}
+export const useProjectMarketingStatusEnums = {
+    stages: ["draft", "proposal", "bidding", "awarded"]
 }
 export const useInventoryDocCode = {
     requisition_slip: "FM-IMS-001-1",

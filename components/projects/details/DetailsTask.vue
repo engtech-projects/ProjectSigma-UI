@@ -24,7 +24,7 @@ const addResource = (id) => {
     showResourceModal.value = true
     resourceStore.reset()
     resourceStore.resource.name_id = id
-    resourceStore.resource.task_id = task.id
+    resourceStore.resource.task_id = task.value.id
 }
 const editResource = (resource: any) => {
     showResourceModal.value = true
@@ -56,7 +56,7 @@ const removeResource = async (id: number) => {
             text: resourceStore.errorMessage
         })
     } finally {
-        taskStore.getTask(task.id)
+        taskStore.getTask(task.value.id)
         boardLoading.value = false
     }
 }

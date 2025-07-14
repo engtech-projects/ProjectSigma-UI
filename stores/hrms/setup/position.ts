@@ -48,11 +48,11 @@ export const usePositionStore = defineStore("positions", {
                     },
                     params: this.allRequests.params,
                     onResponse: ({ response }) => {
-                        this.allRequests.list = response._data.data.data
+                        this.allRequests.list = response._data.data
                         this.allRequests.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     },
                 }

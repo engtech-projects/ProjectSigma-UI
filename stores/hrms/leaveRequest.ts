@@ -162,11 +162,11 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                         this.allList.isLoading = false
                         if (response.ok) {
                             this.allList.isLoaded = true
-                            this.allList.list = response._data.data.data
+                            this.allList.list = response._data.data
                             this.allList.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     },
@@ -189,11 +189,11 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                         this.myRequestList.isLoading = false
                         if (response.ok) {
                             this.myRequestList.isLoaded = true
-                            this.myRequestList.list = response._data.data.data
+                            this.myRequestList.list = response._data.data
                             this.myRequestList.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     },
@@ -218,11 +218,11 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                         this.approvalList.isLoading = false
                         if (response.ok) {
                             this.approvalList.isLoaded = true
-                            this.approvalList.list = response._data.data.data
+                            this.approvalList.list = response._data.data
                             this.approvalList.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     },

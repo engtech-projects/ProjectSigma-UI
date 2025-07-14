@@ -6,7 +6,6 @@ import { useNatureOfWorkStore } from "@/stores/project-monitoring/natureOfWork"
 const positionStore = usePositionStore()
 const natureOfWorkStore = useNatureOfWorkStore()
 const projectStore = useProjectStore()
-const { list: positionList } = storeToRefs(positionStore)
 const { list: natureOfWorkList } = storeToRefs(natureOfWorkStore)
 const showUploadModal = ref(false)
 const snackbar = useSnackbar()
@@ -19,7 +18,6 @@ onMounted(() => {
 const handleSubmit = async () => {
     try {
         projectStore.isLoading.create = true
-        projectStore.information.employee_id = 1
         await projectStore.createProject()
         if (projectStore.errorMessage !== "") {
             snackbar.add({
@@ -88,14 +86,16 @@ const handleSubmit = async () => {
                         placeholder="License"
                     />
                     <LayoutFormPsTextInput
-                        v-model="projectStore.information.designation"
-                        :title="'Designation'"
-                        placeholder="Designation"
+                        v-model="projectStore.information.designator"
+                        :title="'Designator'"
+                        placeholder="Designator"
+                        :required="true"
                     />
-                    <LayoutFormPsSelectWithValue
-                        v-model="projectStore.information.position_id"
-                        :options-list="positionList.map(item => ({ value: item.id, label: item.name }))"
-                        title="Position"
+                    <LayoutFormPsTextInput
+                        v-model="projectStore.information.position"
+                        :title="'Position'"
+                        placeholder="Position"
+                        :required="true"
                     />
                 </div>
                 <div class="w-full">

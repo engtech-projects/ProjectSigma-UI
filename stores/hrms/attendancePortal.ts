@@ -190,11 +190,11 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.attendanceLogs.isLoaded = true
-                            this.attendanceLogs.list = response._data.data.data
+                            this.attendanceLogs.list = response._data.data
                             this.attendanceLogs.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -297,11 +297,11 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                     onResponse: ({ response }: any) => {
                         this.allAttendancePortals.isLoading = false
                         if (response.ok) {
-                            this.allAttendancePortals.list = response._data.data.data
+                            this.allAttendancePortals.list = response._data.data
                             this.allAttendancePortals.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                             return response._data
                         } else {

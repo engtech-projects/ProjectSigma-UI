@@ -1,8 +1,8 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
-const projectStore = useProjectStore()
 
+const projectStore = useProjectStore()
 const { archivedList } = storeToRefs(projectStore)
 
 const changePaginate = (newParams) => {
@@ -13,7 +13,7 @@ const headers = [
     { name: "PROJECT NAME", id: "name", style: "text-left" },
     { name: "LOCATION", id: "location", style: "text-left" },
     { name: "AMOUNT", id: "amount", style: "text-left" },
-    { name: "CREATED AT", id: "created_at", style: "text-left" },
+    { name: "DATE CREATED", id: "created_at", style: "text-left" },
     { name: "STATUS", id: "stage", style: "text-left" },
 ]
 const actions = {
@@ -30,7 +30,7 @@ const projectDetails = (data) => {
     <LayoutBoards class="w-full" :loading="archivedList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING_ARCHIVED_LIST,
+                AccessibilityTypes.PROJECTMONITORING_MARKETING_ARCHIVEDLIST,
             ])"
         >
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">

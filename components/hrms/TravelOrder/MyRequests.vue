@@ -30,6 +30,9 @@ const actions = {
     showTable: true,
 }
 
+const changePaginate = (newParams) => {
+    myRequestList.value.params.page = newParams.page ?? ""
+}
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="myRequestList.isLoading">

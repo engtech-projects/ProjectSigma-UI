@@ -13,7 +13,7 @@ const headers = [
     { name: "PROJECT NAME", id: "name", style: "text-left" },
     { name: "LOCATION", id: "location", style: "text-left" },
     { name: "AMOUNT", id: "amount", style: "text-left" },
-    { name: "CREATED AT", id: "created_at", style: "text-left" },
+    { name: "DATE CREATED", id: "created_at", style: "text-left" },
     { name: "STATUS", id: "stage", style: "text-left" },
 ]
 const actions = {
@@ -30,14 +30,17 @@ const projectDetails = (data) => {
     <LayoutBoards class="w-full" :loading="myProjectList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING_MY_PROJECTS,
+                AccessibilityTypes.PROJECTMONITORING_MARKETING_MYPROJECTS,
             ])"
         >
             <div class="w-1/3 px-4">
                 <label for="status" class="block text-sm font-medium text-gray-700">Project Status</label>
-                <select v-model="myProjectList.params.key" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select v-model="myProjectList.params.stage" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option :value="null" disabled selected>
                         - Select -
+                    </option>
+                    <option :value="''">
+                        All
                     </option>
                     <option :value="ProjectStatus.DRAFT">
                         Draft
@@ -45,7 +48,7 @@ const projectDetails = (data) => {
                     <option :value="ProjectStatus.PROPOSAL">
                         Proposal
                     </option>
-                    <option :value="ProjectStatus.AWARDEED">
+                    <option :value="ProjectStatus.AWARDED">
                         Awarded
                     </option>
                     <option :value="ProjectStatus.BIDDING">

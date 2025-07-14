@@ -134,11 +134,11 @@
                             <td class="font-semibold uppercase px-2">
                                 D.
                             </td>
-                            <td class="pX-2 uppercase">
+                            <td class="px-2 uppercase">
                                 Direct Cost
                             </td>
-                            <td class="pX-2 text-center" />
-                            <td class="pX-2 text-center" />
+                            <td class="px-2 text-center" />
+                            <td class="px-2 text-center" />
                             <td class="text-right px-2" />
                             <td class="text-right px-2">
                                 {{ accountingCurrency(taskStore.task.resources.resources_item_total) }}
@@ -148,13 +148,13 @@
                             <td class="font-semibold uppercase px-2">
                                 E.
                             </td>
-                            <td class="pX-2 uppercase">
+                            <td class="px-2 uppercase">
                                 O.C.M
                             </td>
-                            <td class="pX-2 text-center">
+                            <td class="px-2 text-center">
                                 10%
                             </td>
-                            <td class="pX-2 text-center" />
+                            <td class="px-2 text-center" />
                             <td class="text-right px-2">
                                 of D
                             </td>
@@ -166,13 +166,13 @@
                             <td class="font-semibold uppercase px-2">
                                 F.
                             </td>
-                            <td class="pX-2 uppercase">
+                            <td class="px-2 uppercase">
                                 Contractors Profit
                             </td>
-                            <td class="pX-2 text-center">
+                            <td class="px-2 text-center">
                                 10%
                             </td>
-                            <td class="pX-2 text-center" />
+                            <td class="px-2 text-center" />
                             <td class="text-right px-2">
                                 of D
                             </td>
@@ -184,13 +184,13 @@
                             <td class="font-semibold uppercase px-2">
                                 g.
                             </td>
-                            <td class="pX-2 uppercase">
+                            <td class="px-2 uppercase">
                                 vAT (Where Applicable)
                             </td>
-                            <td class="pX-2 text-center">
+                            <td class="px-2 text-center">
                                 12%
                             </td>
-                            <td class="pX-2 text-center" />
+                            <td class="px-2 text-center" />
                             <td class="text-right px-2">
                                 of (D + E + F)
                             </td>
@@ -202,11 +202,11 @@
                             <td class="font-semibold uppercase px-2">
                                 H.
                             </td>
-                            <td class="pX-2 uppercase">
+                            <td class="px-2 uppercase">
                                 Total Cost
                             </td>
-                            <td class="pX-2 text-center" />
-                            <td class="pX-2 text-center" />
+                            <td class="px-2 text-center" />
+                            <td class="px-2 text-center" />
                             <td class="text-right px-2">
                                 (D + E + F + G)
                             </td>
@@ -218,11 +218,11 @@
                             <td class="font-semibold uppercase px-2">
                                 I.
                             </td>
-                            <td class="pX-2 uppercase">
+                            <td class="px-2 uppercase">
                                 Unit Cost Per
                             </td>
-                            <td class="pX-2 text-center" />
-                            <td class="pX-2 text-center" />
+                            <td class="px-2 text-center" />
+                            <td class="px-2 text-center" />
                             <td class="text-right px-2">
                                 sq.m
                             </td>
@@ -262,10 +262,11 @@ const resourceStore = useResourceStore()
 const letterHeader = ref(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"])
 const taskStore = useTaskStore()
 const filterResources = (id: number) => {
-    return taskStore.task.resources.data.filter(resource => resource.resources.id === id)
+    return taskStore.task.resources.data.filter(resource => resource.resources.id === id) || []
 }
 const totalDirectCost = (id: number) => {
-    return taskStore.task.resources.data.filter(resource => resource.resources.id === id).reduce((total: number, resource: any) => total + resource.unit_cost * resource.quantity, 0)
+    const resources = taskStore.task.resources?.data?.filter(resource => resource.resources?.id === id) || []
+    return resources.reduce((total: number, resource: any) => total + (resource.unit_cost || 0) * (resource.quantity || 0), 0)
 }
 const addResource = (id) => {
     resourceStore.reset()
