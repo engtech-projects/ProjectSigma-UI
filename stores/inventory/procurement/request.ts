@@ -42,8 +42,9 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
             isLoaded: false,
             params: {
                 user_ids: [],
-                procurement_id: 0
-            }
+            },
+            successMessage: "",
+            errorMessage: "",
         },
         canvasserForm: {},
         selectedItem: "",

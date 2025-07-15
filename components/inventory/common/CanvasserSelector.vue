@@ -2,7 +2,7 @@
 import { useProcurementRequestStore } from "@/stores/inventory/procurement/request"
 
 const procurementStore = useProcurementRequestStore()
-const { canvasser, canvasserForm } = storeToRefs(procurementStore)
+const { canvasser, canvasserForm, viewRequests } = storeToRefs(procurementStore)
 const snackbar = useSnackbar()
 
 const route = useRoute()
@@ -22,10 +22,9 @@ const doSet = () => {
 const saveNewCanvasser = async () => {
     const userIds: number[] = mainCanvasser.value.map((data: { user_id: any; }) => data.user_id)
     canvasserForm.value = {
-        user_ids: userIds,
-        procurement_request: procurementId.value,
+        user_ids: JSON.stringify(userIds),
     }
-    await procurementStore.setCanvasser(procurementId.value)
+    await procurementStore.setCanvasser(viewRequests.value.details.id)
     if (procurementStore.errorMessage !== "") {
         snackbar.add({
             type: "error",
