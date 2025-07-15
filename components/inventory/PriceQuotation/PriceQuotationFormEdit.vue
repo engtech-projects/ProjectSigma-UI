@@ -4,8 +4,6 @@ import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequot
 const mainStore = usePriceQuotationStore()
 const { editRequest, priceQuotation } = storeToRefs(mainStore)
 
-const snackbar = useSnackbar()
-const emit = defineEmits(["submit-success"])
 const itemOptions = ref<any>([])
 const rsIsConsoType = ref(false)
 
@@ -30,75 +28,6 @@ watch(
     },
     { deep: true }
 )
-
-const isSubmitting = ref(false)
-
-const submitForm = async () => {
-    try {
-        if (!priceQuotation.value.details.items.length) {
-            snackbar.add({
-                type: "warning",
-                text: "No items to update.",
-            })
-            return
-        }
-
-        isSubmitting.value = true
-        mainStore.clearMessages()
-
-        await Promise.all(priceQuotation.value.details.items.map(item =>
-            mainStore.updatePriceQuotationItem(item.id, {
-                actual_brand: item.brand,
-                unit_price: item.price,
-                remarks_during_canvass: item.remarks
-            })
-        ))
-
-        snackbar.add({
-            type: "success",
-            text: "Price Quotation updated successfully."
-        })
-        emit("submit-success")
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error.message || "Failed to update"
-        })
-    } finally {
-        isSubmitting.value = false
-    }
-}
-
-// const submitForm = async () => {
-//     try {
-//         if (!priceQuotation.value.details.items.length) {
-//             snackbar.add({
-//                 type: "warning",
-//                 text: "No items to update.",
-//             })
-//             return
-//         }
-
-//         for (const item of priceQuotation.value.details.items) {
-//             await mainStore.updatePriceQuotationItem(item.id, {
-//                 actual_brand: item.brand,
-//                 unit_price: item.price,
-//                 remarks_during_canvass: item.remarks
-//             })
-//         }
-
-//         snackbar.add({
-//             type: "success",
-//             text: "Price Quotation updated successfully."
-//         })
-//         emit("submit-success")
-//     } catch (error) {
-//         snackbar.add({
-//             type: "error",
-//             text: error.message || "Failed to update"
-//         })
-//     }
-// }
 
 </script>
 
@@ -163,9 +92,45 @@ const submitForm = async () => {
                         </div>
                     </div>
                     <div class="w-full">
-                        <InventoryPriceQuotationItemListEdit
-                            v-model="priceQuotation.details.items"
-                        />
+                        <div class="overflow-x-auto rounded-lg shadow-md bg-white">
+                            <table class="min-w-full text-sm text-left border border-gray-200">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="p-3 border-b font-medium">
+                                            Item Description
+                                        </th>
+                                        <th class="p-3 border-b font-medium">
+                                            Specification
+                                        </th>
+                                        <th class="p-3 border-b font-medium">
+                                            QTY
+                                        </th>
+                                        <th class="p-3 border-b font-medium">
+                                            UOM
+                                        </th>
+                                        <th class="p-3 border-b font-medium">
+                                            Preferred Brand
+                                        </th>
+                                        <th class="p-3 border-b font-medium">
+                                            Actual Brand
+                                        </th>
+                                        <th class="p-3 border-b font-medium">
+                                            Unit Price
+                                        </th>
+                                        <th class="p-3 border-b font-medium">
+                                            Remarks
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <InventoryPriceQuotationItemListEdit
+                                        v-for="(_item, index) in priceQuotation.details?.items"
+                                        :key="index+'pq-item'"
+                                        v-model="priceQuotation.details.items[index]"
+                                    />
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="w-full p-4 bg-white rounded-lg">
                         <p class="text-sm font-medium text-gray-900">
@@ -173,34 +138,8 @@ const submitForm = async () => {
                             appreciated.
                         </p>
                     </div>
-                    <div class="flex w-full justify-end items-center gap-4 no-print">
-                        <!-- <button
-                            type="submit"
-                            class="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                        >
-                            Submit
-                        </button> -->
-                        <button
-                            type="submit"
-                            :disabled="isSubmitting"
-                            class="flex items-center justify-center gap-2 text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            <span v-if="isSubmitting">
-                                <Icon name="mdi:loading" class="animate-spin h-5 w-5" />
-                            </span>
-                            <span>{{ isSubmitting ? 'Submitting...' : 'Submit' }}</span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </form>
     </div>
 </template>
-
-<style scoped>
-@media print {
-    .no-print {
-        display: none !important;
-    }
-}
-</style>

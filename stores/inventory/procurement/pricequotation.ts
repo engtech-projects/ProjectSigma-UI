@@ -213,7 +213,6 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                             this.priceQuotationList.isLoading = false
                             if (response.ok) {
                                 this.successMessage = response._data.message
-                                this.reloadResources()
                                 return response._data.data
                             } else {
                                 this.errorMessage = response._data.message

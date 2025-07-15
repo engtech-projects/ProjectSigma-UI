@@ -1,6 +1,10 @@
+import { useDebounceFn } from "@vueuse/core"
 const config = useRuntimeConfig()
+export const useDebouncedFn = (fn: any, delay = 300) => {
+    return useDebounceFn(fn, delay)
+}
 export const useUtilities = () => {
-    function formatTime (time) {
+    function formatTime (time: string) {
         // Handle potential seconds in the input string
         const timeParts = time.split(":")
 
@@ -29,7 +33,7 @@ export const useUtilities = () => {
             return "Invalid time format. Please use HH:mm or HH:mm:ss"
         }
     }
-    function addOneDay (dateString) {
+    function addOneDay (dateString: string | number | Date) {
         try {
             // Parse the date string into a Date object
             const dateObj = new Date(dateString)
@@ -106,7 +110,7 @@ export const amountToWords = (num: any) => {
     const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
     const thousands = ["", "Thousand", "Million", "Billion", "Trillion"]
 
-    function helper (n) {
+    function helper (n: number) {
         if (n === 0) {
             return ""
         } else if (n < 20) {
@@ -118,7 +122,7 @@ export const amountToWords = (num: any) => {
         }
     }
 
-    function convertWholePart (n) {
+    function convertWholePart (n: number) {
         if (n === 0) {
             return "Zero"
         }
@@ -137,7 +141,7 @@ export const amountToWords = (num: any) => {
         return word.trim()
     }
 
-    function convertCents (decimalPart) {
+    function convertCents (decimalPart: number) {
         const cents = Math.round(decimalPart * 100)
         if (cents === 0) {
             return ""
@@ -156,8 +160,8 @@ export const amountToWords = (num: any) => {
     }
 }
 
-export const sortByProperty = (array, property, sortOrder = "asc") => {
-    return array.sort((a, b) => {
+export const sortByProperty = (array: any[], property: string | number, sortOrder = "asc") => {
+    return array.sort((a: { [x: string]: number }, b: { [x: string]: number }) => {
         if (sortOrder === "asc") {
             return a[property] > b[property] ? 1 : -1
         } else {
@@ -166,7 +170,7 @@ export const sortByProperty = (array, property, sortOrder = "asc") => {
     })
 }
 
-export const randomInt = (min, max) => {
+export const randomInt = (min: number, max: number) => {
     min = Math.ceil(min)
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min + 1)) + min
@@ -178,7 +182,7 @@ export const fullDate = (dateString: any) => {
     return date.toLocaleDateString("en-US", options)
 }
 
-export const dateToString = (date) => {
+export const dateToString = (date: { getFullYear: () => any; getMonth: () => number; getDate: () => any }) => {
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, "0") // Pad month with zero
     const day = String(date.getDate()).padStart(2, "0") // Pad day with zero
@@ -212,7 +216,7 @@ export const useFormatDateTimeString = (date: Date) => {
     return formattedDate
 }
 
-export const useFullDateTime = (date) => {
+export const useFullDateTime = (date: { toLocaleString: (arg0: undefined, arg1: { month: string; day: string; year: string; hour: string; minute: string; hour12: boolean }) => any }) => {
     const options = {
         month: "long",
         day: "numeric",
@@ -324,7 +328,7 @@ export const useHrmsDownloadLink = (url: string) => {
     return config.public.HRMS_API_URL + "/storage/" + url
 }
 
-export const clone = (obj) => {
+export const clone = (obj: any) => {
     return JSON.parse(JSON.stringify(obj))
 }
 

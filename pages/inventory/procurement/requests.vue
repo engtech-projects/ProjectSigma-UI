@@ -60,7 +60,7 @@ watch(prId, (newVal) => {
 })
 watch(pqId, (newVal) => {
     if (newVal) {
-        procurementRequestStore.getPriceQuotationDetails(newVal)
+        priceQuotationStore.getPriceQuotationDetails(newVal)
     }
 })
 watch(csId, (newVal) => {
