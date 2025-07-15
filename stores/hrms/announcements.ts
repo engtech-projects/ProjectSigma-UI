@@ -45,11 +45,11 @@ export const useAnnouncements = defineStore("Announcements", {
                     method: "GET",
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data
+                        this.list = response._data.data
                         this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            first_page: response._data.first_page_url,
+                            pages: response._data.links,
+                            last_page: response._data.last_page_url,
                         }
                     },
                 }

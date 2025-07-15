@@ -58,7 +58,7 @@ export const useHMOStore = defineStore("hmo", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.hmoMemberList = response._data.data.data
+                            this.hmoMemberList = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

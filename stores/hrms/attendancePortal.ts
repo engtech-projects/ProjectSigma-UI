@@ -170,7 +170,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                     method: "GET",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.attendanceLogList = response._data.data.data
+                            this.attendanceLogList = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
