@@ -36,7 +36,22 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <InventoryRequestStockPrintDetailsLayout title="Requisition Slip" :data="requestStock.details" :header-columns="headers" />
+            <LayoutPrintAdvanced>
+                <template #system-layout>
+                    <InventoryRequestStockSystemDetailsLayout
+                        v-if="requestStock.details"
+                        :data="requestStock.details"
+                    />
+                </template>
+                <template #print-layout>
+                    <InventoryRequestStockPrintDetailsLayout
+                        v-if="requestStock.details"
+                        title="Request Stock Details"
+                        :data="requestStock.details"
+                        :header-columns="headers"
+                    />
+                </template>
+            </LayoutPrintAdvanced>
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">
