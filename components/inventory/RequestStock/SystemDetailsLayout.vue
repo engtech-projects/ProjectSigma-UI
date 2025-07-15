@@ -98,7 +98,7 @@ const itemTableHeaders = [
                 <InventoryCommonFormPsFormLabel title="Equipment No." :value="data?.equipment_no" />
             </div>
             <div v-if="canvasser" class="flex flex-col gap-1">
-                <InventoryCommonFormPsFormLabel title="Canvasser" :value="canvasser.toString()" />
+                <InventoryCommonFormPsFormLabel title="Canvasser" :value="canvasser[0]?.name" />
             </div>
         </div>
 

@@ -2,7 +2,7 @@
 import { useProcurementRequestStore } from "@/stores/inventory/procurement/request"
 
 const procurementStore = useProcurementRequestStore()
-const { canvasser, canvasserForm, viewRequests } = storeToRefs(procurementStore)
+const { canvasser, viewRequests } = storeToRefs(procurementStore)
 const snackbar = useSnackbar()
 
 const route = useRoute()
@@ -20,27 +20,19 @@ const doSet = () => {
 }
 
 const saveNewCanvasser = async () => {
-    const userIds: number[] = mainCanvasser.value.map((data: { user_id: any; }) => data.user_id)
-    canvasserForm.value = {
-        user_ids: JSON.stringify(userIds),
-    }
-    await procurementStore.setCanvasser(viewRequests.value.details.id)
-    if (procurementStore.errorMessage !== "") {
-        snackbar.add({
-            type: "error",
-            text: procurementStore.errorMessage
-        })
-    } else {
+    try {
+        await procurementStore.setCanvasser(viewRequests.value.details.id)
         snackbar.add({
             type: "success",
-            text: procurementStore.successMessage
+            text: canvasser.value.successMessage || "Canvasser set successfully."
         })
         isSet.value = true
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "An error occurred"
+        })
     }
-}
-
-const removeCanvasser = (index: number) => {
-    mainCanvasser.value.splice(index, 1)
 }
 
 const cancelSelection = () => {
@@ -96,20 +88,9 @@ watch(selectedEmployee, (newValue) => {
             <div v-if="!isSet" class="flex flex-col gap-4 w-1/2">
                 <div class="flex flex-row justify-between gap-4 items-center">
                     <HrmsCommonUserEmployeeSelector
-                        v-model="selectedEmployee"
+                        v-model="canvasser.params.user_ids[0]"
                         class="w-full"
                     />
-                </div>
-                <div v-for="(item, index) in mainCanvasser" :key="index" class="flex flex-row items-center gap-2">
-                    <div class="text-sm font-medium">
-                        Employee ID: {{ item.user_id }}
-                    </div>
-                    <button
-                        class="px-3 py-1 bg-red-600 text-white text-xs font-bold rounded-md"
-                        @click="removeCanvasser(index)"
-                    >
-                        REMOVE
-                    </button>
                 </div>
             </div>
         </div>

@@ -121,23 +121,29 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
             )
         },
         async setCanvasser (id: any) {
-            await useInventoryApi(
+            this.canvasser.params.user_ids = JSON.stringify([this.canvasser.params.user_ids[0]])
+            await useInventoryApiO(
                 "/api/procurement-request/set-canvasser/" + id,
                 {
-                    method: "PATCH",
-                    params: { user_ids: this.canvasserForm.user_ids },
+                    method: "POST",
+                    params: this.canvasser.params,
+                    watch: false,
                     onRequest: () => {
                         this.canvasser.isLoading = true
                     },
-                    onResponse: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
+                        this.canvasser.isLoading = false
+                        this.errorMessage = response._data.message || "An error occurred"
+                        this.canvasser.params.user_ids = []
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
                         this.canvasser.isLoading = false
                         if (response.ok) {
-                            this.canvasser.list = response._data.data.canvassers
                             this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.getOne(id)
                         }
+                        this.canvasser.params.user_ids = []
                     },
                 }
             )
