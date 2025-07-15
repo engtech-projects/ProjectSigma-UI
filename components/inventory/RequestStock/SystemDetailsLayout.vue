@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { useRequestStockStore } from "@/stores/inventory/requeststock"
 defineProps({
-    rsInfoHeaders: {
-        type: Array,
-        required: true
-    },
     data: {
         type: Object,
         default: () => {}
@@ -108,6 +104,9 @@ const itemTableHeaders = [
             :datas="data?.items ?? []"
             class="rounded-md shadow-sm"
         />
+        <div id="approvals" class="w-full mt-4">
+            <LayoutApprovalsListView :approvals="data?.approvals" />
+        </div>
         <div id="footer">
             <div v-if="data?.next_approval && useCheckIsCurrentUser(data?.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
                 <HrmsCommonApprovalDenyButton
