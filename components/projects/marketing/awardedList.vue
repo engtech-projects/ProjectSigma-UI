@@ -26,6 +26,7 @@ const search = (value) => {
 }
 const headers = [
     { name: "PROJECT NAME", id: "name", style: "text-left" },
+    { name: "PROJECT CODE", id: "code", style: "text-left" },
     { name: "LOCATION", id: "location", style: "text-left" },
     { name: "AMOUNT", id: "amount", style: "text-left" },
     { name: "DATE CREATED", id: "created_at", style: "text-left" },

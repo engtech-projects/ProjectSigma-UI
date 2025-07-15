@@ -57,19 +57,19 @@ const updateCashFlow = async () => {
                                 ACCOMPLISHMENT
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.wtax.accomplishment }}%
+                                {{ projectStore.information.cash_flow?.wtax?.accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q1.accomplishment }}%
+                                {{ projectStore.information.cash_flow?.q1?.accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q2.accomplishment }}%
+                                {{ projectStore.information.cash_flow?.q2?.accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q3.accomplishment }}%
+                                {{ projectStore.information.cash_flow?.q3?.accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q4.accomplishment }}%
+                                {{ projectStore.information.cash_flow?.q4?.accomplishment }}%
                             </td>
                         </tr>
                         <tr>
@@ -77,19 +77,19 @@ const updateCashFlow = async () => {
                                 CASH FLOW
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.wtax.cashflow }}%
+                                {{ projectStore.information.cash_flow?.wtax?.cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q1.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q1?.cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q2.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q2?.cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q3.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q3?.cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q4.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q4?.cashflow }}%
                             </td>
                         </tr>
                         <tr>
@@ -97,19 +97,19 @@ const updateCashFlow = async () => {
                                 CUMULATIVE ACCOMPLISHMENT
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.wtax.cumulative_accomplishment }}%
+                                {{ projectStore.information.cash_flow?.wtax?.cumulative_accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q1.cumulative_accomplishment }}%
+                                {{ projectStore.information.cash_flow?.q1?.cumulative_accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q2.cumulative_accomplishment }}%
+                                {{ projectStore.information.cash_flow?.q2?.cumulative_accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q3.cumulative_accomplishment }}%
+                                {{ projectStore.information.cash_flow?.q3?.cumulative_accomplishment }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q4.cumulative_accomplishment }}%
+                                {{ projectStore.information.cash_flow?.q4?.cumulative_accomplishment }}%
                             </td>
                         </tr>
                         <tr>
@@ -117,19 +117,19 @@ const updateCashFlow = async () => {
                                 CUMULATIVE CASH FLOW
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.wtax.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.wtax?.cumulative_cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q1.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q1?.cumulative_cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q2.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q2?.cumulative_cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q3.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q3?.cumulative_cashflow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q4.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q4?.cumulative_cashflow }}%
                             </td>
                         </tr>
                     </tbody>

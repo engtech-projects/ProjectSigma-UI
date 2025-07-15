@@ -1,5 +1,6 @@
 <script setup>
 import { useProcurementRequestStore } from "~/stores/inventory/procurement/request"
+import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 
 useHead({
     title: "PROCUREMENT REQUESTS",
@@ -7,6 +8,7 @@ useHead({
 
 const procurementRequestStore = useProcurementRequestStore()
 const { viewRequests } = storeToRefs(procurementRequestStore)
+const priceQuotationStore = usePriceQuotationStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -40,7 +42,7 @@ onMounted(() => {
         procurementRequestStore.getOne(route.query.pr_id)
     }
     if (route.query.pq_id) {
-        procurementRequestStore.getPriceQuotationDetails(route.query.pq_id)
+        priceQuotationStore.getPriceQuotationDetails(route.query.pq_id)
     }
 })
 const prId = computed(() => route.query.pr_id || null)
@@ -58,7 +60,7 @@ watch(prId, (newVal) => {
 })
 watch(pqId, (newVal) => {
     if (newVal) {
-        procurementRequestStore.getPriceQuotationDetails(newVal)
+        priceQuotationStore.getPriceQuotationDetails(newVal)
     }
 })
 watch(csId, (newVal) => {
@@ -157,7 +159,10 @@ const closeEditNcpo = () => {
                     </button>
                 </template>
                 <template #default>
-                    EDIT PRICE QUOTATION HERE
+                    <InventoryPriceQuotationFormEdit
+                        :pq-id="pqId"
+                        @submit-success="closeEditPq"
+                    />
                 </template>
             </LayoutBoards>
             <LayoutBoards
