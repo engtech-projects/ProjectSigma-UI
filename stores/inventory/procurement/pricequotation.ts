@@ -204,7 +204,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                 this.clearMessages()
 
                 return await useInventoryApiO(
-                    `/api/price-quotation-item/${itemId}`,
+                    `/api/procurement-request/price-quotation-item/${itemId}`,
                     {
                         method: "PUT",
                         body: itemData,
