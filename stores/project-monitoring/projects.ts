@@ -643,7 +643,7 @@ export const useProjectStore = defineStore("projects", {
             this.errorMessage = ""
 
             await useProjectsApi(
-                `projects/${this.information.id}/cash-flow`,
+                `api/projects/${this.information.id}/cash-flow`,
                 {
                     method: "PATCH",
                     body: this.cashFlowByQuarter,
