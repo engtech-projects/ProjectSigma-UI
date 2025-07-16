@@ -10,7 +10,7 @@ const props = defineProps({
 const totalDebit = computed(() => {
     let total = 0
     props.data.details.forEach((data: any) => {
-        total += parseFloat(data?.debit ?? 0)
+        total += parseFloat(data?.debit || 0)
     })
     return total
 })
@@ -18,7 +18,7 @@ const totalDebit = computed(() => {
 const totalCredit = computed(() => {
     let total = 0
     props.data.details.forEach((data: any) => {
-        total += parseFloat(data?.credit ?? 0)
+        total += parseFloat(data?.credit || 0)
     })
     return total
 })

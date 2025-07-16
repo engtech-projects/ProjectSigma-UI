@@ -78,7 +78,7 @@ const denyRequest = async (id) => {
 const totalDebit = computed(() => {
     let total = 0
     props.voucherData?.details.forEach((d) => {
-        total += parseFloat(d?.debit ?? 0)
+        total += parseFloat(d?.debit || 0)
     })
     return total
 })
@@ -86,7 +86,7 @@ const totalDebit = computed(() => {
 const totalCredit = computed(() => {
     let total = 0
     props.voucherData?.details.forEach((d) => {
-        total += parseFloat(d?.credit ?? 0)
+        total += parseFloat(d?.credit || 0)
     })
     return total
 })
