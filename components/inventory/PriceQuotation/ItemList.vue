@@ -89,7 +89,6 @@ watch(items, (newItems) => {
                     <td class="p-2">
                         <LayoutFormPsTextInput
                             v-model="item.actual_brand"
-                            :required="item.selected"
                             :disabled="!item.selected"
                             class="w-full disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
                             placeholder="Enter Brand"
@@ -98,7 +97,6 @@ watch(items, (newItems) => {
                     <td class="p-2">
                         <LayoutFormPsNumberInput
                             v-model="item.unit_price"
-                            :required="item.selected"
                             :disabled="!item.selected"
                             class="w-full disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
                             placeholder="Enter Price"
