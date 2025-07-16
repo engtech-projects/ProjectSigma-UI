@@ -59,7 +59,7 @@ watch(items, (newItems) => {
                     :key="index"
                     :class="[
                         'border-b hover:bg-gray-50 transition',
-                        item.selected ? 'bg-blue-50' : ''
+                        item.selected ? 'bg-blue-50' : 'bg-gray-50/50'
                     ]"
                 >
                     <td class="p-2 text-center">
@@ -89,16 +89,18 @@ watch(items, (newItems) => {
                     <td class="p-2">
                         <LayoutFormPsTextInput
                             v-model="item.actual_brand"
-                            :required="true"
-                            class="w-full"
+                            :required="item.selected"
+                            :disabled="!item.selected"
+                            class="w-full disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
                             placeholder="Enter Brand"
                         />
                     </td>
                     <td class="p-2">
                         <LayoutFormPsNumberInput
                             v-model="item.unit_price"
-                            :required="true"
-                            class="w-full"
+                            :required="item.selected"
+                            :disabled="!item.selected"
+                            class="w-full disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
                             placeholder="Enter Price"
                         />
                     </td>
@@ -107,7 +109,8 @@ watch(items, (newItems) => {
                             v-model="item.remarks_during_canvass"
                             placeholder="Remarks"
                             rows="2"
-                            class="w-full px-3 py-1.5 border border-slate-400 rounded-md text-sm resize-none focus:ring focus:ring-blue-200 focus:outline-none"
+                            :disabled="!item.selected"
+                            class="w-full px-3 py-1.5 border border-slate-400 rounded-md text-sm resize-none focus:ring focus:ring-blue-200 focus:outline-none disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
                         />
                     </td>
                 </tr>
