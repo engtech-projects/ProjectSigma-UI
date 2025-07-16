@@ -12,7 +12,7 @@ const procurementId = computed(() => route.query.id)
 const mainCanvasser = ref()
 const selectedEmployee = ref(null)
 
-const assignedEmployee = ref("Assigned canvasser name")
+const assignedEmployee = ref()
 
 const doSet = () => {
     mainCanvasser.value = canvasser.value.list
