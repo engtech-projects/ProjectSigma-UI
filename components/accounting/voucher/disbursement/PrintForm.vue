@@ -9,16 +9,16 @@ const props = defineProps({
 
 const totalDebit = computed(() => {
     let total = 0
-    detailsData.value.forEach((d:Number) => {
-        total += parseFloat(d?.debit)
+    props.data.details.forEach((data: any) => {
+        total += parseFloat(data?.debit ?? 0)
     })
     return total
 })
 
 const totalCredit = computed(() => {
     let total = 0
-    detailsData.value.forEach((d:Number) => {
-        total += parseFloat(d?.credit)
+    props.data.details.forEach((data: any) => {
+        total += parseFloat(data?.credit ?? 0)
     })
     return total
 })
@@ -62,7 +62,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                 DISBURSEMENT VOUCHER
             </h1>
             <div v-if="i === 0" class="flex flex-col gap-2 !text-xs">
-                <div class="flex justify-end gap-4 mb-4 my-4">
+                <div class="flex justify-center gap-4 mb-4 my-4">
                     <h3 class="font-bold">
                         REFERENCE NO.
                     </h3>
@@ -70,10 +70,10 @@ function chunkArray (array: string | any[], chunkSize: number) {
                         {{ props.data?.voucher_no }}
                     </span>
                 </div>
-                <table class="border border-black">
+                <table class="border-t border-b border-black">
                     <tbody>
                         <tr>
-                            <td class="border border-black pl-2 py-1 text-xs bg-blue-300">
+                            <td class="border-t border-b border-r border-black pl-2 py-1 text-xs bg-blue-300">
                                 PAYEE :
                             </td>
                             <td class="border border-black pl-2 py-1 text-xs">
@@ -82,26 +82,26 @@ function chunkArray (array: string | any[], chunkSize: number) {
                             <td class="border border-black pl-2 py-1 text-xs bg-blue-300">
                                 ENCODED DATE :
                             </td>
-                            <td class="border border-black pl-2 py-1 text-xs">
+                            <td class="border-t border-b border-l border-black pl-2 py-1 text-xs">
                                 {{ dateToString(new Date(data.date_encoded)) }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="border border-black pl-2 py-1 text-xs bg-blue-300">
+                            <td class="border-t border-b border-r border-black pl-2 py-1 text-xs bg-blue-300">
                                 PARTICULARS :
                             </td>
-                            <td class="border border-black pl-2 py-1 text-xs">
+                            <td class="border border-black pl-2 py-1 text-xs max-w-[200px]">
                                 {{ data.particulars }}
                             </td>
                             <td class="border border-black pl-2 py-1 text-xs bg-blue-300">
                                 ENTRY DATE :
                             </td>
-                            <td class="border border-black pl-2 py-1 text-xs">
+                            <td class="border-t border-b border-l border-black pl-2 py-1 text-xs">
                                 {{ dateToString(new Date(data.voucher_date)) }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="border border-black pl-2 py-1 text-xs bg-blue-300">
+                            <td class="border-t border-b border-r border-black pl-2 py-1 text-xs bg-blue-300">
                                 AMOUNT IN WORDS :
                             </td>
                             <td class="border border-black pl-2 py-1 text-xs">
@@ -110,7 +110,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                             <td class="border border-black pl-2 py-1 text-xs bg-blue-300">
                                 NET AMOUNT
                             </td>
-                            <td class="border border-black pl-2 py-1 text-xs">
+                            <td class="border-t border-b border-l border-black pl-2 py-1 text-xs">
                                 {{ accountingCurrency(data.net_amount) }}
                             </td>
                         </tr>
@@ -126,7 +126,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                         <table v-if="props.data.details.length > 0" class="w-full">
                             <thead>
                                 <tr>
-                                    <th class="border border-gray-800 font-normal text-xs">
+                                    <th class="border-t border-b border-r border-gray-800 font-normal text-xs">
                                         ACCOUNT CODE
                                     </th>
                                     <th class="border border-gray-800 font-normal text-xs w-1/3">
@@ -138,14 +138,14 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                     <th class="border border-gray-800 font-normal text-xs w-24">
                                         DEBIT
                                     </th>
-                                    <th class="border border-black border-b-gray-800 font-normal text-xs w-24">
+                                    <th class="border-t border-b border-l border-black border-b-gray-800 font-normal text-xs w-24">
                                         CREDIT
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="ae, index in page" :key="index" class="hover:bg-gray-100 cursor-pointer">
-                                    <td class="border px-4 py-1 border-gray-800 text-xs relative">
+                                    <td class="border-t border-b border-r px-4 py-1 border-gray-800 text-xs relative">
                                         {{ ae.account?.account_number }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-xs">
@@ -157,26 +157,26 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                     <td class="border px-4 py-1 border-gray-800 text-xs">
                                         {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "-" }}
                                     </td>
-                                    <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs">
+                                    <td class="border-t border-b border-l px-4 py-1 border-gray-800 border-y-gray-800 text-xs">
                                         {{ ae.credit > 0 ? formatToCurrency(ae.credit) : "-" }}
                                     </td>
                                 </tr>
                                 <tr v-for="index in extraRows" :key="index" class="hover:bg-gray-100 cursor-pointer h-6">
-                                    <td class="border px-4 py-1 border-gray-800 text-xs relative" />
+                                    <td class="border-t border-b border-r px-4 py-1 border-gray-800 text-xs relative" />
                                     <td class="border px-4 py-1 border-gray-800 text-xs" />
                                     <td class="border px-4 py-1 border-gray-800 text-xs" />
                                     <td class="border px-4 py-1 border-gray-800 text-xs" />
-                                    <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs" />
+                                    <td class="border-t border-b border-l px-4 py-1 border-gray-800 border-y-gray-800 text-xs" />
                                 </tr>
                                 <tr class="border-none">
                                     <td colspan="3" class="py-2 px-4 text-right pr-24 text-xs">
                                         TOTAL
                                     </td>
                                     <td class="border-b-2 border-black py-2 px-4 text-xs">
-                                        {{ accountingCurrency(totalDebit) }}
+                                        {{ accountingCurrency(totalCredit) }}
                                     </td>
                                     <td class="border-b-2 border-black py-2 px-4 text-xs">
-                                        {{ accountingCurrency(totalCredit) }}
+                                        {{ accountingCurrency(totalDebit) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -190,15 +190,15 @@ function chunkArray (array: string | any[], chunkSize: number) {
                     <FormSignatory
                         label="PREPARED BY"
                         :signatory="{
-                            name: props.data.payment_request?.created_by_user,
-                            title: ''
+                            name: userData?.employee?.fullname_last,
+                            title: userData?.employee?.current_position
                         }"
                     />
                     <FormSignatory
                         label="REVIEWED BY"
                         :signatory="{
                             name: userData?.employee?.fullname_last,
-                            title: 'Accounting Specialist'
+                            title: userData?.employee?.current_position
                         }"
                     />
                     <FormSignatory

@@ -78,7 +78,7 @@ const denyRequest = async (id) => {
 const totalDebit = computed(() => {
     let total = 0
     props.voucherData?.details.forEach((d) => {
-        total += parseFloat(d?.debit)
+        total += parseFloat(d?.debit ?? 0)
     })
     return total
 })
@@ -86,7 +86,7 @@ const totalDebit = computed(() => {
 const totalCredit = computed(() => {
     let total = 0
     props.voucherData?.details.forEach((d) => {
-        total += parseFloat(d?.credit)
+        total += parseFloat(d?.credit ?? 0)
     })
     return total
 })
@@ -107,7 +107,7 @@ const totalCredit = computed(() => {
                     </div>
                     <div class="p-2 flex gap-2">
                         <span class="text-teal-600 text-light">Amount: </span>
-                        {{ voucherData?.net_amount }}
+                        {{ accountingCurrency(voucherData?.net_amount ?? 0) }}
                     </div>
                     <div class="p-2 flex gap-2">
                         <span class="text-teal-600 text-light">Status: </span>
@@ -122,6 +122,12 @@ const totalCredit = computed(() => {
                     <div class="p-2 flex gap-2">
                         <span class="text-teal-600 text-light">Voucher Date: </span>
                         {{ voucherData?.voucher_date }}
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-1 gap-2 md:justify-between">
+                    <div class="p-2 flex gap-2">
+                        <span class="text-teal-600 text-light">Particulars: </span>
+                        {{ voucherData?.particulars }}
                     </div>
                 </div>
                 <div class="p-2 border border-gray-200 rounded-lg">
