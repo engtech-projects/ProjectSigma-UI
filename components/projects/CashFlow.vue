@@ -2,9 +2,10 @@
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 const snackbar = useSnackbar()
-
+const boardLoading = ref(false)
 const updateCashFlow = async () => {
     try {
+        boardLoading.value = true
         await projectStore.updateCashFlow()
         if (projectStore.errorMessage !== "") {
             snackbar.add({
@@ -17,12 +18,15 @@ const updateCashFlow = async () => {
             type: "error",
             text: error.message || "An error occurred while updating cash flow."
         })
+    } finally {
+        boardLoading.value = false
     }
 }
 </script>
 <template>
     <LayoutPrintAdvanced>
         <template #system-layout>
+            <AccountingLoadScreen class="z-50" :is-loading="boardLoading" />
             <div class="p-4 mx-auto">
                 <h1 class="text-2xl font-bold mb-4 text-center">
                     CASHFLOW BY QUARTER AND PAYMENT SCHEDULE
@@ -77,19 +81,19 @@ const updateCashFlow = async () => {
                                 CASH FLOW
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.wtax?.cashflow }}%
+                                {{ projectStore.information.cash_flow?.wtax?.cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q1?.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q1?.cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q2?.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q2?.cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q3?.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q3?.cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q4?.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q4?.cash_flow }}%
                             </td>
                         </tr>
                         <tr>
@@ -117,19 +121,19 @@ const updateCashFlow = async () => {
                                 CUMULATIVE CASH FLOW
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.wtax?.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.wtax?.cumulative_cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q1?.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q1?.cumulative_cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q2?.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q2?.cumulative_cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q3?.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q3?.cumulative_cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q4?.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q4?.cumulative_cash_flow }}%
                             </td>
                         </tr>
                     </tbody>
