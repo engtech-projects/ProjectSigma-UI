@@ -109,7 +109,7 @@ export const useTaskStore = defineStore("taskStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useProjectsApi(
-                "/api/task/" + this.task.id,
+                "/api/tasks/" + this.task.id,
                 {
                     method: "PATCH",
                     body: this.task,
