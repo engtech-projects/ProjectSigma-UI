@@ -49,7 +49,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                 DISBURSEMENT VOUCHER
             </h1>
             <div v-if="i === 0" class="flex flex-col gap-2 !text-xs">
-                <div class="flex justify-start gap-4 mb-4 my-4 pl-2">
+                <div class="flex justify-end gap-4 mb-4 my-4 pr-2">
                     <h3 class="font-bold">
                         REFERENCE NO.
                     </h3>
@@ -92,7 +92,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                 AMOUNT IN WORDS :
                             </td>
                             <td class="border border-black pl-2 py-1 text-xs">
-                                {{ data.amount_in_words }}
+                                {{ amountToWords(data.net_amount || 0) }}
                             </td>
                             <td class="border border-black pl-2 py-1 text-xs bg-blue-300">
                                 NET AMOUNT
