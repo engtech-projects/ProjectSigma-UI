@@ -57,7 +57,7 @@ export const useLeaveStore = defineStore("leaves", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.map((val) => {
+                        this.list = response._data.data.data.map((val) => {
                             return {
                                 id: val.id,
                                 leave_name: val.leave_name,
