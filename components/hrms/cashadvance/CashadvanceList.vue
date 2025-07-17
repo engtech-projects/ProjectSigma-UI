@@ -11,7 +11,7 @@ onMounted(() => {
     }
 })
 const headers = [
-    { text: "Employee Name", value: "employee.fullname_first" },
+    { text: "Employee Name", value: "employee" },
     { text: "Cash Advance Amount", value: "amount_formatted" },
     { text: "Terms", value: "terms_of_payment" },
     { text: "Installment Deduction", value: "installment_deduction_formatted" },
