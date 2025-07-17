@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const { data: userData } = useAuth()
 const props = defineProps({
     data: {
         type: Object,
@@ -21,18 +20,6 @@ const totalCredit = computed(() => {
         total += parseFloat(data?.credit || 0)
     })
     return total
-})
-const approvals = computed(() => {
-    const sigs: any[] = []
-    props.data.approvals.forEach((d) => {
-        const data = {
-            name: d?.employee_name,
-            title: d?.employee_position,
-            signature: d?.employee_signature
-        }
-        sigs.push(data)
-    })
-    return sigs
 })
 const detailsData = computed(() => {
     return props.data.details
@@ -62,7 +49,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                 DISBURSEMENT VOUCHER
             </h1>
             <div v-if="i === 0" class="flex flex-col gap-2 !text-xs">
-                <div class="flex justify-center gap-4 mb-4 my-4">
+                <div class="flex justify-start gap-4 mb-4 my-4 pl-2">
                     <h3 class="font-bold">
                         REFERENCE NO.
                     </h3>
@@ -154,10 +141,10 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                     <td class="border px-4 py-1 border-gray-800 text-xs">
                                         {{ ae?.stakeholder?.name }}
                                     </td>
-                                    <td class="border px-4 py-1 border-gray-800 text-xs">
+                                    <td class="border px-4 py-1 border-gray-800 text-xs text-right">
                                         {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "-" }}
                                     </td>
-                                    <td class="border-t border-b border-l px-4 py-1 border-gray-800 border-y-gray-800 text-xs">
+                                    <td class="border-t border-b border-l px-4 py-1 border-gray-800 border-y-gray-800 text-xs text-right">
                                         {{ ae.credit > 0 ? formatToCurrency(ae.credit) : "-" }}
                                     </td>
                                 </tr>
@@ -172,10 +159,10 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                     <td colspan="3" class="py-2 px-4 text-right pr-24 text-xs">
                                         TOTAL
                                     </td>
-                                    <td class="border-b-2 border-black py-2 px-4 text-xs">
+                                    <td class="border-b-2 border-black py-2 px-4 text-xs text-right">
                                         {{ accountingCurrency(totalCredit) }}
                                     </td>
-                                    <td class="border-b-2 border-black py-2 px-4 text-xs">
+                                    <td class="border-b-2 border-black py-2 px-4 text-xs text-right">
                                         {{ accountingCurrency(totalDebit) }}
                                     </td>
                                 </tr>
@@ -187,24 +174,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                     </div>
                 </div>
                 <div v-if="i === numPages.length - 1" class="flex justify-around">
-                    <FormSignatory
-                        label="PREPARED BY"
-                        :signatory="{
-                            name: userData?.employee?.fullname_last,
-                            title: userData?.employee?.current_position
-                        }"
-                    />
-                    <FormSignatory
-                        label="REVIEWED BY"
-                        :signatory="{
-                            name: userData?.employee?.fullname_last,
-                            title: userData?.employee?.current_position
-                        }"
-                    />
-                    <FormSignatory
-                        label="APPROVED BY"
-                        :signatories="approvals"
-                    />
+                    <LayoutApprovalsListView :approvals="props.data.approvals" :signature-view="props.data.request_status.toLowerCase() != 'approved'" />
                 </div>
             </div>
         </div>
