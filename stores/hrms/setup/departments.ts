@@ -29,7 +29,7 @@ export const useDepartmentStore = defineStore("departments", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data
+                        this.list = response._data.data.data
                         this.pagination = {
                             first_page: response._data.links.first,
                             pages: response._data.meta.links,
