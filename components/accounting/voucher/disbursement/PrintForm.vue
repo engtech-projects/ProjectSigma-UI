@@ -174,7 +174,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                     </div>
                 </div>
                 <div v-if="i === numPages.length - 1" class="flex justify-around">
-                    <LayoutApprovalsListView :approvals="props.data.approvals" :signature-view="props.data.request_status.toLowerCase() != 'approved'" />
+                    <LayoutApprovalsListView :approvals="props.data.approvals" :signature-view="props.data.request_status.toLowerCase() === 'approved'" />
                 </div>
             </div>
         </div>
