@@ -156,7 +156,7 @@ export const amountToWords = (num: any) => {
     if (centavosWords) {
         return wholePartWords + " Pesos " + centavosWords
     } else {
-        return wholePartWords + " Pesos"
+        return wholePartWords + " Pesos Only"
     }
 }
 
