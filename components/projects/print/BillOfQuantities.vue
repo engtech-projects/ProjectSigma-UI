@@ -36,12 +36,12 @@
         <table class="table-auto w-full border border-collapse border-gray-800 text-sm">
             <thead>
                 <tr class="text-left border border-black">
-                    <th colspan="4" class="text-left bg-[#ffc000] text-black font-bold border border-black px-2">
+                    <th colspan="4" class="w-[60%] text-left bg-[#ffc000] text-black font-bold border border-black px-2">
                         <p>
                             (Columns (1), (2), (3), and (4) are <br> to be filled up by the Procuring Entity)
                         </p>
                     </th>
-                    <th colspan="3" class="text-left bg-[#ffc000] text-black font-bold border border-black px-2">
+                    <th colspan="2" class="w-[40%] flextext-left bg-[#ffc000] text-black font-bold border border-black px-2">
                         <p>
                             (Columns (5) and (6) are <br> to be filled up by the bidder)
                         </p>
