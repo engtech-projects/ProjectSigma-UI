@@ -79,7 +79,10 @@ const closePrDetails = () => {
     router.replace({ query: { ...route.query, pr_id: undefined } })
     prId.value = null
 }
-const closeCreatePq = () => {
+const closeCreatePq = async () => {
+    if (prId.value) {
+        await procurementRequestStore.getOne(prId.value)
+    }
     router.replace({ query: { ...route.query, create_pq: undefined } })
     createPq.value = false
 }
@@ -143,10 +146,12 @@ const closeEditNcpo = () => {
                     </button>
                 </template>
                 <template #default>
-                    <InventoryPriceQuotationForm
-                        :pr-id="prId"
-                        @submit-success="closeCreatePq"
-                    />
+                    <LayoutLoadingContainer :loading="priceQuotationStore.createRequest.isLoading">
+                        <InventoryPriceQuotationForm
+                            :pr-id="prId"
+                            @submit-success="closeCreatePq"
+                        />
+                    </LayoutLoadingContainer>
                 </template>
             </LayoutBoards>
             <LayoutBoards
