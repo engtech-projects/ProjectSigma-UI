@@ -109,9 +109,14 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
                 {
                     method: "GET",
                     params: this.viewRequests.params,
+                    onRequest: () => {
+                        this.viewRequests.isLoading = true
+                    },
                     onResponse: ({ response }: any) => {
+                        this.viewRequests.isLoading = false
                         if (response.ok) {
                             this.viewRequests.details = response._data.data
+                            this.viewRequests.isLoaded = true
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)

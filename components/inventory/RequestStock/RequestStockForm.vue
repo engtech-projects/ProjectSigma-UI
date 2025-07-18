@@ -263,7 +263,6 @@ watch(() => form.value.type_of_request, (newType) => {
                             />
                             <LayoutFormPsTextInput
                                 v-model="form.equipment_no"
-                                :required="true"
                                 class="w-full"
                                 title="Equipment No."
                             />
