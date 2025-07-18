@@ -229,7 +229,7 @@
                 <tr>
                     <th colspan="6">
                         <p class="text-left">
-                            TOTAL AMOUNT IN WORD:
+                            TOTAL AMOUNT IN WORDS:
                         </p>
                     </th>
                 </tr>
