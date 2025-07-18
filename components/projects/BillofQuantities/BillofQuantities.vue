@@ -384,6 +384,35 @@ const removePhase = async (phase) => {
                                         </div>
                                     </td>
                                 </tr>
+                                <tr v-if="phase.tasks.length > 0">
+                                    <td colspan="4" class="border border-black px-2 text-center">
+                                        <div class="flex flex-row justify-center uppercase w-full">
+                                            <div class="flex flex-row">
+                                                <p>
+                                                    TOTAL COST (
+                                                </p>
+                                                <p>
+                                                    <b>
+                                                        {{ phase.name }}
+                                                    </b>
+                                                </p>
+                                                <p>
+                                                    ) CARRIED TO THE SUMMARY
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="border border-black px-2 text-right">
+                                        <b>
+                                            Php
+                                        </b>
+                                    </td>
+                                    <td colspan="2" class="border border-black px-2 text-right">
+                                        <b>
+                                            {{ accountingCurrency(phase.total_cost) }}
+                                        </b>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

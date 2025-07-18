@@ -205,7 +205,9 @@
                         No tasks found.
                     </td>
                 </tr>
-                <tr v-if="phase.tasks.length > 0">
+            </tbody>
+            <tfoot>
+                <tr>
                     <td colspan="4" class="w-1 border border-black px-2 text-center">
                         <p>
                             <b>
@@ -220,25 +222,25 @@
                     </td>
                     <td class="w-1 border border-black px-2 text-right">
                         <b>
-                            {{ accountingCurrency(phase.total_cost) }}
+                            {{ accountingCurrency(projectStore.information.total_cost ?? 0) }}
                         </b>
                     </td>
                 </tr>
                 <tr>
                     <th colspan="6">
                         <p class="text-left">
-                            TOTAL AMOUNT IN WORD:
+                            TOTAL AMOUNT IN WORDs:
                         </p>
                     </th>
                 </tr>
                 <tr>
                     <th colspan="6">
                         <p class="text-left">
-                            {{ phase.total_cost ? amountToWords(phase.total_cost) : "" }}
+                            {{ amountToWords(projectStore.information.total_cost ?? 0) }}
                         </p>
                     </th>
                 </tr>
-            </tbody>
+            </tfoot>
         </table>
     </div>
 </template>
