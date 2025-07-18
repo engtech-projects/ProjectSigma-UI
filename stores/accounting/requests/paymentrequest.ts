@@ -29,6 +29,15 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             errorMessage: "",
             successMessage: "",
         },
+        myDeniedRequests: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         paymentRequest: {
             isLoading: false,
             id: null,
@@ -144,6 +153,30 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                         if (response.ok) {
                             this.myApprovals.list = response._data.data.data
                             this.myApprovals.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getMyDeniedRequests () {
+            this.myDeniedRequests.isLoaded = true
+            await useAccountingApi(
+                "/api/npo/my-denied-requests",
+                {
+                    method: "GET",
+                    params: this.myDeniedRequests.params,
+                    onRequest: () => {
+                        this.myDeniedRequests.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.myDeniedRequests.isLoading = false
+                        if (response.ok) {
+                            this.myDeniedRequests.list = response._data.data.data
+                            this.myDeniedRequests.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,
                                 last_page: response._data.data.links.last,
