@@ -335,56 +335,34 @@ const removePhase = async (phase) => {
                                         <div class="flex flex-col p-1 items-center justify-center gap-1">
                                             <button
                                                 v-if="edit"
-                                                class="group relative bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-lg text-xs overflow-hidden transition-all duration-300 w-8 hover:w-24 h-8 px-2"
+                                                class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-lg text-xs w-44 h-8 px-2 gap-1"
                                                 @click="taskModalEdit(task, phase)"
                                             >
-                                                <!-- Icon A: shown by default, hidden on hover -->
-                                                <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-200 group-hover:opacity-0">
-                                                    <Icon name="material-symbols:edit" color="white" class="h-5 w-5" />
-                                                </div>
-
-                                                <!-- Icon B + Text: hidden by default, shown on hover -->
-                                                <div class="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 gap-1">
-                                                    <Icon name="material-symbols:edit-outline" color="white" class="h-5 w-5" />
-                                                    <span class="whitespace-nowrap">Edit Item</span>
-                                                </div>
+                                                <Icon name="material-symbols:edit" color="white" class="h-5 w-5" />
+                                                <span class="whitespace-nowrap">Edit Item</span>
                                             </button>
+
                                             <NuxtLink
                                                 v-if="edit"
                                                 :to="`/project-monitoring/dupa-details?id=${task.id}`"
-                                                class="group relative inline-flex items-center justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-lg text-xs overflow-hidden transition-all duration-300 w-8 hover:w-44 h-8 px-2"
+                                                class="flex items-center justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-lg text-xs w-44 h-8 px-2 gap-1"
                                             >
-                                                <!-- Icon A: shown by default, hidden on hover -->
-                                                <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-200 group-hover:opacity-0">
-                                                    <Icon name="material-symbols:calculate" color="white" class="h-5 w-5" />
-                                                </div>
-
-                                                <!-- Icon B + Text: hidden by default, shown on hover -->
-                                                <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                                    <Icon name="material-symbols:calculate" color="white" class="h-5 w-5" />
-                                                    <span class="whitespace-nowrap">Detailed Estimates</span>
-                                                </div>
+                                                <Icon name="material-symbols:calculate" color="white" class="h-5 w-5" />
+                                                <span class="whitespace-nowrap">Detailed Estimates</span>
                                             </NuxtLink>
+
                                             <button
                                                 v-if="edit"
-                                                class="group relative inline-flex items-center justify-center bg-red-500 hover:bg-red-600 active:bg-red-700 text-white rounded-md text-xs overflow-hidden transition-all duration-300 w-8 hover:w-24 h-8 px-2"
+                                                class="flex items-center justify-center bg-red-500 hover:bg-red-600 active:bg-red-700 text-white rounded-md text-xs w-44 h-8 px-2 gap-1"
                                                 @click="removeTask(task)"
                                             >
-                                                <!-- Icon A: visible by default -->
-                                                <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-200 group-hover:opacity-0">
-                                                    <Icon name="ion:trash" color="white" class="h-5 w-5" />
-                                                </div>
-
-                                                <!-- Icon B + Text: visible on hover -->
-                                                <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                                    <Icon name="ion:trash-outline" color="white" class="h-5 w-5" />
-                                                    <span class="whitespace-nowrap">Delete Item</span>
-                                                </div>
+                                                <Icon name="ion:trash-outline" color="white" class="h-5 w-5" />
+                                                <span class="whitespace-nowrap">Delete Item</span>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr v-if="phase.tasks.length > 0">
+                                <tr>
                                     <td colspan="4" class="border border-black px-2 text-center">
                                         <div class="flex flex-row justify-center uppercase w-full">
                                             <div class="flex flex-row">
