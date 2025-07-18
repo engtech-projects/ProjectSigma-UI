@@ -30,15 +30,17 @@ defineProps({
                 </div>
             </div>
         </div>
-        <ProjectsInformationProject
-            :label="'PROJECT INFORMATION DETAILS'"
-            :name="projectDetails.name"
-            :location="projectDetails.location"
-            :license="projectDetails.license"
-            :code="projectDetails.code"
-            :stage-status="projectDetails.stage"
-        />
         <AccountingCommonTabsMainContainer class="w-full">
+            <template #info-details>
+                <ProjectsInformationProject
+                    :label="'PROJECT INFORMATION DETAILS'"
+                    :name="projectDetails.name"
+                    :location="projectDetails.location"
+                    :license="projectDetails.license"
+                    :code="projectDetails.contract_id"
+                    :stage-status="projectDetails.stage"
+                />
+            </template>
             <template #tab-titles>
                 <AccountingCommonTabsTabTitle
                     v-if="useCheckAccessibility([
