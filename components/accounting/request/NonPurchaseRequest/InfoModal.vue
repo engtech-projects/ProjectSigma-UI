@@ -86,25 +86,26 @@ const totalVatAmount = computed(() => {
 const totalAmount = computed(() => {
     return totalCost.value + totalVatAmount.value
 })
-const useAsNewRequest = (RequestData) => {
-    paymentRequestStore.paymentRequest.request_date = null
-    paymentRequestStore.paymentRequest.total = RequestData.total
-    paymentRequestStore.paymentRequest.total_vat_amount = RequestData.total_vat_amount
-    paymentRequestStore.paymentRequest.description = RequestData.description
-    paymentRequestStore.paymentRequest.details = []
-    RequestData.details.forEach((detail) => {
-        paymentRequestStore.paymentRequest.details.push({
-            cost: detail.cost,
-            amount: detail.amount,
-            particulars: detail.particulars,
-            project_section_code: detail.project_section_code,
-            stakeholderInformation: detail.stakeholder,
-            stakeholder_id: detail.stakeholder_id,
-            total_vat_amount: detail.total_vat_amount,
-            vat: detail.vat,
+const useAsNewRequest = (requestData) => {
+    const { paymentRequest } = storeToRefs(paymentRequestStore)
+    const approvals = paymentRequest.value.approvals
+    const mapData = { ...requestData }
+    if (mapData.stakeholder) {
+        mapData.stakeholderInformation = mapData.stakeholder
+        delete mapData.stakeholder
+    }
+    if (mapData.details) {
+        mapData.details = mapData.details.map((detail) => {
+            const mapDetail = { ...detail }
+            if (mapDetail.stakeholder) {
+                mapDetail.stakeholderInformation = mapDetail.stakeholder
+                delete mapDetail.stakeholder
+            }
+            return mapDetail
         })
-    })
-    paymentRequestStore.paymentRequest.stakeholderInformation = RequestData.stakeholder
+    }
+    Object.assign(paymentRequest.value, { request_date: null, ...mapData })
+    paymentRequest.value.approvals = approvals
     showModal.value = false
     document.querySelector("[data-tabs-target='#npoForm']").click()
 }
@@ -284,7 +285,7 @@ watch(showModal, (newVal) => {
                 />
             </div>
             <div class="flex gap-2 justify-end w-full p-8">
-                <button v-if="!printPreview && paymentData.request_status === RequestStatus.denied" class="flex items-center gap-1 justify-center bg-green-600 p-2 hover:bg-green-900 text-white rounded-md w-32 text-sm" @click="useAsNewRequest(paymentData)">
+                <button v-if="!printPreview && paymentData.request_status === AccountingRequestStatus.denied" class="flex items-center gap-1 justify-center bg-green-600 p-2 hover:bg-green-900 text-white rounded-md w-32 text-sm" @click="useAsNewRequest(paymentData)">
                     USE AS NEW REQUEST
                 </button>
                 <button v-if="!printPreview" class="flex items-center gap-1 justify-center bg-gray-600 p-2 hover:bg-gray-900 text-white rounded-md w-32 text-sm" @click="printPreview=true">

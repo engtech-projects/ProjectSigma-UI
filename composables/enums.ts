@@ -30,7 +30,7 @@ export const DetailedEstimatesUnitIndex = {
     labor: 2,
     equipment: 3,
 }
-export const RequestStatus = {
+export const AccountingRequestStatus = {
     draft: "Draft",
     pending: "Pending",
     approved: "Approved",
