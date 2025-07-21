@@ -35,6 +35,14 @@
                         target-id="myApprovals"
                         @click.once="paymentRequestStore.getMyApprovals()"
                     />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_APPROVAL,
+                        ])"
+                        title="My Denied Request"
+                        target-id="myDeniedRequest"
+                        @click.once="paymentRequestStore.getMyDeniedRequests()"
+                    />
                 </template>
                 <template #tab-containers>
                     <AccountingCommonTabsTabContainer id="npoForm">
@@ -48,6 +56,9 @@
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="myApprovals">
                         <AccountingRequestNonPurchaseRequestApprovalList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="myDeniedRequest">
+                        <AccountingRequestNonPurchaseRequestDeniedList />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
