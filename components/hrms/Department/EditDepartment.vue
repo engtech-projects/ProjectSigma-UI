@@ -32,7 +32,21 @@ const editDepartment = async () => {
 
 </script>
 <template>
-    <LayoutEditBoards title="Edit Department" :loading="boardLoading">
+    <LayoutEditBoards :loading="boardLoading">
+        <div class="flex items-center justify-between mb-4">
+            <h1 class="text-lg font-semibold text-gray-900">
+                Edit Department
+            </h1>
+            <PsButton
+                button-title=""
+                button-icon="mdi:close"
+                class="text-gray-500 hover:text-white hover:bg-red-600"
+                @click="$emit('close')"
+            >
+                <Icon name="mdi:close" class="h-5 w-5" />
+            </PsButton>
+        </div>
+
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="editDepartment">
                 <div class="space-y-2">

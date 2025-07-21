@@ -2,9 +2,11 @@
 import { storeToRefs } from "pinia"
 import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 
+defineEmits(["add"])
+
 const departments = useDepartmentStore()
 
-const { list: departmentList, isEdit, department, getParams, pagination, errorMessage, successMessage } = storeToRefs(departments)
+const { list, isEdit, department, getParams, pagination, errorMessage, successMessage } = storeToRefs(departments)
 
 const setEdit = (dept) => {
     isEdit.value = true
@@ -25,10 +27,7 @@ const deleteDept = async (dept) => {
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
-    // getParams.value.syId = newParams.id ?? ""
-    // getParams.value.semId = newParams.semId ?? ""
-    // getParams.value.feeType = newParams.feeType ?? ""
-    // getParams.value.particularName = newParams.particularName ?? ""
+    departments.getDepartment()
 }
 
 const headers = [
@@ -44,9 +43,20 @@ const boardLoading = ref(false)
 
 </script>
 <template>
-    <LayoutBoards title="Department List" class="w-full" :loading="boardLoading">
+    <LayoutBoards :loading="boardLoading">
+        <div class="flex items-center justify-between mb-4">
+            <h1 class="text-xl font-semibold text-gray-900">
+                Department List
+            </h1>
+            <LayoutFormPsButton
+                class=" bg-teal-600 content-center mt-5 hover:bg-teal-800"
+                button-title="Add Department"
+                button-icon=""
+                @click="$emit('add')"
+            />
+        </div>
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="departmentList" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
+            <LayoutPsTable :header-columns="headers" :datas="list" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />

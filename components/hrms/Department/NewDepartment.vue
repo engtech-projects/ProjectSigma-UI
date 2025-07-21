@@ -37,7 +37,21 @@ const addDepartment = async () => {
 
 </script>
 <template>
-    <LayoutBoards title="Department Name" :loading="boardLoading">
+    <LayoutBoards :loading="boardLoading">
+        <div class="flex items-center justify-between mb-4">
+            <h1 class="text-lg font-semibold text-gray-900">
+                Department Name
+            </h1>
+
+            <PsButton
+                class="text-gray-500 hover:text-white hover:bg-red-600"
+                button-title=""
+                button-icon=""
+                @click="$emit('close')"
+            >
+                <Icon name="mdi:close" class="h-5 w-5" />
+            </PsButton>
+        </div>
         <div class="text-gray-500">
             <form @submit.prevent="addDepartment">
                 <label
