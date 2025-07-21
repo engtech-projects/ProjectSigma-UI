@@ -19,7 +19,7 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
 const printPreview = ref(false)
 
 const paymentRequestStore = usePaymentRequestStore()
-const { remarks } = storeToRefs(paymentRequestStore)
+const { remarks, paymentRequest } = storeToRefs(paymentRequestStore)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -87,7 +87,6 @@ const totalAmount = computed(() => {
     return totalCost.value + totalVatAmount.value
 })
 const useAsNewRequest = (requestData) => {
-    const { paymentRequest } = storeToRefs(paymentRequestStore)
     const approvals = paymentRequest.value.approvals
     const mapData = { ...requestData }
     if (mapData.stakeholder) {
