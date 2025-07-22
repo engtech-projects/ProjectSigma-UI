@@ -154,30 +154,32 @@ export const useProjectStore = defineStore("projects", {
             successMessage: "",
         },
         cashFlowByQuarter: {
-            q1: {
-                accomplishment: null,
-                cash_flow: null,
-                cumulative_accomplishment: null,
-                cumulative_cash_flow: null,
-            } as CashFlowByQuarter,
-            q2: {
-                accomplishment: null,
-                cash_flow: null,
-                cumulative_accomplishment: null,
-                cumulative_cash_flow: null,
-            } as CashFlowByQuarter,
-            q3: {
-                accomplishment: null,
-                cash_flow: null,
-                cumulative_accomplishment: null,
-                cumulative_cash_flow: null,
-            } as CashFlowByQuarter,
-            q4: {
-                accomplishment: null,
-                cash_flow: null,
-                cumulative_accomplishment: null,
-                cumulative_cash_flow: null,
-            } as CashFlowByQuarter,
+            cash_flow: {
+                q1: {
+                    accomplishment: null,
+                    cash_flow: null,
+                    cumulative_accomplishment: null,
+                    cumulative_cash_flow: null,
+                } as CashFlowByQuarter,
+                q2: {
+                    accomplishment: null,
+                    cash_flow: null,
+                    cumulative_accomplishment: null,
+                    cumulative_cash_flow: null,
+                } as CashFlowByQuarter,
+                q3: {
+                    accomplishment: null,
+                    cash_flow: null,
+                    cumulative_accomplishment: null,
+                    cumulative_cash_flow: null,
+                } as CashFlowByQuarter,
+                q4: {
+                    accomplishment: null,
+                    cash_flow: null,
+                    cumulative_accomplishment: null,
+                    cumulative_cash_flow: null,
+                } as CashFlowByQuarter,
+            }
         },
         pagination: {},
         getParams: {},
@@ -643,7 +645,7 @@ export const useProjectStore = defineStore("projects", {
             this.errorMessage = ""
 
             await useProjectsApi(
-                `projects/${this.information.id}/cash-flow`,
+                `api/projects/${this.information.id}/cash-flow`,
                 {
                     method: "PATCH",
                     body: this.cashFlowByQuarter,

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useRequestStockStore } from "@/stores/inventory/requeststock"
 
 interface HeaderColumn {
     name: string,
@@ -21,61 +20,15 @@ defineProps({
         required: true,
     },
 })
-
-const main = useRequestStockStore()
-const snackbar = useSnackbar()
-const { remarks } = storeToRefs(main)
-
-const approvedRequest = async (id:number) => {
-    try {
-        await main.approveApprovalForm(id)
-        if (main.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: main.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: main.successMessage
-            })
-            main.$reset()
-            navigateTo({
-                path: "/inventory/request-stocks",
-            })
-        }
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "Something went wrong."
-        })
-    }
-}
-const denyRequest = async (id: number) => {
-    try {
-        await main.denyApprovalForm(id)
-        if (main.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: main.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: main.successMessage
-            })
-            main.$reset()
-            navigateTo({
-                path: "/inventory/request-stocks",
-            })
-        }
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    }
-}
+const itemTableHeaders = [
+    { name: "QTY", id: "quantity" },
+    { name: "Unit", id: "uom" },
+    { name: "Item Description", id: "item_description" },
+    { name: "Specification", id: "specification" },
+    { name: "Preferred Brand", id: "preferred_brand" },
+    { name: "Reason for Request", id: "reason_for_request" },
+    { name: "No. of Price Quotations", id: "price_quotation_count" },
+]
 </script>
 <template>
     <div
@@ -92,27 +45,27 @@ const denyRequest = async (id: number) => {
                 <div class="flex mb-4">
                     <div class="flex-1 mr-4">
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Request For: <span class="underline">{{ data.request_for }}</span>
+                            Request For: <span class="underline">{{ data?.request_for }}</span>
                         </p>
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Office/Project: <span class="underline">{{ data.section_type || data.office_project }}</span>
+                            Office/Project: <span class="underline">{{ data?.section_type || data?.office_project }}</span>
                         </p>
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Address: <span class="underline">{{ data.office_project_address || data.address }}</span>
+                            Address: <span class="underline">{{ data?.office_project_address || data?.address }}</span>
                         </p>
                     </div>
                     <div class="flex-1">
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Reference No.: <span class="underline">{{ data.reference_no }}</span>
+                            Reference No.: <span class="underline">{{ data?.reference_no }}</span>
                         </p>
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Date Prepared: <span class="underline">{{ data.date_prepared }}</span>
+                            Date Prepared: <span class="underline">{{ data?.date_prepared }}</span>
                         </p>
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Date Needed: <span class="underline">{{ data.date_needed }}</span>
+                            Date Needed: <span class="underline">{{ data?.date_needed }}</span>
                         </p>
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Equipment No.: <span class="underline">{{ data.equipment_no }}</span>
+                            Equipment No.: <span class="underline">{{ data?.equipment_no }}</span>
                         </p>
                     </div>
                 </div>
@@ -122,13 +75,13 @@ const denyRequest = async (id: number) => {
                     <table class="table-auto w-full border-collapse">
                         <thead>
                             <tr>
-                                <th v-for="(dataHeader, index) in headerColumns" :key="index" scope="col" class="p-2 border-0 border-b text-sm">
+                                <th v-for="(dataHeader, index) in itemTableHeaders" :key="index" scope="col" class="p-2 border-0 border-b text-sm">
                                     {{ dataHeader.name }}
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in data.requisition_slip.items" :key="item.id" class="bg-white border-b">
+                            <tr v-for="item in data?.items" :key="item.id" class="bg-white border-b">
                                 <td class="px-4 py-2 border text-center">
                                     {{ item.quantity }}
                                 </td>
@@ -157,52 +110,42 @@ const denyRequest = async (id: number) => {
                 <div class="flex mt-4">
                     <div class="flex-1 mr-4">
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Type of Request: {{ data.type_of_request }}
+                            Type of Request: {{ data?.type_of_request }}
                         </p>
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Contact Number: {{ data.contact_no ?? data.contact_number }}
+                            Contact Number: {{ data?.contact_no ?? data?.contact_number }}
                         </p>
                     </div>
                     <div class="flex-1 mr-4">
                         <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Remarks: {{ data.remarks }}
+                            Remarks: {{ data?.remarks }}
                         </p>
                     </div>
                     <div class="flex-1 grid grid-rows-2 grid-cols-2 gap-4">
                         <div class="row-span-1">
                             <p v-if="title" class="pl-4 text-md text-gray-900">
-                                Current SMR: {{ data.current_smr }}
+                                Current SMR: {{ data?.current_smr }}
                             </p>
                         </div>
                         <div class="row-span-1">
                             <p v-if="title" class="pl-4 text-md text-gray-900">
-                                Unused SMR: {{ data.unused_smr }}
+                                Unused SMR: {{ data?.unused_smr }}
                             </p>
                         </div>
                         <div class="row-span-1">
                             <p v-if="title" class="pl-4 text-md text-gray-900">
-                                Previous SMR: {{ data.previous_smr }}
+                                Previous SMR: {{ data?.previous_smr }}
                             </p>
                         </div>
                         <div class="row-span-1">
                             <p v-if="title" class="pl-4 text-md text-gray-900">
-                                Next SMR: {{ data.next_smr }}
+                                Next SMR: {{ data?.next_smr }}
                             </p>
                         </div>
                     </div>
                 </div>
                 <div id="approvals" class="w-full mt-4">
-                    <LayoutApprovalsListView :approvals="data.approvals" />
-                </div>
-            </div>
-            <div id="footer">
-                <div v-if="data.next_approval && useCheckIsCurrentUser(data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
-                    <HrmsCommonApprovalDenyButton
-                        v-model:deny-remarks="remarks"
-                        :request-id="data.id"
-                        @approve="approvedRequest"
-                        @deny="denyRequest"
-                    />
+                    <LayoutApprovalsListView :approvals="data?.approvals" :signature-view="true" />
                 </div>
             </div>
         </div>

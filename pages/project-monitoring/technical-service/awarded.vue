@@ -9,14 +9,12 @@ definePageMeta({
 useHead({
     title: "Awarded Projects",
 })
-let debounceTimer: NodeJS.Timeout | null
+const debouncedSearch = useDebouncedFn((value: string) => {
+    projectStore.awardedTssList.params.project_key = value
+    projectStore.getAwardedTss()
+}, 500)
 const search = (value: string) => {
-    if (debounceTimer) { clearTimeout(debounceTimer) } // Clear previous timer
-
-    debounceTimer = setTimeout(async () => {
-        projectStore.awardedTssList.params.project_key = value
-        await projectStore.getAwardedTss()
-    }, 500)
+    debouncedSearch(value)
 }
 </script>
 

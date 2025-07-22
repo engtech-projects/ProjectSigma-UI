@@ -121,20 +121,15 @@ const stakeholderType = computed(() => {
     return ""
 })
 const results = ref([])
-let debounceTimer: string | number | NodeJS.Timeout | null | undefined = null
-// eslint-disable-next-line require-await
-watch(searchString, async (newQuery) => {
-    if (debounceTimer) { clearTimeout(debounceTimer) } // Clear previous timer
-
+const debouncedSearchStakeholder = useDebouncedFn(async () => {
+    await searchStakeholder()
+}, 500)
+watch(searchString, (newQuery) => {
     if (!newQuery) {
         results.value = []
         return
     }
-
-    // Set a delay before executing search (e.g., 500ms)
-    debounceTimer = setTimeout(async () => {
-        await searchStakeholder()
-    }, 500)
+    debouncedSearchStakeholder()
 })
 watch(dept, async (newValue) => {
     if (newValue && searchString.value) {

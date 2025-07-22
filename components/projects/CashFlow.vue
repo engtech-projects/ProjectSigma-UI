@@ -2,9 +2,10 @@
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 const snackbar = useSnackbar()
-
+const boardLoading = ref(false)
 const updateCashFlow = async () => {
     try {
+        boardLoading.value = true
         await projectStore.updateCashFlow()
         if (projectStore.errorMessage !== "") {
             snackbar.add({
@@ -17,12 +18,15 @@ const updateCashFlow = async () => {
             type: "error",
             text: error.message || "An error occurred while updating cash flow."
         })
+    } finally {
+        boardLoading.value = false
     }
 }
 </script>
 <template>
     <LayoutPrintAdvanced>
         <template #system-layout>
+            <AccountingLoadScreen class="z-50" :is-loading="boardLoading" />
             <div class="p-4 mx-auto">
                 <h1 class="text-2xl font-bold mb-4 text-center">
                     CASHFLOW BY QUARTER AND PAYMENT SCHEDULE
@@ -77,19 +81,19 @@ const updateCashFlow = async () => {
                                 CASH FLOW
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.wtax?.cashflow }}%
+                                {{ projectStore.information.cash_flow?.wtax?.cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q1?.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q1?.cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q2?.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q2?.cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q3?.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q3?.cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q4?.cashflow }}%
+                                {{ projectStore.information.cash_flow?.q4?.cash_flow }}%
                             </td>
                         </tr>
                         <tr>
@@ -117,19 +121,19 @@ const updateCashFlow = async () => {
                                 CUMULATIVE CASH FLOW
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.wtax?.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.wtax?.cumulative_cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q1?.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q1?.cumulative_cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q2?.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q2?.cumulative_cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q3?.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q3?.cumulative_cash_flow }}%
                             </td>
                             <td class="border border-gray-300 p-2 text-right">
-                                {{ projectStore.information.cash_flow?.q4?.cumulative_cashflow }}%
+                                {{ projectStore.information.cash_flow?.q4?.cumulative_cash_flow }}%
                             </td>
                         </tr>
                     </tbody>
@@ -143,19 +147,19 @@ const updateCashFlow = async () => {
                             </h3>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q1.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q1.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q1.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q1.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q1.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q1.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q1.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q1.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
                             </div>
                         </div>
                         <div class="border border-gray-300 p-4">
@@ -164,19 +168,19 @@ const updateCashFlow = async () => {
                             </h3>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q2.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q2.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q2.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q2.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q2.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q2.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q2.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q2.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
                             </div>
                         </div>
                         <div class="border border-gray-300 p-4">
@@ -185,19 +189,19 @@ const updateCashFlow = async () => {
                             </h3>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q3.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q3.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q3.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q3.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q3.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q3.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q3.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q3.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
                             </div>
                         </div>
                         <div class="border border-gray-300 p-4">
@@ -206,19 +210,19 @@ const updateCashFlow = async () => {
                             </h3>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">ACCOMPLISHMENT</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q4.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q4.accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CASH FLOW</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q4.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q4.cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CUMULATIVE ACCOMPLISHMENT</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q4.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q4.cumulative_accomplishment" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Percentage">
                             </div>
                             <div class="mb-2">
                                 <label class="block text-sm font-medium text-gray-700">CUMULATIVE CASHFLOW</label>
-                                <input v-model="projectStore.cashFlowByQuarter.q4.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
+                                <input v-model="projectStore.cashFlowByQuarter.cash_flow.q4.cumulative_cash_flow" type="number" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Cashflow">
                             </div>
                         </div>
                     </div>

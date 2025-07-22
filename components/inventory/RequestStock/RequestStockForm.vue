@@ -78,17 +78,14 @@ const addItem = (item) => {
         snackbar.add({ type: "warning", text: "Item already in the list!" })
         return
     }
-
-    const itemDetails = itemEnum.value.list.find(i => i.id === item.item_id)
-
     selectedItems.value.push({
         item_id: item.item_id,
         item_summary: item.item_summary,
         quantity: 1,
         max_quantity: item.quantity,
-        unit: item.uom,
-        old_unit: item.uom,
-        uom: itemDetails?.uom_name || item.uom_name, // Get uom_name from itemDetails or item
+        unit: item.uom_id,
+        old_unit: item.uom_id,
+        uom: item.unit,
         specification: "",
         preferred_brand: "",
         reason: "",
@@ -97,7 +94,6 @@ const addItem = (item) => {
     })
 
     selectedItems.value = [...selectedItems.value]
-    itemEnum.value.params.query = ""
 }
 
 const updateField = (index, field, value) => {
@@ -263,7 +259,6 @@ watch(() => form.value.type_of_request, (newType) => {
                             />
                             <LayoutFormPsTextInput
                                 v-model="form.equipment_no"
-                                :required="true"
                                 class="w-full"
                                 title="Equipment No."
                             />

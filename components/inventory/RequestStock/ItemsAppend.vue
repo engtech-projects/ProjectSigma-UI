@@ -49,6 +49,7 @@ const selectItem = (dataValue) => {
         item_id: dataValue.item_id,
         item_summary: dataValue.item_summary || "No summary available",
         uom_id: dataValue.uom_id || null,
+        unit: dataValue.unit || null,
         quantity: dataValue.quantity || 1,
         convertable_units: dataValue.convertable_units,
     })
