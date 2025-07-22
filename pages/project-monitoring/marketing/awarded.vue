@@ -10,6 +10,16 @@ definePageMeta({
 useHead({
     title: "Awarded Projects",
 })
+// let debounceTimer: NodeJS.Timeout | null
+const search = (value: string) => {
+    alert(value)
+    // if (debounceTimer) { clearTimeout(debounceTimer) } // Clear previous timer
+
+    // debounceTimer = setTimeout(async () => {
+    //     projectStore.awardedList.params.project_key = value
+    //     await projectStore.getAwardedProjects()
+    // }, 500)
+}
 </script>
 <template>
     <div class="px-8">
@@ -19,6 +29,6 @@ useHead({
             </h1>
             <DropdownSearch />
         </div>
-        <ProjectsMarketingAwardedList />
+        <ProjectsMarketingAwardedList @search="search" />
     </div>
 </template>

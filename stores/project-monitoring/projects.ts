@@ -363,15 +363,15 @@ export const useProjectStore = defineStore("projects", {
                 "/api/projects/filter",
                 {
                     method: "GET",
-                    params: this.awardedTssList.params,
+                    params: this.awardedList.params,
                     onRequest: () => {
                         this.awardedList.isLoading = true
                     },
                     onResponse: ({ response }) => {
                         this.awardedList.isLoading = false
                         if (response.ok) {
-                            this.awardedTssList.list = response._data.data
-                            this.awardedTssList.pagination = {
+                            this.awardedList.list = response._data.data
+                            this.awardedList.pagination = {
                                 first_page: response._data.meta.first,
                                 pages: response._data.meta.links,
                                 last_page: response._data.meta.last,
