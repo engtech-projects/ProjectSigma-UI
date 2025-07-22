@@ -189,6 +189,14 @@ export const useProjectStore = defineStore("projects", {
             create: false,
             list: false,
         },
+        attachments: {
+            form: {
+                attachment_name: "",
+                other_type: "",
+                file: null,
+            },
+            list: [],
+        },
     }),
     actions: {
         async getProjectsInformation (id: any) {
@@ -663,6 +671,54 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
+        async uploadAttachments (projectId: number, params: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useProjectsApi(
+                "/api/v1/project/" + projectId + "/marketing/attachments",
+                {
+                    method: "POST",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async viewDocumentAttachments (projectId: number) {
+            this.errorMessage = ""
+            this.successMessage = ""
 
+            await useProjectsApi(
+                `/api/v1/project/${projectId}/document-viewer`,
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (!response.ok) {
+                            this.errorMessage = response._data?.message || "Unable to get viewer link"
+                            throw new Error(this.errorMessage)
+                        }
+
+                        const viewerUrl: string = response._data
+                        if (!viewerUrl) {
+                            throw new Error("Empty viewer URL received")
+                        }
+
+                        window.open(viewerUrl, "_blank")
+                        this.successMessage = "Opening document viewer..."
+                    },
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data?.message || "Failed to open document viewer"
+                        throw new Error(this.errorMessage)
+                    },
+                }
+            )
+        },
     },
 })
