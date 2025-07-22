@@ -49,7 +49,7 @@ const actions = {
                 @show-table="showInformation"
             />
             <div class="flex justify-center mx-auto">
-                <CustomPagination :links="cashEntries.pagination" @change-params="changePaginate" />
+                <PsCustomPagination :links="cashEntries.pagination" @change-params="changePaginate" />
             </div>
         </div>
         <div v-else class="w-full py-2">

@@ -64,7 +64,7 @@ watch(() => model.value, (newValue) => {
     >
         <div class="flex flex-col gap-2 w-full p-4">
             <div class="mb-4">
-                <InventoryCommonEvenparHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
+                <DocumentTemplatesIsoHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
                 <div class="flex items-center justify-center rounded-t mb-4 mt-4">
                     <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                         {{ title }}

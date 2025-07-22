@@ -49,7 +49,7 @@ const boardLoading = ref(false)
             <LayoutPsTable :header-columns="headers" :datas="departmentList" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
         <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
             {{ errorMessage }}

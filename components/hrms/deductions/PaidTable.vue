@@ -56,7 +56,7 @@ const showInformation = (data) => {
                 </EasyDataTable>
             </div>
             <div class="flex justify-center mx-auto">
-                <CustomPagination
+                <PsCustomPagination
                     :links="paidList.pagination"
                     @change-params="changePaginate"
                 />

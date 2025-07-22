@@ -44,7 +44,7 @@ const actions = {
                     @show-table="showInformation"
                 />
                 <div class="flex justify-center mx-auto">
-                    <CustomPagination :links="myDisbursementApprovals.pagination" @change-params="changePaginate" />
+                    <PsCustomPagination :links="myDisbursementApprovals.pagination" @change-params="changePaginate" />
                 </div>
             </div>
         </LayoutAcessContainer>

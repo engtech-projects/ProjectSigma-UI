@@ -67,7 +67,7 @@ const projectDetails = (data) => {
                     @show-table="projectDetails"
                 />
                 <div class="flex justify-center mx-auto">
-                    <CustomPagination :links="myProjectList.pagination" @change-params="changePaginate" />
+                    <PsCustomPagination :links="myProjectList.pagination" @change-params="changePaginate" />
                 </div>
             </div>
         </LayoutAcessContainer>

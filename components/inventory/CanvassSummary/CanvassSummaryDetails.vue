@@ -37,7 +37,7 @@ const reactiveData = computed(() => props.data)
             <LayoutPrint>
                 <div id="headline mb-4 ">
                     <PrintTableFormat />
-                    <!-- <InventoryCommonEvenparHeader /> -->
+                    <!-- <DocumentTemplatesIsoHeader /> -->
                     <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4 mt-4">
                         <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                             {{ title }}

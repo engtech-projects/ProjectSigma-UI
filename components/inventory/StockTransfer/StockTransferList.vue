@@ -64,7 +64,7 @@ const items = [
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="stockTransfer.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="stockTransfer.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
 </template>

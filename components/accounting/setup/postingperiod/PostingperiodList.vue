@@ -20,7 +20,7 @@ const changePaginate = (newParams) => {
             />
         </div>
         <div class="flex justify-center mx-auto my-4">
-            <CustomPagination :links="postingPeriodStore.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="postingPeriodStore.pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
 </template>

@@ -183,7 +183,7 @@ const checkElement = async (e: any) => {
             </table>
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination
+            <PsCustomPagination
                 v-if="itemLis.length"
                 :links="pagination"
                 @change-params="changePaginate"

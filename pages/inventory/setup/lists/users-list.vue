@@ -31,7 +31,7 @@ const headers = [
                     />
                 </div>
                 <div class="flex justify-center mx-auto p-2">
-                    <CustomPagination
+                    <PsCustomPagination
                         v-if="usersList?.pagination"
                         :links="usersList.pagination"
                         @change-params="changePaginate"

@@ -28,7 +28,7 @@ const changePaginate = (newParams) => {
             @show-table="$emit('show-table', $event)"
         />
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="unserved.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="unserved.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
 </template>

@@ -64,7 +64,7 @@ const headers = [
                 <i v-if="!periodList.length&&!postingPeriodStore.isLoading" class="p-4 text-center block">No data available.</i>
             </div>
             <div class="flex justify-center mx-auto">
-                <CustomPagination
+                <PsCustomPagination
                     v-if="periodList.length"
                     :links="pagination"
                     @change-params="changePaginate"

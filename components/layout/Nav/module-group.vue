@@ -24,11 +24,11 @@
                 />
             </button>
             <div class="overflow-clip">
-                <TransitionSlideDown>
+                <PsTransitionSlideDown>
                     <div v-show="dp" class="py-2 space-y-2">
                         <slot />
                     </div>
-                </TransitionSlideDown>
+                </PsTransitionSlideDown>
             </div>
         </div>
         <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">

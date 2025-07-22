@@ -3,7 +3,7 @@
 </script>
 <template>
     <div class="flex flex-col w-full gap-10 bg-white p-8 min-h-[1000px]">
-        <AccountingCommonEvenparHeader :page="{currentPage: 1, totalPages: 1}" />
+        <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" />
         <div class="flex flex-col justify-center w-full items-center mb-12">
             <h1 class="text-2xl font-bold uppercase text-center">
                 BOOK BALANCE AS OF JANUARY 5, 2025

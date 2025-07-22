@@ -14,7 +14,7 @@
             </div>
             <div class="w-[400px] h-2 border-y-2 border-black border-dashed" />
         </div>
-        <IsoCard :page="page" :document-code="documentCode" />
+        <DocumentTemplatesIsoCard :page="page" :document-code="documentCode" />
     </div>
 </template>
 
