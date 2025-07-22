@@ -25,26 +25,17 @@ const acceptedQuantity = defineModel("acceptedQuantity", {
 const acceptPopoverId = computed(() => `popover-accept-${props.requestId}`)
 const rejectPopoverId = computed(() => `popover-reject-${props.requestId}`)
 
-const isDisabled = ref(props.disabled)
-
-watch(() => props.disabled, (newValue) => {
-    isDisabled.value = newValue
-})
-
 const acceptAll = () => {
-    isDisabled.value = true
     emit("acceptAll", { requestId: props.requestId })
     clearRemarks()
 }
 
 const acceptWithDetails = () => {
-    isDisabled.value = true
     emit("accept", { requestId: props.requestId, remarks: acceptRemarks.value })
     clearRemarks()
 }
 
 const rejectRequest = () => {
-    isDisabled.value = true
     emit("reject", { requestId: props.requestId, remarks: rejectRemarks.value })
     clearRemarks()
 }
@@ -64,7 +55,7 @@ const setMaxQuantity = () => {
         <div class="flex items-center">
             <button
                 class="bg-green-600 p-2 hover:bg-green-900 text-white rounded-l-lg border-r border-green-700"
-                :disabled="isDisabled"
+                :disabled="props.isDisabled"
                 @click="acceptAll"
             >
                 Accept All
@@ -73,7 +64,7 @@ const setMaxQuantity = () => {
             <button
                 :data-popover-target="acceptPopoverId"
                 class="bg-green-600 p-2 hover:bg-green-900 text-white rounded-r-lg"
-                :disabled="isDisabled"
+                :disabled="props.isDisabled"
             >
                 <div class="flex justify-center relative">
                     <Icon name="material-symbols-light:keyboard-arrow-up-rounded" class="h-6 w-6 text-white" />
@@ -96,7 +87,7 @@ const setMaxQuantity = () => {
                         <div class="w-full py-2 flex gap-2 justify-end">
                             <button
                                 class="bg-green-600 p-2 hover:bg-green-900 text-white rounded-sm"
-                                :disabled="isDisabled"
+                                :disabled="props.isDisabled"
                                 @click="acceptWithDetails"
                             >
                                 Accept
@@ -116,7 +107,7 @@ const setMaxQuantity = () => {
 
         <button
             :data-popover-target="rejectPopoverId"
-            :disabled="isDisabled"
+            :disabled="props.isDisabled"
             class="bg-red-600 p-2 hover:bg-red-900 text-white rounded-lg"
         >
             Reject
@@ -134,7 +125,7 @@ const setMaxQuantity = () => {
                     <div class="w-full py-2 flex gap-2 justify-end">
                         <button
                             class="bg-red-600 p-2 hover:bg-red-900 text-white rounded-sm"
-                            :disabled="isDisabled"
+                            :disabled="props.isDisabled"
                             @click="rejectRequest"
                         >
                             Reject

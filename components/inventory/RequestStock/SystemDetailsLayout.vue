@@ -66,11 +66,11 @@ const denyRequest = async (id: number) => {
 }
 const itemTableHeaders = [
     { name: "QTY", id: "quantity", style: "" },
-    { name: "Unit", id: "uom", style: "" },
+    { name: "Unit", id: "uom_name", style: "" },
     { name: "Item Description", id: "item_description", style: "" },
     { name: "Specification", id: "specification", style: "" },
     { name: "Preferred Brand", id: "preferred_brand", style: "" },
-    { name: "Reason for Request", id: "reason_for_request", style: "" },
+    { name: "Reason for Request", id: "reason", style: "" },
     { name: "No. of Price Quotations", id: "price_quotation_count", style: "" },
 ]
 </script>
@@ -84,8 +84,8 @@ const itemTableHeaders = [
         <div class="grid grid-cols-2 gap-4 justify-center items-center mt-4 p-4">
             <div class="flex flex-col gap-1">
                 <InventoryCommonFormPsFormLabel title="Request For" :value="data?.request_for" />
-                <InventoryCommonFormPsFormLabel title="Office/Project" :value="data?.office_project" />
-                <InventoryCommonFormPsFormLabel title="Address" :value="data?.address" />
+                <InventoryCommonFormPsFormLabel title="Office/Project" :value="data?.section_type" />
+                <InventoryCommonFormPsFormLabel title="Address" :value="data?.office_project_address" />
             </div>
             <div class="flex flex-col gap-1">
                 <InventoryCommonFormPsFormLabel title="Reference No." :value="data?.reference_no" />

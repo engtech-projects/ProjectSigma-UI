@@ -9,6 +9,15 @@ const calculatedGrandTotal = computed(() => {
         return total + (item.metadata.ext_price || 0)
     }, 0) || 0
 })
+const canAcceptReject = computed(() => {
+    const metadata = model.value.metadata || {}
+    return !!(
+        metadata.supplier_id &&
+        metadata.reference &&
+        metadata.terms_of_payment &&
+        metadata.particulars
+    )
+})
 </script>
 
 <template>
@@ -31,6 +40,7 @@ const calculatedGrandTotal = computed(() => {
                     v-for="item, index in model.items"
                     :key="item.id + 'itemTableRow'"
                     v-model="model.items[index]"
+                    :can-accept-reject="canAcceptReject"
                 />
                 <tr class="border">
                     <td :colspan="headerColumns.length">

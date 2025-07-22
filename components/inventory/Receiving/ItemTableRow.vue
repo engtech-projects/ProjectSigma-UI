@@ -2,7 +2,7 @@
 import { useReceivingStore } from "@/stores/inventory/receiving"
 
 const snackbar = useSnackbar()
-
+const route = useRoute()
 const main = useReceivingStore()
 const model = defineModel<Record<string, any>>({ default: () => ({}) })
 const extendedPrice = computed(() => {
@@ -11,8 +11,17 @@ const extendedPrice = computed(() => {
 watch(extendedPrice, (newValue) => {
     model.value.metadata.ext_price = newValue
 }, { immediate: true })
-
+const props = defineProps<{
+    canAcceptReject: boolean
+}>()
 const acceptAll = async () => {
+    if (!props.canAcceptReject) {
+        snackbar.add({
+            type: "info",
+            text: "Please complete all required fields first."
+        })
+        return
+    }
     const payload = {
         actual_brand_purchase: model.value.metadata?.actual_brand_purchase,
         unit_price: model.value.metadata?.unit_price || 0,
@@ -28,7 +37,7 @@ const acceptAll = async () => {
 
         if (messageType === "success") {
             main.$reset()
-            main.fetchReceivingDetails(model.value.id)
+            await main.fetchReceivingDetails(route.query.key)
         }
     } catch (error: any) {
         snackbar.add({ type: "error", text: error.message || "Something went wrong." })
@@ -42,6 +51,13 @@ const acceptWithDetails = async ({
     requestId: number
     remarks: string
 }) => {
+    if (!props.canAcceptReject) {
+        snackbar.add({
+            type: "info",
+            text: "Please complete all required fields first."
+        })
+        return
+    }
     model.value.ext_price = extendedPrice.value
 
     const payload = {
@@ -61,7 +77,7 @@ const acceptWithDetails = async ({
 
         if (messageType === "success") {
             main.$reset()
-            await main.fetchReceivingDetails(model.value.id)
+            await main.fetchReceivingDetails(route.query.key)
         }
     } catch (error: any) {
         snackbar.add({ type: "error", text: error.message || "Something went wrong." })
@@ -69,6 +85,13 @@ const acceptWithDetails = async ({
 }
 
 const rejectRequest = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
+    if (!props.canAcceptReject) {
+        snackbar.add({
+            type: "info",
+            text: "Please complete all required fields first."
+        })
+        return
+    }
     try {
         await main.rejectItem(requestId, { remarks: remarks.trim() })
         const messageType = main.errorMessage ? "error" : "success"
@@ -76,7 +99,7 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
         snackbar.add({ type: messageType, text: messageText })
         if (messageType === "success") {
             main.$reset()
-            await main.fetchReceivingDetails(model.value.id)
+            await main.fetchReceivingDetails(route.query.key)
         }
     } catch (error: any) {
         snackbar.add({ type: "error", text: error.message || "Something went wrong." })
@@ -148,14 +171,16 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
         </td>
 
         <td class="border px-2 py-1 text-center">
-            <div v-if="model.metadata?.status" class="flex justify-center relative group">
+            <div v-if="model.metadata?.accepted_status" class="flex justify-center relative group">
                 <Icon
-                    :name="model.metadata.status === 'Rejected' ? 'mdi:close-circle' : 'mdi:check-circle'"
-                    :class="model.metadata.status === 'Rejected' ? 'text-red-700' : 'text-green-700'"
+                    :name="model.metadata?.accepted_status === 'Rejected' ? 'mdi:close-circle' : 'mdi:check-circle'"
+                    :class="model.metadata?.accepted_status === 'Rejected' ? 'text-red-700' : 'text-green-700'"
                     class="h-8 w-8"
                 />
-                <div class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
-                    {{ model.metadata.status }}
+                <div
+                    class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md"
+                >
+                    {{ model.metadata?.accepted_status }}
                 </div>
             </div>
         </td>
@@ -169,8 +194,8 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                 v-model:accepted-quantity="model.metadata.accepted_quantity"
                 :max-quantity="model.quantity"
                 :request-id="model.id"
-                :disabled="!!model.metadata?.remarks"
-                :class="{ 'opacity-60 cursor-not-allowed pointer-events-none': !!model.metadata?.remarks }"
+                :disabled="!!model.metadata?.accepted_status"
+                :class="{ 'opacity-60 cursor-not-allowed pointer-events-none': !!model.metadata?.accepted_status }"
                 @accept-all="acceptAll"
                 @accept="acceptWithDetails"
                 @reject="rejectRequest"

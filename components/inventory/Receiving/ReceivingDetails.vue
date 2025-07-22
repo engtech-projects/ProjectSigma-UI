@@ -35,7 +35,7 @@ const autoSave = (field: string, value: any) => {
 }
 
 const hasAcceptedItems = computed(() =>
-    model.value.items?.some(({ metadata }) => metadata?.status === "Accepted")
+    model.value.items?.some(({ metadata }) => metadata?.accepted_status === "Accepted")
 )
 
 const updateMetadata = (field: string, value: any) => {
@@ -102,6 +102,7 @@ watch(() => model.value, (newValue) => {
                                 <InventoryCommonSearchSupplierSelector
                                     v-model="model.metadata.supplier_id"
                                     :disabled="hasAcceptedItems"
+                                    @supplier-selected="!hasAcceptedItems && updateMetadata('supplier_id', $event)"
                                 />
 
                                 <label class="text-sm font-medium text-gray-700">Reference:</label>
