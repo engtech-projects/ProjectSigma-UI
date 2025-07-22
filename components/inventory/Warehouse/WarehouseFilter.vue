@@ -5,24 +5,20 @@ warehouseStore.fetchWarehouse()
 const { warehouse, warehousePss, warehouseDetails, warehousePssForm } = storeToRefs(warehouseStore)
 const isSet = ref(true)
 const wareHouseId = ref(null)
-const mainPss = ref()
-const doPssList = () => {
-    mainPss.value.push(
-        {
-            id: null,
-            user_id: null,
-            warehouse_id: wareHouseId.value,
-        }
-    )
-}
+const mainPss = ref(null)
+
 const doSet = () => {
-    mainPss.value = warehousePss.value.list
+    if (warehousePss.value.list.length > 0) {
+        mainPss.value = warehousePss.value.list[0].user_id
+    } else {
+        mainPss.value = null
+    }
     isSet.value = false
 }
+
 const saveNewPss = async () => {
-    const userIds: number[] = mainPss.value.map((data: { user_id: any; }) => data.user_id)
     warehousePssForm.value = {
-        user_ids: userIds,
+        user_id: mainPss.value,
         warehouse_id: wareHouseId.value,
     }
     await warehouseStore.updatePssWarehouse(wareHouseId.value)
@@ -39,13 +35,11 @@ const saveNewPss = async () => {
         isSet.value = true
     }
 }
-const removePss = (index: number) => {
-    mainPss.value.splice(index, 1)
-}
+
 const snackbar = useSnackbar()
 const filterWarehouse = async () => {
     isSet.value = true
-    mainPss.value = []
+    mainPss.value = null
     await warehouseStore.fetchWarehouseDetails(wareHouseId.value)
     await warehouseStore.fetchWarehouseLogs(wareHouseId.value)
     await warehouseStore.fetchWarehouseStocks(wareHouseId.value)
@@ -58,6 +52,7 @@ const filterWarehouse = async () => {
     warehouseStore.errorMessage = ""
 }
 </script>
+
 <template>
     <div class="h-full w-full">
         <LayoutBoards title="Overview" class="w-full">
@@ -93,9 +88,6 @@ const filterWarehouse = async () => {
                                                 </button>
                                             </div>
                                             <div v-else class="flex flex-row gap-2 justify-start items-center">
-                                                <button class="px-3 py-1 bg-green-600 text-white text-xs font-bold" @click="doPssList">
-                                                    +
-                                                </button>
                                                 <button class="px-3 py-1 bg-green-600 text-white text-xs font-bold" @click="saveNewPss">
                                                     SAVE
                                                 </button>
@@ -120,16 +112,9 @@ const filterWarehouse = async () => {
                                 </div>
                                 <div v-show="!isSet" class="flex flex-col gap-4">
                                     <div class="flex flex-col gap-2">
-                                        <template v-for="item, itemIndex in mainPss" :key="item.value">
-                                            <div class="flex flex-row justify-between gap-4">
-                                                <HrmsCommonUserEmployeeSelector v-model="item.user_id" class="w-full" />
-                                                <div class="flex flex-row gap-2">
-                                                    <button class="px-3 py-1 bg-red-600 text-white text-xs font-bold" @click="removePss(itemIndex)">
-                                                        -
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </template>
+                                        <div class="flex flex-row justify-between gap-4">
+                                            <HrmsCommonUserEmployeeSelector v-model="mainPss" class="w-full" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
