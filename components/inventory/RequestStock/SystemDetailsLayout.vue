@@ -84,7 +84,7 @@ const itemTableHeaders = [
         <div class="grid grid-cols-2 gap-4 justify-center items-center mt-4 p-4">
             <div class="flex flex-col gap-1">
                 <InventoryCommonFormPsFormLabel title="Request For" :value="data?.request_for" />
-                <InventoryCommonFormPsFormLabel title="Office/Project" :value="data?.section_type" />
+                <InventoryCommonFormPsFormLabel title="Office/Project" :value="data?.office_project" />
                 <InventoryCommonFormPsFormLabel title="Address" :value="data?.office_project_address" />
             </div>
             <div class="flex flex-col gap-1">
