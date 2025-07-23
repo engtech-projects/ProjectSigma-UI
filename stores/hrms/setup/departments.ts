@@ -8,6 +8,7 @@ export const useDepartmentStore = defineStore("departments", {
         department:
         {
             id: null,
+            code: null,
             department_name: null,
         },
         list: [],

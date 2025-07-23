@@ -37,8 +37,18 @@ const editDepartment = async () => {
             <form @submit.prevent="editDepartment">
                 <div class="space-y-2">
                     <label
-                        for="department_name"
-                        class="text-xs italic"
+                        for="departmentCode"
+                        class="text-xs italic mt-2"
+                    >New Department Code</label>
+                    <input
+                        id="departmentCode"
+                        v-model="department.code"
+                        type="text"
+                        class="w-full rounded-lg"
+                    >
+                    <label
+                        for="departmentName"
+                        class="text-xs italic mt-2"
                     >New Department Name</label>
                     <input
                         id="departmentName"
