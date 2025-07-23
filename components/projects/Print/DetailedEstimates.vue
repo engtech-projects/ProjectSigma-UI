@@ -88,11 +88,6 @@ const totalDirectCost = (id: number) => {
                                 <span class="font-semibold uppercase">
                                     {{ letterHeader(index) }}. {{ rnames.name }}
                                 </span>
-                                <!-- <div class="flex gap-1 justify-end">
-                                    <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="addResource(rnames.id)">
-                                        Add Resource
-                                    </button>
-                                </div> -->
                             </div>
                         </td>
                     </tr>
@@ -288,7 +283,6 @@ const totalDirectCost = (id: number) => {
                 <div class="flex flex-col gap-8 !text-xs mt-6 justify-between items-start">
                     <span class="">Prepared By:</span>
                     <div class="flex gap-8 flex-1">
-                        <!-- <img v-if="signature" :src="signature" class="w-48 h-48 object-cover rounded-md"> -->
                         <div class="flex flex-col items-left gap-1">
                             <span class="font-bold uppercase flex-1 border-b-2 border-black text-left">
                                 ANGEL A. ABRAU
