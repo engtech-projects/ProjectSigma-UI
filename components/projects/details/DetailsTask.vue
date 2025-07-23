@@ -15,10 +15,10 @@ const letterHeader = (index: number) => {
     return String.fromCharCode(65 + remainder) + (base > 0 ? String.fromCharCode(65 + base - 1) : "")
 }
 const filterResources = (id: number) => {
-    return task.value.resources.data.filter(resource => resource.resources.id === id)
+    return task.value.resources.filter(resource => resource.resource_name.id === id)
 }
 const totalDirectCost = (id: number) => {
-    return task.value.resources.data.filter(resource => resource.resources.id === id).reduce((total: number, resource: any) => total + ((resource.unit_cost * resource.quantity) * (resource.unit_count ?? 1)), 0)
+    return task.value.resources.filter(resource => resource.resource_name.id === id).reduce((total: number, resource: any) => total + ((resource.unit_cost * resource.quantity) * (resource.unit_count ?? 1)), 0)
 }
 const addResource = (id) => {
     showResourceModal.value = true
