@@ -27,7 +27,6 @@ const itemTableHeaders = [
     { name: "Specification", id: "specification" },
     { name: "Preferred Brand", id: "preferred_brand" },
     { name: "Reason for Request", id: "reason_for_request" },
-    { name: "No. of Price Quotations", id: "price_quotation_count" },
 ]
 </script>
 <template>
@@ -36,7 +35,7 @@ const itemTableHeaders = [
     >
         <div class="flex flex-col gap-2 w-full p-4">
             <div id="headline mb-4">
-                <PrintTableFormat />
+                <InventoryCommonEvenparHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
                 <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center border-b rounded-t mb-4">
                     <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                         {{ title }}
@@ -99,9 +98,6 @@ const itemTableHeaders = [
                                 </td>
                                 <td class="px-4 py-2 border text-center">
                                     {{ item.reason }}
-                                </td>
-                                <td class="px-4 py-2 border text-center">
-                                    {{ item.location }}
                                 </td>
                             </tr>
                         </tbody>
