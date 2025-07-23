@@ -37,12 +37,22 @@ const addDepartment = async () => {
 
 </script>
 <template>
-    <LayoutBoards title="Department Name" :loading="boardLoading">
+    <LayoutBoards title="Create New Department" :loading="boardLoading">
         <div class="text-gray-500">
             <form @submit.prevent="addDepartment">
                 <label
+                    for="departmentCode"
+                    class="text-xs italic mt-2"
+                >Department Code</label>
+                <input
+                    id="departmentCode"
+                    v-model="department.code"
+                    type="text"
+                    class="w-full rounded-lg"
+                >
+                <label
                     for="department_name"
-                    class="text-xs italic"
+                    class="text-xs italic mt-2"
                 >Department Name</label>
                 <input
                     id="departmentName"

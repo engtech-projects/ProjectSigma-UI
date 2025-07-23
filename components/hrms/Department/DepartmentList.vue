@@ -32,6 +32,7 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
+    { name: "Department Code", id: "code" },
     { name: "Department Name", id: "department_name" },
 ]
 const actions = {
