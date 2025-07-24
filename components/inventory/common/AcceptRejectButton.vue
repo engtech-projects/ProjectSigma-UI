@@ -17,7 +17,7 @@ const props = defineProps({
 const rejectRemarks = ref("")
 const acceptRemarks = ref("")
 const emit = defineEmits(["acceptAll", "accept", "reject"])
-const acceptedQuantity = defineModel("acceptedQuantity", {
+const quantity = defineModel("quantity", {
     type: Number,
     default: null
 })
@@ -46,7 +46,7 @@ const clearRemarks = () => {
 }
 
 const setMaxQuantity = () => {
-    acceptedQuantity.value = props.maxQuantity
+    quantity.value = props.maxQuantity
 }
 </script>
 
@@ -55,7 +55,7 @@ const setMaxQuantity = () => {
         <div class="flex items-center">
             <button
                 class="bg-green-600 p-2 hover:bg-green-900 text-white rounded-l-lg border-r border-green-700"
-                :disabled="props.isDisabled"
+                :disabled="props.disabled"
                 @click="acceptAll"
             >
                 Accept All
@@ -64,7 +64,7 @@ const setMaxQuantity = () => {
             <button
                 :data-popover-target="acceptPopoverId"
                 class="bg-green-600 p-2 hover:bg-green-900 text-white rounded-r-lg"
-                :disabled="props.isDisabled"
+                :disabled="props.disabled"
             >
                 <div class="flex justify-center relative">
                     <Icon name="material-symbols-light:keyboard-arrow-up-rounded" class="h-6 w-6 text-white" />
@@ -76,7 +76,7 @@ const setMaxQuantity = () => {
                         <div class="py-2 flex-col flex gap-2 text-white">
                             <label for="accept-quantity">Quantity</label>
                             <div class="flex gap-2">
-                                <input v-model.number="acceptedQuantity" type="number" min="1" :max="maxQuantity" class="w-full p-1 text-black">
+                                <input v-model.number="quantity" type="number" min="1" :max="maxQuantity" class="w-full p-1 text-black">
                                 <button class="bg-green-600 p-1 hover:bg-green-900 text-white rounded-sm" @click="setMaxQuantity">
                                     Max
                                 </button>
@@ -87,7 +87,7 @@ const setMaxQuantity = () => {
                         <div class="w-full py-2 flex gap-2 justify-end">
                             <button
                                 class="bg-green-600 p-2 hover:bg-green-900 text-white rounded-sm"
-                                :disabled="props.isDisabled"
+                                :disabled="props.disabled"
                                 @click="acceptWithDetails"
                             >
                                 Accept
@@ -107,7 +107,7 @@ const setMaxQuantity = () => {
 
         <button
             :data-popover-target="rejectPopoverId"
-            :disabled="props.isDisabled"
+            :disabled="props.disabled"
             class="bg-red-600 p-2 hover:bg-red-900 text-white rounded-lg"
         >
             Reject
@@ -125,7 +125,7 @@ const setMaxQuantity = () => {
                     <div class="w-full py-2 flex gap-2 justify-end">
                         <button
                             class="bg-red-600 p-2 hover:bg-red-900 text-white rounded-sm"
-                            :disabled="props.isDisabled"
+                            :disabled="props.disabled"
                             @click="rejectRequest"
                         >
                             Reject

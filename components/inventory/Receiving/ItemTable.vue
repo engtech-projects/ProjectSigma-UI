@@ -6,7 +6,7 @@ defineProps<{
 const model = defineModel<Record<string, any>>({ default: () => ({}) })
 const calculatedGrandTotal = computed(() => {
     return model.value.items?.reduce((total:any, item:any) => {
-        return total + (item.metadata.ext_price || 0)
+        return total + (item.ext_price || 0)
     }, 0) || 0
 })
 const canAcceptReject = computed(() => {

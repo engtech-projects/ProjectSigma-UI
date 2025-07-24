@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { useReceivingStore, TERMS, type HeaderColumn } from "@/stores/inventory/receiving"
-import { useInventoryDocCode } from "~/composables/enums"
-
 defineProps<{
     title: string
     headerColumns: HeaderColumn[]
@@ -35,7 +33,7 @@ const autoSave = (field: string, value: any) => {
 }
 
 const hasAcceptedItems = computed(() =>
-    model.value.items?.some(({ metadata }) => metadata?.accepted_status === "Accepted")
+    model.value.items?.some(({ metadata }) => metadata?.status === "Accepted" || metadata?.status === "Rejected")
 )
 
 const updateMetadata = (field: string, value: any) => {
@@ -64,7 +62,6 @@ watch(() => model.value, (newValue) => {
     >
         <div class="flex flex-col gap-2 w-full p-4">
             <div class="mb-4">
-                <InventoryCommonEvenparHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
                 <div class="flex items-center justify-center rounded-t mb-4 mt-4">
                     <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                         {{ title }}
@@ -93,18 +90,20 @@ watch(() => model.value, (newValue) => {
                         Saving...
                     </div>
                 </div>
-
                 <div class="bg-white rounded-xl overflow-hidden mb-6">
                     <div class="grid grid-cols-2 gap-10">
                         <div class="p-4">
                             <div class="grid grid-cols-2 items-center w-full gap-y-2">
                                 <label class="text-sm font-medium text-gray-700">Supplier:</label>
                                 <InventoryCommonSearchSupplierSelector
+                                    v-if="!hasAcceptedItems"
                                     v-model="model.metadata.supplier_id"
                                     :disabled="hasAcceptedItems"
                                     @supplier-selected="!hasAcceptedItems && updateMetadata('supplier_id', $event)"
                                 />
-
+                                <div v-else class="w-full px-4 py-3 rounded-lg transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700">
+                                    {{ model.supplier }}
+                                </div>
                                 <label class="text-sm font-medium text-gray-700">Reference:</label>
                                 <input
                                     v-model="model.metadata.reference"
@@ -179,7 +178,6 @@ watch(() => model.value, (newValue) => {
                         </div>
                     </div>
                 </div>
-
                 <LayoutLoadingContainer class="w-full" :loading="receiving.isLoading">
                     <InventoryReceivingItemTable
                         v-model="model"

@@ -1,33 +1,23 @@
 <script setup lang="ts">
-
 interface HeaderColumn {
     name: string,
     id: string,
     style: string
 }
 
-defineProps({
-    title: {
-        type: String,
-        required: true,
-    },
-    headerColumns: {
-        type: Array<HeaderColumn>,
-        required: true,
-    },
-    data: {
-        type: Array<any>,
-        required: true,
-    },
-})
-const itemTableHeaders = [
-    { name: "QTY", id: "quantity" },
-    { name: "Unit", id: "uom_name" },
-    { name: "Item Description", id: "item_description" },
-    { name: "Specification", id: "specification" },
-    { name: "Preferred Brand", id: "preferred_brand" },
-    { name: "Reason for Request", id: "reason_for_request" },
-]
+defineProps<{
+    title: string;
+    headerColumns: HeaderColumn[];
+    data: any;
+}>()
+// const itemTableHeaders = [
+//     { name: "QTY", id: "quantity" },
+//     { name: "Unit", id: "uom_name" },
+//     { name: "Item Description", id: "item_description" },
+//     { name: "Specification", id: "specification" },
+//     { name: "Preferred Brand", id: "preferred_brand" },
+//     { name: "Reason for Request", id: "reason_for_request" },
+// ]
 </script>
 <template>
     <div

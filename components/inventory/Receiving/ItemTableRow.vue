@@ -6,10 +6,10 @@ const route = useRoute()
 const main = useReceivingStore()
 const model = defineModel<Record<string, any>>({ default: () => ({}) })
 const extendedPrice = computed(() => {
-    return model.value.metadata?.unit_price * model.value.metadata?.accepted_quantity
+    return model.value.metadata?.unit_price * model.value.quantity
 })
 watch(extendedPrice, (newValue) => {
-    model.value.metadata.ext_price = newValue
+    model.value.ext_price = newValue
 }, { immediate: true })
 const props = defineProps<{
     canAcceptReject: boolean
@@ -65,7 +65,7 @@ const acceptWithDetails = async ({
         actual_brand_purchase: model.value.metadata?.actual_brand_purchase,
         unit_price: model.value.metadata?.unit_price || 0,
         specification: model.value.metadata?.specification || null,
-        accepted_quantity: model.value.metadata?.accepted_quantity
+        quantity: model.value.quantity
     }
 
     try {
@@ -117,7 +117,7 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
         </td>
 
         <td class="border px-2 py-1 text-center">
-            <template v-if="model.metadata?.remarks">
+            <template v-if="model.metadata?.status">
                 {{ model.metadata.specification }}
             </template>
             <input
@@ -126,12 +126,12 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                 type="text"
                 class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter specification..."
-                :disabled="model.metadata?.remarks"
+                :disabled="['Accepted', 'Rejected'].includes(model.metadata?.status)"
             >
         </td>
 
         <td class="border px-2 py-1 text-center">
-            <template v-if="model.metadata?.remarks">
+            <template v-if="model.metadata?.status">
                 {{ model.metadata.actual_brand_purchase }}
             </template>
             <input
@@ -140,7 +140,7 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                 type="text"
                 class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter brand..."
-                :disabled="model.metadata?.remarks"
+                :disabled="['Accepted', 'Rejected'].includes(model.metadata?.status)"
             >
         </td>
 
@@ -148,21 +148,22 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
             {{ model.quantity }}
         </td>
         <td class="border px-2 py-1 text-center">
-            {{ model.metadata?.accepted_quantity }}
-        </td>
-        <td class="border px-2 py-1 text-center">
             {{ model.uom_name }}
         </td>
 
         <td class="border px-2 py-1 text-center">
+            <template v-if="model.metadata?.status">
+                {{ useFormatCurrency(model.metadata.unit_price) }}
+            </template>
             <input
+                v-else
                 v-model.number="model.metadata.unit_price"
                 type="number"
                 min="0"
                 step="0.01"
                 class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="0.00"
-                :disabled="model.metadata?.remarks"
+                :disabled="['Accepted', 'Rejected'].includes(model.metadata?.status)"
             >
         </td>
 
@@ -171,16 +172,16 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
         </td>
 
         <td class="border px-2 py-1 text-center">
-            <div v-if="model.metadata?.accepted_status" class="flex justify-center relative group">
+            <div v-if="model.metadata?.status" class="flex justify-center relative group">
                 <Icon
-                    :name="model.metadata?.accepted_status === 'Rejected' ? 'mdi:close-circle' : 'mdi:check-circle'"
-                    :class="model.metadata?.accepted_status === 'Rejected' ? 'text-red-700' : 'text-green-700'"
+                    :name="model.metadata?.status === 'Rejected' ? 'mdi:close-circle' : 'mdi:check-circle'"
+                    :class="model.metadata?.status === 'Rejected' ? 'text-red-700' : 'text-green-700'"
                     class="h-8 w-8"
                 />
                 <div
                     class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md"
                 >
-                    {{ model.metadata?.accepted_status }}
+                    {{ model.metadata?.status }}
                 </div>
             </div>
         </td>
@@ -191,11 +192,11 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
 
         <td class="border px-2 py-1 text-center z-50">
             <InventoryCommonAcceptRejectButton
-                v-model:accepted-quantity="model.metadata.accepted_quantity"
-                :max-quantity="model.quantity"
+                v-model:quantity="model.quantity"
+                :max-quantity="model.metadata.requested_quantity"
                 :request-id="model.id"
-                :disabled="!!model.metadata?.accepted_status"
-                :class="{ 'opacity-60 cursor-not-allowed pointer-events-none': !!model.metadata?.accepted_status }"
+                :disabled="['Accepted', 'Rejected'].includes(model.metadata?.status)"
+                :class="{ 'opacity-60 cursor-not-allowed pointer-events-none': ['Accepted', 'Rejected'].includes(model.metadata?.status) }"
                 @accept-all="acceptAll"
                 @accept="acceptWithDetails"
                 @reject="rejectRequest"

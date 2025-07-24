@@ -8,73 +8,29 @@ const main = useRequestStockStore()
 const snackbar = useSnackbar()
 const { remarks } = storeToRefs(main)
 
-// const approvedRequest = async (id: number) => {
-//     try {
-//         await main.approveApprovalForm(id)
-//         if (main.errorMessage !== "") {
-//             snackbar.add({
-//                 type: "error",
-//                 text: main.errorMessage
-//             })
-//         } else {
-//             snackbar.add({
-//                 type: "success",
-//                 text: main.successMessage
-//             })
-//             main.$reset()
-//             navigateTo({
-//                 path: "/inventory/request-stocks",
-//             })
-//         }
-//     } catch (error) {
-//         snackbar.add({
-//             type: "error",
-//             text: error || "Something went wrong."
-//         })
-//     }
-// }
-// const denyRequest = async (id: number) => {
-//     try {
-//         await main.denyApprovalForm(id)
-//         if (main.errorMessage !== "") {
-//             snackbar.add({
-//                 type: "error",
-//                 text: main.errorMessage
-//             })
-//         } else {
-//             snackbar.add({
-//                 type: "success",
-//                 text: main.successMessage
-//             })
-//             main.$reset()
-//             navigateTo({
-//                 path: "/inventory/request-stocks",
-//             })
-//         }
-//     } catch (error) {
-//         snackbar.add({
-//             type: "error",
-//             text: error || "something went wrong."
-//         })
-//     }
-// }
 const handleRequest = async (type: "approve" | "deny", id: number) => {
     try {
-        await (type === "approve" ? main.approveApprovalForm(id) : main.denyApprovalForm(id))
+        if (type === "approve") {
+            await main.approveApprovalForm(id)
+        } else {
+            await main.denyApprovalForm(id)
+        }
 
         snackbar.add({
-            type: main.errorMessage ? "error" : "success",
-            text: main.errorMessage || main.successMessage
+            type: "success",
+            text: main.successMessage
         })
 
-        if (!main.errorMessage) {
-            main.$reset()
-            navigateTo({ path: "/inventory/request-stocks" })
-        }
-    } catch (error) {
-        snackbar.add({ type: "error", text: error || "Something went wrong." })
+        main.$reset()
+        navigateTo({ path: "/inventory/request-stocks" })
+    } catch (error: any) {
+        snackbar.add({
+            type: "error",
+            text: error?.message || "Something went wrong."
+        })
     }
 }
+
 const showPriceQuotations = ref(false)
 const priceQuotationHeader = { name: "No. of Price Quotations", id: "price_quotation_count", style: "" }
 const tableData = computed(() =>

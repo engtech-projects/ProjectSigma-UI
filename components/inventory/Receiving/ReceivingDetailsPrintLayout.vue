@@ -5,12 +5,16 @@ interface HeaderColumn {
     style?: string;
 }
 
-defineProps<{
+const { title, headerColumns, data } = defineProps<{
     title: string;
     headerColumns: HeaderColumn[];
     data: any;
 }>()
-
+const grandTotal = computed(() => {
+    return data.items.reduce((total:any, item:any) => {
+        return total + (item.ext_price || 0)
+    }, 0)
+})
 </script>
 
 <template>
@@ -87,7 +91,6 @@ defineProps<{
                     </div>
                 </div>
             </div>
-
             <LayoutLoadingContainer class="w-full" :loading="data.isLoading">
                 <div>
                     <table class="table-auto w-full border-collapse">
@@ -118,7 +121,7 @@ defineProps<{
                                     {{ item.metadata?.actual_brand_purchase }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
-                                    {{ item.metadata?.accepted_quantity }}
+                                    {{ item.quantity }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
                                     {{ item.uom_name }}
@@ -168,7 +171,7 @@ defineProps<{
                                     Grand Total
                                 </td>
                                 <td class="border px-2 py-1 text-right font-bold text-sm">
-                                    ₱{{ useFormatCurrency(data.grand_total) }}
+                                    ₱{{ useFormatCurrency(grandTotal) }}
                                 </td>
                                 <td />
                             </tr>
