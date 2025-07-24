@@ -107,7 +107,7 @@ const removeResource = async (id: number) => {
                             {{ task.quantity }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            {{ task.unit_price + " / " + task.unit }}
+                            {{ task.unit_price_with_unit }}
                         </td>
                         <td class="border border-gray-700">
                             <div class="flex">
