@@ -242,6 +242,23 @@
                 </tr>
             </tfoot>
         </table>
+
+        <div class="flex justify-start items-center">
+            <FormSignatory
+                class="mt-16"
+                label="Submitted By"
+                :align="'left'"
+                :signatory="{
+                    name: 'Angel A. Abrau',
+                    title: 'Authorized Managing Officer',
+                    subtitle: 'ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE)'
+                }"
+            />
+            <div class="flex items-center text-sm gap-4 mt-10">
+                <span>DATE:</span>
+                <span class="underline">{{ fullDate(new Date()) }}</span>
+            </div>
+        </div>
     </div>
 </template>
 <script setup>

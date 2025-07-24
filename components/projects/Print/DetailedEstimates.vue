@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useProjectStore } from "~/stores/project-monitoring/projects"
 import { useResourceStore } from "~/stores/project-monitoring/resource"
 import { useTaskStore } from "~/stores/project-monitoring/task"
+import { useProjectStore } from "~/stores/project-monitoring/projects"
 
 const projectStore = useProjectStore()
 const resourceStore = useResourceStore()
@@ -14,27 +14,26 @@ const letterHeader = (index: number) => {
     return String.fromCharCode(65 + remainder) + (base > 0 ? String.fromCharCode(65 + base - 1) : "")
 }
 const filterResources = (id: number) => {
-    return task.value.resources?.data?.filter(resource => resource.resources?.id === id)
+    return task.value.resources.filter(resource => resource.resource_name.id === id)
 }
 const totalDirectCost = (id: number) => {
-    return task.value.resources?.data?.filter(resource => resource.resources?.id === id).reduce((total: number, resource: any) => total + ((resource.unit_cost * resource.quantity) * (resource.unit_count ?? 1)), 0)
+    return task.value.resources.filter(resource => resource.resource_name.id === id).reduce((total: number, resource: any) => total + ((resource.unit_cost * resource.quantity) * (resource.unit_count ?? 1)), 0)
 }
-
 </script>
 <template>
     <div class="bg-white">
         <div class="flex flex-col gap-2 border border-black p-2">
             <div class="grid grid-cols-5">
                 <span class="col-span-1 font-semibold">Contract ID</span>
-                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore.information.contract_id }}</span>
+                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore?.information.contract_id }}</span>
             </div>
             <div class="grid grid-cols-5">
                 <span class="col-span-1 font-semibold">Contract Name</span>
-                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore.information.name }}</span>
+                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore?.information.name }}</span>
             </div>
             <div class="grid grid-cols-5">
                 <span class="col-span-1 font-semibold">Contract Location</span>
-                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore.information.location }}</span>
+                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore?.information.location }}</span>
             </div>
         </div>
         <div class="flex flex-col border-gray-800 pb-6">
