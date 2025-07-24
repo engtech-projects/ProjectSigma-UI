@@ -64,7 +64,7 @@ const boardLoading = ref(false)
             <LayoutPsTable :header-columns="headers" :datas="withholdingTaxList" :actions="actions" @edit-row="setEdit" @delete-row="deleteWithholdingTax" />
         </div>
         <div v-if="withholdingTaxStore.list.length" class="flex justify-center mx-auto">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
         <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
             {{ errorMessage }}

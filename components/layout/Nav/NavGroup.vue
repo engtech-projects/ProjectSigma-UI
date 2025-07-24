@@ -29,11 +29,11 @@
             />
         </button>
         <div class="overflow-clip pl-4">
-            <TransitionSlideDown>
+            <PsTransitionSlideDown>
                 <div v-show="t" class="space-y-2">
                     <slot />
                 </div>
-            </TransitionSlideDown>
+            </PsTransitionSlideDown>
         </div>
     </div>
 </template>

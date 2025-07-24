@@ -34,7 +34,7 @@ const changePaginate = (newParams) => {
             <!-- End of dynamic data section -->
         </div>
         <div class="flex justify-center mx-auto pt-2">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
 </template>

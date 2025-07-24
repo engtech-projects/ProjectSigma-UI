@@ -77,7 +77,7 @@ const itemTableHeaders = [
 
 <template>
     <div>
-        <InventoryCommonEvenparHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
+        <DocumentTemplatesIsoHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
         <h2 class="text-lg font-semibold text-center mb-4">
             Requisition Slip
         </h2>

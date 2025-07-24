@@ -27,7 +27,7 @@ const totalVat = computed(() => {
 <template>
     <div id="toPrint" class="bg-white left-0 top-0 w-screen min-h-[1000px] max-w-[100%] p-12">
         <div class="flex flex-col gap-10 pb-24 pt-8 relative">
-            <AccountingCommonEvenparHeader class="mb-16" />
+            <DocumentTemplatesIsoHeader class="mb-16" />
             <h1 class="text-2xl text-center font-bold">
                 PAYMENT REQUEST FORM
             </h1>

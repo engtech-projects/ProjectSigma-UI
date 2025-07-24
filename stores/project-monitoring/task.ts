@@ -14,7 +14,8 @@ export const useTaskStore = defineStore("taskStore", {
             quantity: null,
             unit: null,
             unit_price: null,
-            amount: null
+            amount: null,
+            unit_price_with_unit: null
         },
         list: [],
         pagination: {},

@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th class="pb-12 px-10">
-                    <AccountingCommonEvenparHeader :page="{currentPage: 1, totalPages: 1}" />
+                    <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" />
                 </th>
             </tr>
         </thead>

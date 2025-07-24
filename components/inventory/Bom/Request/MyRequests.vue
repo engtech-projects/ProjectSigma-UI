@@ -45,7 +45,7 @@ const changePaginate = (newParams) => {
             </div>
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="List.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="List.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <InventoryItemProfileInfoModal

@@ -4,6 +4,10 @@ defineProps({
         type: Object,
         required: true,
     },
+    showDate: {
+        type: Boolean,
+        default: true,
+    },
 })
 </script>
 <template>
@@ -20,7 +24,7 @@ defineProps({
                 color="green"
                 class="absolute"
             />
-            <span class="flex-1">{{ approvalItem.date_approved_human }}</span>
+            <span v-if="showDate" class="flex-1">{{ approvalItem.date_approved_human }}</span>
         </template>
         <template v-if="approvalItem.status === 'Denied'">
             <Icon
@@ -29,7 +33,7 @@ defineProps({
                 color="red"
                 class="absolute"
             />
-            <span class="flex-1">{{ approvalItem.date_denied_human }}</span>
+            <span v-if="showDate" class="flex-1">{{ approvalItem.date_denied_human }}</span>
         </template>
         <span class="font-bold uppercase flex-1 border-b-2 border-black" :class="approvalItem.employee_name === 0 ? 'w-48' : '' ">
             {{ approvalItem.employee_name }}

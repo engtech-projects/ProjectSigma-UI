@@ -55,7 +55,7 @@ const shownActions = {
             <LayoutPsTable :header-columns="headers" :datas="allList.list" :actions="shownActions" @edit-row="setEdit" @delete-row="deleteLeaves" />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="allList.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="allList.pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
 </template>

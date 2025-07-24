@@ -41,7 +41,7 @@ const projectDetails = (data) => {
                     @show-table="projectDetails"
                 />
                 <div class="flex justify-center mx-auto">
-                    <CustomPagination :links="onHoldList.pagination" @change-params="changePaginate" />
+                    <PsCustomPagination :links="onHoldList.pagination" @change-params="changePaginate" />
                 </div>
             </div>
         </LayoutAcessContainer>

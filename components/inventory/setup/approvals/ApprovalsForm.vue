@@ -174,7 +174,7 @@ const changePaginate = (newParams) => {
             </table>
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="inventoryApprovals.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="inventoryApprovals.pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
 </template>
