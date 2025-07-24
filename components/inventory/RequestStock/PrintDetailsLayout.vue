@@ -10,14 +10,14 @@ defineProps<{
     headerColumns: HeaderColumn[];
     data: any;
 }>()
-// const itemTableHeaders = [
-//     { name: "QTY", id: "quantity" },
-//     { name: "Unit", id: "uom_name" },
-//     { name: "Item Description", id: "item_description" },
-//     { name: "Specification", id: "specification" },
-//     { name: "Preferred Brand", id: "preferred_brand" },
-//     { name: "Reason for Request", id: "reason_for_request" },
-// ]
+const itemTableHeaders = [
+    { name: "QTY", id: "quantity" },
+    { name: "Unit", id: "uom_name" },
+    { name: "Item Description", id: "item_description" },
+    { name: "Specification", id: "specification" },
+    { name: "Preferred Brand", id: "preferred_brand" },
+    { name: "Reason for Request", id: "reason_for_request" },
+]
 </script>
 <template>
     <div
