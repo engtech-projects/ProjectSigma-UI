@@ -36,6 +36,7 @@ const editPq = (pq: any) => {
                             v-if="viewRequests.details"
                             :data="viewRequests.details.requisition_slip"
                             :canvasser="viewRequests.details.canvassers"
+                            :show-price-quotations="true"
                         />
                     </template>
                     <template #print-layout>
