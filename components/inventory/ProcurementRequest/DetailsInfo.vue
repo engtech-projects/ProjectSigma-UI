@@ -33,7 +33,7 @@ const editPq = (pq: any) => {
                 <LayoutPrintAdvanced>
                     <template #system-layout>
                         <InventoryRequestStockSystemDetailsLayout
-                            v-if="viewRequests.details.requisition_slip"
+                            v-if="viewRequests.details"
                             :data="viewRequests.details.requisition_slip"
                             :canvasser="viewRequests.details.canvassers"
                         />
