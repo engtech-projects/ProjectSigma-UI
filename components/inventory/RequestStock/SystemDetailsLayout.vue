@@ -56,6 +56,9 @@ const itemTableHeaders = computed(() => {
 
     return baseHeaders
 })
+const canvasserName = computed(() => {
+    return props.canvasser?.user?.[0]?.employee?.fullname_first || "No canvasser assigned"
+})
 </script>
 
 <template>
@@ -75,17 +78,56 @@ const itemTableHeaders = computed(() => {
                 <InventoryCommonFormPsFormLabel title="Date Needed" :value="props.data?.date_needed" />
                 <InventoryCommonFormPsFormLabel title="Equipment No." :value="props.data?.equipment_no" />
             </div>
-            <div v-if="props.canvasser" class="flex flex-col gap-1">
-                <InventoryCommonFormPsFormLabel title="Canvasser" :value="props.canvasser[0]?.name" />
+            <div class="flex flex-col gap-1">
+                <InventoryCommonFormPsFormLabel
+                    title="Canvasser"
+                    :value="canvasserName"
+                />
             </div>
         </div>
-
-        <InventoryCommonCanvasserSelector v-if="props.canvasser" />
+        <InventoryCommonCanvasserSelector />
         <LayoutPsTable
             :header-columns="itemTableHeaders"
             :datas="props.data?.items ?? []"
             class="rounded-md shadow-sm"
         />
+        <div class="flex mt-4">
+            <div class="flex-1 mr-4">
+                <p class="pl-4 text-md text-gray-900">
+                    Type of Request: {{ props.data?.type_of_request }}
+                </p>
+                <p class="pl-4 text-md text-gray-900">
+                    Contact Number: {{ props.data?.contact_number }}
+                </p>
+            </div>
+            <div class="flex-1 mr-4">
+                <p class="pl-4 text-md text-gray-900">
+                    Remarks: {{ props.data?.remarks }}
+                </p>
+            </div>
+            <div class="flex-1 grid grid-rows-2 grid-cols-2 gap-4">
+                <div class="row-span-1">
+                    <p class="pl-4 text-md text-gray-900">
+                        Current SMR: {{ props.data?.current_smr }}
+                    </p>
+                </div>
+                <div class="row-span-1">
+                    <p class="pl-4 text-md text-gray-900">
+                        Unused SMR: {{ props.data?.unused_smr }}
+                    </p>
+                </div>
+                <div class="row-span-1">
+                    <p class="pl-4 text-md text-gray-900">
+                        Previous SMR: {{ props.data?.previous_smr }}
+                    </p>
+                </div>
+                <div class="row-span-1">
+                    <p class="pl-4 text-md text-gray-900">
+                        Next SMR: {{ props.data?.next_smr }}
+                    </p>
+                </div>
+            </div>
+        </div>
         <div id="approvals" class="w-full mt-4">
             <LayoutApprovalsListView :approvals="props.data?.approvals" />
         </div>
