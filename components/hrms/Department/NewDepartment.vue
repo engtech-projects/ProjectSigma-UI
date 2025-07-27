@@ -35,9 +35,20 @@ const addDepartment = async () => {
     }
 }
 
+const closeEditCs = () => {
+    emit("close")
+}
+
+const emit = defineEmits(["close"])
+
 </script>
 <template>
     <LayoutBoards title="Create New Department" :loading="boardLoading">
+        <template #header-options>
+            <button class="text-gray-500 hover:text-white hover:bg-red-600" @click="closeEditCs">
+                <Icon name="mdi:close" class="h-5 w-5" />
+            </button>
+        </template>
         <div class="text-gray-500">
             <form @submit.prevent="addDepartment">
                 <label

@@ -8,6 +8,7 @@ const { list: departmentList, isEdit, department, getParams, pagination, errorMe
 
 const setEdit = (dept) => {
     isEdit.value = true
+    emit("setEditHandler")
     department.value = dept
 }
 const deleteDept = async (dept) => {
@@ -29,6 +30,7 @@ const changePaginate = (newParams) => {
     // getParams.value.semId = newParams.semId ?? ""
     // getParams.value.feeType = newParams.feeType ?? ""
     // getParams.value.particularName = newParams.particularName ?? ""
+    // departments.getDepartment()
 }
 
 const headers = [
@@ -40,12 +42,26 @@ const actions = {
     delete: true
 }
 
+const showFormHandler = () => {
+    emit("showFormHandler")
+}
+
+const emit = defineEmits(["showFormHandler", "setEditHandler"])
+
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 </script>
 <template>
     <LayoutBoards title="Department List" class="w-full" :loading="boardLoading">
+        <template #header-options>
+            <LayoutFormPsButton
+                class="content-center mt-5 !w-auto text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 font-semibold text-sm p-2 me-2 mb-2 rounded-lg"
+                button-title="Add Department"
+                button-icon=""
+                @click="showFormHandler"
+            />
+        </template>
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="departmentList" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
         </div>
