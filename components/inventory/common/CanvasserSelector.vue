@@ -9,7 +9,7 @@ const mainCanvasser = ref(null)
 const snackbar = useSnackbar()
 
 const doSet = () => {
-    if (canvasser.value.list && canvasser.value.list.length > 0) {
+    if (canvasser.value.list.length > 0) {
         mainCanvasser.value = canvasser.value.list[0].user_id
     } else {
         mainCanvasser.value = null
@@ -81,7 +81,7 @@ const saveNewCanvasser = async () => {
                 </div>
                 <div class="flex flex-col gap-2">
                     <template v-if="isSet">
-                        <div v-if="canvasser.list?.length && canvasser.list[0].user?.employee?.fullname_first">
+                        <div v-if="canvasser.list?.length">
                             <span class="text-sm font-semibold">
                                 {{ canvasser.list[0].user.employee.fullname_first }}
                             </span>
