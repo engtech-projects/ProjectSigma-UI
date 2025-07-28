@@ -70,7 +70,9 @@ export const useProjectStore = defineStore("projects", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                project_key: ""
+            },
             pagination: {},
             errorMessage: "",
             successMessage: "",
@@ -80,7 +82,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.DRAFT
+                stage_status: ProjectStatus.DRAFT
             },
             pagination: {},
             errorMessage: "",
@@ -91,7 +93,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.PROPOSAL
+                stage_status: ProjectStatus.PROPOSAL
             },
             pagination: {},
             errorMessage: "",
@@ -102,7 +104,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.BIDDING
+                stage_status: ProjectStatus.BIDDING
             },
             pagination: {},
             errorMessage: "",
@@ -113,7 +115,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.ON_HOLD
+                stage_status: ProjectStatus.ON_HOLD
             },
             pagination: {},
             errorMessage: "",
@@ -124,13 +126,13 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.AWARDED
+                stage_status: ProjectStatus.AWARDED
             },
             pagination: {},
             errorMessage: "",
             successMessage: "",
         },
-        awardedTssList: {
+        projectTssList: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -147,7 +149,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.ARCHIVED
+                stage_status: ProjectStatus.ARCHIVED
             },
             pagination: {},
             errorMessage: "",
@@ -367,21 +369,20 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
-        async getAwardedTss () {
-            this.awardedList.isLoading = true
+        async getProjectTss () {
             const { data, error } = await useProjectsApi(
-                "/api/projects/filter",
+                "/api/projects/tss",
                 {
                     method: "GET",
-                    params: this.awardedList.params,
+                    params: this.projectTssList.params,
                     onRequest: () => {
-                        this.awardedList.isLoading = true
+                        this.projectTssList.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.awardedList.isLoading = false
+                        this.projectTssList.isLoading = false
                         if (response.ok) {
-                            this.awardedList.list = response._data.data
-                            this.awardedList.pagination = {
+                            this.projectTssList.list = response._data.data
+                            this.projectTssList.pagination = {
                                 first_page: response._data.meta.first,
                                 pages: response._data.meta.links,
                                 last_page: response._data.meta.last,
@@ -429,7 +430,7 @@ export const useProjectStore = defineStore("projects", {
             this.myProjectList.isLoading = true
 
             const { data, error } = await useProjectsApi(
-                "/api/projects/resource",
+                "/api/projects/owned",
                 {
                     method: "GET",
                     params: this.myProjectList.params,
