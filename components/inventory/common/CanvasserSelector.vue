@@ -10,7 +10,7 @@ const snackbar = useSnackbar()
 
 const doSet = () => {
     if (canvasser.value.list.length > 0) {
-        mainCanvasser.value = canvasser.value.list[0].user_id
+        mainCanvasser.value = canvasser?.list?.name
     } else {
         mainCanvasser.value = null
     }
@@ -42,7 +42,14 @@ const saveNewCanvasser = async () => {
     }
     await procurementStore.getOne(Number(procurementId.value))
 }
-
+watch(canvasser, (val) => {
+    if (val?.id && val?.name) {
+        selectedCanvasser.value = {
+            id: val.id,
+            name: val.name,
+        }
+    }
+}, { immediate: true })
 </script>
 
 <template>
@@ -83,7 +90,7 @@ const saveNewCanvasser = async () => {
                     <template v-if="isSet">
                         <div v-if="canvasser.list?.length">
                             <span class="text-sm font-semibold">
-                                {{ canvasser.list[0].user.employee.fullname_first }}
+                                {{ canvasser?.list?.name }}
                             </span>
                         </div>
                     </template>

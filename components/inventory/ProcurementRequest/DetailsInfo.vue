@@ -26,6 +26,7 @@ onMounted(async () => {
         await procurementRequestStore.getOne(route.query.id)
     }
 })
+const canvasser = computed(() => viewRequests.value?.details?.canvasser)
 </script>
 <template>
     <div>
@@ -39,9 +40,11 @@ onMounted(async () => {
                     <template #system-layout>
                         <InventoryRequestStockSystemDetailsLayout
                             v-if="viewRequests.details"
+                            title="Requisition Slip"
                             :data="viewRequests.details.requisition_slip"
-                            :canvasser="viewRequests.details.canvasser"
+                            :canvasser="canvasser"
                             :show-price-quotations="true"
+                            :show-canvasser="true"
                         />
                     </template>
                     <template #print-layout>
