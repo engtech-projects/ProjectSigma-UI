@@ -35,7 +35,7 @@ const projectDetails = (data: any) => {
         >
             <div class="flex flex-row justify-items-start items-start">
                 <div class="w-1/3 px-4">
-                    <ProjectsProjectStatus v-model="myProjectList.params.stage_status" />
+                    <ProjectsProjectStatusSelector v-model="myProjectList.params.stage_status" />
                 </div>
                 <div class="w-1/3 px-4">
                     <label class="block text-sm font-medium text-gray-700"> Search </label>
