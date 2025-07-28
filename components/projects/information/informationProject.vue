@@ -80,8 +80,6 @@ defineProps({
                         {{ stageStatus }}
                     </span>
                 </div>
-                <ProjectsDetailsProjectAttachmentUploadButton />
-                <ProjectsDetailsProjectAttachmentsViewButton />
             </div>
         </div>
     </div>
