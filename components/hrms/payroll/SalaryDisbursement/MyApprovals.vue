@@ -64,7 +64,7 @@ const changePaginate = (newParams) => {
         </LayoutLoadingContainer>
     </div>
     <div class="flex justify-center mx-auto">
-        <CustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
+        <PsCustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
     </div>
     <HrmsPayrollSalaryDisbursementInfoModal
         v-model:show-modal="showInfoModal"

@@ -189,6 +189,14 @@ export const useProjectStore = defineStore("projects", {
             create: false,
             list: false,
         },
+        attachments: {
+            form: {
+                attachment_name: "",
+                other_type: "",
+                file: null,
+            },
+            list: [],
+        },
     }),
     actions: {
         async getProjectsInformation (id: any) {
@@ -365,15 +373,15 @@ export const useProjectStore = defineStore("projects", {
                 "/api/projects/filter",
                 {
                     method: "GET",
-                    params: this.awardedTssList.params,
+                    params: this.awardedList.params,
                     onRequest: () => {
                         this.awardedList.isLoading = true
                     },
                     onResponse: ({ response }) => {
                         this.awardedList.isLoading = false
                         if (response.ok) {
-                            this.awardedTssList.list = response._data.data
-                            this.awardedTssList.pagination = {
+                            this.awardedList.list = response._data.data
+                            this.awardedList.pagination = {
                                 first_page: response._data.meta.first,
                                 pages: response._data.meta.links,
                                 last_page: response._data.meta.last,
@@ -663,6 +671,54 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
+        async uploadAttachments (projectId: number, params: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useProjectsApi(
+                "/api/v1/project/" + projectId + "/marketing/attachments",
+                {
+                    method: "POST",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async viewDocumentAttachments (projectId: number) {
+            this.errorMessage = ""
+            this.successMessage = ""
 
+            await useProjectsApi(
+                `/api/v1/project/${projectId}/document-viewer`,
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (!response.ok) {
+                            this.errorMessage = response._data?.message || "Unable to get viewer link"
+                            throw new Error(this.errorMessage)
+                        }
+
+                        const viewerUrl: string = response._data
+                        if (!viewerUrl) {
+                            throw new Error("Empty viewer URL received")
+                        }
+
+                        window.open(viewerUrl, "_blank")
+                        this.successMessage = "Opening document viewer..."
+                    },
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data?.message || "Failed to open document viewer"
+                        throw new Error(this.errorMessage)
+                    },
+                }
+            )
+        },
     },
 })

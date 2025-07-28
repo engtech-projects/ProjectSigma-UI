@@ -45,6 +45,6 @@ const showInformation = (data) => {
         </LayoutLoadingContainer>
     </div>
     <div class="flex justify-center mx-auto">
-        <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
+        <PsCustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
     </div>
 </template>

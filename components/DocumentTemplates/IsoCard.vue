@@ -28,13 +28,13 @@
             <tbody>
                 <tr>
                     <td class="text-[12px] p-[1px] text-center border border-gray-500">
-                        01
+                        {{ issueNunber }}
                     </td>
                     <td class="text-[12px] p-[1px] text-center border border-gray-500">
-                        00
+                        {{ revisionNumber }}
                     </td>
                     <td class="text-[12px] p-[1px] text-center border border-gray-500">
-                        12-12-2024
+                        {{ effectiveDate }}
                     </td>
                     <td class="text-[12px] p-[1px] text-center border border-gray-500">
                         {{ page?.currentPage }} of {{ page?.totalPages }}
@@ -47,6 +47,10 @@
 
 <script lang="ts" setup>
 defineProps({
+    documentCode: {
+        type: String,
+        required: true,
+    },
     page: {
         type: Object,
         default: () => ({
@@ -54,9 +58,17 @@ defineProps({
             totalPages: 1
         }),
     },
-    documentCode: {
+    effectiveDate: {
         type: String,
-        default: ""
+        default: "12-12-2024"
+    },
+    issueNunber: {
+        type: String,
+        default: "01"
+    },
+    revisionNumber: {
+        type: String,
+        default: "00"
     }
 })
 

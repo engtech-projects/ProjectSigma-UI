@@ -53,7 +53,7 @@ const showInformation = (data) => {
                 </EasyDataTable>
             </div>
             <div class="flex justify-center mx-auto">
-                <CustomPagination
+                <PsCustomPagination
                     v-if="paidList.list.length"
                     :links="loansStore.pagination"
                     @change-params="changePaginate"

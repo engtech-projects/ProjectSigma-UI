@@ -44,7 +44,7 @@ const changePaginate = (newParams) => {
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="approvalList.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="approvalList.pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
     <HrmsOvertimeInfoModal

@@ -46,7 +46,7 @@ const ddata = computed(() => {
                     @show-table="draftDetails"
                 />
                 <div class="flex justify-center mx-auto">
-                    <CustomPagination :links="proposalList.pagination" @change-params="changePaginate" />
+                    <PsCustomPagination :links="proposalList.pagination" @change-params="changePaginate" />
                 </div>
             </div>
         </LayoutAcessContainer>

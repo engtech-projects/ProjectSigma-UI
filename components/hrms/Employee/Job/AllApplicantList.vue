@@ -82,7 +82,7 @@ const applicantDetails = (applic) => {
             </table>
         </div>
         <div class="flex justify-center mx-auto p-2">
-            <CustomPagination :links="allJobApplicants.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="allJobApplicants.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <PsModal v-model:show-modal="applicantDetail" title="APPLICANT DETAILS">

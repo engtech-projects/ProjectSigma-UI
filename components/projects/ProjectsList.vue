@@ -54,7 +54,7 @@ const boardLoading = ref(false)
             <i v-if="!projectList.length&&!projects.isLoading" class="p-4 text-center block">No data available.</i>
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination
+            <PsCustomPagination
                 v-if="projectList.length"
                 :links="pagination"
                 @change-params="changePaginate"

@@ -10,6 +10,13 @@ definePageMeta({
 useHead({
     title: "Awarded Projects",
 })
+const debouncedSearch = useDebouncedFn((value: string) => {
+    projectStore.awardedList.params.project_key = value
+    projectStore.getAwardedProjects()
+}, 500)
+const search = (value: string) => {
+    debouncedSearch(value)
+}
 </script>
 <template>
     <div class="px-8">
@@ -19,6 +26,6 @@ useHead({
             </h1>
             <DropdownSearch />
         </div>
-        <ProjectsMarketingAwardedList />
+        <ProjectsMarketingAwardedList @search="search" />
     </div>
 </template>

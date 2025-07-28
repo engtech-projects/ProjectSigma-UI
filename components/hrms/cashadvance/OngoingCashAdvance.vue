@@ -43,7 +43,7 @@ const changePaginate = (newParams) => {
         />
     </div>
     <div class="flex justify-center mx-auto">
-        <CustomPagination
+        <PsCustomPagination
             v-if="ongoingCashAdvanceList.list.length"
             :links="pagination"
             @change-params="changePaginate"

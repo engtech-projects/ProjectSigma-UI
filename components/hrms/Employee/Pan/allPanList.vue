@@ -36,7 +36,7 @@ const showInformation = (data) => {
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination
+            <PsCustomPagination
                 v-if="allRequests.list.length"
                 :links="allRequests.pagination"
                 @change-params="changePaginate"

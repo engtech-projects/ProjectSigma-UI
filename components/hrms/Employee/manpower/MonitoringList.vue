@@ -50,7 +50,7 @@ const actions = {
             />
         </div>
         <div class="flex justify-center mx-auto p-2">
-            <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <HrmsEmployeeManpowerInfoModal

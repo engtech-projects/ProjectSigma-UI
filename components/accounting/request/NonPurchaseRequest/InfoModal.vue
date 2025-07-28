@@ -19,7 +19,7 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
 const printPreview = ref(false)
 
 const paymentRequestStore = usePaymentRequestStore()
-const { remarks } = storeToRefs(paymentRequestStore)
+const { remarks, paymentRequest } = storeToRefs(paymentRequestStore)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -86,6 +86,28 @@ const totalVatAmount = computed(() => {
 const totalAmount = computed(() => {
     return totalCost.value + totalVatAmount.value
 })
+const useAsNewRequest = (requestData) => {
+    const approvals = paymentRequest.value.approvals
+    const mapData = { ...requestData }
+    if (mapData.stakeholder) {
+        mapData.stakeholderInformation = mapData.stakeholder
+        delete mapData.stakeholder
+    }
+    if (mapData.details) {
+        mapData.details = mapData.details.map((detail) => {
+            const mapDetail = { ...detail }
+            if (mapDetail.stakeholder) {
+                mapDetail.stakeholderInformation = mapDetail.stakeholder
+                delete mapDetail.stakeholder
+            }
+            return mapDetail
+        })
+    }
+    Object.assign(paymentRequest.value, { request_date: null, ...mapData })
+    paymentRequest.value.approvals = approvals
+    showModal.value = false
+    document.querySelector("[data-tabs-target='#npoForm']").click()
+}
 watch(showModal, (newVal) => {
     if (!newVal) {
         printPreview.value = false
@@ -262,6 +284,9 @@ watch(showModal, (newVal) => {
                 />
             </div>
             <div class="flex gap-2 justify-end w-full p-8">
+                <button v-if="!printPreview && paymentData.request_status === AccountingRequestStatus.denied" class="flex items-center gap-1 justify-center bg-green-600 p-2 hover:bg-green-900 text-white rounded-md w-32 text-sm" @click="useAsNewRequest(paymentData)">
+                    USE AS NEW REQUEST
+                </button>
                 <button v-if="!printPreview" class="flex items-center gap-1 justify-center bg-gray-600 p-2 hover:bg-gray-900 text-white rounded-md w-32 text-sm" @click="printPreview=true">
                     <Icon name="iconoir:printing-page" />
                     Print Preview
