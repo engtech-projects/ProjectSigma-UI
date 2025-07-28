@@ -3,10 +3,10 @@ import { storeToRefs } from "pinia"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 
-const { awardedTssList } = storeToRefs(projectStore)
+const { projectTssList } = storeToRefs(projectStore)
 
 const changePaginate = (newParams) => {
-    awardedTssList.value.params.page = newParams.page ?? ""
+    projectTssList.value.params.page = newParams.page ?? ""
 }
 const props = defineProps({
     title: {
@@ -18,12 +18,6 @@ const props = defineProps({
         default: false,
     }
 })
-const emit = defineEmits([
-    "search"
-])
-const search = (value) => {
-    emit("search", value)
-}
 const headers = [
     { name: "PROJECT NAME", id: "name", style: "text-left" },
     { name: "PROJECT CODE", id: "code", style: "text-left" },
@@ -40,9 +34,9 @@ const projectDetails = (data) => {
 }
 </script>
 <template>
-    <LayoutBoards class="w-full" :title="props.title" :loading="awardedTssList.isLoading">
+    <LayoutBoards class="w-full" :title="props.title">
         <template v-if="props.showSearch" #header-options>
-            <BasicSearchBar class="w-1/3 mb-2" @search="search" />
+            <BasicSearchBar v-model="projectTssList.params.project_key" class="w-1/3 mb-2" />
         </template>
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
@@ -50,14 +44,16 @@ const projectDetails = (data) => {
             ])"
         >
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-                <LayoutPsTable
-                    :header-columns="headers"
-                    :actions="actions"
-                    :datas="awardedTssList.list ?? []"
-                    @show-table="projectDetails"
-                />
+                <LayoutLoadingContainer :loading="projectTssList.isLoading">
+                    <LayoutPsTable
+                        :header-columns="headers"
+                        :actions="actions"
+                        :datas="projectTssList.list ?? []"
+                        @show-table="projectDetails"
+                    />
+                </LayoutLoadingContainer>
                 <div class="flex justify-center mx-auto">
-                    <PsCustomPagination :links="awardedTssList.pagination" @change-params="changePaginate" />
+                    <PsCustomPagination :links="projectTssList.pagination" @change-params="changePaginate" />
                 </div>
             </div>
         </LayoutAcessContainer>

@@ -70,7 +70,9 @@ export const useProjectStore = defineStore("projects", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                project_key: ""
+            },
             pagination: {},
             errorMessage: "",
             successMessage: "",
@@ -130,7 +132,7 @@ export const useProjectStore = defineStore("projects", {
             errorMessage: "",
             successMessage: "",
         },
-        awardedTssList: {
+        projectTssList: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -367,51 +369,21 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
-        async getAwardedTss () {
-            this.awardedList.isLoading = true
-            const { data, error } = await useProjectsApi(
-                "/api/projects/filter",
-                {
-                    method: "GET",
-                    params: this.awardedList.params,
-                    onRequest: () => {
-                        this.awardedList.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.awardedList.isLoading = false
-                        if (response.ok) {
-                            this.awardedList.list = response._data.data
-                            this.awardedList.pagination = {
-                                first_page: response._data.meta.first,
-                                pages: response._data.meta.links,
-                                last_page: response._data.meta.last,
-                            }
-                        }
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
         async getProjectTss () {
-            this.awardedTssList.isLoading = true
+            this.projectTssList.isLoading = true
             const { data, error } = await useProjectsApi(
-                "/api/projects/filter",
+                "/api/projects/tss",
                 {
                     method: "GET",
-                    params: this.awardedTssList.params,
-                    watch: false,
+                    params: this.projectTssList.params,
                     onRequest: () => {
-                        this.awardedTssList.isLoading = true
+                        this.projectTssList.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.awardedTssList.isLoading = false
+                        this.projectTssList.isLoading = false
                         if (response.ok) {
-                            this.awardedTssList.list = response._data.data
-                            this.awardedTssList.pagination = {
+                            this.projectTssList.list = response._data.data
+                            this.projectTssList.pagination = {
                                 first_page: response._data.meta.first,
                                 pages: response._data.meta.links,
                                 last_page: response._data.meta.last,

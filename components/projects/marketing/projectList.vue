@@ -25,19 +25,9 @@ const ddata = computed(() => {
 const projectDetails = (data: any) => {
     navigateTo(`/project-monitoring/information?id=${data.id}`)
 }
-const debouncedSearch = useDebouncedFn(
-    (value: string) => {
-        projectStore.myProjectList.params.project_key = value
-        projectStore.getMyProjects()
-    },
-    500
-)
-const search = (value: string) => {
-    debouncedSearch(value)
-}
 </script>
 <template>
-    <LayoutBoards class="w-full" :loading="myProjectList.isLoading">
+    <LayoutBoards class="w-full">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
                 AccessibilityTypes.PROJECTMONITORING_MARKETING_MYPROJECTS,
@@ -72,16 +62,18 @@ const search = (value: string) => {
                 </div>
                 <div class="w-1/3 px-4">
                     <label class="block text-sm font-medium text-gray-700"> Search </label>
-                    <BasicSearchBar class="w-full mb-2" @search="search" />
+                    <BasicSearchBar v-model="myProjectList.params.project_key" class="w-full mb-2" />
                 </div>
             </div>
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-                <LayoutPsTable
-                    :header-columns="headers"
-                    :actions="actions"
-                    :datas="ddata ?? []"
-                    @show-table="projectDetails"
-                />
+                <LayoutLoadingContainer :loading="myProjectList.isLoading">
+                    <LayoutPsTable
+                        :header-columns="headers"
+                        :actions="actions"
+                        :datas="ddata ?? []"
+                        @show-table="projectDetails"
+                    />
+                </LayoutLoadingContainer>
                 <div class="flex justify-center mx-auto">
                     <PsCustomPagination :links="myProjectList.pagination" @change-params="changePaginate" />
                 </div>
