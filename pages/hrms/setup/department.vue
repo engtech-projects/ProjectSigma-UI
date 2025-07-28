@@ -1,9 +1,7 @@
 <script setup>
-// import { storeToRefs } from "pinia"
 import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 
 const departments = useDepartmentStore()
-// const { isEdit } = storeToRefs(departments)
 departments.getDepartment()
 
 useHead({
