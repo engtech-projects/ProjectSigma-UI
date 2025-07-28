@@ -28,7 +28,7 @@ const projectDetails = (data: any) => {
 const debouncedSearch = useDebouncedFn(
     (value: string) => {
         projectStore.myProjectList.params.project_key = value
-        projectStore.getProjectTss()
+        projectStore.getMyProjects()
     },
     500
 )
