@@ -370,7 +370,6 @@ export const useProjectStore = defineStore("projects", {
             }
         },
         async getProjectTss () {
-            this.projectTssList.isLoading = true
             const { data, error } = await useProjectsApi(
                 "/api/projects/tss",
                 {
