@@ -80,7 +80,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.DRAFT
+                stage_status: ProjectStatus.DRAFT
             },
             pagination: {},
             errorMessage: "",
@@ -91,7 +91,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.PROPOSAL
+                stage_status: ProjectStatus.PROPOSAL
             },
             pagination: {},
             errorMessage: "",
@@ -102,7 +102,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.BIDDING
+                stage_status: ProjectStatus.BIDDING
             },
             pagination: {},
             errorMessage: "",
@@ -113,7 +113,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.ON_HOLD
+                stage_status: ProjectStatus.ON_HOLD
             },
             pagination: {},
             errorMessage: "",
@@ -124,7 +124,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.AWARDED
+                stage_status: ProjectStatus.AWARDED
             },
             pagination: {},
             errorMessage: "",
@@ -147,7 +147,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.ARCHIVED
+                stage_status: ProjectStatus.ARCHIVED
             },
             pagination: {},
             errorMessage: "",
@@ -396,6 +396,36 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
+        async getProjectTss () {
+            this.awardedTssList.isLoading = true
+            const { data, error } = await useProjectsApi(
+                "/api/projects/filter",
+                {
+                    method: "GET",
+                    params: this.awardedTssList.params,
+                    watch: false,
+                    onRequest: () => {
+                        this.awardedTssList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.awardedTssList.isLoading = false
+                        if (response.ok) {
+                            this.awardedTssList.list = response._data.data
+                            this.awardedTssList.pagination = {
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
+                            }
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
         async getArchivedProjects () {
             this.archivedList.isLoading = true
             const { data, error } = await useProjectsApi(
@@ -429,7 +459,7 @@ export const useProjectStore = defineStore("projects", {
             this.myProjectList.isLoading = true
 
             const { data, error } = await useProjectsApi(
-                "/api/projects/resource",
+                "/api/projects/owned",
                 {
                     method: "GET",
                     params: this.myProjectList.params,
