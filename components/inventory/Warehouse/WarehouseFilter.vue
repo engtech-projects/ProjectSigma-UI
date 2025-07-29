@@ -176,11 +176,6 @@ const filterWarehouse = async () => {
                                 <div class="p-4">
                                     <div v-if="isSet && warehouseDetails.warehouse_pss?.user" class="space-y-4">
                                         <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
-                                            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shrink-0">
-                                                <span class="text-sm font-medium text-white">
-                                                    {{ warehouseDetails.warehouse_pss?.user?.employee?.fullname_first }}
-                                                </span>
-                                            </div>
                                             <div class="flex-1 min-w-0">
                                                 <p class="text-sm font-medium text-gray-900 truncate">
                                                     {{ warehouseDetails.warehouse_pss?.user?.employee?.fullname_first }}
