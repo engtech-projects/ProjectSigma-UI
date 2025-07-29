@@ -1,33 +1,22 @@
 <script setup lang="ts">
-
 interface HeaderColumn {
     name: string,
     id: string,
     style: string
 }
 
-defineProps({
-    title: {
-        type: String,
-        required: true,
-    },
-    headerColumns: {
-        type: Array<HeaderColumn>,
-        required: true,
-    },
-    data: {
-        type: Array<any>,
-        required: true,
-    },
-})
+defineProps<{
+    title: string;
+    headerColumns: HeaderColumn[];
+    data: any;
+}>()
 const itemTableHeaders = [
     { name: "QTY", id: "quantity" },
-    { name: "Unit", id: "uom" },
+    { name: "Unit", id: "uom_name" },
     { name: "Item Description", id: "item_description" },
     { name: "Specification", id: "specification" },
     { name: "Preferred Brand", id: "preferred_brand" },
     { name: "Reason for Request", id: "reason_for_request" },
-    { name: "No. of Price Quotations", id: "price_quotation_count" },
 ]
 </script>
 <template>
@@ -36,7 +25,7 @@ const itemTableHeaders = [
     >
         <div class="flex flex-col gap-2 w-full p-4">
             <div id="headline mb-4">
-                <PrintTableFormat />
+                <InventoryCommonEvenparHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
                 <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center border-b rounded-t mb-4">
                     <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                         {{ title }}
@@ -100,47 +89,83 @@ const itemTableHeaders = [
                                 <td class="px-4 py-2 border text-center">
                                     {{ item.reason }}
                                 </td>
-                                <td class="px-4 py-2 border text-center">
-                                    {{ item.location }}
-                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="flex mt-4">
-                    <div class="flex-1 mr-4">
-                        <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Type of Request: {{ data?.type_of_request }}
-                        </p>
-                        <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Contact Number: {{ data?.contact_no ?? data?.contact_number }}
-                        </p>
-                    </div>
-                    <div class="flex-1 mr-4">
-                        <p v-if="title" class="pl-4 text-md text-gray-900">
-                            Remarks: {{ data?.remarks }}
-                        </p>
-                    </div>
-                    <div class="flex-1 grid grid-rows-2 grid-cols-2 gap-4">
-                        <div class="row-span-1">
-                            <p v-if="title" class="pl-4 text-md text-gray-900">
-                                Current SMR: {{ data?.current_smr }}
-                            </p>
+                <div class="mt-2">
+                    <div class="flex flex-col xl:flex-row">
+                        <div class="flex-1 border border-slate-300 overflow-hidden max-w-[25%]">
+                            <div class="divide-y divide-slate-300">
+                                <div class="flex flex-col sm:flex-row">
+                                    <div class="p-2 sm:border-r sm:w-1/3 font-medium max-w-[25%]">
+                                        Type of Request:
+                                    </div>
+                                    <div class="p-2 sm:w-2/3 max-w-[25%]">
+                                        {{ data?.type_of_request }}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row">
+                                    <div class="p-2 sm:border-r sm:w-1/3 font-medium max-w-[25%]">
+                                        Contact Number:
+                                    </div>
+                                    <div class="p-2 sm:w-2/3 max-w-[25%]">
+                                        {{ data?.contact_no }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row-span-1">
-                            <p v-if="title" class="pl-4 text-md text-gray-900">
-                                Unused SMR: {{ data?.unused_smr }}
-                            </p>
+                        <div class="flex-1 border border-slate-300 overflow-hidden max-w-[25%]">
+                            <div class="divide-y divide-slate-300">
+                                <div class="flex flex-col sm:flex-row">
+                                    <div class="p-2 sm:border-r sm:w-1/3 font-medium max-w-[25%]">
+                                        Remarks:
+                                    </div>
+                                    <div class="p-2 sm:w-2/3 max-w-[25%]">
+                                        {{ data?.remarks }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row-span-1">
-                            <p v-if="title" class="pl-4 text-md text-gray-900">
-                                Previous SMR: {{ data?.previous_smr }}
-                            </p>
+                        <div class="flex-1 border border-slate-300 overflow-hidden max-w-[25%]">
+                            <div class="divide-y divide-slate-300">
+                                <div class="flex flex-col sm:flex-row">
+                                    <div class="p-2 sm:border-r sm:w-1/3 font-medium max-w-[25%]">
+                                        Current SMR:
+                                    </div>
+                                    <div class="p-2 sm:w-2/3 max-w-[25%]">
+                                        {{ data?.current_smr }}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row">
+                                    <div class="p-2 sm:border-r sm:w-1/3 font-medium max-w-[25%]">
+                                        Previous SMR:
+                                    </div>
+                                    <div class="p-2 sm:w-2/3 max-w-[25%]">
+                                        {{ data?.previous_smr }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row-span-1">
-                            <p v-if="title" class="pl-4 text-md text-gray-900">
-                                Next SMR: {{ data?.next_smr }}
-                            </p>
+                        <div class="flex-1 border border-slate-300 overflow-hidden max-w-[25%]">
+                            <div class="divide-y divide-slate-300">
+                                <div class="flex flex-col sm:flex-row">
+                                    <div class="p-2 sm:border-r sm:w-1/3 font-medium max-w-[25%]">
+                                        Unused SMR:
+                                    </div>
+                                    <div class="p-2 sm:w-2/3 max-w-[25%]">
+                                        {{ data?.unused_smr }}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row">
+                                    <div class="p-2 sm:border-r sm:w-1/3 font-medium max-w-[25%]">
+                                        Next SMR:
+                                    </div>
+                                    <div class="p-2 sm:w-2/3 max-w-[25%]">
+                                        {{ data?.next_smr }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
