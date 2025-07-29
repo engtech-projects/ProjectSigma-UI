@@ -53,7 +53,7 @@ const uploadAttachment = async (event: any) => {
             >
 
             <LayoutFormPsTextInput
-                v-if="attachments.form.attachment_name === 'OTHERS'"
+                v-if="attachments?.form.attachment_name === 'OTHERS'"
                 v-model="attachments.form.other_type"
                 class="w-full"
                 title="File Name"
