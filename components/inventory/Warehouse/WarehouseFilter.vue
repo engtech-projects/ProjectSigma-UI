@@ -175,22 +175,25 @@ const filterWarehouse = async () => {
 
                                 <div class="p-4">
                                     <div v-if="isSet && warehouseDetails.warehouse_pss?.user" class="space-y-4">
-                                        <template v-for="user in warehouseDetails.warehouse_pss.user" :key="user.id">
-                                            <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
-                                                <div class="flex-1 min-w-0">
-                                                    <p class="text-sm font-medium text-gray-900 truncate">
-                                                        {{ user.employee.fullname_first }}
-                                                    </p>
-                                                    <p class="text-xs text-gray-500 truncate">
-                                                        {{ user.employee.current_position }}
-                                                    </p>
-                                                    <p class="text-xs text-gray-400 truncate">
-                                                        {{ user.employee.current_department }}
-                                                    </p>
-                                                </div>
-                                                <div class="w-2 h-2 bg-green-500 rounded-full shrink-0 mt-2" />
+                                        <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+                                            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shrink-0">
+                                                <span class="text-sm font-medium text-white">
+                                                    {{ warehouseDetails.warehouse_pss?.user?.employee?.fullname_first }}
+                                                </span>
                                             </div>
-                                        </template>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate">
+                                                    {{ warehouseDetails.warehouse_pss?.user?.employee?.fullname_first }}
+                                                </p>
+                                                <p class="text-xs text-gray-500 truncate">
+                                                    {{ warehouseDetails.warehouse_pss?.user?.employee?.current_position }}
+                                                </p>
+                                                <p class="text-xs text-gray-400 truncate">
+                                                    {{ warehouseDetails.warehouse_pss?.user?.employee?.current_department }}
+                                                </p>
+                                            </div>
+                                            <div class="w-2 h-2 bg-green-500 rounded-full shrink-0 mt-2" />
+                                        </div>
                                     </div>
 
                                     <div v-else-if="isSet" class="space-y-4">
