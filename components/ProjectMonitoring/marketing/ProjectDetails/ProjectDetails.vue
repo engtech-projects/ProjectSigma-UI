@@ -89,19 +89,19 @@ defineProps({
             </template>
             <template #tab-containers>
                 <AccountingCommonTabsTabContainer id="billOfQuantities">
-                    <ProjectsBillofQuantities />
+                    <ProjectMonitoringSharedBillOfQuantities />
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer id="summaryRates">
-                    <ProjectsSummaryRates />
+                    <ProjectMonitoringMarketingProjectDetailsSummaryOfRates />
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer id="bidSummary">
-                    <ProjectsBidSummary />
+                    <ProjectMonitoringSharedSummaryOfBid />
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer id="cashFlow">
-                    <ProjectsCashFlow />
+                    <ProjectMonitoringMarketingProjectDetailsCashflow />
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer id="billOfMaterials" class="hidden">
-                    <ProjectsBillofMaterials />
+                    <ProjectMonitoringSharedBillOfMaterials />
                 </AccountingCommonTabsTabContainer>
             </template>
         </AccountingCommonTabsMainContainer>

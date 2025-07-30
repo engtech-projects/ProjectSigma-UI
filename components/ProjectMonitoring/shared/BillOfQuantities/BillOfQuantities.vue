@@ -399,12 +399,12 @@ const removePhase = async (phase) => {
                             Generate TSS
                         </NuxtLink>
                     </div>
-                    <ProjectsModalsPhase :is-edit="editPhaseModal" :show-modal="showPhaseModal" @hide-modal="hidePhaseModal" @save="savePhase" />
-                    <ProjectsModalsTask :is-edit="editTaskModal" :show-modal="showTaskModal" @hide-modal="hideTaskModal" @save="saveTask" />
+                    <ProjectMonitoringModalsPhase :is-edit="editPhaseModal" :show-modal="showPhaseModal" @hide-modal="hidePhaseModal" @save="savePhase" />
+                    <ProjectMonitoringModalsTask :is-edit="editTaskModal" :show-modal="showTaskModal" @hide-modal="hideTaskModal" @save="saveTask" />
                 </div>
             </template>
             <template #print-layout>
-                <ProjectsPrintBillOfQuantities />
+                <ProjectMonitoringPrintBillOfQuantities />
             </template>
         </LayoutPrintAdvanced>
     </div>

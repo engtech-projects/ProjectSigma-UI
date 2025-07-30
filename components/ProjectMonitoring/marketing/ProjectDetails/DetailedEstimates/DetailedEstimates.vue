@@ -32,7 +32,7 @@ const goBackOrHome = () => {
                 </div>
             </div>
         </div>
-        <ProjectsDetailsTask />
-        <ProjectsModalsCategory :show-modal="showCategoryModal" @hide-modal="showCategoryModal = false" />
+        <ProjectMonitoringSharedBillOfQuantitiesTask />
+        <ProjectMonitoringModalsCategory :show-modal="showCategoryModal" @hide-modal="showCategoryModal = false" />
     </div>
 </template>

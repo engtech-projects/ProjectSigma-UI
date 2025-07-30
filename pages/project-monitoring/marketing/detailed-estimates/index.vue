@@ -16,7 +16,7 @@ await resourceStore.getResourceNames()
         ])"
     >
         <div class="flex flex-col gap-4 bg-white">
-            <ProjectsDupaDetails
+            <ProjectMonitoringMarketingProjectDetailsDetailedEstimates
                 :project-information="projectStore.information"
                 :task-information="taskStore.task"
             />

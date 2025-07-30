@@ -351,8 +351,8 @@ const removeResource = async (id: number) => {
                 <Icon name="ic:outline-local-printshop" class="text-white h-6 w-6" />
             </button>
         </div>
-        <ProjectsModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" />
-        <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" />
-        <ProjectsModalsResource :show-modal="showResourceModal" :task-id="task.id" @hide-modal="showResourceModal = false" />
+        <ProjectMonitoringModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" />
+        <ProjectMonitoringModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" />
+        <ProjectMonitoringModalsResource :show-modal="showResourceModal" :task-id="task.id" @hide-modal="showResourceModal = false" />
     </div>
 </template>

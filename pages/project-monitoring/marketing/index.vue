@@ -76,25 +76,25 @@ useHead({
                 </template>
                 <template #tab-containers>
                     <AccountingCommonTabsTabContainer id="projectForm">
-                        <ProjectsMarketingProjectsForm />
+                        <ProjectMonitoringMarketingTabsProjectsForm />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="myProjects">
-                        <ProjectsMarketingProjectList />
+                        <ProjectMonitoringMarketingTabsProjectList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="proposals">
-                        <ProjectsMarketingProposalList />
+                        <ProjectMonitoringMarketingTabsProposalList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="bidding">
-                        <ProjectsMarketingBiddingList />
+                        <ProjectMonitoringMarketingTabsBiddingList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="awarded">
-                        <ProjectsMarketingAwardedList />
+                        <ProjectMonitoringMarketingTabsAwardedList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="archived">
-                        <ProjectsMarketingArchivedList />
+                        <ProjectMonitoringMarketingTabsArchivedList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="onHold">
-                        <ProjectsMarketingOnholdList />
+                        <ProjectMonitoringMarketingTabsOnholdList />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>

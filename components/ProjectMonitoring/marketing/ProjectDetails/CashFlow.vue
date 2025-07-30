@@ -238,7 +238,7 @@ const updateCashFlow = async () => {
             </div>
         </template>
         <template #print-layout>
-            <ProjectsPrintCashFlow />
+            <ProjectMonitoringPrintCashFlow />
         </template>
     </LayoutPrintAdvanced>
 </template>
