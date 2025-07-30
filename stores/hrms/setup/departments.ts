@@ -22,12 +22,6 @@ export const useDepartmentStore = defineStore("departments", {
             const { data, error } = await useHRMSApi(
                 "/api/department/resource",
                 {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
