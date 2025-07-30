@@ -4,11 +4,11 @@ import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 
 const departments = useDepartmentStore()
 
-const { list: departmentList, isEdit, department, getParams, pagination, errorMessage, successMessage } = storeToRefs(departments)
+const { list: departmentList, getParams, pagination, errorMessage, successMessage } = storeToRefs(departments)
 
 const setEdit = (dept) => {
-    isEdit.value = true
-    department.value = dept
+    departments.department = dept
+    departments.isEdit = true
 }
 const deleteDept = async (dept) => {
     try {
@@ -25,10 +25,6 @@ const deleteDept = async (dept) => {
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
-    // getParams.value.syId = newParams.id ?? ""
-    // getParams.value.semId = newParams.semId ?? ""
-    // getParams.value.feeType = newParams.feeType ?? ""
-    // getParams.value.particularName = newParams.particularName ?? ""
 }
 
 const headers = [
@@ -40,12 +36,24 @@ const actions = {
     delete: true
 }
 
+const showFormHandler = () => {
+    departments.isCreate = true
+}
+
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 </script>
 <template>
     <LayoutBoards title="Department List" class="w-full" :loading="boardLoading">
+        <template #header-options>
+            <LayoutFormPsButton
+                class="content-center mt-5 !w-auto text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 font-semibold text-sm p-2 me-2 mb-2 rounded-lg"
+                button-title="Add Department"
+                button-icon=""
+                @click="showFormHandler"
+            />
+        </template>
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="departmentList" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
         </div>
