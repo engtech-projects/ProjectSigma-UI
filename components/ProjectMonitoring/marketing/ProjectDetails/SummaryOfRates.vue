@@ -89,7 +89,7 @@ const updateCost = async (item: any) => {
             </div>
         </template>
         <template #print-layout>
-            <ProjectsPrintSummaryofRates />
+            <ProjectMonitoringPrintSummaryofRates />
         </template>
     </LayoutPrintAdvanced>
 </template>

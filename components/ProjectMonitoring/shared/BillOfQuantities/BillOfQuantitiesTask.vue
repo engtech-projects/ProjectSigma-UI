@@ -30,7 +30,7 @@ const editResource = (resource: any) => {
     showResourceModal.value = true
     resourceStore.reset()
     resourceStore.resource = resource
-    resourceStore.resource.name_id = resource.resources.id
+    resourceStore.resource.name_id = resource.resource_name.id
 }
 const boardLoading = ref(false)
 const snackbar = useSnackbar()

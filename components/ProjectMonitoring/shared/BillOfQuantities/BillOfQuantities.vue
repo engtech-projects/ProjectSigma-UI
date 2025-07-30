@@ -344,7 +344,7 @@ const removePhase = async (phase) => {
 
                                             <NuxtLink
                                                 v-if="edit"
-                                                :to="`/project-monitoring/dupa-details?id=${task.id}`"
+                                                :to="`/project-monitoring/marketing/detailed-estimates?id=${task.id}`"
                                                 class="flex items-center justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-lg text-xs w-44 h-8 px-2 gap-1"
                                             >
                                                 <Icon name="material-symbols:calculate" color="white" class="h-5 w-5" />

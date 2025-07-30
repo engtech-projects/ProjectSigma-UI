@@ -52,5 +52,5 @@ const updateStage = async () => {
 
 <template>
     <LayoutFormPsButton :button-title="'Proceed to ' + upperFirst(nextStage)" @click="showModal = true" />
-    <ProjectsModalsStageTransitionConfirmationModal :show-modal="showModal" :stage="nextStage" @update-stage="updateStage" @hide-modal="showModal = false" />
+    <ProjectMonitoringModalsStageTransitionConfirmationModal :show-modal="showModal" :stage="nextStage" @update-stage="updateStage" @hide-modal="showModal = false" />
 </template>

@@ -32,7 +32,7 @@ defineProps({
         </div>
         <AccountingCommonTabsMainContainer class="w-full">
             <template #info-details>
-                <ProjectsInformationProject
+                <ProjectMonitoringInformationProject
                     :label="'PROJECT INFORMATION DETAILS'"
                     :name="projectDetails.name"
                     :location="projectDetails.location"
@@ -80,7 +80,7 @@ defineProps({
                 />
             </template>
             <template #tab-options>
-                <ProjectsStageButton
+                <ProjectMonitoringProjectStageButton
                     v-if="projectStore.information.stage.toLowerCase() !== useProjectMarketingStatusEnums.stages[useProjectMarketingStatusEnums.stages.length - 1].toLowerCase()"
                     :stage="projectDetails.stage"
                     @updating-stage="boardLoading = true"
@@ -98,7 +98,7 @@ defineProps({
                     <ProjectMonitoringSharedSummaryOfBid />
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer id="cashFlow">
-                    <ProjectMonitoringMarketingProjectDetailsCashflow />
+                    <ProjectMonitoringMarketingProjectDetailsCashFlow />
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer id="billOfMaterials" class="hidden">
                     <ProjectMonitoringSharedBillOfMaterials />

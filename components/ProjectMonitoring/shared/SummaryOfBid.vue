@@ -86,7 +86,7 @@ const totalAmount = computed(() => {
                 </div>
             </template>
             <template #print-layout>
-                <ProjectsPrintBidSummary />
+                <ProjectMonitoringPrintBidSummary />
             </template>
         </LayoutPrintAdvanced>
     </div>
