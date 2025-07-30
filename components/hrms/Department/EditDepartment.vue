@@ -16,7 +16,7 @@ const editDepartment = async () => {
             type: "success",
             text: departments.successMessage
         })
-        emit("edit-success")
+        departments.isEdit = false
     } catch {
         snackbar.add({
             type: "error",
@@ -27,23 +27,14 @@ const editDepartment = async () => {
         boardLoading.value = false
     }
 }
-const closeEditCs = () => {
-    emit("close")
-}
 const cancelEdit = () => {
     departments.reset()
-    emit("close")
+    departments.isEdit = false
 }
 
-const emit = defineEmits(["close", "edit-success"])
 </script>
 <template>
     <LayoutEditBoards title="Edit Department" :loading="boardLoading">
-        <template #header-options>
-            <button class="text-gray-500 hover:text-white hover:bg-red-600" @click="closeEditCs">
-                <Icon name="mdi:close" class="h-5 w-5" />
-            </button>
-        </template>
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="editDepartment">
                 <div class="space-y-2">

@@ -4,12 +4,11 @@ import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 
 const departments = useDepartmentStore()
 
-const { list: departmentList, isEdit, department, getParams, pagination, errorMessage, successMessage } = storeToRefs(departments)
+const { list: departmentList, getParams, pagination, errorMessage, successMessage } = storeToRefs(departments)
 
 const setEdit = (dept) => {
-    isEdit.value = true
-    emit("setEditHandler")
-    department.value = dept
+    departments.department = dept
+    departments.isEdit = true
 }
 const deleteDept = async (dept) => {
     try {
@@ -43,10 +42,8 @@ const actions = {
 }
 
 const showFormHandler = () => {
-    emit("showFormHandler")
+    departments.isCreate = true
 }
-
-const emit = defineEmits(["showFormHandler", "setEditHandler"])
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)

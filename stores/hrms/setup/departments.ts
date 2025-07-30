@@ -1,10 +1,10 @@
 import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
-
 export const useDepartmentStore = defineStore("departments", {
     state: () => ({
         isEdit: false,
+        isCreate: false,
         department:
         {
             id: null,
