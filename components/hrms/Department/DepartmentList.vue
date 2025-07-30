@@ -29,7 +29,7 @@ const changePaginate = (newParams) => {
     // getParams.value.semId = newParams.semId ?? ""
     // getParams.value.feeType = newParams.feeType ?? ""
     // getParams.value.particularName = newParams.particularName ?? ""
-    // departments.getDepartment()
+    departments.getDepartment()
 }
 
 const headers = [

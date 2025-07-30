@@ -34,7 +34,7 @@ const cancelEdit = () => {
 
 </script>
 <template>
-    <LayoutEditBoards title="Edit Department" :loading="boardLoading">
+    <LayoutEditBoards v-if="departments.isEdit" title="Edit Department" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="editDepartment">
                 <div class="space-y-2">

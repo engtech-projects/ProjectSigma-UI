@@ -12,24 +12,8 @@ useHead({ title: "Department" })
     >
         <LayoutContainerLastchild>
             <HrmsDepartmentList />
-            <LayoutContainerLastchild
-                v-if="departments.isCreate"
-            >
-                <HrmsDepartmentNewDepartment
-                    @submit-success="departments.isCreate = false"
-                />
-            </LayoutContainerLastchild>
-            <LayoutContainerLastchild
-                v-if="departments.isEdit"
-            >
-                <LayoutLoadingContainer
-                    :loading="departments.boardLoading"
-                >
-                    <HrmsDepartmentEditDepartment
-                        @submit-success="departments.isEdit = false"
-                    />
-                </LayoutLoadingContainer>
-            </LayoutContainerLastchild>
+            <HrmsDepartmentNewDepartment />
+            <HrmsDepartmentEditDepartment />
         </LayoutContainerLastchild>
     </LayoutAcessContainer>
 </template>
