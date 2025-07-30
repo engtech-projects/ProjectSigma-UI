@@ -1,10 +1,10 @@
 import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
-
 export const useDepartmentStore = defineStore("departments", {
     state: () => ({
         isEdit: false,
+        isCreate: false,
         department:
         {
             id: null,
@@ -19,22 +19,16 @@ export const useDepartmentStore = defineStore("departments", {
     }),
     actions: {
         async getDepartment () {
-            const { data, error } = await useFetch(
+            const { data, error } = await useHRMSApi(
                 "/api/department/resource",
                 {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
                         this.pagination = {
-                            first_page: response._data.links.first,
-                            pages: response._data.meta.links,
-                            last_page: response._data.links.last,
+                            first_page: response._data.data.links.first,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.links.last,
                         }
                     },
                 }
