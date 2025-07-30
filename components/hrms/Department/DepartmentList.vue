@@ -25,7 +25,6 @@ const deleteDept = async (dept) => {
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
-    departments.getDepartment()
 }
 
 const headers = [

@@ -19,7 +19,7 @@ export const useDepartmentStore = defineStore("departments", {
     }),
     actions: {
         async getDepartment () {
-            const { data, error } = await useFetch(
+            const { data, error } = await useHRMSApi(
                 "/api/department/resource",
                 {
                     baseURL: config.public.HRMS_API_URL,
