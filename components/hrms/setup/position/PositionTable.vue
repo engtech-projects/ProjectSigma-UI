@@ -40,9 +40,21 @@ const actions = {
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
+const showFormHandler = () => {
+    positions.isCreate = true
+}
+
 </script>
 <template>
     <LayoutBoards title="Position List" class="w-full" :loading="boardLoading">
+        <template #header-options>
+            <LayoutFormPsButton
+                class="content-center mt-5 !w-auto text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 font-semibold text-sm p-2 me-2 mb-2 rounded-lg"
+                button-title="Add Position"
+                button-icon=""
+                @click="showFormHandler"
+            />
+        </template>
         <div class="pb-2 text-gray-500">
             <LayoutFormPsTextInput v-model="allRequests.params.name" title="Search Position Name" />
             <LayoutPsTable :header-columns="headers" :datas="allRequests.list" :actions="actions" @edit-row="setEdit" @delete-row="deletePos" />
