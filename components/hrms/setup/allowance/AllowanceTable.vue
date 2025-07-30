@@ -90,7 +90,7 @@ const submitAllowance = async (positionAllowance) => {
             </table>
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
         <p hidden class="text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
             {{ errorMessage }}

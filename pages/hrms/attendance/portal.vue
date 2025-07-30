@@ -121,7 +121,7 @@ const addAssignment = () => {
                         />
                     </div>
                     <div class="flex justify-center mx-auto">
-                        <CustomPagination :links="allAttendancePortals.pagination" @change-params="changePaginate" />
+                        <PsCustomPagination :links="allAttendancePortals.pagination" @change-params="changePaginate" />
                     </div>
                 </LayoutBoards>
             </div>

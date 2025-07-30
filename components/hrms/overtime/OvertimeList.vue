@@ -68,7 +68,7 @@ const changePaginate = (newParams) => {
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="allList.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="allList.pagination" @change-params="changePaginate" />
         </div>
         <HrmsOvertimeInfoModal
             v-model:show-modal="showInfoModal"

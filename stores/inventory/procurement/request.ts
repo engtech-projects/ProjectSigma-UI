@@ -2,13 +2,13 @@ import { defineStore } from "pinia"
 export interface Canvasser {
     id: Number,
     user_id: Number,
-    procurement_id: Number,
+    request_procurement_id: Number,
 }
 export interface ProcurementRequestDetails {
     id: Number,
     request_requisition_slip_id: Number,
     serve_status: String,
-    canvassers?: Array<any>,
+    canvasser: Array<any>,
 }
 export const useProcurementRequestStore = defineStore("procurementRequestStore", {
     state: () => ({
@@ -40,14 +40,11 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
             list: [] as Array<Canvasser>,
             isLoading: false,
             isLoaded: false,
-            params: {
-                user_ids: [],
-            },
+            params: {},
             successMessage: "",
             errorMessage: "",
         },
         canvasserForm: {},
-        selectedItem: "",
         errorMessage: "",
         successMessage: "",
         remarks: "",
@@ -109,9 +106,14 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
                 {
                     method: "GET",
                     params: this.viewRequests.params,
+                    onRequest: () => {
+                        this.viewRequests.isLoading = true
+                    },
                     onResponse: ({ response }: any) => {
+                        this.viewRequests.isLoading = false
                         if (response.ok) {
                             this.viewRequests.details = response._data.data
+                            this.viewRequests.isLoaded = true
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)
@@ -121,29 +123,23 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
             )
         },
         async setCanvasser (id: any) {
-            this.canvasser.params.user_ids = JSON.stringify([this.canvasser.params.user_ids[0]])
             await useInventoryApiO(
                 "/api/procurement-request/set-canvasser/" + id,
                 {
                     method: "POST",
-                    params: this.canvasser.params,
-                    watch: false,
+                    body: this.canvasserForm,
                     onRequest: () => {
                         this.canvasser.isLoading = true
                     },
-                    onResponseError: ({ response }: any) => {
-                        this.canvasser.isLoading = false
-                        this.errorMessage = response._data.message || "An error occurred"
-                        this.canvasser.params.user_ids = []
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }: any) => {
+                    onResponse: ({ response }) => {
                         this.canvasser.isLoading = false
                         if (response.ok) {
+                            this.canvasser.list = response._data.data.canvasser
                             this.successMessage = response._data.message
-                            this.getOne(id)
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
-                        this.canvasser.params.user_ids = []
                     },
                 }
             )

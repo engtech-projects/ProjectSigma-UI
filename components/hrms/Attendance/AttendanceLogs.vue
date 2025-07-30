@@ -88,7 +88,7 @@ const grouptype = ref(null)
                     @delete-row="deleteLog"
                 />
                 <div class="flex justify-center mx-auto">
-                    <CustomPagination
+                    <PsCustomPagination
                         v-if="attendanceLogs.list.length"
                         :links="attendanceLogs.pagination"
                         @change-params="changePaginate"

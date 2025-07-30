@@ -14,7 +14,8 @@ export const useTaskStore = defineStore("taskStore", {
             quantity: null,
             unit: null,
             unit_price: null,
-            amount: null
+            amount: null,
+            unit_price_with_unit: null
         },
         list: [],
         pagination: {},
@@ -109,7 +110,7 @@ export const useTaskStore = defineStore("taskStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useProjectsApi(
-                "/api/task/" + this.task.id,
+                "/api/tasks/" + this.task.id,
                 {
                     method: "PATCH",
                     body: this.task,

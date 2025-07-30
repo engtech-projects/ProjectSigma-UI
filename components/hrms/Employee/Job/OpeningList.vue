@@ -47,7 +47,7 @@ const setDetail = (jobapp) => {
                 />
             </div>
             <div class="flex justify-center mx-auto p-2">
-                <CustomPagination :links="forHiringRequests.pagination" @change-params="changePaginate" />
+                <PsCustomPagination :links="forHiringRequests.pagination" @change-params="changePaginate" />
             </div>
         </LayoutBoards>
         <HrmsEmployeeJobHiringDetails v-show="isDetail" :manpower-data="manpower" class="w-full" />

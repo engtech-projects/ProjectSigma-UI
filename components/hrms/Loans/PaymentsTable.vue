@@ -44,7 +44,7 @@ const changePaginate = (newParams) => {
                 </EasyDataTable>
             </div>
             <div class="flex justify-center mx-auto">
-                <CustomPagination
+                <PsCustomPagination
                     :links="paymentsList.pagination"
                     @change-params="changePaginate"
                 />

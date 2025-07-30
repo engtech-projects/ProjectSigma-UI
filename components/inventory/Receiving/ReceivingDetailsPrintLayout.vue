@@ -5,18 +5,22 @@ interface HeaderColumn {
     style?: string;
 }
 
-defineProps<{
+const { title, headerColumns, data } = defineProps<{
     title: string;
     headerColumns: HeaderColumn[];
     data: any;
 }>()
-
+const grandTotal = computed(() => {
+    return data.items.reduce((total:any, item:any) => {
+        return total + (item.ext_price || 0)
+    }, 0)
+})
 </script>
 
 <template>
     <div class="h-full w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex flex-col gap-2 w-full p-4">
-            <InventoryCommonEvenparHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
+            <DocumentTemplatesIsoHeader :page="{ currentPage: 1, totalPages: 1 }" :document-code="useInventoryDocCode.mrr" />
             <div class="flex items-center justify-center rounded-t mb-4 mt-4">
                 <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                     {{ title }}
@@ -87,7 +91,6 @@ defineProps<{
                     </div>
                 </div>
             </div>
-
             <LayoutLoadingContainer class="w-full" :loading="data.isLoading">
                 <div>
                     <table class="table-auto w-full border-collapse">
@@ -118,7 +121,7 @@ defineProps<{
                                     {{ item.metadata?.actual_brand_purchase }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
-                                    {{ item.metadata?.accepted_quantity }}
+                                    {{ item.quantity }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
                                     {{ item.uom_name }}
@@ -168,7 +171,7 @@ defineProps<{
                                     Grand Total
                                 </td>
                                 <td class="border px-2 py-1 text-right font-bold text-sm">
-                                    ₱{{ useFormatCurrency(data.grand_total) }}
+                                    ₱{{ useFormatCurrency(grandTotal) }}
                                 </td>
                                 <td />
                             </tr>

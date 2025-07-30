@@ -26,7 +26,7 @@ const headers = [
                     <LayoutPsTable :header-columns="headers" :datas="employeeList.list ?? [] " :loading="employeeList.isLoading" />
                 </div>
                 <div class="flex justify-center mx-auto p-2">
-                    <CustomPagination
+                    <PsCustomPagination
                         v-if="employeeList?.pagination"
                         :links="employeeList.pagination"
                         @change-params="changePaginate"

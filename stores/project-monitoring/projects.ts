@@ -70,7 +70,9 @@ export const useProjectStore = defineStore("projects", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                project_key: ""
+            },
             pagination: {},
             errorMessage: "",
             successMessage: "",
@@ -80,7 +82,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.DRAFT
+                stage_status: ProjectStatus.DRAFT
             },
             pagination: {},
             errorMessage: "",
@@ -91,7 +93,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.PROPOSAL
+                stage_status: ProjectStatus.PROPOSAL
             },
             pagination: {},
             errorMessage: "",
@@ -102,7 +104,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.BIDDING
+                stage_status: ProjectStatus.BIDDING
             },
             pagination: {},
             errorMessage: "",
@@ -113,7 +115,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.ON_HOLD
+                stage_status: ProjectStatus.ON_HOLD
             },
             pagination: {},
             errorMessage: "",
@@ -124,13 +126,13 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.AWARDED
+                stage_status: ProjectStatus.AWARDED
             },
             pagination: {},
             errorMessage: "",
             successMessage: "",
         },
-        awardedTssList: {
+        projectTssList: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -147,37 +149,39 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.ARCHIVED
+                stage_status: ProjectStatus.ARCHIVED
             },
             pagination: {},
             errorMessage: "",
             successMessage: "",
         },
         cashFlowByQuarter: {
-            q1: {
-                accomplishment: null,
-                cash_flow: null,
-                cumulative_accomplishment: null,
-                cumulative_cash_flow: null,
-            } as CashFlowByQuarter,
-            q2: {
-                accomplishment: null,
-                cash_flow: null,
-                cumulative_accomplishment: null,
-                cumulative_cash_flow: null,
-            } as CashFlowByQuarter,
-            q3: {
-                accomplishment: null,
-                cash_flow: null,
-                cumulative_accomplishment: null,
-                cumulative_cash_flow: null,
-            } as CashFlowByQuarter,
-            q4: {
-                accomplishment: null,
-                cash_flow: null,
-                cumulative_accomplishment: null,
-                cumulative_cash_flow: null,
-            } as CashFlowByQuarter,
+            cash_flow: {
+                q1: {
+                    accomplishment: null,
+                    cash_flow: null,
+                    cumulative_accomplishment: null,
+                    cumulative_cash_flow: null,
+                } as CashFlowByQuarter,
+                q2: {
+                    accomplishment: null,
+                    cash_flow: null,
+                    cumulative_accomplishment: null,
+                    cumulative_cash_flow: null,
+                } as CashFlowByQuarter,
+                q3: {
+                    accomplishment: null,
+                    cash_flow: null,
+                    cumulative_accomplishment: null,
+                    cumulative_cash_flow: null,
+                } as CashFlowByQuarter,
+                q4: {
+                    accomplishment: null,
+                    cash_flow: null,
+                    cumulative_accomplishment: null,
+                    cumulative_cash_flow: null,
+                } as CashFlowByQuarter,
+            }
         },
         pagination: {},
         getParams: {},
@@ -186,6 +190,14 @@ export const useProjectStore = defineStore("projects", {
         isLoading: {
             create: false,
             list: false,
+        },
+        attachments: {
+            form: {
+                attachment_name: "",
+                other_type: "",
+                file: null,
+            },
+            list: [],
         },
     }),
     actions: {
@@ -357,21 +369,20 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
-        async getAwardedTss () {
-            this.awardedList.isLoading = true
+        async getProjectTss () {
             const { data, error } = await useProjectsApi(
-                "/api/projects/filter",
+                "/api/projects/tss",
                 {
                     method: "GET",
-                    params: this.awardedTssList.params,
+                    params: this.projectTssList.params,
                     onRequest: () => {
-                        this.awardedList.isLoading = true
+                        this.projectTssList.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.awardedList.isLoading = false
+                        this.projectTssList.isLoading = false
                         if (response.ok) {
-                            this.awardedTssList.list = response._data.data
-                            this.awardedTssList.pagination = {
+                            this.projectTssList.list = response._data.data
+                            this.projectTssList.pagination = {
                                 first_page: response._data.meta.first,
                                 pages: response._data.meta.links,
                                 last_page: response._data.meta.last,
@@ -419,7 +430,7 @@ export const useProjectStore = defineStore("projects", {
             this.myProjectList.isLoading = true
 
             const { data, error } = await useProjectsApi(
-                "/api/projects/resource",
+                "/api/projects/owned",
                 {
                     method: "GET",
                     params: this.myProjectList.params,
@@ -643,7 +654,7 @@ export const useProjectStore = defineStore("projects", {
             this.errorMessage = ""
 
             await useProjectsApi(
-                `projects/${this.information.id}/cash-flow`,
+                `api/projects/${this.information.id}/cash-flow`,
                 {
                     method: "PATCH",
                     body: this.cashFlowByQuarter,
@@ -661,6 +672,54 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
+        async uploadAttachments (projectId: number, params: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useProjectsApi(
+                "/api/v1/project/" + projectId + "/marketing/attachments",
+                {
+                    method: "POST",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async viewDocumentAttachments (projectId: number) {
+            this.errorMessage = ""
+            this.successMessage = ""
 
+            await useProjectsApi(
+                `/api/v1/project/${projectId}/document-viewer`,
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (!response.ok) {
+                            this.errorMessage = response._data?.message || "Unable to get viewer link"
+                            throw new Error(this.errorMessage)
+                        }
+
+                        const viewerUrl: string = response._data
+                        if (!viewerUrl) {
+                            throw new Error("Empty viewer URL received")
+                        }
+
+                        window.open(viewerUrl, "_blank")
+                        this.successMessage = "Opening document viewer..."
+                    },
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data?.message || "Failed to open document viewer"
+                        throw new Error(this.errorMessage)
+                    },
+                }
+            )
+        },
     },
 })

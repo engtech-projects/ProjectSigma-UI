@@ -49,7 +49,7 @@ const changePaginate = (newParams) => {
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="receiving.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="receiving.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
 </template>

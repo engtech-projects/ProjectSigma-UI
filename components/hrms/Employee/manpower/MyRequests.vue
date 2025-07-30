@@ -124,7 +124,7 @@ const actions = {
             </div>
         </div>
         <div class="flex justify-center mx-auto p-2">
-            <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <HrmsEmployeeManpowerInfoModal

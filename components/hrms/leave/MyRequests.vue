@@ -40,7 +40,7 @@ const actions = {
                 @show-table="showInformation"
             />
             <div class="flex justify-center mx-auto">
-                <CustomPagination :links="myRequestList.pagination" @change-params="changePaginate" />
+                <PsCustomPagination :links="myRequestList.pagination" @change-params="changePaginate" />
             </div>
         </div>
     </LayoutBoards>

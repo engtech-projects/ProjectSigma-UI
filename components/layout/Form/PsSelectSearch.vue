@@ -15,6 +15,10 @@ const props = defineProps({
     loading: {
         type: Boolean,
         default: false,
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
     }
 })
 const forFocusOut = ref()
@@ -24,6 +28,7 @@ const searchInput = defineModel("searchInput", { type: String, required: true })
 const showDD = ref(false)
 let toggleTimeout: any = null
 const openDD = () => {
+    if (props.disabled) { return }
     if (toggleTimeout) {
         clearTimeout(toggleTimeout)
     }
@@ -35,15 +40,18 @@ const closeDD = () => {
     }, 100)
 }
 function selectOption (option: any) {
+    if (props.disabled) { return }
     result.value = option
     resultId.value = option.id
     forFocusOut.value.focus()
 }
 function clearSelection () {
+    if (props.disabled) { return }
     result.value = {}
     resultId.value = null
 }
 function clearSearchQuery () {
+    if (props.disabled) { return }
     searchInput.value = ""
 }
 </script>
@@ -53,6 +61,7 @@ function clearSearchQuery () {
             id="PSSELECTSEARCH"
             ref="compContainer"
             tabindex="50"
+            :disabled="props.disabled"
             @focusin="openDD"
             @focusout="closeDD"
         >
@@ -64,6 +73,7 @@ function clearSearchQuery () {
                         type="text"
                         class="border border-slate-300 rounded w-full h-full"
                         placeholder="Search"
+                        :disabled="props.disabled"
                         @click.stop
                     >
                     <span v-else class="flex-1">{{ Object.keys(result).length > 0 ? result[title] : placeholder }}</span>
@@ -88,6 +98,7 @@ function clearSearchQuery () {
                         <span
                             v-for="option, i in props.searchList"
                             :key="i"
+                            :class="{ 'cursor-not-allowed': props.disabled }"
                             class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
                             @click="selectOption(option)"
                         >

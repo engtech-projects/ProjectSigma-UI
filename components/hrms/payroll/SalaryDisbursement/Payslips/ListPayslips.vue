@@ -44,6 +44,6 @@ const showInformation = (data: any) => {
         </LayoutLoadingContainer>
     </div>
     <div class="flex justify-center mx-auto">
-        <CustomPagination :links="payslipReadyRecords.pagination" @change-params="changePaginate" />
+        <PsCustomPagination :links="payslipReadyRecords.pagination" @change-params="changePaginate" />
     </div>
 </template>

@@ -38,15 +38,18 @@ useHead({
         <template v-if="validKey">
             <LayoutPrintAdvanced>
                 <template #system-layout>
-                    <InventoryRequestStockSystemDetailsLayout
-                        v-if="requestStock.details"
-                        :data="requestStock.details"
-                    />
+                    <LayoutBoards>
+                        <InventoryRequestStockSystemDetailsLayout
+                            v-if="requestStock.details"
+                            title="Requisition Slip"
+                            :data="requestStock.details"
+                        />
+                    </LayoutBoards>
                 </template>
                 <template #print-layout>
                     <InventoryRequestStockPrintDetailsLayout
                         v-if="requestStock.details"
-                        title="Request Stock Details"
+                        title="Requisition Slip"
                         :data="requestStock.details"
                         :header-columns="headers"
                     />

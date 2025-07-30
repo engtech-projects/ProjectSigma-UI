@@ -72,23 +72,35 @@
             </tbody>
         </table>
 
-        <div class="mb-12">
-            <p class="text-sm mb-4">
+        <div class="flex flex-col gap-0 text-sm">
+            <span clas="">
                 Submitted by:
-            </p>
-            <div class="ml-8 text-sm">
-                <p class="mb-1">
-                    Name: <span class="font-bold underline">ANGEL A. ABRAU</span>
-                </p>
-                <p class="mb-1">
-                    Position: <span class="font-bold">Authorized Managing Officer</span>
-                </p>
-                <p class="mb-1">
-                    Name of the Bidder: <span class="font-bold">ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE)</span>
-                </p>
-                <p class="mb-1">
-                    Date: <span class="font-bold">{{ fullDate(new Date()) }}</span>
-                </p>
+            </span>
+            <div class="grid grid-cols-10 gap-1 mt-10 mb-4">
+                <span class="col-span-2">
+                    Name:
+                </span>
+                <span class="col-span-8 font-bold underline">
+                    ANGEL A. ABRAU
+                </span>
+                <span class="col-span-2">
+                    Position:
+                </span>
+                <span class="col-span-8">
+                    Authorized Managing Officer
+                </span>
+                <span class="col-span-2">
+                    Name of the Bidder:
+                </span>
+                <span class="col-span-8">
+                    ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE)
+                </span>
+                <span class="col-span-2">
+                    Date:
+                </span>
+                <span class="col-span-8">
+                    {{ fullDate(new Date()) }}
+                </span>
             </div>
         </div>
 

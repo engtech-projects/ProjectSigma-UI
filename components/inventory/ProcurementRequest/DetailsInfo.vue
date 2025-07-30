@@ -21,21 +21,30 @@ const editPq = (pq: any) => {
         query: { ...route.query, pq_id: pq.id },
     })
 }
+onMounted(async () => {
+    if (route.query.id) {
+        await procurementRequestStore.getOne(route.query.id)
+    }
+})
+const canvasser = computed(() => viewRequests.value?.details?.canvasser)
 </script>
 <template>
     <div>
         <div class="mt-4 p-4 bg-white rounded-md border-4 border-sky-200">
             <LayoutLoadingContainer
                 v-if="viewRequests.details"
-                :loading="viewRequests.details.isLoading"
+                :loading="viewRequests.isLoading"
                 class="w-full h-full flex items-center justify-center"
             >
                 <LayoutPrintAdvanced>
                     <template #system-layout>
                         <InventoryRequestStockSystemDetailsLayout
-                            v-if="viewRequests.details.requisition_slip"
+                            v-if="viewRequests.details"
+                            title="Requisition Slip"
                             :data="viewRequests.details.requisition_slip"
-                            :canvasser="viewRequests.details.canvassers"
+                            :canvasser="canvasser"
+                            :show-price-quotations="true"
+                            :show-canvasser="true"
                         />
                     </template>
                     <template #print-layout>
@@ -72,31 +81,36 @@ const editPq = (pq: any) => {
                     />
                 </template>
                 <template #tab-containers>
-                    <HrmsCommonTabsTabContainer id="rpq">
-                        <InventoryCommonLayoutFormCreate
-                            :headers="headers"
-                            :datas="viewRequests.details.price_quotations"
-                            :on-create="createPq"
-                            :on-edit="editPq"
-                            title="Price Quotations List"
-                            icon-label="Create Price Quotations"
-                        />
-                    </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="cs">
-                        <InventoryCommonLayoutFormCreate
-                            :headers="headers"
-                            :datas="viewRequests.details.canvass_summaries"
-                            :on-create="() => showThirdPage('canvassSummary')"
-                            :on-edit="() => showThirdPage('canvassSummary')"
-                            title="Canvass Summary List"
-                            icon-label="Create Canvass Summary"
-                        />
-                    </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="ncpo">
-                        <PrintTableFormat>
-                            <InventoryNoticeOfChangePOItemForm title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)" />
-                        </PrintTableFormat>
-                    </HrmsCommonTabsTabContainer>
+                    <LayoutLoadingContainer
+                        v-if="viewRequests.details"
+                        :loading="viewRequests.isLoading"
+                    >
+                        <HrmsCommonTabsTabContainer id="rpq">
+                            <InventoryCommonLayoutFormCreate
+                                :headers="headers"
+                                :datas="viewRequests.details.price_quotations"
+                                :on-create="createPq"
+                                :on-edit="editPq"
+                                title="Price Quotations List"
+                                icon-label="Create Price Quotations"
+                            />
+                        </HrmsCommonTabsTabContainer>
+                        <HrmsCommonTabsTabContainer id="cs">
+                            <InventoryCommonLayoutFormCreate
+                                :headers="headers"
+                                :datas="viewRequests.details.canvass_summaries"
+                                :on-create="() => showThirdPage('canvassSummary')"
+                                :on-edit="() => showThirdPage('canvassSummary')"
+                                title="Canvass Summary List"
+                                icon-label="Create Canvass Summary"
+                            />
+                        </HrmsCommonTabsTabContainer>
+                        <HrmsCommonTabsTabContainer id="ncpo">
+                            <PrintTableFormat>
+                                <InventoryNoticeOfChangePOItemForm title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)" />
+                            </PrintTableFormat>
+                        </HrmsCommonTabsTabContainer>
+                    </LayoutLoadingContainer>
                 </template>
             </HrmsCommonTabsMainContainer>
         </LayoutAcessContainer>
