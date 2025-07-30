@@ -153,7 +153,7 @@ const filterWarehouse = async () => {
                                                 class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
                                                 @click="doSet"
                                             >
-                                                {{ warehouseDetails.warehouse_pss?.user || (warehousePss.list && warehousePss.list.length > 0) ? 'Edit' : 'Add' }}
+                                                {{ warehouseDetails.warehouse_pss?.user || (warehousePss.list && warehousePss.list.length > 0) ? 'Replace' : 'Add' }}
                                             </button>
                                             <div v-else class="flex items-center space-x-3">
                                                 <button
