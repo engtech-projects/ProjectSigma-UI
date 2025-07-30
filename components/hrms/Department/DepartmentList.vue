@@ -25,10 +25,6 @@ const deleteDept = async (dept) => {
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
-    // getParams.value.syId = newParams.id ?? ""
-    // getParams.value.semId = newParams.semId ?? ""
-    // getParams.value.feeType = newParams.feeType ?? ""
-    // getParams.value.particularName = newParams.particularName ?? ""
     departments.getDepartment()
 }
 
