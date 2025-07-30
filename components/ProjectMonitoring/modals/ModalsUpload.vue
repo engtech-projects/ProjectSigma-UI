@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import ProjectsCreateUploadJvAgreement from "../create/upload/JvAgreement.vue"
-import ProjectsCreateUploadJvLicense from "../create/upload/JvLicense.vue"
-import ProjectsCreateUploadBioDocsAgency from "../create/upload/BioDocsAgency.vue"
-import ProjectsCreateUploadBidDocsSubmitted from "../create/upload/BidDocsSubmitted.vue"
-import ProjectsCreateUploadNoaContract from "../create/upload/NoaContract.vue"
+import ProjectMonitoringCreateUploadJvAgreement from "../create/upload/JvAgreement.vue"
+import ProjectMonitoringCreateUploadJvLicense from "../create/upload/JvLicense.vue"
+import ProjectMonitoringCreateUploadBioDocsAgency from "../create/upload/BioDocsAgency.vue"
+import ProjectMonitoringCreateUploadBidDocsSubmitted from "../create/upload/BidDocsSubmitted.vue"
+import ProjectMonitoringCreateUploadNoaContract from "../create/upload/NoaContract.vue"
 
 defineProps({
     showModal: {
@@ -15,11 +15,11 @@ defineProps({
 const emit = defineEmits(["hideModal"])
 const currentTab = ref(null)
 const tabs = ref([
-    { name: "JV Agreement", component: markRaw(ProjectsCreateUploadJvAgreement) },
-    { name: "JV License", component: markRaw(ProjectsCreateUploadJvLicense) },
-    { name: "Bid Docs (Agency)", component: markRaw(ProjectsCreateUploadBioDocsAgency) },
-    { name: "Bid Docs (Submitted)", component: markRaw(ProjectsCreateUploadBidDocsSubmitted) },
-    { name: "NOA Contract NTPCSHP", component: markRaw(ProjectsCreateUploadNoaContract) }
+    { name: "JV Agreement", component: markRaw(ProjectMonitoringCreateUploadJvAgreement) },
+    { name: "JV License", component: markRaw(ProjectMonitoringCreateUploadJvLicense) },
+    { name: "Bid Docs (Agency)", component: markRaw(ProjectMonitoringCreateUploadBioDocsAgency) },
+    { name: "Bid Docs (Submitted)", component: markRaw(ProjectMonitoringCreateUploadBidDocsSubmitted) },
+    { name: "NOA Contract NTPCSHP", component: markRaw(ProjectMonitoringCreateUploadNoaContract) }
 ])
 const currentTabComponent = computed(() => {
     return tabs.value.find(tab => tab.name === currentTab.value?.name)?.component

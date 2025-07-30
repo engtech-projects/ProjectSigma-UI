@@ -8,10 +8,10 @@ const { task } = storeToRefs(taskStore)
     <div class="bg-white">
         <LayoutPrintAdvanced>
             <template #system-layout>
-                <ProjectsDetailsTaskSystemView />
+                <ProjectMonitoringSharedBillOfQuantitiesDetailsTaskSystemView />
             </template>
             <template #print-layout>
-                <ProjectsPrintDetailedEstimates :task="task" />
+                <ProjectMonitoringPrintDetailedEstimates :task="task" />
             </template>
         </LayoutPrintAdvanced>
     </div>

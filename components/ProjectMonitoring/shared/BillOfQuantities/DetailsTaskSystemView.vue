@@ -30,7 +30,7 @@ const editResource = (resource: any) => {
     showResourceModal.value = true
     resourceStore.reset()
     resourceStore.resource = resource
-    resourceStore.resource.name_id = resource.resources.id
+    resourceStore.resource.name_id = resource.resource_name.id
 }
 const boardLoading = ref(false)
 const snackbar = useSnackbar()
@@ -345,9 +345,9 @@ const removeResource = async (id: number) => {
                 </tr>
             </tbody>
         </table>
-        <ProjectsModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" />
-        <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" />
-        <ProjectsModalsResource :show-modal="showResourceModal" :task-id="task.id" @hide-modal="showResourceModal = false" />
+        <ProjectMonitoringModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" />
+        <ProjectMonitoringModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" />
+        <ProjectMonitoringModalsResource :show-modal="showResourceModal" :task-id="task.id" @hide-modal="showResourceModal = false" />
     </div>
 </template>
 
