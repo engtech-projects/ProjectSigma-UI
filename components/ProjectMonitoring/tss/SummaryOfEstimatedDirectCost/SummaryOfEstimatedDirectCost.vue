@@ -1,7 +1,7 @@
 <template>
     <div>
         <label for="">
-            DetailedUnitPriceAnalysis
+            Summary of Estimated Direct Cost
         </label>
     </div>
 </template>

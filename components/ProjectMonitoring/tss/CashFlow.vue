@@ -1,13 +1,9 @@
 <template>
-  <div>
-    
-  </div>
+    <div>
+        CashFlow
+    </div>
 </template>
 
 <script lang="ts" setup>
 
 </script>
-
-<style>
-
-</style>

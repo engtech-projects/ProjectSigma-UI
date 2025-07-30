@@ -1,7 +1,7 @@
 <template>
     <div>
         <label for="">
-            Summary of Estimated Direct Cost
+            Detailed Estimates
         </label>
     </div>
 </template>
