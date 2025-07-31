@@ -19,7 +19,6 @@ const doSet = () => {
 const saveNewPss = async () => {
     warehousePssForm.value = {
         user_id: mainPss.value,
-        warehouse_id: wareHouseId.value,
     }
     await warehouseStore.updatePssWarehouse(wareHouseId.value)
     if (warehouseStore.errorMessage !== "") {
@@ -153,7 +152,7 @@ const filterWarehouse = async () => {
                                                 class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
                                                 @click="doSet"
                                             >
-                                                {{ warehouseDetails.warehouse_pss?.user || (warehousePss.list && warehousePss.list.length > 0) ? 'Replace' : 'Add' }}
+                                                Set
                                             </button>
                                             <div v-else class="flex items-center space-x-3">
                                                 <button
