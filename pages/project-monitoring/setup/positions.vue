@@ -18,12 +18,12 @@ useHead({
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">
-            <ProjectsPositionsCreate
+            <ProjectMonitoringPositionsCreate
                 v-show="!isEdit"
                 class="flex-1"
             />
-            <ProjectsPositionsEdit v-show="isEdit" class="flex-1" />
-            <ProjectsPositionsList class="flex-2" />
+            <ProjectMonitoringPositionsEdit v-show="isEdit" class="flex-1" />
+            <ProjectMonitoringPositionsList class="flex-2" />
         </div>
     </LayoutAcessContainer>
 </template>
