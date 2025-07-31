@@ -1,9 +1,9 @@
 <template>
     <div class="w-96">
         <aside class="w-full h-screen overflow-y-auto border-r bg-white p-4">
-            <ProjectsProjectVersionDropdown />
-            <ProjectsProjectPanelHeader />
-            <ProjectsProjectPanelList
+            <ProjectMonitoringProjectVersionDropdown />
+            <ProjectMonitoringProjectPanelHeader />
+            <ProjectMonitoringProjectPanelList
                 :tabs="tabs"
                 :active-tab="props.activeTab"
                 @update:active-tab="setActiveTab"

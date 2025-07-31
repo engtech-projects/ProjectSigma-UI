@@ -13,6 +13,6 @@ useHead({
 
 <template>
     <div class="px-4 pt-4">
-        <ProjectsTssProjectList title="Project List Table" :show-search="true" />
+        <ProjectMonitoringTssProjectList title="Project List Table" :show-search="true" />
     </div>
 </template>
