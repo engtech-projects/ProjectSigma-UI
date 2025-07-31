@@ -30,7 +30,7 @@ const actions = {
     showTable: true,
 }
 const projectDetails = (data) => {
-    navigateTo(`/project-monitoring/information?id=${data.id}`)
+    navigateTo(`/project-monitoring/technical-service/project-details?id=${data.id}`)
 }
 </script>
 <template>

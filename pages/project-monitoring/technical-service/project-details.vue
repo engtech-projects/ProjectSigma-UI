@@ -1,11 +1,11 @@
 <template>
     <LayoutBoards class="w-full">
         <div class="flex flex-row gap-2">
-            <ProjectsProjectPanel
+            <ProjectMonitoringProjectPanel
                 v-model:active-tab="activeTab"
                 :tabs="tabs"
             />
-            <ProjectsProjectPanelViewer :active-tab="activeTab">
+            <ProjectMonitoringProjectPanelViewer :active-tab="activeTab">
                 <template #boq>
                     <h2>
                         BILL OF QUANTITIES
@@ -51,7 +51,7 @@
                         CASH FLOW
                     </h2>
                 </template>
-            </ProjectsProjectPanelViewer>
+            </ProjectMonitoringProjectPanelViewer>
         </div>
     </LayoutBoards>
 </template>
