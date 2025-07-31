@@ -1,5 +1,7 @@
 <script setup>
 import { useProjectStore } from "~/stores/project-monitoring/projects"
+import ProjectAttachmentUploadButton from "@/components/ProjectMonitoring/details/ProjectAttachmentUploadButton.vue"
+import ProjectAttachmentViewButton from "@/components/ProjectMonitoring/details/ProjectAttachmentsViewButton.vue"
 const router = useRouter()
 const projectStore = useProjectStore()
 const boardLoading = ref(false)
@@ -78,21 +80,9 @@ defineProps({
                     target-id="billOfMaterials"
                     class="hidden"
                 />
-                <div class="flex items-center gap-2 ml-6">
-                    <span class="text-sm font-medium text-gray-600">Attachment</span>
-                    <input
-                        class="text-sm text-gray-800 border border-gray-300 rounded-md px-2 py-1"
-                        type="file"
-                        accept=".doc,.docx,.pdf,.png,.jpeg"
-                        @change="uploadAttachment"
-                    >
-                    <span v-if="fileName" class="text-sm text-gray-500 italic truncate max-w-[200px]">{{ fileName }}</span>
-                    <button
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm"
-                        @click="viewDocumentAttachments"
-                    >
-                        View Docs
-                    </button>
+                <div class="flex items-center gap-2 ml-6 mt-1">
+                    <ProjectAttachmentUploadButton />
+                    <ProjectAttachmentViewButton />
                 </div>
             </template>
             <template #tab-options>
