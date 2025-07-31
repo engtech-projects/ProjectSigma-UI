@@ -23,22 +23,14 @@
             icon="material-symbols:business-center"
             single-nav-title="Marketing"
         />
-        <LayoutNavGroup
+        <LayoutNavSingle
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECTMONITORING_SETUP_GROUP,
+                AccessibilityTypes.PROJECTMONITORING_TSS,
             ])"
+            linkarea="/project-monitoring/technical-service"
             icon="material-symbols:linked-services"
-            title="Technical Service"
-        >
-            <LayoutNavSingle
-                v-if="useCheckAccessibility([
-                    AccessibilityTypes.PROJECTMONITORING_TSS,
-                ])"
-                linkarea="/project-monitoring/technical-service/awarded"
-                icon="material-symbols:linked-services"
-                single-nav-title="Awarded"
-            />
-        </LayoutNavGroup>
+            single-nav-title="Technical Service"
+        />
         <LayoutNavSingle
             v-if="useCheckAccessibility([
                 AccessibilityTypes.PROJECTMONITORING_TSS,

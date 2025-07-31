@@ -12,6 +12,8 @@ interface Approval {
 }
 interface Project {
     id: null | number,
+    uuid: null | String,
+    position: null | String,
     parent_project_id: null | number,
     contract_id: null | number,
     code: null | String,
@@ -25,7 +27,6 @@ interface Project {
     noa_date: null | String,
     ntp_date: null | String,
     license: null | String,
-    uuid: null | String,
     position_id: null | Number,
     designator: null | Number,
     employee_id: null | Number,
@@ -48,6 +49,8 @@ export const useProjectStore = defineStore("projects", {
             id: null,
             uuid: null,
             position: null,
+            position_id: null,
+            employee_id: null,
             parent_project_id: null,
             contract_id: null,
             code: null,
@@ -63,6 +66,7 @@ export const useProjectStore = defineStore("projects", {
             license: null,
             designator: null,
             phases: [],
+            employees: [],
             approvals: []
         } as Project,
         list: [] as Project[],
@@ -70,7 +74,9 @@ export const useProjectStore = defineStore("projects", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                project_key: ""
+            },
             pagination: {},
             errorMessage: "",
             successMessage: "",
@@ -80,7 +86,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.DRAFT
+                stage_status: ProjectStatus.DRAFT
             },
             pagination: {},
             errorMessage: "",
@@ -91,7 +97,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.PROPOSAL
+                stage_status: ProjectStatus.PROPOSAL
             },
             pagination: {},
             errorMessage: "",
@@ -102,7 +108,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.BIDDING
+                stage_status: ProjectStatus.BIDDING
             },
             pagination: {},
             errorMessage: "",
@@ -113,7 +119,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.ON_HOLD
+                stage_status: ProjectStatus.ON_HOLD
             },
             pagination: {},
             errorMessage: "",
@@ -124,13 +130,13 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.AWARDED
+                stage_status: ProjectStatus.AWARDED
             },
             pagination: {},
             errorMessage: "",
             successMessage: "",
         },
-        awardedTssList: {
+        projectTssList: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -147,7 +153,7 @@ export const useProjectStore = defineStore("projects", {
             isLoaded: false,
             list: [],
             params: {
-                stage: ProjectStatus.ARCHIVED
+                stage_status: ProjectStatus.ARCHIVED
             },
             pagination: {},
             errorMessage: "",
@@ -222,7 +228,7 @@ export const useProjectStore = defineStore("projects", {
         async getDraftProjects () {
             this.draftList.isLoading = true
             this.draftList.params = {
-                status: ProjectStatus.DRAFT
+                stage_status: ProjectStatus.DRAFT
             }
             const { data, error } = await useProjectsApi(
                 "/api/projects/resource",
@@ -367,21 +373,20 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
-        async getAwardedTss () {
-            this.awardedList.isLoading = true
+        async getProjectTss () {
             const { data, error } = await useProjectsApi(
-                "/api/projects/filter",
+                "/api/projects/tss",
                 {
                     method: "GET",
-                    params: this.awardedTssList.params,
+                    params: this.projectTssList.params,
                     onRequest: () => {
-                        this.awardedList.isLoading = true
+                        this.projectTssList.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.awardedList.isLoading = false
+                        this.projectTssList.isLoading = false
                         if (response.ok) {
-                            this.awardedTssList.list = response._data.data
-                            this.awardedTssList.pagination = {
+                            this.projectTssList.list = response._data.data
+                            this.projectTssList.pagination = {
                                 first_page: response._data.meta.first,
                                 pages: response._data.meta.links,
                                 last_page: response._data.meta.last,
@@ -429,7 +434,7 @@ export const useProjectStore = defineStore("projects", {
             this.myProjectList.isLoading = true
 
             const { data, error } = await useProjectsApi(
-                "/api/projects/resource",
+                "/api/projects/owned",
                 {
                     method: "GET",
                     params: this.myProjectList.params,
@@ -510,7 +515,6 @@ export const useProjectStore = defineStore("projects", {
                             this.errorMessage = response._data.message
                         } else {
                             this.getMyProjects()
-                            this.getMyProposalProjects()
                             this.successMessage = response._data.message
                         }
                     },
@@ -592,7 +596,7 @@ export const useProjectStore = defineStore("projects", {
                 "api/project-monitoring/project-member-list/" + id,
                 {
                     method: "GET",
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.information.employees = response._data.data
                         }

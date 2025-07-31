@@ -9,7 +9,7 @@ const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const cancelEdit = () => {
-    positions.reset()
+    positions.isEdit = false
 }
 const editPos = async () => {
     try {
@@ -19,6 +19,7 @@ const editPos = async () => {
             type: "success",
             text: positions.successMessage
         })
+        positions.isEdit = false
     } catch {
         snackbar.add({
             type: "error",
@@ -32,7 +33,7 @@ const editPos = async () => {
 
 </script>
 <template>
-    <LayoutEditBoards title="Edit Position Name" :loading="boardLoading">
+    <LayoutEditBoards v-if="positions.isEdit" title="Edit Position Name" :loading="boardLoading">
         <div class="text-gray-500">
             <form @submit.prevent="editPos">
                 <label

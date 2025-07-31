@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col gap-4">
-        <ProjectsDetails :project-details="projectStore.information" />
+        <ProjectMonitoringMarketingProjectDetails :project-details="projectStore.information" />
     </div>
 </template>
 <script lang="ts" setup>

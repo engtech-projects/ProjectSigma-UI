@@ -21,6 +21,12 @@ const editPq = (pq: any) => {
         query: { ...route.query, pq_id: pq.id },
     })
 }
+onMounted(async () => {
+    if (route.query.id) {
+        await procurementRequestStore.getOne(route.query.id)
+    }
+})
+const canvasser = computed(() => viewRequests.value?.details?.canvasser)
 </script>
 <template>
     <div>
@@ -33,9 +39,12 @@ const editPq = (pq: any) => {
                 <LayoutPrintAdvanced>
                     <template #system-layout>
                         <InventoryRequestStockSystemDetailsLayout
-                            v-if="viewRequests.details.requisition_slip"
+                            v-if="viewRequests.details"
+                            title="Requisition Slip"
                             :data="viewRequests.details.requisition_slip"
-                            :canvasser="viewRequests.details.canvassers"
+                            :canvasser="canvasser"
+                            :show-price-quotations="true"
+                            :show-canvasser="true"
                         />
                     </template>
                     <template #print-layout>

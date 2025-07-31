@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { storeToRefs } from "pinia"
 import { useInventoryEnumsStore } from "@/stores/inventory/enum"
-
+defineProps<{
+    disabled: boolean
+}>()
 const enums = useInventoryEnumsStore()
 const model = defineModel({ required: false, type: Number, default: null })
 const { searchSupplier } = storeToRefs(enums)
@@ -32,6 +34,7 @@ watch(model, (newValue) => {
             :loading="searchSupplier.isLoading"
             title="supplier_details"
             placeholder="Search Supplier"
+            :disabled="disabled"
         />
     </div>
 </template>

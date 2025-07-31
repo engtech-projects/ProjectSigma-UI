@@ -2,12 +2,12 @@
     <div class="mb-12">
         <LayoutPrintAdvanced>
             <template #system-layout>
-                <ProjectsGanttChart />
-                <ProjectsGanttEquipment />
-                <ProjectsGanttManpower />
+                <ProjectMonitoringGanttChart />
+                <ProjectMonitoringGanttEquipment />
+                <ProjectMonitoringGanttManpower />
             </template>
             <template #print-layout>
-                <ProjectsGanttPrintMain />
+                <ProjectMonitoringGanttPrintMain />
             </template>
         </LayoutPrintAdvanced>
     </div>
