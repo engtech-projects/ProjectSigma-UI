@@ -5,53 +5,53 @@
                 v-model:active-tab="activeTab"
                 :tabs="tabs"
             />
-            <ProjectMonitoringProjectPanelViewer :active-tab="activeTab">
-                <template #boq>
-                    <h2>
-                        BILL OF QUANTITIES
-                    </h2>
-                </template>
-                <template #rates>
-                    <h2>
-                        SUMMARY OF RATES
-                    </h2>
-                </template>
-                <template #bid>
-                    <h2>
-                        SUMMARY OF BID
-                    </h2>
-                </template>
-                <template #estimated>
-                    <h2>
-                        SUMMARY OF ESTIMATED DIRECT COST
-                    </h2>
-                </template>
-                <template #estimated-detailed>
-                    <h2>
-                        DETAILED ESTIMATES
-                    </h2>
-                </template>
-                <template #estimated-analysis>
-                    <h2>
-                        DIRECT COST ANALYSIS
-                    </h2>
-                </template>
-                <template #estimated-unit-price>
-                    <h2>
-                        DETAILED UNIT PRICE ANALYSIS
-                    </h2>
-                </template>
-                <template #materials>
-                    <h2>
-                        BILL OF MATERIALS
-                    </h2>
-                </template>
-                <template #cashflow>
-                    <h2>
-                        CASH FLOW
-                    </h2>
-                </template>
-            </ProjectMonitoringProjectPanelViewer>
+            <div class="w-full flex">
+                <ProjectMonitoringProjectPanelViewer :active-tab="activeTab">
+                    <template #boq>
+                        <h2>
+                            BILL OF QUANTITIES
+                        </h2>
+                    </template>
+                    <template #rates>
+                        <h2>
+                            SUMMARY OF RATES
+                        </h2>
+                    </template>
+                    <template #bid>
+                        <h2>
+                            SUMMARY OF BID
+                        </h2>
+                    </template>
+                    <template #estimated>
+                        <ProjectMonitoringTssSummaryOfEstimatedDirectCost />
+                    </template>
+                    <template #estimated-detailed>
+                        <h2>
+                            DETAILED ESTIMATES
+                        </h2>
+                    </template>
+                    <template #estimated-analysis>
+                        <h2>
+                            DIRECT COST ANALYSIS
+                        </h2>
+                    </template>
+                    <template #estimated-unit-price>
+                        <h2>
+                            DETAILED UNIT PRICE ANALYSIS
+                        </h2>
+                    </template>
+                    <template #materials>
+                        <h2>
+                            BILL OF MATERIALS
+                        </h2>
+                    </template>
+                    <template #cashflow>
+                        <h2>
+                            CASH FLOW
+                        </h2>
+                    </template>
+                </ProjectMonitoringProjectPanelViewer>
+            </div>
         </div>
     </LayoutBoards>
 </template>

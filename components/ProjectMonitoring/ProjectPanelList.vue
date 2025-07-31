@@ -1,6 +1,6 @@
 <template>
     <div class="flex">
-        <ul class="space-y-1 text-sm">
+        <ul class="space-y-1 text-xs">
             <template v-for="item in tabs" :key="item.key">
                 <li
                     :class="['cursor-pointer hover:bg-gray-100 px-2 py-1',{ 'bg-gray-200 font-bold': activeTab === item.key }]"
