@@ -8,7 +8,7 @@ const wareHouseId = ref(null)
 const mainPss = ref(null)
 
 const doSet = () => {
-    if (warehousePss.value.list.length > 0) {
+    if (warehousePss.value.list && warehousePss.value.list.length > 0) {
         mainPss.value = warehousePss.value.list[0].user_id
     } else {
         mainPss.value = null
@@ -19,7 +19,6 @@ const doSet = () => {
 const saveNewPss = async () => {
     warehousePssForm.value = {
         user_id: mainPss.value,
-        warehouse_id: wareHouseId.value,
     }
     await warehouseStore.updatePssWarehouse(wareHouseId.value)
     if (warehouseStore.errorMessage !== "") {
@@ -147,13 +146,13 @@ const filterWarehouse = async () => {
                                         </h2>
 
                                         <!-- Intelligent Action Button -->
-                                        <div v-show="AccessibilityTypes.inventory_warehouse_pssmanager && warehousePss.inWarehouse">
+                                        <div v-show="AccessibilityTypes.inventory_warehouse_pssmanager && wareHouseId">
                                             <button
                                                 v-if="isSet"
                                                 class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
                                                 @click="doSet"
                                             >
-                                                Edit
+                                                Set
                                             </button>
                                             <div v-else class="flex items-center space-x-3">
                                                 <button

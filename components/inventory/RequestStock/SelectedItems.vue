@@ -99,7 +99,7 @@ const changeUnitAndConvert = (index, newUnit) => {
 </script>
 
 <template>
-    <h5 v-if="title" class="text-xl dark:text-white border-b block mb-1 font-medium text-gray-900 bg-teal-200 p-2 sticky top-0 z-50">
+    <h5 v-if="title" class="text-xl dark:text-white border-b block mb-1 font-medium text-gray-900 bg-teal-200 p-2 sticky top-0">
         {{ title }}
     </h5>
     <table class="min-w-full table-auto w-full border-collapse">
