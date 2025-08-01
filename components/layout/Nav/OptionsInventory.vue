@@ -126,6 +126,14 @@
                     icon="material-symbols:view-list"
                     single-nav-title="Projects List"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.INVENTORY_SETUP_LISTS_PROJECT_LIST,
+                    ])"
+                    linkarea="/inventory/setup/lists/warehouse-list"
+                    icon="material-symbols:view-list"
+                    single-nav-title="Warhouses List"
+                />
             </LayoutNavGroup>
         </LayoutNavGroup>
         <LayoutNavGroup
