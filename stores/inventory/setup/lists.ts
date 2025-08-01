@@ -97,7 +97,7 @@ export const useSetupListsStore = defineStore("setuplists", {
             )
         },
         async getUsersList () {
-            await useInventoryApiO(
+            await useInventoryApi(
                 "/api/setup/lists/users",
                 {
                     method: "GET",
@@ -110,11 +110,11 @@ export const useSetupListsStore = defineStore("setuplists", {
                         this.usersList.isLoading = false
                         if (response.ok) {
                             this.usersList.isLoaded = true
-                            this.usersList.list = response._data.data.data
+                            this.usersList.list = response._data.data
                             this.usersList.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     }
