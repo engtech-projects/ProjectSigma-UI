@@ -10,11 +10,7 @@ export const useSetupListsStore = defineStore("setuplists", {
                 page: 1,
                 pageSize: 20,
             },
-            pagination: {
-                page: 1,
-                pageSize: 20,
-                total: 0
-            },
+            pagination: {},
             errorMessage: "",
             successMessage: "",
         },
@@ -35,11 +31,7 @@ export const useSetupListsStore = defineStore("setuplists", {
                 page: 1,
                 pageSize: 20,
             },
-            pagination: {
-                page: 1,
-                pageSize: 20,
-                total: 0
-            },
+            pagination: {},
             errorMessage: "",
             successMessage: "",
         },
@@ -55,7 +47,7 @@ export const useSetupListsStore = defineStore("setuplists", {
     }),
     actions: {
         async getDepartmentList () {
-            await useInventoryApiO(
+            await useInventoryApi(
                 "/api/setup/lists/department",
                 {
                     method: "GET",
@@ -80,7 +72,7 @@ export const useSetupListsStore = defineStore("setuplists", {
             )
         },
         async getEmployeeList () {
-            await useInventoryApiO(
+            await useInventoryApi(
                 "/api/setup/lists/employee",
                 {
                     method: "GET",
@@ -93,11 +85,11 @@ export const useSetupListsStore = defineStore("setuplists", {
                         this.employeeList.isLoading = false
                         if (response.ok) {
                             this.employeeList.isLoaded = true
-                            this.employeeList.list = response._data.data.data
+                            this.employeeList.list = response._data.data
                             this.employeeList.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     }
