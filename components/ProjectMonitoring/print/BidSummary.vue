@@ -152,28 +152,6 @@
                 </span>
             </div>
         </div>
-
-        <!-- <div class="grid grid-cols-2 gap-x-8 gap-y-4 text-sm mb-8">
-            <div>
-                <p>Name : <span class="font-bold underline">ANGEL A. ABRAU</span></p>
-            </div>
-            <div class="flex justify-end">
-                <p>In the capacity of <span class="font-bold underline">Authorized Managing Officer</span></p>
-            </div>
-            <div>
-                <p>Signed : <span class="underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
-            </div>
-            <div class="flex justify-end">
-                <p>Date : <span class="font-bold underline">January 15, 2024</span></p>
-            </div>
-        </div>
-
-        <div class="text-sm">
-            <p>Duly authorized to sign the Bid for and on behalf of:</p>
-            <p class="font-bold underline mt-1">
-                ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE)
-            </p>
-        </div> -->
     </div>
 </template>
 
