@@ -1,17 +1,17 @@
 <script setup>
-import { storeToRefs } from "pinia"
 import { useSetupListsStore } from "@/stores/inventory/setup/lists"
 const lists = useSetupListsStore()
-const { setupProjectsList } = storeToRefs(lists)
+const { warehouseList } = storeToRefs(lists)
 onMounted(() => {
-    lists.getSetupProjectsList()
+    lists.getWarehouseList()
 })
 const changePaginate = (newParams) => {
-    setupProjectsList.value.params.page = newParams.page ?? ""
+    warehouseList.value.params.page = newParams.page ?? ""
 }
 const headers = [
-    { name: "Projects", id: "project_code" },
-    { name: "Status", id: "status" }
+    { name: "Warehouse Name", id: "name" },
+    { name: "Location", id: "location" },
+    { name: "Project", id: "owner_name" },
 ]
 </script>
 <template>
@@ -19,12 +19,12 @@ const headers = [
         <div class="pb-2 text-gray-500 ">
             <LayoutBoards title="Projects List" class="w-full">
                 <div>
-                    <LayoutPsTable :header-columns="headers" :datas="setupProjectsList.list?? [] " :loading="setupProjectsList.isLoading" />
+                    <LayoutPsTable :header-columns="headers" :datas="warehouseList.list?? [] " :loading="warehouseList.isLoading" />
                 </div>
                 <div class="flex justify-center mx-auto p-2">
                     <PsCustomPagination
-                        v-if="setupProjectsList?.pagination"
-                        :links="setupProjectsList.pagination"
+                        v-if="warehouseList?.pagination"
+                        :links="warehouseList.pagination"
                         @change-params="changePaginate"
                     />
                 </div>
