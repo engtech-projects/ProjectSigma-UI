@@ -108,7 +108,52 @@
             <p>Project to be completed within <span class="underline font-bold">237</span> calendar days</p>
         </div>
 
-        <div class="grid grid-cols-2 gap-x-8 gap-y-4 text-sm mb-8">
+        <div class="flex flex-col gap-4">
+            <div class="grid grid-cols-10 gap-y-4">
+                <p class="col-span-1">
+                    Name :
+                </p>
+                <div class="col-span-6 flex items-center">
+                    <div class="w-2/4 border-b border-black">
+                        <span class="font-semibold">
+                            ANGEL A. ABRAU
+                        </span>
+                    </div>
+                    <p>In the capacity of </p>
+                </div>
+                <div class="col-span-3 border-b border-black">
+                    <span class="">
+                        Authorized Managing Officer
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-10 gap-y-4 mb-6">
+                <p class="col-span-1">
+                    Signed :
+                </p>
+                <div class="col-span-6 flex items-center">
+                    <div class="w-2/4 border-b border-black h-full" />
+                    <p>Date: </p>
+                </div>
+                <div class="col-span-3 border-b border-black">
+                    <span class="">
+                        January 15, 2024
+                    </span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-10 gap-y-4 items-center mb-10">
+                <p class="col-span-5">
+                    Duly authorized to sign the Bid for and on behalf of:
+                </p>
+                <span class="col-span-5 text-sm font-semibold underline text-center">
+                    ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE)
+                </span>
+            </div>
+        </div>
+
+        <!-- <div class="grid grid-cols-2 gap-x-8 gap-y-4 text-sm mb-8">
             <div>
                 <p>Name : <span class="font-bold underline">ANGEL A. ABRAU</span></p>
             </div>
@@ -128,7 +173,7 @@
             <p class="font-bold underline mt-1">
                 ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE)
             </p>
-        </div>
+        </div> -->
     </div>
 </template>
 
