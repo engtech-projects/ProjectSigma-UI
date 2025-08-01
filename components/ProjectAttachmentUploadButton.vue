@@ -3,12 +3,6 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const route = useRoute()
 const snackbar = useSnackbar()
-const attachments = ref({
-    form: {
-        attachment_name: "",
-        other_type: "",
-    },
-})
 
 const projectStore = useProjectStore()
 
@@ -44,30 +38,11 @@ const uploadAttachment = async (event: any) => {
         })
     }
 }
+
 </script>
 <template>
     <div class="flex flex-col gap-4">
         <div class="flex flex-row gap-4 justify-start mt-4">
-            <LayoutFormPsSelect
-                v-model="attachments.form.attachment_name"
-                :options-list="[
-                    'PLANS',
-                    'PROGRAM OF WORKS',
-                    'CONTRACT AGREEMENT',
-                    'PERMIT',
-                    'OTHERS'
-                ]"
-                class="w-full"
-                title="Attachment Type"
-            />
-
-            <LayoutFormPsTextInput
-                v-if="attachments?.form.attachment_name === 'OTHERS'"
-                v-model="attachments.form.other_type"
-                class="w-full"
-                title="File Name"
-            />
-
             <div class="w-full">
                 <label class="block mb-1 text-sm font-medium text-gray-900">
                     File
