@@ -68,11 +68,11 @@ export const useSetupListsStore = defineStore("setuplists", {
                         this.departmentList.isLoading = false
                         if (response.ok) {
                             this.departmentList.isLoaded = true
-                            this.departmentList.list = response._data.data.data
+                            this.departmentList.list = response._data.data
                             this.departmentList.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     }
