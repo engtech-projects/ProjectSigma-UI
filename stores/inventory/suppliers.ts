@@ -376,11 +376,11 @@ export const useSupplierStore = defineStore("SupplierStore", {
                         this.approvedSuppliers.isLoading = false
                         if (response.ok) {
                             this.approvedSuppliers.isLoaded = true
-                            this.approvedSuppliers.list = response._data.data.data
+                            this.approvedSuppliers.list = response._data.data
                             this.approvedSuppliers.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             throw new Error(response._data.message)
