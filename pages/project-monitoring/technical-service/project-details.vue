@@ -5,8 +5,14 @@
                 v-model:active-tab="activeTab"
                 :tabs="tabs"
             />
-            <div class="w-full flex">
+            <div class="w-full flex flex-col">
+                <div class="mb-4">
+                    <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" :document-code="useInventoryDocCode.mrr" />
+                </div>
                 <ProjectMonitoringProjectPanelViewer :active-tab="activeTab">
+                    <template #project>
+                        <ProjectMonitoringEditProject />
+                    </template>
                     <template #boq>
                         <h2>
                             BILL OF QUANTITIES
@@ -56,8 +62,19 @@
     </LayoutBoards>
 </template>
 <script lang="ts" setup>
-const activeTab = ref("")
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+const route = useRoute()
+const projectStore = useProjectStore()
+if (route.query.id) {
+    projectStore.getProject(route.query.id)
+}
+const activeTab = ref("project")
 const tabs = [
+    {
+        key: "project",
+        label: "PROJECT FORM",
+        icon: "mdi:file-document-outline",
+    },
     {
         key: "boq",
         label: "BILL OF QUANTITIES",

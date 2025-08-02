@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
-const boardLoading = ref(false)
 projectStore.viewState = true
 const edit = projectStore.viewState
 </script>
@@ -9,10 +8,10 @@ const edit = projectStore.viewState
     <div>
         <LayoutPrintAdvanced>
             <template #system-layout>
-                <div>
-                    <AccountingLoadScreen :is-loading="boardLoading" />
-                    <div class="flex flex-col gap-6 pt-6 mb-4">
-                        <div class="flex justify-between">
+                <div class="mb-4">
+                    <AccountingLoadScreen :is-loading="projectStore.isLoading.list" />
+                    <div class="flex flex-col gap-6 my-4">
+                        <div class="flex justify-center">
                             <div class="flex gap-2">
                                 <h1 class="text-center text-3xl text-black uppercase">
                                     SUMMARY OF ESTIMATED DIRECT COST
@@ -20,156 +19,135 @@ const edit = projectStore.viewState
                             </div>
                         </div>
                         <table class="table-auto w-full border border-collapse border-gray-800 text-sm">
-                            <thead>
+                            <thead class="uppercase text-center bg-[#b8cce4]">
                                 <tr>
-                                    <th rowspan="2">
-                                        Pay Item No.
+                                    <th rowspan="2" class="px-2 border border-gray-700 font-normal border-b-0">
+                                        <p>
+                                            Pay Item No.
+                                        </p>
                                     </th>
-                                    <th rowspan="2">
-                                        Description
+                                    <th rowspan="2" class="px-2 border border-gray-700 font-normal border-b-0">
+                                        <p>
+                                            Description
+                                        </p>
                                     </th>
-                                    <th rowspan="2">
-                                        Unit Price
+                                    <th rowspan="2" class="px-2 border border-gray-700 font-normal border-b-0">
+                                        <p>
+                                            Unit Price
+                                        </p>
                                     </th>
-                                    <th colspan="3">
-                                        CONTRACT COST
+                                    <th colspan="3" class="px-2 border border-gray-700 font-normal border-b-0">
+                                        <p>
+                                            CONTRACT COST
+                                        </p>
                                     </th>
-                                    <th colspan="5">
-                                        DIRECT COST
+                                    <th colspan="5" class="px-2 border border-gray-700 font-normal border-b-0">
+                                        <p>
+                                            DIRECT COST
+                                        </p>
                                     </th>
-                                    <th rowspan="2">
-                                        TOTAL
+                                    <th rowspan="2" class="px-2 border border-gray-700 font-normal border-b-0">
+                                        <p>
+                                            TOTAL
+                                        </p>
                                     </th>
-                                    <th rowspan="2">
-                                        UNIT COST PER ITEM
+                                    <th rowspan="2" class="px-2 border border-gray-700 font-normal border-b-0">
+                                        <p>
+                                            UNIT COST PER ITEM
+                                        </p>
                                     </th>
-                                    <th>
-                                        ACTION
+                                    <th rowspan="2" class="px-2 border border-gray-700 font-normal border-b-0">
+                                        <p>
+                                            ACTION
+                                        </p>
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th>
+                                    <th class="uppercase border border-gray-700 font-normal border-b-0">
                                         Quantity
                                     </th>
-                                    <th>
+                                    <th class="uppercase border border-gray-700 font-normal border-b-0">
                                         Unit
                                     </th>
-                                    <th>
+                                    <th class="uppercase border border-gray-700 font-normal border-b-0">
                                         Amount
                                     </th>
-                                    <th>
+                                    <th class="uppercase border border-gray-700 font-normal border-b-0">
                                         Materials
                                     </th>
-                                    <th>
+                                    <th class="uppercase border border-gray-700 font-normal border-b-0">
                                         Equipment
                                     </th>
-                                    <th>
+                                    <th class="uppercase border border-gray-700 font-normal border-b-0">
                                         Labor
                                     </th>
-                                    <th>
+                                    <th class="uppercase border border-gray-700 font-normal border-b-0">
                                         Fuel / Oil Cost
                                     </th>
-                                    <th>
+                                    <th class="uppercase border border-gray-700 font-normal border-b-0">
                                         Overhead Cost
                                     </th>
                                 </tr>
                             </thead>
                             <tbody v-if="projectStore.information.phases.length === 0">
                                 <tr>
-                                    <!-- <td colspan="14" class="text-center py-4 font-semibold text-md italic text-gray-500">
+                                    <td colspan="14" class="text-center py-4 font-semibold text-md italic text-gray-500">
                                         No Data Available!
-                                    </td> -->
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
-                                    </td>
-                                    <td class="text-center border border-gray-700">
-                                        Pay Item #1
                                     </td>
                                 </tr>
                             </tbody>
                             <tbody>
                                 <template v-for="phase in projectStore.information.phases" :key="phase.id">
                                     <tr v-for="task in phase.tasks" :key="task.id" class="border border-black">
-                                        <td class="text-center border border-gray-700">
+                                        <td class="whitespace-nowrap p-2 text-center border border-gray-700">
                                             {{ task.name }}
                                         </td>
-                                        <td class="text-center p-2 border border-gray-700">
+                                        <td class="whitespace-nowrap p-2 w-full text-left border border-gray-700">
                                             {{ task.description }}
                                         </td>
-                                        <td class="text-center p-2 border border-gray-700">
-                                            {{ task.unit_price }}
+                                        <td class="text-right border p-2 border-gray-700">
+                                            {{ accountingCurrency(task.unit_price) }}
                                         </td>
-                                        <td class="text-center p-2 border border-gray-700">
+                                        <td class="text-right p-2 border border-gray-700">
                                             {{ task.quantity }}
                                         </td>
                                         <td class="text-center p-2 border border-gray-700">
                                             {{ task.unit }}
                                         </td>
-                                        <td class="text-center p-2 border border-gray-700">
-                                            {{ task.amount }}
+                                        <td class="text-right p-2 border border-gray-700">
+                                            {{ accountingCurrency(task.amount) }}
                                         </td>
                                         <td class="text-center p-2 border border-gray-700">
-                                            {{ task.total_materials_amount }}
+                                            {{ accountingCurrency(task.total_materials_amount) }}
                                         </td>
                                         <td class="text-center p-2 border border-gray-700">
-                                            {{ task.total_equipment_amount }}
+                                            {{ accountingCurrency(task.total_equipment_amount) }}
                                         </td>
                                         <td class="text-center p-2 border border-gray-700">
-                                            {{ task.total_labor_amount }}
+                                            {{ accountingCurrency(task.total_labor_amount) }}
                                         </td>
                                         <td class="text-center p-2 border border-gray-700">
-                                            {{ task.total_fuel_oil_amount }}
+                                            {{ accountingCurrency(task.total_fuel_oil_amount) }}
                                         </td>
                                         <td class="text-center p-2 border border-gray-700">
-                                            {{ task.total_overhead_amount }}
+                                            {{ accountingCurrency(task.total_overhead_amount) }}
                                         </td>
                                         <td class="text-center p-2 border border-gray-700">
-                                            {{ task.total }}
+                                            {{ accountingCurrency(task.total) }}
                                         </td>
                                         <td class="text-center p-2 border border-gray-700">
-                                            {{ task.unit_cost_per_item }}
+                                            {{ accountingCurrency(task.unit_cost_per_item) }}
                                         </td>
-                                        <td class="text-center border border-gray-700">
+                                        <td class="text-center p-2 border border-gray-700">
                                             <NuxtLink
                                                 v-if="edit"
                                                 :to="`/project-monitoring/technical-service/detailed-estimates?id=${task.id}`"
-                                                class="flex items-center justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-lg text-xs w-44 h-8 px-2 gap-1"
+                                                class="flex items-center justify-center"
                                             >
-                                                <Icon name="material-symbols:calculate" color="white" class="h-5 w-5" />
-                                                <span class="whitespace-nowrap">Detailed Estimates</span>
+                                                <div class="flex items-center justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-lg text-xs w-44 h-8 gap-1">
+                                                    <Icon name="material-symbols:calculate" color="white" class="h-5 w-5" />
+                                                    <span class="whitespace-nowrap">Detailed Estimates</span>
+                                                </div>
                                             </NuxtLink>
                                         </td>
                                     </tr>
@@ -177,10 +155,13 @@ const edit = projectStore.viewState
                             </tbody>
                         </table>
                     </div>
+                    <div>
+                        <ProjectMonitoringTssSummaryOfEstimatedDirectCostDistributionOfDirectCost />
+                    </div>
                 </div>
             </template>
             <template #print-layout>
-                <ProjectMonitoringPrintBillOfQuantities />
+                <ProjectMonitoringPrintSummaryOfEstimatedDirectCost />
             </template>
         </LayoutPrintAdvanced>
     </div>
