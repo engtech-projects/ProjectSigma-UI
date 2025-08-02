@@ -9,6 +9,9 @@ const edit = projectStore.viewState
         <LayoutPrintAdvanced>
             <template #system-layout>
                 <div class="mb-4">
+                    <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" :document-code="useInventoryDocCode.mrr" />
+                </div>
+                <div class="mb-4">
                     <AccountingLoadScreen :is-loading="projectStore.isLoading.list" />
                     <div class="flex flex-col gap-6 my-4">
                         <div class="flex justify-center">

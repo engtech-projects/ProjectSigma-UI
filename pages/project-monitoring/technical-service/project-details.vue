@@ -6,17 +6,12 @@
                 :tabs="tabs"
             />
             <div class="w-full flex flex-col">
-                <div class="mb-4">
-                    <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" :document-code="useInventoryDocCode.mrr" />
-                </div>
                 <ProjectMonitoringProjectPanelViewer :active-tab="activeTab">
                     <template #project>
                         <ProjectMonitoringEditProject />
                     </template>
                     <template #boq>
-                        <h2>
-                            BILL OF QUANTITIES
-                        </h2>
+                        <ProjectMonitoringSharedBillOfQuantities />
                     </template>
                     <template #rates>
                         <h2>
@@ -24,9 +19,7 @@
                         </h2>
                     </template>
                     <template #bid>
-                        <h2>
-                            SUMMARY OF BID
-                        </h2>
+                        <ProjectMonitoringSharedSummaryOfBid />
                     </template>
                     <template #estimated>
                         <ProjectMonitoringTssSummaryOfEstimatedDirectCost />

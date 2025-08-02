@@ -1,5 +1,8 @@
 <template>
     <div class="mx-auto">
+        <div class="mb-4">
+            <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" :document-code="useInventoryDocCode.mrr" />
+        </div>
         <div class="flex justify-center mb-4">
             <div class="flex gap-2">
                 <h1 class="text-center text-3xl text-black uppercase">

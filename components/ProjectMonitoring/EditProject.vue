@@ -31,6 +31,9 @@ const editProject = async () => {
 <template>
     <LayoutEditBoards title="Project Form" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
+            <div class="mb-4">
+                <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" :document-code="useInventoryDocCode.mrr" />
+            </div>
             <form @submit.prevent="editProject">
                 <div class="flex flex-col gap-2">
                     <div class="flex gap-4">
