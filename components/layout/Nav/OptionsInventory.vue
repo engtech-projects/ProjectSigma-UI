@@ -180,7 +180,7 @@
         />
         <LayoutNavSingle
             v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_REQUESTSTOCK_GROUP])"
-            linkarea="/inventory/request-stocks"
+            linkarea="/inventory/requisition-slip"
             icon="material-symbols-light:shopping-cart-checkout-sharp"
             single-nav-title="Requisition Slip"
         />
