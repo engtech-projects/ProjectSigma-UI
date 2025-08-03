@@ -132,7 +132,7 @@
                     ])"
                     linkarea="/inventory/setup/lists/warehouse-list"
                     icon="material-symbols:view-list"
-                    single-nav-title="Warhouses List"
+                    single-nav-title="Warehouses List"
                 />
             </LayoutNavGroup>
         </LayoutNavGroup>
