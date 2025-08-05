@@ -77,7 +77,7 @@ export const usePositionStore = defineStore("positions", {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.reset()
+                            this.clearPosition()
                             this.successMessage = response._data.message
                         }
                     },
@@ -87,6 +87,13 @@ export const usePositionStore = defineStore("positions", {
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
+        },
+        clearPosition () {
+            this.position = {
+                id: null,
+                department_name: null,
+                name: null,
+            }
         },
         async editPosition () {
             this.successMessage = ""
@@ -105,8 +112,8 @@ export const usePositionStore = defineStore("positions", {
                 }
             )
             if (data.value) {
-                this.getPosition()
                 this.successMessage = data.value.message
+                this.clearPosition()
                 return data
             } else if (error.value) {
                 this.errorMessage = error.value.data.message
@@ -130,7 +137,6 @@ export const usePositionStore = defineStore("positions", {
                 }
             )
             if (data.value) {
-                this.getPosition()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {

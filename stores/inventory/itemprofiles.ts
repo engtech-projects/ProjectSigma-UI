@@ -5,7 +5,6 @@ const config = useRuntimeConfig()
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
 export const DENIED = "Denied"
-export const APPROVAL_NEW_ITEM_PROFILE = "New Item Profile"
 
 export const REQ_STATUS = [
     APPROVED,
@@ -184,45 +183,6 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
     },
     actions: {
-        async getApprovalByName (approvalName: String) {
-            const { data } = await useHRMSApi<any>(
-                "/api/get-form-requests/" + approvalName,
-                {
-                    method: "GET",
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.formItemProfile.approvals = response._data.data.approvals.map((approv: any) => {
-                                return {
-                                    type: approv.type,
-                                    status: "Pending",
-                                    user_id: approv.user_id,
-                                    userselector: approv.userselector,
-                                    date_approved: "",
-                                    remarks: "",
-                                    employee: approv.employee,
-                                }
-                            })
-                        } else {
-                            this.errorMessage = response._data.message
-                        }
-                    },
-                }
-            )
-            if (data.value) {
-                return data.value.data.approvals.map((approv: any) => {
-                    return {
-                        type: approv.type,
-                        status: "Pending",
-                        user_id: approv.user_id,
-                        userselector: approv.userselector,
-                        date_approved: "",
-                        remarks: "",
-                        employee: approv.employee,
-                    }
-                })
-            }
-        },
         async getUOM () {
             await useInventoryApiO(
                 "/api/uom/list",
@@ -528,7 +488,6 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             this.$reset()
             this.itemProfileReset()
             this.getUOM()
-            this.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
             callFunctions.forEach((element) => {
                 element()
             })

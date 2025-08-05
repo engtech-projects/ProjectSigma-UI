@@ -121,6 +121,9 @@ const removePhase = async (phase) => {
             <template #system-layout>
                 <div>
                     <AccountingLoadScreen :is-loading="boardLoading" />
+                    <div class="mb-4">
+                        <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" :document-code="useInventoryDocCode.mrr" />
+                    </div>
                     <div class="flex flex-col gap-6 border-t-2 border-gray-800 pt-6 mb-4">
                         <div class="flex justify-between">
                             <div class="flex items-end gap-2">

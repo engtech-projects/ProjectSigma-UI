@@ -53,12 +53,10 @@ export const useDepartmentStore = defineStore("departments", {
                         Accept: "application/json"
                     },
                     body: this.department,
-                    watch: false,
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getDepartment()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -87,7 +85,6 @@ export const useDepartmentStore = defineStore("departments", {
                 }
             )
             if (data.value) {
-                this.getDepartment()
                 this.reset()
                 this.successMessage = data.value.message
                 return data
@@ -113,7 +110,6 @@ export const useDepartmentStore = defineStore("departments", {
                 }
             )
             if (data.value) {
-                this.getDepartment()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {

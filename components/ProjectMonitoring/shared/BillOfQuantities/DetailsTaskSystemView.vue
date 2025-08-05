@@ -1,6 +1,13 @@
 <script lang="ts" setup>
-import { useResourceStore } from "~/stores/project-monitoring/resource"
+import { useResourceStore, MARKETING_RESOURCES } from "~/stores/project-monitoring/resource"
 import { useTaskStore } from "~/stores/project-monitoring/task"
+
+const prop = defineProps({
+    isMarketing: {
+        type: Boolean,
+        default: true
+    },
+})
 
 const resourceStore = useResourceStore()
 const taskStore = useTaskStore()
@@ -60,6 +67,20 @@ const removeResource = async (id: number) => {
         boardLoading.value = false
     }
 }
+
+const orderedMarketingResources = computed(() => {
+    const names = resourceStore.resourceNames
+
+    if (!Array.isArray(names) || names.length === 0) {
+        return []
+    }
+    const resourceFilter = prop.isMarketing ? MARKETING_RESOURCES : names
+    return names.filter((r: any) => resourceFilter.includes(r.name))
+        .sort((a: any, b: any) => {
+            return MARKETING_RESOURCES.indexOf(a.name) - MARKETING_RESOURCES.indexOf(b.name)
+        })
+})
+
 </script>
 
 <template>
@@ -70,6 +91,28 @@ const removeResource = async (id: number) => {
             </h1>
         </div>
         <table class="border border-collapse border-gray-800 w-full">
+            <thead>
+                <tr>
+                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-2/12">
+                        Pay Item No.
+                    </th>
+                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-3/12">
+                        Description
+                    </th>
+                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-1/12">
+                        Unit
+                    </th>
+                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-1/12">
+                        Qty
+                    </th>
+                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-2/12">
+                        Unit Price (Pesos)
+                    </th>
+                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-3/12">
+                        Amount (Pesos)
+                    </th>
+                </tr>
+            </thead>
             <thead>
                 <tr>
                     <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-2/12">
@@ -134,7 +177,7 @@ const removeResource = async (id: number) => {
                 </tr>
             </tbody>
             <AccountingLoadScreen :is-loading="boardLoading" />
-            <tbody v-for="(rnames, index) in resourceStore.resourceNames" :key="rnames.id">
+            <tbody v-for="(rnames, index) in orderedMarketingResources" :key="rnames.id">
                 <tr class="border-b border-gray-700">
                     <td colspan="6" class="px-2 py-1">
                         <div class="flex justify-between">

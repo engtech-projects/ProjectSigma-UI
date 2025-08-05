@@ -14,7 +14,13 @@ const currentYear = today.getFullYear()
 
 const mainStore = useRequestStockStore()
 const { approvalList } = storeToRefs(mainStore)
-mainStore.fetchRs()
+
+onMounted(() => {
+    mainStore.fetchRs()
+    if (form.value.section_type) {
+        selectType.value = form.value.section_type
+    }
+})
 
 const form = defineModel({ required: true, type: Object })
 
@@ -181,11 +187,6 @@ const bomheaders = [
     { name: "Warehouse", id: "" },
 ]
 const selectType = ref(null)
-onMounted(() => {
-    if (form.value.section_type) {
-        selectType.value = form.value.section_type
-    }
-})
 
 watch([selectType, () => List.value.params.department_id, () => List.value.params.project_id], () => {
     List.value.params.effectivity = currentYear

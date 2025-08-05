@@ -3,6 +3,15 @@ import { defineStore } from "pinia"
 const config = useRuntimeConfig()
 const { token } = useAuth()
 
+export const MATERIALS = "Materials"
+export const EQUIPMENT = "Equipment"
+export const LABOR = "Labor"
+
+export const MARKETING_RESOURCES = [
+    MATERIALS,
+    LABOR,
+    EQUIPMENT,
+]
 export const useResourceStore = defineStore("resourceStore", {
     state: () => ({
         resource: {
