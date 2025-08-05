@@ -7,7 +7,7 @@
         ])"
     >
         <div class="grid grid-cols-3 gap-4">
-            <ProjectsRevisionsList class="col-span-1" />
+            <ProjectMonitoringRevisionsList class="col-span-1" />
             <div class="col-span-2 flex flex-col gap-4">
                 <AccountingCommonTabsMainContainer class="w-full">
                     <template #tab-titles>
