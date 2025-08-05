@@ -7,7 +7,7 @@ const totalAmount = computed(() => {
 })
 </script>
 <template>
-    <div>
+    <div class="py-10">
         <LayoutPrintAdvanced>
             <template #system-layout>
                 <div class="mb-4">
