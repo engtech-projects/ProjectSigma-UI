@@ -530,7 +530,7 @@ export const useProjectStore = defineStore("projects", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useProjectsApi<any>(
-                "/api/projects/" + this.information.id,
+                "/api/projects/resource/" + this.information.id,
                 {
                     method: "PATCH",
                     body: this.information,
@@ -538,8 +538,6 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
             if (data.value) {
-                this.$reset()
-                this.getMyProjects()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
