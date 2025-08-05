@@ -68,8 +68,8 @@ const getTypeUOM = (id:any) => {
         <div :id="'uom_dropdown-'+compId" class="z-50 hidden bg-white divide-y divide-gray-400 rounded-lg shadow w-44 overflow-y-auto max-h-60">
             <ul v-for="data in AllTypes" :key="'uom-'+data" class="py-2 text-sm text-gray-700" aria-labelledby="dropdownMenuIconButton">
                 <li>
-                    <div class="text-left px-2">
-                        {{ data.name }}
+                    <div class="text-center px-2 text-gray-500">
+                        ----- {{ data.name }} -----
                     </div>
                 </li>
                 <li v-for="item in data.value" :key="'uom-item-'+item">

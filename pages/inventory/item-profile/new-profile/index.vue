@@ -1,7 +1,6 @@
 <script setup>
-import { useItemProfileStore, APPROVAL_NEW_ITEM_PROFILE } from "@/stores/inventory/itemprofiles"
+import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 const main = useItemProfileStore()
-main.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
 main.getAllRequests()
 main.getMyRequests()
 main.getMyApprovals()
