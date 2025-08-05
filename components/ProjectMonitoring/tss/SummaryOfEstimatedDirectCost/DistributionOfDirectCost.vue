@@ -1,3 +1,5 @@
+<script lang="ts" setup>
+</script>
 <template>
     <div class="mx-auto">
         <div class="flex justify-start mb-4">
@@ -94,7 +96,3 @@
         </table>
     </div>
 </template>
-
-<script lang="ts" setup>
-
-</script>

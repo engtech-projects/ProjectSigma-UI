@@ -1,3 +1,12 @@
+<script setup lang="ts">
+defineProps({
+    signatories: {
+        type: Array,
+        required: true,
+        default: () => [],
+    },
+})
+</script>
 <template>
     <div class="flex flex-row gap-8">
         <div
@@ -17,13 +26,3 @@
         </div>
     </div>
 </template>
-
-<script setup lang="ts">
-defineProps({
-    signatories: {
-        type: Array,
-        required: true,
-        default: () => [],
-    },
-})
-</script>
