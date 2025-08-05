@@ -1,6 +1,9 @@
 <template>
     <!-- Header -->
     <div class="mb-4">
+        <div class="mb-4">
+            <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" :document-code="useInventoryDocCode.mrr" />
+        </div>
         <div class="mb-6">
             <div class="flex flex-col">
                 <div class="flex mb-4">

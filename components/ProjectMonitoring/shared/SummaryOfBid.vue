@@ -10,6 +10,9 @@ const totalAmount = computed(() => {
     <div>
         <LayoutPrintAdvanced>
             <template #system-layout>
+                <div class="mb-4">
+                    <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" :document-code="useInventoryDocCode.mrr" />
+                </div>
                 <div class="px-4 mx-auto pb-6">
                     <h1 class="text-2xl font-bold mb-2 text-center">
                         OVER-ALL SUMMARY OF BID PRICES
