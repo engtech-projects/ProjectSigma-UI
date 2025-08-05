@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
-import { useApprovalStore, APPROVAL_PAYMENT_REQUEST_NPO } from "@/stores/hrms/setup/approvals"
+import { useApprovalStore, APPROVAL_NEW_ITEM_PROFILE } from "@/stores/hrms/setup/approvals"
 
 const profileStore = useItemProfileStore()
 const { newItemProfile, formItemProfile, addItemProfile, uom } = storeToRefs(profileStore)
@@ -14,7 +14,7 @@ defineProps({
 const snackbar = useSnackbar()
 const approvals = useApprovalStore()
 onMounted(async () => {
-    formItemProfile.value.approvals = await approvals.getApprovalByName(APPROVAL_PAYMENT_REQUEST_NPO)
+    formItemProfile.value.approvals = await approvals.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
 })
 const doAddItemProfile = (item: any, id: number) => {
     newItemProfile.value.push(item)
