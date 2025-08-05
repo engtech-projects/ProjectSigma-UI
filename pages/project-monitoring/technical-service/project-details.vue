@@ -1,59 +1,3 @@
-<template>
-    <LayoutBoards class="w-full">
-        <div class="flex flex-row gap-2">
-            <ProjectMonitoringProjectPanel
-                v-model:active-tab="activeTab"
-                :tabs="tabs"
-            />
-            <div class="w-full flex flex-col">
-                <ProjectMonitoringProjectPanelViewer :active-tab="activeTab">
-                    <template #project>
-                        <ProjectMonitoringEditProject />
-                    </template>
-                    <template #boq>
-                        <ProjectMonitoringSharedBillOfQuantities />
-                    </template>
-                    <template #rates>
-                        <h2>
-                            SUMMARY OF RATES
-                        </h2>
-                    </template>
-                    <template #bid>
-                        <ProjectMonitoringSharedSummaryOfBid />
-                    </template>
-                    <template #estimated>
-                        <ProjectMonitoringTssSummaryOfEstimatedDirectCost />
-                    </template>
-                    <template #estimated-detailed>
-                        <h2>
-                            DETAILED ESTIMATES
-                        </h2>
-                    </template>
-                    <template #estimated-analysis>
-                        <h2>
-                            DIRECT COST ANALYSIS
-                        </h2>
-                    </template>
-                    <template #estimated-unit-price>
-                        <h2>
-                            DETAILED UNIT PRICE ANALYSIS
-                        </h2>
-                    </template>
-                    <template #materials>
-                        <h2>
-                            BILL OF MATERIALS
-                        </h2>
-                    </template>
-                    <template #cashflow>
-                        <h2>
-                            CASH FLOW
-                        </h2>
-                    </template>
-                </ProjectMonitoringProjectPanelViewer>
-            </div>
-        </div>
-    </LayoutBoards>
-</template>
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const route = useRoute()
@@ -117,3 +61,60 @@ const tabs = [
     },
 ]
 </script>
+
+<template>
+    <LayoutBoards class="w-full">
+        <div class="flex flex-row gap-2">
+            <ProjectMonitoringProjectPanel
+                v-model:active-tab="activeTab"
+                :tabs="tabs"
+            />
+            <div class="w-full flex flex-col">
+                <ProjectMonitoringProjectPanelViewer :active-tab="activeTab">
+                    <template #project>
+                        <ProjectMonitoringEditProject />
+                    </template>
+                    <template #boq>
+                        <ProjectMonitoringSharedBillOfQuantities />
+                    </template>
+                    <template #rates>
+                        <h2>
+                            SUMMARY OF RATES
+                        </h2>
+                    </template>
+                    <template #bid>
+                        <ProjectMonitoringSharedSummaryOfBid />
+                    </template>
+                    <template #estimated>
+                        <ProjectMonitoringTssSummaryOfEstimatedDirectCost />
+                    </template>
+                    <template #estimated-detailed>
+                        <h2>
+                            DETAILED ESTIMATES
+                        </h2>
+                    </template>
+                    <template #estimated-analysis>
+                        <h2>
+                            DIRECT COST ANALYSIS
+                        </h2>
+                    </template>
+                    <template #estimated-unit-price>
+                        <h2>
+                            DETAILED UNIT PRICE ANALYSIS
+                        </h2>
+                    </template>
+                    <template #materials>
+                        <h2>
+                            BILL OF MATERIALS
+                        </h2>
+                    </template>
+                    <template #cashflow>
+                        <h2>
+                            CASH FLOW
+                        </h2>
+                    </template>
+                </ProjectMonitoringProjectPanelViewer>
+            </div>
+        </div>
+    </LayoutBoards>
+</template>

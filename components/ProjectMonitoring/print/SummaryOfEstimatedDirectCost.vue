@@ -1,3 +1,8 @@
+<script lang="ts" setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+
+const projectStore = useProjectStore()
+</script>
 <template>
     <div class="mx-auto">
         <div class="mb-4">
@@ -164,13 +169,3 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-
-const projectStore = useProjectStore()
-</script>
-
-<style>
-
-</style>

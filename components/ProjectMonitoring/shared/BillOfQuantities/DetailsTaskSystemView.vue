@@ -112,7 +112,7 @@ const orderedMarketingResources = computed(() => {
                         Amount (Pesos)
                     </th>
                 </tr>
-            </thead>npm
+            </thead>
             <thead>
                 <tr>
                     <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-2/12">
