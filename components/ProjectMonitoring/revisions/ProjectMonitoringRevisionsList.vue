@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+const searchInput = ref("")
+</script>
+
 <template>
     <LayoutBoards title="Project Revisions">
         <div class="text-gray-500 flex flex-col gap-4 p-2">
@@ -36,10 +40,3 @@
         </div>
     </LayoutBoards>
 </template>
-
-<script lang="ts" setup>
-const searchInput = ref("")
-</script>
-
-<style>
-</style>
