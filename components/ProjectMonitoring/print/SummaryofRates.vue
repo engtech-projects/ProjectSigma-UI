@@ -33,7 +33,7 @@
         <p class="text-lg font-bold text-center uppercase mb-8">
             SUMMARY OF RATES
         </p>
-        <div v-for="(rate, index) in projectStore.information.summary_of_rates" :key="index">
+        <div v-for="(rate, index) in projectStore.information?.summary_of_rates" :key="index">
             <div class="text-center mb-8">
                 <p class="text-base font-bold uppercase">
                     COST OF {{ index }}
@@ -54,12 +54,12 @@
                 :signatory="{
                     name: 'Angel A. Abrau',
                     title: 'Authorized Managing Officer',
-                    subtitle: 'ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE)'
+                    subtitle: projectStore.information?.license , // Assuming license is a string
                 }"
             />
             <div class="flex items-center text-sm gap-4 mt-10">
                 <span>DATE:</span>
-                <span class="underline">{{ fullDate(new Date()) }}</span>
+                <span class="underline">{{ fullDate(new Date(projectStore.information?.contract_date)) }}</span>
             </div>
         </div>
     </div>

@@ -105,7 +105,7 @@
         </div>
 
         <div class="mb-8 text-sm">
-            <p>Project to be completed within <span class="underline font-bold">237</span> calendar days</p>
+            <p>Project to be completed within <span class="underline font-bold">{{ projectStore.information?.duration }}</span> calendar days</p>
         </div>
 
         <div class="flex flex-col gap-4">
@@ -138,7 +138,7 @@
                 </div>
                 <div class="col-span-3 border-b border-black">
                     <span class="">
-                        January 15, 2024
+                        {{ fullDate(new Date(projectStore.information?.contract_date)) }}
                     </span>
                 </div>
             </div>
@@ -148,7 +148,8 @@
                     Duly authorized to sign the Bid for and on behalf of:
                 </p>
                 <span class="col-span-5 text-sm font-semibold underline text-center">
-                    ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE)
+                    {{ projectStore.information.license }}
+                    <!-- ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE) -->
                 </span>
             </div>
         </div>
