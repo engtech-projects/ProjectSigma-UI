@@ -18,7 +18,7 @@ const performAutoSave = async (field: string, value: any) => {
 
     try {
         isSaving.value = true
-        await main.autoSaveReceivingData(model.value.id, { [field]: value })
+        await main.updateReceiving(model.value.id, { [field]: value })
         snackbar.add({ type: "success", text: "Saved successfully" })
     } catch (error: any) {
         snackbar.add({ type: "error", text: error.message || "Auto-save failed" })
