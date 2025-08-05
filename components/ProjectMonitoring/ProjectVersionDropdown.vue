@@ -1,3 +1,6 @@
+            <script lang="ts" setup>
+
+            </script>
 <template>
     <div class="mb-4 flex flex-col gap-2">
         <label class="text-md font-semibold">
@@ -16,6 +19,3 @@
         </div>
     </div>
 </template>
-<script lang="ts" setup>
-
-</script>
