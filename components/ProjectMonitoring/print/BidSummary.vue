@@ -149,7 +149,6 @@
                 </p>
                 <span class="col-span-5 text-sm font-semibold underline text-center">
                     {{ projectStore.information.license }}
-                    <!-- ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE) -->
                 </span>
             </div>
         </div>
