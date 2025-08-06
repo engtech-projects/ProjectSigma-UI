@@ -283,7 +283,7 @@ export const useRequestStockStore = defineStore("requestStockStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useInventoryApi(
-                "/api/approvals/approve/RequestStock/" + id,
+                "/api/approvals/approve/RequestRequisitionSlip/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -306,7 +306,7 @@ export const useRequestStockStore = defineStore("requestStockStore", {
             formData.append("id", id)
             formData.append("remarks", this.remarks)
             await useInventoryApi(
-                "/api/approvals/disapprove/RequestStock/" + id,
+                "/api/approvals/disapprove/RequestRequisitionSlip/" + id,
                 {
                     method: "POST",
                     body: formData,

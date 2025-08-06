@@ -48,13 +48,13 @@ const filterWarehouse = async () => {
                             <div class="flex-1">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Warehouse Name:</label>
                                 <p class="p-3 bg-gray-100 rounded-lg text-sm text-gray-900">
-                                    {{ warehouseDetails.name }}
+                                    {{ warehouseDetails.name || "-" }}
                                 </p>
                             </div>
                             <div class="flex-1">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Location:</label>
                                 <p class="p-3 bg-gray-100 rounded-lg text-sm text-gray-900">
-                                    {{ warehouseDetails.location }}
+                                    {{ warehouseDetails.location || "-" }}
                                 </p>
                             </div>
                         </div>

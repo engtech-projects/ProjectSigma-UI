@@ -142,7 +142,7 @@ const filterWarehouse = async () => {
                                 <div class="p-4 border-b border-gray-100">
                                     <div class="flex items-center justify-between">
                                         <h2 class="text-lg font-medium text-gray-900">
-                                            PSS Manager
+                                            PSS
                                         </h2>
 
                                         <!-- Intelligent Action Button -->
