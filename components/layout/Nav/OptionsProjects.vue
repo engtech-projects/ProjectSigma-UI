@@ -25,6 +25,14 @@
         />
         <LayoutNavSingle
             v-if="useCheckAccessibility([
+                AccessibilityTypes.PROJECTMONITORING_REVISIONS,
+            ])"
+            linkarea="/project-monitoring/projects"
+            icon="ant-design:project-twotone"
+            single-nav-title="Projects"
+        />
+        <LayoutNavSingle
+            v-if="useCheckAccessibility([
                 AccessibilityTypes.PROJECTMONITORING_TSS,
             ])"
             linkarea="/project-monitoring/technical-service"

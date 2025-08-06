@@ -159,6 +159,18 @@ export const useProjectStore = defineStore("projects", {
             errorMessage: "",
             successMessage: "",
         },
+        activeList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                status: "Scheduled",
+                stage_status: ProjectStatus.AWARDED
+            },
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         cashFlowByQuarter: {
             cash_flow: {
                 q1: {
@@ -416,6 +428,36 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.archivedList.list = response._data.data
                             this.archivedList.pagination = {
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
+                            }
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async getActiveProjects () {
+            this.activeList.isLoading = true
+            const { data, error } = await useProjectsApi(
+                "/api/projects/resource",
+                {
+                    method: "GET",
+                    params: this.activeList.params,
+                    onRequest: () => {
+                        this.activeList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.activeList.isLoading = false
+                        if (response.ok) {
+                            this.activeList.list = response._data.data
+                            this.activeList.pagination = {
                                 first_page: response._data.meta.first,
                                 pages: response._data.meta.links,
                                 last_page: response._data.meta.last,
