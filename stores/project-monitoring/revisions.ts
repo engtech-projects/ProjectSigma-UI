@@ -105,6 +105,9 @@ export const useRevisionStore = defineStore("revisionStore", {
                         this.isLoading.list = false
                         if (response.ok) {
                             this.list = response._data.data
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
                         }
                     },
                 }
@@ -134,18 +137,18 @@ export const useRevisionStore = defineStore("revisionStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useProjectsApi(
-                "/api/project-revisions/replicate",
+                "/api/projects/replicate",
                 {
                     method: "POST",
                     body: this.information,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (!response.ok) {
-                            this.errorMessage = response._data.message
-                        } else {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
                             this.$reset()
                             this.getRevisions()
-                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
                         }
                     },
                 }

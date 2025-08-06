@@ -7,17 +7,10 @@ const snackbar = useSnackbar()
 const restoreRevision = async () => {
     try {
         await revisionStore.restoreRevisions()
-        if (revisionStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: revisionStore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: revisionStore.successMessage
-            })
-        }
+        snackbar.add({
+            type: "success",
+            text: revisionStore.successMessage
+        })
         projectStore.getProject(revisionStore.getParams.project_id)
     } catch (error) {
         snackbar.add({
