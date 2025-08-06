@@ -35,7 +35,7 @@ interface Project {
     approvals: Array<Approval>
 }
 
-export const useProjectStore = defineStore("projects", {
+export const useRevisionStore = defineStore("revisionStore", {
     state: () => ({
         isEdit: false,
         viewState: false,
@@ -63,19 +63,19 @@ export const useProjectStore = defineStore("projects", {
             employees: [],
             approvals: []
         } as Project,
-        myProjectList: {
+        projectRevisionList: {
             isLoading: false,
             isLoaded: false,
             list: [],
             params: {
                 project_key: ""
             },
-            pagination: {},
             errorMessage: "",
             successMessage: "",
         },
         list: [] as Project[],
         pagination: {},
+        revisionSelected: null,
         getParams: {},
         errorMessage: "",
         successMessage: "",
@@ -94,12 +94,10 @@ export const useProjectStore = defineStore("projects", {
     }),
     actions: {
         async getRevisions () {
-            this.isLoading.list = true
-            const { data, error } = await useProjectsApi(
-                "/api/project-revisions/resource",
+            await useProjectsApi(
+                `/api/projects/${this.getParams.project_id}/revisions`,
                 {
                     method: "GET",
-                    params: this.getParams,
                     onRequest: () => {
                         this.isLoading.list = true
                     },
@@ -107,22 +105,31 @@ export const useProjectStore = defineStore("projects", {
                         this.isLoading.list = false
                         if (response.ok) {
                             this.list = response._data.data
-                            this.pagination = {
-                                first_page: response._data.meta.first,
-                                pages: response._data.meta.links,
-                                last_page: response._data.meta.last,
-                            }
                         }
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
-
+        async restoreRevisions () {
+            await useProjectsApi(
+                `/api/projects/${this.getParams.project_id}/revert/${this.revisionSelected}`,
+                {
+                    method: "PUT",
+                    onRequest: () => {
+                        this.isLoading.list = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.isLoading.list = false
+                        if (response.ok) {
+                            this.list = response._data.data
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
         async replicateProject () {
             this.successMessage = ""
             this.errorMessage = ""

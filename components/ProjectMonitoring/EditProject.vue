@@ -154,12 +154,12 @@ const editProject = async () => {
                         </div>
                         <div class="flex-1">
                             <label
-                                for="date_of_noa"
+                                for="noa_date"
                                 class="text-xs italic"
                             >Date of NOA</label>
                             <input
                                 id="dateOfNoa"
-                                v-model="project.date_of_noa"
+                                v-model="project.noa_date"
                                 type="date"
                                 class="w-full rounded-lg"
                             >
@@ -168,7 +168,7 @@ const editProject = async () => {
                     <div class="flex gap-4">
                         <div class="flex-1">
                             <label
-                                for="date_of_contract"
+                                for="contract_date"
                                 class="text-xs italic"
                             >Date of Contract</label>
                             <input
@@ -180,12 +180,12 @@ const editProject = async () => {
                         </div>
                         <div class="flex-1">
                             <label
-                                for="date_of_ntp"
+                                for="ntp_date"
                                 class="text-xs italic"
                             >Date of NTP</label>
                             <input
                                 id="dateOfNtp"
-                                v-model="project.date_of_ntp"
+                                v-model="project.ntp_date"
                                 type="date"
                                 class="w-full rounded-lg"
                             >
