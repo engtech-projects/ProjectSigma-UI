@@ -101,6 +101,9 @@ export const useRevisionStore = defineStore("revisionStore", {
                     onRequest: () => {
                         this.isLoading.list = true
                     },
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
                         if (response.ok) {
@@ -120,6 +123,9 @@ export const useRevisionStore = defineStore("revisionStore", {
                     method: "PUT",
                     onRequest: () => {
                         this.isLoading.list = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
                     },
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
@@ -142,6 +148,9 @@ export const useRevisionStore = defineStore("revisionStore", {
                     method: "POST",
                     body: this.information,
                     watch: false,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
