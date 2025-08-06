@@ -1,10 +1,22 @@
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { useRevisionStore } from "@/stores/project-monitoring/revisions"
+const revisionStore = useRevisionStore()
 const route = useRoute()
 const projectStore = useProjectStore()
 if (route.query.id) {
     projectStore.getProject(route.query.id)
+    revisionStore.getParams.project_id = route.query.id
+    revisionStore.getRevisions()
 }
+const { revisionSelected } = storeToRefs(revisionStore)
+watch(revisionSelected, (newVal) => {
+    if (newVal === null) {
+        projectStore.getProject(route.query.id)
+    } else {
+        projectStore.viewProjectRevisions(newVal)
+    }
+}, { immediate: true })
 const activeTab = ref("project")
 const tabs = [
     {

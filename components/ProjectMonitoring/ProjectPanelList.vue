@@ -1,3 +1,19 @@
+<script setup lang="ts">
+defineProps({
+    activeTab: {
+        type: String,
+        default: ""
+    },
+    tabs: {
+        type: Array,
+        default: () => []
+    }
+})
+const emit = defineEmits(["update:activeTab"])
+const handleClick = (tabKey: string) => {
+    emit("update:activeTab", tabKey)
+}
+</script>
 <template>
     <div class="flex">
         <ul class="space-y-1 text-xs">
@@ -30,23 +46,3 @@
         </ul>
     </div>
 </template>
-
-<script setup lang="ts">
-defineProps({
-    activeTab: {
-        type: String,
-        default: ""
-    },
-    tabs: {
-        type: Array,
-        default: () => []
-    }
-})
-
-const emit = defineEmits(["update:activeTab"])
-
-const handleClick = (tabKey: string) => {
-    emit("update:activeTab", tabKey)
-}
-
-</script>

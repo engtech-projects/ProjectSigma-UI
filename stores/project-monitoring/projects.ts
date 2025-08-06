@@ -543,6 +543,23 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
+        async viewProjectRevisions (id: number) {
+            await useProjectsApi(
+                `/api/project-revisions/revisions/${id}`,
+                {
+                    method: "GET",
+                    onRequest: () => {
+                        this.isLoading.list = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.isLoading.list = false
+                        if (response.ok) {
+                            this.information = response._data.data.data
+                        }
+                    },
+                }
+            )
+        },
         async publishProposal (id: number) {
             this.successMessage = ""
             this.errorMessage = ""
