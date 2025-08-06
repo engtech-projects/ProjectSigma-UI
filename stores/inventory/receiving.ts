@@ -199,15 +199,15 @@ export const useReceivingStore = defineStore("receivingStore", {
                 }
             )
         },
-        async updateReceiving (id: number, payload: Record<string, any>) {
+        async updateReceiving (resource: any) {
             this.errorMessage = ""
             this.successMessage = ""
 
             await useInventoryApiO(
-                `/api/material-receiving/resource/${id}`,
+                `/api/material-receiving/resource/${resource.id}`,
                 {
                     method: "PATCH",
-                    body: JSON.stringify(payload),
+                    body: resource,
                     watch: false,
                     onRequest: () => {
                         this.receiving.isLoading = true
@@ -227,7 +227,31 @@ export const useReceivingStore = defineStore("receivingStore", {
             )
         },
         // ITEMS PROCESSING
-        async acceptAllItem (id: number, data: any) {
+        async updateReceivingItem (resource: any) {
+            await useInventoryApiO(
+                "/api/material-receiving/item/resource/" + resource.id,
+                {
+                    method: "PATCH",
+                    watch: false,
+                    body: resource,
+                    onRequest: () => {
+                        this.receiving.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.receiving.isLoading = false
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.receiving.isLoading = false
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async acceptAllItem (id: number) {
             this.errorMessage = ""
             this.successMessage = ""
 
@@ -235,16 +259,17 @@ export const useReceivingStore = defineStore("receivingStore", {
                 `/api/material-receiving/item/${id}/accept-all`,
                 {
                     method: "PATCH",
-                    body: JSON.stringify(data),
                     watch: false,
                     onRequest: () => {
-                        this.items.isLoading = true
+                        this.receiving.isLoading = true
                     },
                     onResponseError: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         if (response.ok) {
                             this.successMessage = response._data.message
                         }
@@ -257,19 +282,21 @@ export const useReceivingStore = defineStore("receivingStore", {
             this.successMessage = ""
 
             await useInventoryApi(
-                `/api/material-receiving/item/${id}/accept-with-details`,
+                `/api/material-receiving/item/${id}/accept-some`,
                 {
                     method: "PATCH",
                     body: JSON.stringify(data),
                     watch: false,
                     onRequest: () => {
-                        this.items.isLoading = true
+                        this.receiving.isLoading = true
                     },
                     onResponseError: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         if (response.ok) {
                             this.successMessage = response._data.message
                         }
@@ -288,13 +315,15 @@ export const useReceivingStore = defineStore("receivingStore", {
                     body: JSON.stringify(data),
                     watch: false,
                     onRequest: () => {
-                        this.items.isLoading = true
+                        this.receiving.isLoading = true
                     },
                     onResponseError: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         if (response.ok) {
                             this.successMessage = response._data.message
                         }
