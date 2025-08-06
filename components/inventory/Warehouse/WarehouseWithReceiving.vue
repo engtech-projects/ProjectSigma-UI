@@ -4,7 +4,6 @@ import { useReceivingStore } from "@/stores/inventory/receiving"
 const warehouseStore = useWarehouseStore()
 const receivingStore = useReceivingStore()
 warehouseStore.fetchWarehouse()
-receivingStore.fetchReceivings()
 const { warehouse, warehouseDetails } = storeToRefs(warehouseStore)
 const isSet = ref(true)
 const wareHouseId = ref(null)

@@ -113,27 +113,6 @@ export const useReceivingStore = defineStore("receivingStore", {
                 }
             )
         },
-        async fetchReceivings () {
-            await useInventoryApi(
-                "/api/material-receiving/resource",
-                {
-                    method: "GET",
-                    params: this.receiving.params,
-                    onRequest: () => {
-                        this.receiving.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.receiving.isLoading = false
-                        if (response.ok) {
-                            this.receiving.list = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
         async fetchReceivingDetails (id: any) {
             await useInventoryApi(
                 "/api/material-receiving/resource/" + id,

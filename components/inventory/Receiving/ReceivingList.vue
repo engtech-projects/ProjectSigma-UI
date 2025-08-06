@@ -39,7 +39,7 @@ const changePaginate = (newParams) => {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="items ?? []"
+                :datas="warehouseReceivings.list"
                 @show-table="showInformation"
             />
         </div>

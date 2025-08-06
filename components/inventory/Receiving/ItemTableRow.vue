@@ -69,9 +69,6 @@ const updateDetails = useDebouncedFn(async () => {
         snackbar.add({ type: "error", text: error.message || "Something went wrong." })
     }
 }, 500)
-watch(model, () => {
-    updateDetails()
-}, { deep: true })
 </script>
 
 <template>
@@ -93,6 +90,7 @@ watch(model, () => {
                 type="text"
                 class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter specification..."
+                @change="updateDetails"
             >
         </td>
 
@@ -106,7 +104,8 @@ watch(model, () => {
                 type="text"
                 class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter brand..."
-                :disabled="['Accepted', 'Rejected'].includes(model.status)"
+                :disabled="['Accepted', 'Rejected'].includes(model.acceptance_status)"
+                @change="updateDetails"
             >
         </td>
 
@@ -129,7 +128,8 @@ watch(model, () => {
                 step="0.01"
                 class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="0.00"
-                :disabled="['Accepted', 'Rejected'].includes(model.status)"
+                :disabled="['Accepted', 'Rejected'].includes(model.acceptance_status)"
+                @change="updateDetails"
             >
         </td>
 

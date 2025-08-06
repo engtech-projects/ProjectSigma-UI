@@ -12,10 +12,9 @@ onMounted(() => {
 
 const headers = [
     { name: "Reference No", id: "reference_no" },
-    { name: "Warehouse", id: "warehouse.name" },
-    { name: "Transaction Type", id: "transaction_type" },
+    { name: "Warehouse", id: "warehouse" },
     { name: "Transaction Date", id: "transaction_date" },
-    { name: "Status", id: "request_status" },
+    { name: "Status", id: "serve_status" },
 ]
 const actions = {
     showTable: true,

@@ -24,9 +24,6 @@ const performAutoSave = useDebouncedFn(async () => {
         isSaving.value = false
     }
 }, 500)
-watch(model, () => {
-    performAutoSave()
-}, { deep: true })
 </script>
 
 <template>
@@ -72,6 +69,7 @@ watch(model, () => {
                                     v-if="!hasProcessedItem"
                                     v-model="model.supplier_id"
                                     :disabled="hasProcessedItem"
+                                    @change="performAutoSave"
                                 />
                                 <div v-else class="w-full px-4 py-3 rounded-lg transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700">
                                     {{ model.supplier }}
@@ -83,6 +81,7 @@ watch(model, () => {
                                     class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700"
                                     :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasProcessedItem }"
                                     :disabled="hasProcessedItem"
+                                    @change="performAutoSave"
                                 >
 
                                 <label class="text-sm font-medium text-gray-700">Terms of Payment:</label>
@@ -91,6 +90,7 @@ watch(model, () => {
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md appearance-none cursor-pointer"
                                     :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasProcessedItem }"
                                     :disabled="hasProcessedItem"
+                                    @change="performAutoSave"
                                 >
                                     <option value="">
                                         Choose Terms of Payment
@@ -107,6 +107,7 @@ watch(model, () => {
                                     class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
                                     :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasProcessedItem }"
                                     :disabled="hasProcessedItem"
+                                    @change="performAutoSave"
                                 >
                             </div>
                         </div>
