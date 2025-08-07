@@ -1,10 +1,15 @@
 <script setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 import { usePositionStore } from "@/stores/project-monitoring/positions"
+import { useRevisionStore } from "@/stores/project-monitoring/revisions"
 const positionStore = usePositionStore()
 const projectStore = useProjectStore()
+const revisionStore = useRevisionStore()
 projectStore.$reset()
-positionStore.getAllPositions()
+onMounted(() => {
+    positionStore.getAllPositions()
+    revisionStore.getAllRevisions()
+})
 definePageMeta({
     layout: "default",
 })
