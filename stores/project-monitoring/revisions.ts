@@ -104,6 +104,28 @@ export const useRevisionStore = defineStore("revisionStore", {
         },
     }),
     actions: {
+        async copyToProjectRevisions (id: number) {
+            await useProjectsApi(
+                `/api/project-revisions/revision/${id}/copy-to-project`,
+                {
+                    method: "POST",
+                    onRequest: () => {
+                        this.isLoading.list = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        this.isLoading.list = false
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
         async getAllRevisions () {
             await useProjectsApi(
                 "/api/project-revisions/revisions",

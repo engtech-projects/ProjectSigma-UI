@@ -18,7 +18,7 @@ const projectDetails = (data: any) => {
     navigateTo(`/project-monitoring/information/revision-view?id=${data.id}`)
 }
 const duplicateProject = (data: any) => {
-    console.log(data)
+    revisionStore.copyToProjectRevisions(data.id)
 }
 </script>
 <template>
