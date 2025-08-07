@@ -69,7 +69,7 @@ const performAutoSave = useDebouncedFn(async () => {
                                     v-if="!hasProcessedItem"
                                     v-model="model.supplier_id"
                                     :disabled="hasProcessedItem"
-                                    @change="performAutoSave"
+                                    @supplier-selected="performAutoSave"
                                 />
                                 <div v-else class="w-full px-4 py-3 rounded-lg transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700">
                                     {{ model.supplier }}
