@@ -22,7 +22,7 @@ const duplicateProject = (data: any) => {
 }
 </script>
 <template>
-    <LayoutBoards title="Awarded Projects">
+    <LayoutBoards title="Projects List">
         <div class="text-gray-500 flex flex-col gap-4 p-2">
             <BasicSearchBar v-model="allRevisionList.params.project_key" class="w-full my-2" />
             <LayoutLoadingContainer :loading="allRevisionList.isLoading">
