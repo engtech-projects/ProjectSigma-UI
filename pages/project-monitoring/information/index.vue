@@ -1,8 +1,3 @@
-<template>
-    <div class="flex flex-col gap-4">
-        <ProjectMonitoringMarketingProjectDetails :project-details="projectStore.information" />
-    </div>
-</template>
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 import { useResourceStore } from "~/stores/project-monitoring/resource"
@@ -17,3 +12,8 @@ onMounted(async () => {
     await resourceStore.getResourceUnits()
 })
 </script>
+<template>
+    <div class="flex flex-col gap-4">
+        <ProjectMonitoringMarketingProjectDetails :project-details="projectStore.information" />
+    </div>
+</template>
