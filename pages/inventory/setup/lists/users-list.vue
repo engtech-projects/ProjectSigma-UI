@@ -1,17 +1,21 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useSetupListsStore } from "@/stores/inventory/setup/lists"
+
 const lists = useSetupListsStore()
+lists.getUsersList()
+
 const { usersList } = storeToRefs(lists)
-onMounted(() => {
-    lists.getUsersList()
-})
+
 const changePaginate = (newParams) => {
-    usersList.value.params.page = newParams.page ?? ""
+    if (usersList.value?.params) {
+        usersList.value.params.page = newParams.page ?? 1
+        lists.getUsersList()
+    }
 }
+
 const headers = [
-    { name: "Employee Name", id: "employee_name" },
-    { name: "Username", id: "name" },
+    { name: "Name", id: "name" },
     { name: "Email", id: "email" }
 ]
 </script>

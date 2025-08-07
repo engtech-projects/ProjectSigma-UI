@@ -3,7 +3,7 @@ import { defineStore } from "pinia"
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
 export const DENIED = "Denied"
-export const APPROVALS = "Requisition Slip"
+export const APPROVALS = "Request Stocks"
 export const REQ_STATUS = [
     APPROVED,
     PENDING,
@@ -124,7 +124,7 @@ export const useRequestStockStore = defineStore("requestStockStore", {
     actions: {
         async getAllRequests () {
             await useInventoryApi(
-                "/api/request-requisition-slip/all-request",
+                "/api/request-stock/all-request",
                 {
                     method: "GET",
                     params: this.allRequests.params,
@@ -134,11 +134,11 @@ export const useRequestStockStore = defineStore("requestStockStore", {
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.list = response._data.data
+                            this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.links.first,
-                                pages: response._data.meta.links,
-                                last_page: response._data.links.last,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                             this.allRequests.isLoaded = true
                         }
@@ -148,7 +148,7 @@ export const useRequestStockStore = defineStore("requestStockStore", {
         },
         async getMyRequests () {
             await useInventoryApi(
-                "/api/request-requisition-slip/my-request",
+                "/api/request-stock/my-request",
                 {
                     method: "GET",
                     params: this.myRequests.params,
@@ -159,11 +159,11 @@ export const useRequestStockStore = defineStore("requestStockStore", {
                         this.myRequests.isLoading = false
                         if (response.ok) {
                             this.myRequests.isLoaded = true
-                            this.myRequests.list = response._data.data
+                            this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
-                                first_page: response._data.links.first,
-                                pages: response._data.meta.links,
-                                last_page: response._data.links.last,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             throw new Error(response._data.message)
@@ -174,7 +174,7 @@ export const useRequestStockStore = defineStore("requestStockStore", {
         },
         async getMyApprovals () {
             await useInventoryApi(
-                "/api/request-requisition-slip/my-approvals",
+                "/api/request-stock/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
@@ -185,11 +185,11 @@ export const useRequestStockStore = defineStore("requestStockStore", {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
-                            this.myApprovals.list = response._data.data
+                            this.myApprovals.list = response._data.data.data
                             this.myApprovals.pagination = {
-                                first_page: response._data.links.first,
-                                pages: response._data.meta.links,
-                                last_page: response._data.links.last,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             throw new Error(response._data.message)
@@ -200,7 +200,7 @@ export const useRequestStockStore = defineStore("requestStockStore", {
         },
         async fetchRs () {
             await useInventoryApi(
-                "/api/request-requisition-slip/resource",
+                "/api/request-stock/resource",
                 {
                     method: "GET",
                     params: this.requestStock.params,
@@ -242,7 +242,7 @@ export const useRequestStockStore = defineStore("requestStockStore", {
         },
         async storeRequest () {
             await useInventoryApiO(
-                "/api/request-requisition-slip/resource",
+                "/api/request-stock/resource",
                 {
                     method: "POST",
                     body: {
@@ -264,7 +264,7 @@ export const useRequestStockStore = defineStore("requestStockStore", {
         },
         async getOne (id: number) {
             return await useInventoryApiO(
-                "/api/request-requisition-slip/resource/" + id,
+                "/api/request-stock/resource/" + id,
                 {
                     method: "GET",
                     params: this.requestStock.params,

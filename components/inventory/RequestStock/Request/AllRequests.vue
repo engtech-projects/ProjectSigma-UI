@@ -22,7 +22,7 @@ const actions = {
 }
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/requisition-slip/request-details",
+        path: "/inventory/request-stocks/request-details",
         query: {
             key: data.id
         },

@@ -3,7 +3,7 @@ import { useRequestStockStore } from "~/stores/inventory/requeststock"
 const mainStore = useRequestStockStore()
 const { requestStock } = storeToRefs(mainStore)
 useHead({
-    title: "Requisition Slip",
+    title: "Request Stocks",
 })
 </script>
 <template>
@@ -17,7 +17,7 @@ useHead({
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_REQUESTSTOCK_FORM])"
                     target-id="Form"
-                    title="Requisition Slip Form"
+                    title="Request Stocks Form"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_REQUESTSTOCK_ALLREQUESTS])"
