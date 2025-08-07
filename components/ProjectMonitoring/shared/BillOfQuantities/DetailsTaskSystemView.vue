@@ -137,7 +137,7 @@ const orderedMarketingResources = computed(() => {
             </tbody>
             <AccountingLoadScreen :is-loading="boardLoading" />
             <tbody v-for="(rnames, index) in orderedMarketingResources" :key="rnames.id">
-                <tr class="border-b border-gray-700">
+                <tr class="border-y border-gray-700">
                     <td colspan="6" class="px-2 py-1">
                         <div class="flex justify-between">
                             <span class="font-semibold uppercase">
