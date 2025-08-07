@@ -36,11 +36,11 @@ const payrollLockupGroupAndDescription = [
 const attendanceGroupAndDescription = [
     {
         name: HrmsSetupSettingsEnums.EARLY_LOGIN,
-        description: "Hours early an employee CAN login before employee's scheduled login time",
+        description: "Hours early an employee can login before employee's scheduled login time",
     },
     {
-        name: HrmsSetupSettingsEnums.LATE_LOGIN,
-        description: "Hours late an employee CAN logout after employee's scheduled logout time",
+        name: HrmsSetupSettingsEnums.LATE_LOGOUT,
+        description: "Hours late an employee can logout after employee's scheduled logout time",
     },
     {
         name: HrmsSetupSettingsEnums.LATE_ALLOWANCE,
@@ -65,13 +65,13 @@ const updateSetting = async (id, value) => {
     try {
         await settingsStore.updateSetting(id, value)
         snackbar.add({
-            message: "Setting updated successfully",
             type: "success",
+            text: "Setting updated successfully",
         })
     } catch (error) {
         snackbar.add({
-            message: error,
             type: "error",
+            text: error || "Something went wrong",
         })
     }
 }
@@ -83,21 +83,21 @@ const updateSetting = async (id, value) => {
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_setup_settings,
                 ])"
-                title="Payroll Lockup Settings"
+                title="Payroll Lockup"
                 :target-id="'tab1'+compId"
             />
             <HrmsCommonTabsTabTitle
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_setup_settings,
                 ])"
-                title="Attendance Settings"
+                title="Attendance"
                 :target-id="'tab2'+compId"
             />
             <HrmsCommonTabsTabTitle
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.SUPERADMIN,
                 ])"
-                title="Admin Settings"
+                title="Special Accessibility"
                 :target-id="'tab3'+compId"
             />
         </template>
@@ -154,7 +154,7 @@ const updateSetting = async (id, value) => {
                             <div class="flex flex-col">
                                 <div class="flex flex-row gap-2">
                                     <input
-                                        v-if="[HrmsSetupSettingsEnums.EARLY_LOGIN, HrmsSetupSettingsEnums.LATE_LOGIN].includes(setting.setting_name)"
+                                        v-if="[HrmsSetupSettingsEnums.EARLY_LOGIN, HrmsSetupSettingsEnums.LATE_LOGOUT].includes(setting.setting_name)"
                                         v-model="allSettings.data[index].value"
                                         type="number"
                                         class="input w-1/2"

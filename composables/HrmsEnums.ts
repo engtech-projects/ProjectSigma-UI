@@ -1,7 +1,7 @@
 export const HrmsSetupSettingsEnums = {
     // Attendance Settings
     EARLY_LOGIN: "Early login",
-    LATE_LOGIN: "Late logout",
+    LATE_LOGOUT: "Late logout",
     LATE_ALLOWANCE: "Late allowance min",
     LATE_ABSENT: "Late halfday min",
     // Payroll Lockup Settings

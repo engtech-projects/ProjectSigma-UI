@@ -33,17 +33,17 @@ export const useHrmsSettingsStore = defineStore("hrmsSettings", {
             )
         },
         async updateSetting (settingId: BigInteger, value: BigInteger) {
-            await useHRMSApiO(
+            return await useHRMSApiO(
                 "/api/setup/settings/" + settingId,
                 {
-                    method: "PUT",
+                    method: "PATCH",
                     body: { value },
                     onRequest: () => {
                         this.allSettings.isLoading = true
                     },
-                    onResponseError: ({ request }: any) => {
+                    onResponseError: ({ response }: any) => {
                         this.allSettings.isLoading = false
-                        throw new Error(request._data.message)
+                        throw new Error(response._data.message)
                     },
                     onResponse: () => {
                         this.getAllSettings()
