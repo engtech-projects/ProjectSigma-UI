@@ -11,9 +11,8 @@ const route = useRoute()
 const projectStore = useProjectStore()
 const resourceStore = useResourceStore()
 projectStore.viewState = true
-
+const projectId = route.query.id
 onMounted(async () => {
-    const projectId = route.query.id
     await projectStore.viewProjectRevisions(projectId)
     await resourceStore.getResourceUnits()
 })
