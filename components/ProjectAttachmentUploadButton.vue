@@ -20,10 +20,8 @@ const uploadAttachment = async (event: any) => {
         }
 
         const formData = new FormData()
-        const files: File[] = [file]
-        for (const file of files) {
-            formData.append("attachments[]", file)
-        }
+        formData.append("attachment", file)
+
         await projectStore.uploadAttachments(projectId, formData)
 
         snackbar.add({
