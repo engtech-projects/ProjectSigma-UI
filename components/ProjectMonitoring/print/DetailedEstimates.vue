@@ -45,10 +45,10 @@ const totalDirectCost = (id: number) => {
             <table class="border border-collapse border-gray-800 w-full">
                 <thead>
                     <tr>
-                        <th class="uppercase py-2  font-normal border-b-0 w-2/12">
+                        <th class="uppercase py-2 font-normal border-b-0 w-2/12">
                             ITEM NO.
                         </th>
-                        <th class="uppercase py-2  font-normal border-b-0 w-3/12">
+                        <th class="uppercase py-2 font-normal border-b-0 w-3/12">
                             ITEM DESCRIPTION
                         </th>
                         <th class="uppercase py-2  font-normal border-b-0 w-1/12">
@@ -66,7 +66,7 @@ const totalDirectCost = (id: number) => {
                         <td class="text-center ">
                             {{ task.name }}
                         </td>
-                        <td class="p-2 ">
+                        <td class="p-2 text-center">
                             {{ task.description }}
                         </td>
                         <td class="p-2  text-center">
@@ -81,7 +81,7 @@ const totalDirectCost = (id: number) => {
                 </tbody>
                 <AccountingLoadScreen :is-loading="boardLoading" />
                 <tbody v-for="(rnames, index) in resourceStore.resourceNames" :key="rnames.id">
-                    <tr class="border border-gray-700">
+                    <tr class="border-y border-gray-700">
                         <td colspan="6" class="px-2 py-1">
                             <div class="flex justify-between">
                                 <span class="font-semibold uppercase">
@@ -90,9 +90,9 @@ const totalDirectCost = (id: number) => {
                             </div>
                         </td>
                     </tr>
-                    <tr v-if="filterResources(rnames.id)?.length > 0">
+                    <tr v-if="filterResources(rnames.id)?.length > 0" class="border border-gray-700">
                         <td />
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td class="uppercase text-xs font-semibold pt-2 text-left">
                             Name and Specification
                         </td>
                         <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor" class="uppercase text-xs font-semibold pt-2 text-center">
@@ -111,59 +111,40 @@ const totalDirectCost = (id: number) => {
                             Unit
                         </td>
                         <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
-                            Amount
+                            Hourly Rate
                         </td>
                         <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Unit Cost
                         </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td class="uppercase text-xs font-semibold pt-2 text-right pr-4">
                             Amount
                         </td>
                     </tr>
                     <tr v-for="resource in filterResources(rnames.id)" :key="resource.id">
-                        <td class="text-center border border-gray-700" />
-                        <td class="p-2 border border-gray-700">
+                        <td class="text-center " />
+                        <td class="p-2 ">
                             {{ resource.description }}
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2 border border-gray-700 text-center">
+                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                             {{ resource.unit_count }}
                         </td>
-                        <td v-else class="p-2 border border-gray-700 text-center">
+                        <td v-else class="p-2  text-center">
                             {{ resource.quantity }}
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2 border border-gray-700 text-center">
+                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                             {{ resource.quantity }}
                         </td>
-                        <td v-else class="p-2 border border-gray-700 text-center">
+                        <td v-else class="p-2  text-center">
                             {{ resource.unit }}
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2 border border-gray-700 text-center">
+                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                             {{ resource.unit_cost + " / hour" }}
                         </td>
-                        <td v-else class="p-2 border border-gray-700 text-center">
+                        <td v-else class="p-2  text-center">
                             {{ resource.unit_cost + " / " + resource.unit }}
                         </td>
-                        <td class="border border-gray-700">
-                            <div class="flex">
-                                <div class="flex flex-col border-r border-gray-700 flex-1">
-                                    <div class="flex flex-col p-2 border-b border-gray-700">
-                                        <h4 class="font-bold uppercase text-sm flex-1">
-                                            In Words
-                                        </h4>
-                                        <span class="pl-4 flex-1">
-                                            {{ amountToWords(resource.total_cost) }}
-                                        </span>
-                                    </div>
-                                    <div class="flex flex-col p-2">
-                                        <h4 class="font-bold uppercase text-sm">
-                                            In Figures
-                                        </h4>
-                                        <span class="pl-4">
-                                            {{ accountingCurrency(resource.total_cost) }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                        <td class="p-2  text-right">
+                            {{ accountingCurrency(resource.total_cost) }}
                         </td>
                     </tr>
                     <tr v-if="filterResources(rnames.id)?.length > 0" class="border-b border-gray-700 text-sm font-bold">
