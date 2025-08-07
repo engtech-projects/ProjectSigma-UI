@@ -6,8 +6,10 @@ const positionStore = usePositionStore()
 const projectStore = useProjectStore()
 const revisionStore = useRevisionStore()
 projectStore.$reset()
-positionStore.getAllPositions()
-revisionStore.getAllRevisions()
+onMounted(() => {
+    positionStore.getAllPositions()
+    revisionStore.getAllRevisions()
+})
 definePageMeta({
     layout: "default",
 })
