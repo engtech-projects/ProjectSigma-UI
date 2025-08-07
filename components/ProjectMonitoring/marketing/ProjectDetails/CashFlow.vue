@@ -139,7 +139,10 @@ const updateCashFlow = async () => {
                     </tbody>
                 </table>
 
-                <form @submit.prevent="updateCashFlow">
+                <form
+                    v-show="!projectStore.viewState"
+                    @submit.prevent="updateCashFlow"
+                >
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div class="border border-gray-300 p-4">
                             <h3 class="font-bold mb-2 text-4xl">

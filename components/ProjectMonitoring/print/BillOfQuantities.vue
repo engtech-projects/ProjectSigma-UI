@@ -1,6 +1,9 @@
 <template>
     <!-- Header -->
     <div class="mb-4">
+        <div class="mb-4">
+            <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" :document-code="useInventoryDocCode.mrr" />
+        </div>
         <div class="mb-6">
             <div class="flex flex-col">
                 <div class="flex mb-4">
@@ -251,12 +254,12 @@
                 :signatory="{
                     name: 'Angel A. Abrau',
                     title: 'Authorized Managing Officer',
-                    subtitle: 'ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE)'
+                    subtitle: projectStore.information.license
                 }"
             />
-            <div class="flex items-center text-sm gap-4 mt-10">
+            <div class="flex items-center text-sm gap-4 mt-16">
                 <span>DATE:</span>
-                <span class="underline">{{ fullDate(new Date()) }}</span>
+                <span class="underline">{{ fullDate(new Date(projectStore.information.contract_date)) }}</span>
             </div>
         </div>
     </div>

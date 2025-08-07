@@ -10,11 +10,6 @@ const { title, headerColumns, data } = defineProps<{
     headerColumns: HeaderColumn[];
     data: any;
 }>()
-const grandTotal = computed(() => {
-    return data.items.reduce((total:any, item:any) => {
-        return total + (item.ext_price || 0)
-    }, 0)
-})
 </script>
 
 <template>
@@ -33,22 +28,22 @@ const grandTotal = computed(() => {
                         <div class="grid grid-cols-2 items-center w-full gap-y-2">
                             <label class="text-sm font-medium text-gray-700">Supplier:</label>
                             <div class="text-sm">
-                                {{ data.supplier }}
+                                {{ data.supplier_name }}
                             </div>
 
                             <label class="text-sm font-medium text-gray-700">Reference:</label>
                             <div class="text-sm underline">
-                                {{ data.metadata?.reference }}
+                                {{ data.reference }}
                             </div>
 
                             <label class="text-sm font-medium text-gray-700">Terms of Payment:</label>
                             <div class="text-sm">
-                                {{ data.metadata?.terms_of_payment }}
+                                {{ data.terms_of_payment }}
                             </div>
 
                             <label class="text-sm font-medium text-gray-700">Particulars:</label>
                             <div class="text-sm underline">
-                                {{ data.metadata?.particulars }}
+                                {{ data.particulars }}
                             </div>
                         </div>
                     </div>
@@ -85,7 +80,7 @@ const grandTotal = computed(() => {
                         <div class="flex items-center justify-between w-full">
                             <label class="w-40 text-sm font-medium text-gray-700">Source PO:</label>
                             <div class="flex-1 text-sm underline">
-                                {{ data.source_po ?? "N/A" }}
+                                {{ data.metadata?.source_po ?? "N/A" }}
                             </div>
                         </div>
                     </div>
@@ -115,10 +110,10 @@ const grandTotal = computed(() => {
                                     {{ item.item_description }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
-                                    {{ item.metadata?.specification }}
+                                    {{ item.specification }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
-                                    {{ item.metadata?.actual_brand_purchase }}
+                                    {{ item.actual_brand_purchase }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
                                     {{ item.quantity }}
@@ -127,23 +122,23 @@ const grandTotal = computed(() => {
                                     {{ item.uom_name }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
-                                    {{ useFormatCurrency(item.metadata?.unit_price || 0) }}
+                                    {{ useFormatCurrency(item.unit_price || 0) }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
                                     {{ useFormatCurrency(item.ext_price || 0) }}
                                 </td>
                                 <td class="border px-2 py-1 text-center">
-                                    <div v-if="item.metadata?.status === 'Accepted'" class="flex items-center justify-center">
+                                    <div v-if="item.acceptance_status === 'Accepted'" class="flex items-center justify-center">
                                         <Icon name="mdi:check-circle" class="h-5 w-5 text-green-700" />
                                     </div>
                                 </td>
                                 <td class="border px-2 py-1 text-center">
-                                    <div v-if="item.metadata?.status === 'Rejected'" class="flex items-center justify-center">
+                                    <div v-if="item.acceptance_status === 'Rejected'" class="flex items-center justify-center">
                                         <Icon name="mdi:close-circle" class="h-5 w-5 text-red-700" />
                                     </div>
                                 </td>
                                 <td class="border px-2 py-1 text-center">
-                                    {{ item.metadata?.remarks }}
+                                    {{ item.remarks }}
                                 </td>
                             </tr>
                         </tbody>
@@ -171,7 +166,7 @@ const grandTotal = computed(() => {
                                     Grand Total
                                 </td>
                                 <td class="border px-2 py-1 text-right font-bold text-sm">
-                                    ₱{{ useFormatCurrency(grandTotal) }}
+                                    ₱{{ useFormatCurrency(data.metadata?.grand_total || 0) }}
                                 </td>
                                 <td />
                             </tr>

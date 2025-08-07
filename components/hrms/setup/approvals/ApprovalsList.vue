@@ -23,6 +23,9 @@ const model = defineModel({ required: true, type: Object })
             </div>
             <div v-else>
                 <span class="font-semibold">Please Fix Approval</span>
+                <span class="hidden">
+                    {{ model }}
+                </span>
             </div>
         </div>
     </div>

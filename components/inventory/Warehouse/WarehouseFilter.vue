@@ -95,7 +95,7 @@ const filterWarehouse = async () => {
                                     </h2>
                                 </div>
                                 <div class="p-4">
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div class="grid grid-cols-1 gap-8">
                                         <div class="group">
                                             <div class="flex items-start space-x-3">
                                                 <div class="flex-1 min-w-0">
@@ -142,7 +142,7 @@ const filterWarehouse = async () => {
                                 <div class="p-4 border-b border-gray-100">
                                     <div class="flex items-center justify-between">
                                         <h2 class="text-lg font-medium text-gray-900">
-                                            PSS Manager
+                                            PSS
                                         </h2>
 
                                         <!-- Intelligent Action Button -->
@@ -172,18 +172,12 @@ const filterWarehouse = async () => {
                                     </div>
                                 </div>
 
-                                <div class="p-4">
-                                    <div v-if="isSet && warehouseDetails.warehouse_pss?.user" class="space-y-4">
-                                        <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="p-2">
+                                    <div v-if="isSet && warehouseDetails.warehouse_pss" class="space-y-2">
+                                        <div class="flex items-start space-x-4 p-2 bg-gray-50 rounded-lg">
                                             <div class="flex-1 min-w-0">
                                                 <p class="text-sm font-medium text-gray-900 truncate">
-                                                    {{ warehouseDetails.warehouse_pss?.user?.employee?.fullname_first }}
-                                                </p>
-                                                <p class="text-xs text-gray-500 truncate">
-                                                    {{ warehouseDetails.warehouse_pss?.user?.employee?.current_position }}
-                                                </p>
-                                                <p class="text-xs text-gray-400 truncate">
-                                                    {{ warehouseDetails.warehouse_pss?.user?.employee?.current_department }}
+                                                    {{ warehouseDetails.warehouse_pss?.employee?.fullname_last }}
                                                 </p>
                                             </div>
                                             <div class="w-2 h-2 bg-green-500 rounded-full shrink-0 mt-2" />

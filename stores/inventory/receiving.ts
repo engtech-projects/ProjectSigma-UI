@@ -70,14 +70,6 @@ export const useReceivingStore = defineStore("receivingStore", {
             list: [] as Array<ReceivingDetails>,
             pagination: {},
         },
-        items: {
-            isLoading: false,
-            isLoaded: false,
-            details: {} as ReceivingItem,
-            list: [],
-            params: {},
-            pagination: {},
-        },
         allRequests: {
             isLoading: false,
             isLoaded: false,
@@ -85,28 +77,12 @@ export const useReceivingStore = defineStore("receivingStore", {
             params: {},
             pagination: {},
         },
-        myApprovals: {
+        warehouseReceivings: {
             isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
             pagination: {},
-        },
-        myRequests: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {},
-            pagination: {},
-        },
-        approvalList: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {},
-            pagination: {},
-            errorMessage: "",
-            successMessage: "",
         },
         errorMessage: "",
         successMessage: "",
@@ -115,7 +91,7 @@ export const useReceivingStore = defineStore("receivingStore", {
     actions: {
         async getAllRequests () {
             await useInventoryApi(
-                "/api/material-receiving/all-request",
+                "/api/material-receiving/resource",
                 {
                     method: "GET",
                     params: this.allRequests.params,
@@ -125,86 +101,13 @@ export const useReceivingStore = defineStore("receivingStore", {
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.list = response._data.data.data
+                            this.allRequests.list = response._data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                             this.allRequests.isLoaded = true
-                        }
-                    },
-                }
-            )
-        },
-        async getMyRequests () {
-            await useInventoryApi(
-                "/api/material-receiving/my-request",
-                {
-                    method: "GET",
-                    params: this.myRequests.params,
-                    onRequest: () => {
-                        this.myRequests.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.myRequests.isLoading = false
-                        if (response.ok) {
-                            this.myRequests.isLoaded = true
-                            this.myRequests.list = response._data.data.data
-                            this.myRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
-                            }
-                        } else {
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getMyApprovals () {
-            await useInventoryApi(
-                "/api/material-receiving/my-approvals",
-                {
-                    method: "GET",
-                    params: this.myApprovals.params,
-                    onRequest: () => {
-                        this.myApprovals.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.myApprovals.isLoading = false
-                        if (response.ok) {
-                            this.myApprovals.isLoaded = true
-                            this.myApprovals.list = response._data.data.data
-                            this.myApprovals.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
-                            }
-                        } else {
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async fetchReceivings () {
-            await useInventoryApi(
-                "/api/material-receiving/resource",
-                {
-                    method: "GET",
-                    params: this.receiving.params,
-                    onRequest: () => {
-                        this.receiving.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.receiving.isLoading = false
-                        if (response.ok) {
-                            this.receiving.list = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -233,42 +136,26 @@ export const useReceivingStore = defineStore("receivingStore", {
         },
         async fetchReceivingByWarehouseId (id: any) {
             await useInventoryApi(
-                "/api/material-receiving/warehouse/" + id,
+                "/api/warehouse/material-receivings/" + id,
                 {
                     method: "GET",
                     watch: false,
                     onRequest: () => {
-                        this.receiving.isLoading = true
+                        this.warehouseReceivings.isLoading = true
+                    },
+                    onResponseError: ({ response }) => {
+                        this.warehouseReceivings.isLoading = false
+                        throw new Error(response._data.message)
                     },
                     onResponse: ({ response }) => {
-                        this.receiving.isLoading = false
+                        this.warehouseReceivings.isLoading = false
                         if (response.ok) {
-                            this.receiving.details = response._data.data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async storeRequest () {
-            await useInventoryApiO(
-                "/api/material-receiving/resource",
-                {
-                    method: "POST",
-                    body: {
-                        ...this.receiving.form,
-                        details: this.receiving.details, // Include details
-                    },
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.reloadResources()
-                            this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.warehouseReceivings.list = response._data.data
+                            this.warehouseReceivings.pagination = {
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last
+                            }
                         }
                     },
                 }
@@ -291,18 +178,25 @@ export const useReceivingStore = defineStore("receivingStore", {
                 }
             )
         },
-        async approveApprovalForm (id: number) {
-            this.successMessage = ""
+        async updateReceiving (resource: any) {
             this.errorMessage = ""
-            await useInventoryApi(
-                "/api/approvals/approve/RequestStock/" + id,
+            this.successMessage = ""
+
+            await useInventoryApiO(
+                `/api/material-receiving/resource/${resource.id}`,
                 {
-                    method: "POST",
+                    method: "PATCH",
+                    body: resource,
+                    watch: false,
+                    onRequest: () => {
+                        this.receiving.isLoading = true
+                    },
                     onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
+                        this.receiving.isLoading = false
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data
@@ -311,31 +205,32 @@ export const useReceivingStore = defineStore("receivingStore", {
                 }
             )
         },
-        async denyApprovalForm (id: string) {
-            this.successMessage = ""
-            this.errorMessage = ""
-            const formData = new FormData()
-            formData.append("id", id)
-            formData.append("remarks", this.remarks)
-            await useInventoryApi(
-                "/api/approvals/disapprove/RequestStock/" + id,
+        // ITEMS PROCESSING
+        async updateReceivingItem (resource: any) {
+            await useInventoryApiO(
+                "/api/material-receiving/item/resource/" + resource.id,
                 {
-                    method: "POST",
-                    body: formData,
+                    method: "PATCH",
+                    watch: false,
+                    body: resource,
+                    onRequest: () => {
+                        this.receiving.isLoading = true
+                    },
                     onResponseError: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         if (response.ok) {
                             this.successMessage = response._data.message
-                            return response._data
                         }
                     },
                 }
             )
         },
-        async acceptAllItem (id: number, data: any) {
+        async acceptAllItem (id: number) {
             this.errorMessage = ""
             this.successMessage = ""
 
@@ -343,16 +238,17 @@ export const useReceivingStore = defineStore("receivingStore", {
                 `/api/material-receiving/item/${id}/accept-all`,
                 {
                     method: "PATCH",
-                    body: JSON.stringify(data),
                     watch: false,
                     onRequest: () => {
-                        this.items.isLoading = true
+                        this.receiving.isLoading = true
                     },
                     onResponseError: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         if (response.ok) {
                             this.successMessage = response._data.message
                         }
@@ -365,19 +261,21 @@ export const useReceivingStore = defineStore("receivingStore", {
             this.successMessage = ""
 
             await useInventoryApi(
-                `/api/material-receiving/item/${id}/accept-with-details`,
+                `/api/material-receiving/item/${id}/accept-some`,
                 {
                     method: "PATCH",
                     body: JSON.stringify(data),
                     watch: false,
                     onRequest: () => {
-                        this.items.isLoading = true
+                        this.receiving.isLoading = true
                     },
                     onResponseError: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         if (response.ok) {
                             this.successMessage = response._data.message
                         }
@@ -396,13 +294,15 @@ export const useReceivingStore = defineStore("receivingStore", {
                     body: JSON.stringify(data),
                     watch: false,
                     onRequest: () => {
-                        this.items.isLoading = true
+                        this.receiving.isLoading = true
                     },
                     onResponseError: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
+                        this.receiving.isLoading = false
                         if (response.ok) {
                             this.successMessage = response._data.message
                         }
@@ -411,85 +311,16 @@ export const useReceivingStore = defineStore("receivingStore", {
             )
         },
 
-        async autoSaveReceivingData (id: number, payload: Record<string, any>) {
-            this.errorMessage = ""
-            this.successMessage = ""
-
-            try {
-                await useInventoryApi(
-                    `/api/material-receiving/${id}/save-details`,
-                    {
-                        method: "PATCH",
-                        body: JSON.stringify(payload),
-                        watch: false,
-                        onRequest: () => {
-                            this.receiving.isLoading = true
-                        },
-                        onResponseError: ({ response }: any) => {
-                            this.receiving.isLoading = false
-                            // Handle validation errors (422)
-                            if (response.status === 422 && response._data.errors) {
-                                const errorMessages = Object.values(response._data.errors).flat().join(", ")
-                                this.errorMessage = `Validation error: ${errorMessages}`
-                            } else {
-                                this.errorMessage = response._data.message || "Auto-save failed"
-                            }
-                            throw new Error(this.errorMessage)
-                        },
-                        onResponse: ({ response }: any) => {
-                            this.receiving.isLoading = false
-                            if (response.ok && response._data.success) {
-                                // Update the local receiving details with the refreshed data from backend
-                                if (response._data.data && this.receiving.details) {
-                                    // Update supplier_id in the main object if it was updated
-                                    if (payload.supplier_id !== undefined) {
-                                        this.receiving.details.supplier_id = response._data.data.supplier_id
-                                    }
-
-                                    // Update metadata with the saved values
-                                    if (!this.receiving.details.metadata) {
-                                        this.receiving.details.metadata = {}
-                                    }
-
-                                    // Merge the updated metadata from the response
-                                    this.receiving.details.metadata = merge(this.receiving.details.metadata, response._data.data.metadata)
-                                }
-
-                                // Optionally show success message (uncomment if needed)
-                                this.successMessage = response._data.message
-
-                                return response._data
-                            } else {
-                                this.errorMessage = response._data.message || "Auto-save failed"
-                                throw new Error(this.errorMessage)
-                            }
-                        },
-                    }
-                )
-            } catch (error) {
-                this.receiving.isLoading = false
-                throw error
-            }
-        },
-
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
         },
         reloadResources () {
-            const backup = this.approvalList.list
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
             }
-            if (this.myRequests.isLoaded) {
-                callFunctions.push(this.getMyRequests)
-            }
-            if (this.myApprovals.isLoaded) {
-                callFunctions.push(this.getMyApprovals)
-            }
             this.$reset()
-            this.approvalList.list = backup
             callFunctions.forEach((element) => {
                 element()
             })

@@ -1,6 +1,13 @@
 <script lang="ts" setup>
-import { useResourceStore } from "~/stores/project-monitoring/resource"
+import { useResourceStore, MARKETING_RESOURCES } from "~/stores/project-monitoring/resource"
 import { useTaskStore } from "~/stores/project-monitoring/task"
+
+const prop = defineProps({
+    isMarketing: {
+        type: Boolean,
+        default: true
+    },
+})
 
 const resourceStore = useResourceStore()
 const taskStore = useTaskStore()
@@ -60,6 +67,20 @@ const removeResource = async (id: number) => {
         boardLoading.value = false
     }
 }
+
+const orderedMarketingResources = computed(() => {
+    const names = resourceStore.resourceNames
+
+    if (!Array.isArray(names) || names.length === 0) {
+        return []
+    }
+    const resourceFilter = prop.isMarketing ? MARKETING_RESOURCES : names
+    return names.filter((r: any) => resourceFilter.includes(r.name))
+        .sort((a: any, b: any) => {
+            return MARKETING_RESOURCES.indexOf(a.name) - MARKETING_RESOURCES.indexOf(b.name)
+        })
+})
+
 </script>
 
 <template>
@@ -72,70 +93,51 @@ const removeResource = async (id: number) => {
         <table class="border border-collapse border-gray-800 w-full">
             <thead>
                 <tr>
-                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-2/12">
+                    <th class="uppercase py-2  font-normal border-b-0 w-2/12">
                         Pay Item No.
                     </th>
-                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-3/12">
+                    <th class="uppercase py-2  font-normal border-b-0 w-3/12">
                         Description
                     </th>
-                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-1/12">
+                    <th class="uppercase py-2  font-normal border-b-0 w-1/12">
                         Unit
                     </th>
-                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-1/12">
+                    <th class="uppercase py-2  font-normal border-b-0 w-1/12">
                         Qty
                     </th>
-                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-2/12">
-                        Unit Price (Pesos)
+                    <th class="uppercase py-2  font-normal border-b-0 w-2/12">
+                        Unit Price
                     </th>
-                    <th class="uppercase py-2 border border-gray-700 font-normal border-b-0 w-3/12">
-                        Amount (Pesos)
+                    <th class="uppercase py-2  font-normal border-b-0 w-3/12">
+                        Amount
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="text-center border border-gray-700">
+                    <td class="text-center ">
                         {{ task.name }}
                     </td>
-                    <td class="p-2 border border-gray-700">
+                    <td class="p-2 text-center">
                         {{ task.description }}
                     </td>
-                    <td class="p-2 border border-gray-700 text-center">
+                    <td class="p-2  text-center">
                         {{ task.unit }}
                     </td>
-                    <td class="p-2 border border-gray-700 text-center">
+                    <td class="p-2  text-center">
                         {{ task.quantity }}
                     </td>
-                    <td class="p-2 border border-gray-700 text-center">
+                    <td class="p-2  text-center">
                         {{ task.unit_price_with_unit }}
                     </td>
-                    <td class="border border-gray-700">
-                        <div class="flex">
-                            <div class="flex flex-col border-r border-gray-700 flex-1">
-                                <div class="flex flex-col p-2 border-b border-gray-700">
-                                    <h4 class="font-bold uppercase text-sm flex-1">
-                                        In Words
-                                    </h4>
-                                    <span class="pl-4 flex-1">
-                                        {{ amountToWords(task.amount) }}
-                                    </span>
-                                </div>
-                                <div class="flex flex-col p-2">
-                                    <h4 class="font-bold uppercase text-sm">
-                                        In Figures
-                                    </h4>
-                                    <span class="pl-4">
-                                        {{ accountingCurrency(task.amount) }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+                    <td class="p-2  text-center">
+                        {{ task.amount }}
                     </td>
                 </tr>
             </tbody>
             <AccountingLoadScreen :is-loading="boardLoading" />
-            <tbody v-for="(rnames, index) in resourceStore.resourceNames" :key="rnames.id">
-                <tr class="border-b border-gray-700">
+            <tbody v-for="(rnames, index) in orderedMarketingResources" :key="rnames.id">
+                <tr class="border-y border-gray-700">
                     <td colspan="6" class="px-2 py-1">
                         <div class="flex justify-between">
                             <span class="font-semibold uppercase">
@@ -149,7 +151,7 @@ const removeResource = async (id: number) => {
                         </div>
                     </td>
                 </tr>
-                <tr v-if="filterResources(rnames.id).length > 0">
+                <tr v-if="filterResources(rnames.id).length > 0" class="border-b border-gray-700">
                     <td />
                     <td class="uppercase text-xs font-semibold pt-2 text-center">
                         Name and Specification
@@ -170,7 +172,7 @@ const removeResource = async (id: number) => {
                         Unit
                     </td>
                     <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
-                        Amount
+                        Hourly Rate
                     </td>
                     <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                         Unit Cost
@@ -180,47 +182,32 @@ const removeResource = async (id: number) => {
                     </td>
                 </tr>
                 <tr v-for="resource in filterResources(rnames.id)" :key="resource.id">
-                    <td class="text-center border border-gray-700" />
-                    <td class="p-2 border border-gray-700">
+                    <td class="text-center " />
+                    <td class="p-2 text-center">
                         {{ resource.description }}
                     </td>
-                    <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2 border border-gray-700 text-center">
+                    <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                         {{ resource.unit_count }}
                     </td>
-                    <td v-else class="p-2 border border-gray-700 text-center">
+                    <td v-else class="p-2  text-center">
                         {{ resource.quantity }}
                     </td>
-                    <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2 border border-gray-700 text-center">
+                    <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                         {{ resource.quantity }}
                     </td>
-                    <td v-else class="p-2 border border-gray-700 text-center">
+                    <td v-else class="p-2  text-center">
                         {{ resource.unit }}
                     </td>
-                    <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2 border border-gray-700 text-center">
+                    <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                         {{ resource.unit_cost + " / hour" }}
                     </td>
-                    <td v-else class="p-2 border border-gray-700 text-center">
+                    <td v-else class="p-2  text-center">
                         {{ resource.unit_cost + " / " + resource.unit }}
                     </td>
-                    <td class="border border-gray-700">
+                    <td class="">
                         <div class="flex">
-                            <div class="flex flex-col border-r border-gray-700 flex-1">
-                                <div class="flex flex-col p-2 border-b border-gray-700">
-                                    <h4 class="font-bold uppercase text-sm flex-1">
-                                        In Words
-                                    </h4>
-                                    <span class="pl-4 flex-1">
-                                        {{ amountToWords(resource.total_cost) }}
-                                    </span>
-                                </div>
-                                <div class="flex flex-col p-2">
-                                    <h4 class="font-bold uppercase text-sm">
-                                        In Figures
-                                    </h4>
-                                    <span class="pl-4">
-                                        {{ accountingCurrency(resource.total_cost) }}
-                                    </span>
-                                </div>
+                            <div class="flex items-center justify-center flex-1">
+                                {{ resource.total_cost }}
                             </div>
                             <div class="flex flex-col p-2 justify-center gap-2">
                                 <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6" @click="editResource(resource)">
