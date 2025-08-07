@@ -8,10 +8,12 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 import { useResourceStore } from "~/stores/project-monitoring/resource"
 
 const route = useRoute()
-const projectId = route.query.id
-const projectStore = useProjectStore()
-const resourceStore = useResourceStore()
-await projectStore.getProject(projectId)
-projectStore.viewState = false
-await resourceStore.getResourceUnits()
+onMounted(async () => {
+    const projectId = route.query.id
+    const projectStore = useProjectStore()
+    const resourceStore = useResourceStore()
+    await projectStore.getProject(projectId)
+    projectStore.viewState = false
+    await resourceStore.getResourceUnits()
+})
 </script>
