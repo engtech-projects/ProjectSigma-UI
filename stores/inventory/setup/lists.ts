@@ -10,11 +10,7 @@ export const useSetupListsStore = defineStore("setuplists", {
                 page: 1,
                 pageSize: 20,
             },
-            pagination: {
-                page: 1,
-                pageSize: 20,
-                total: 0
-            },
+            pagination: {},
             errorMessage: "",
             successMessage: "",
         },
@@ -35,15 +31,20 @@ export const useSetupListsStore = defineStore("setuplists", {
                 page: 1,
                 pageSize: 20,
             },
-            pagination: {
-                page: 1,
-                pageSize: 20,
-                total: 0
-            },
+            pagination: {},
             errorMessage: "",
             successMessage: "",
         },
-        projectList: {
+        setupProjectsList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        warehouseList: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -55,7 +56,7 @@ export const useSetupListsStore = defineStore("setuplists", {
     }),
     actions: {
         async getDepartmentList () {
-            await useInventoryApiO(
+            await useInventoryApi(
                 "/api/setup/lists/department",
                 {
                     method: "GET",
@@ -68,11 +69,11 @@ export const useSetupListsStore = defineStore("setuplists", {
                         this.departmentList.isLoading = false
                         if (response.ok) {
                             this.departmentList.isLoaded = true
-                            this.departmentList.list = response._data.data.data
+                            this.departmentList.list = response._data.data
                             this.departmentList.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     }
@@ -80,7 +81,7 @@ export const useSetupListsStore = defineStore("setuplists", {
             )
         },
         async getEmployeeList () {
-            await useInventoryApiO(
+            await useInventoryApi(
                 "/api/setup/lists/employee",
                 {
                     method: "GET",
@@ -93,11 +94,11 @@ export const useSetupListsStore = defineStore("setuplists", {
                         this.employeeList.isLoading = false
                         if (response.ok) {
                             this.employeeList.isLoaded = true
-                            this.employeeList.list = response._data.data.data
+                            this.employeeList.list = response._data.data
                             this.employeeList.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     }
@@ -105,7 +106,7 @@ export const useSetupListsStore = defineStore("setuplists", {
             )
         },
         async getUsersList () {
-            await useInventoryApiO(
+            await useInventoryApi(
                 "/api/setup/lists/users",
                 {
                     method: "GET",
@@ -118,36 +119,61 @@ export const useSetupListsStore = defineStore("setuplists", {
                         this.usersList.isLoading = false
                         if (response.ok) {
                             this.usersList.isLoaded = true
-                            this.usersList.list = response._data.data.data
+                            this.usersList.list = response._data.data
                             this.usersList.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     }
                 }
             )
         },
-        async getProjectList () {
-            await useInventoryApiO(
+        async getSetupProjectsList () {
+            await useInventoryApi(
                 "/api/setup/lists/project",
                 {
                     method: "GET",
-                    params: this.projectList.params,
+                    params: this.setupProjectsList.params,
                     onRequest: () => {
-                        this.projectList.isLoading = true
-                        this.projectList.list = []
+                        this.setupProjectsList.isLoading = true
+                        this.setupProjectsList.list = []
                     },
                     onResponse: ({ response }) => {
-                        this.projectList.isLoading = false
+                        this.setupProjectsList.isLoading = false
                         if (response.ok) {
-                            this.projectList.isLoaded = true
-                            this.projectList.list = response._data.data.data
-                            this.projectList.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                            this.setupProjectsList.isLoaded = true
+                            this.setupProjectsList.list = response._data.data
+                            this.setupProjectsList.pagination = {
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
+                            }
+                        }
+                    }
+                }
+            )
+        },
+        async getWarehouseList () {
+            await useInventoryApi(
+                "/api/setup/lists/warehouse",
+                {
+                    method: "GET",
+                    params: this.warehouseList.params,
+                    onRequest: () => {
+                        this.warehouseList.isLoading = true
+                        this.warehouseList.list = []
+                    },
+                    onResponse: ({ response }) => {
+                        this.warehouseList.isLoading = false
+                        if (response.ok) {
+                            this.warehouseList.isLoaded = true
+                            this.warehouseList.list = response._data.data
+                            this.warehouseList.pagination = {
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         }
                     }

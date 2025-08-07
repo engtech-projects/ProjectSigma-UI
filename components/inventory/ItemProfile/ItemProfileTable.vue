@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
+import { useApprovalStore, APPROVAL_NEW_ITEM_PROFILE } from "@/stores/hrms/setup/approvals"
+
 const profileStore = useItemProfileStore()
 const { newItemProfile, formItemProfile, addItemProfile, uom } = storeToRefs(profileStore)
 defineProps({
@@ -10,6 +12,10 @@ defineProps({
     },
 })
 const snackbar = useSnackbar()
+const approvals = useApprovalStore()
+onMounted(async () => {
+    formItemProfile.value.approvals = await approvals.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
+})
 const doAddItemProfile = (item: any, id: number) => {
     newItemProfile.value.push(item)
     addItemProfile.value.splice(id, 1)

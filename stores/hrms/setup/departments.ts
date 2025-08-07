@@ -1,10 +1,10 @@
 import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
-
 export const useDepartmentStore = defineStore("departments", {
     state: () => ({
         isEdit: false,
+        isCreate: false,
         department:
         {
             id: null,
@@ -19,22 +19,16 @@ export const useDepartmentStore = defineStore("departments", {
     }),
     actions: {
         async getDepartment () {
-            const { data, error } = await useFetch(
+            const { data, error } = await useHRMSApi(
                 "/api/department/resource",
                 {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
                         this.pagination = {
-                            first_page: response._data.links.first,
-                            pages: response._data.meta.links,
-                            last_page: response._data.links.last,
+                            first_page: response._data.data.links.first,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.links.last,
                         }
                     },
                 }
@@ -59,12 +53,10 @@ export const useDepartmentStore = defineStore("departments", {
                         Accept: "application/json"
                     },
                     body: this.department,
-                    watch: false,
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getDepartment()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -93,7 +85,6 @@ export const useDepartmentStore = defineStore("departments", {
                 }
             )
             if (data.value) {
-                this.getDepartment()
                 this.reset()
                 this.successMessage = data.value.message
                 return data
@@ -119,7 +110,6 @@ export const useDepartmentStore = defineStore("departments", {
                 }
             )
             if (data.value) {
-                this.getDepartment()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {

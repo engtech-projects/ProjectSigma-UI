@@ -36,7 +36,12 @@ const addPosition = async () => {
 
 </script>
 <template>
-    <LayoutBoards title="Position Name" :loading="boardLoading">
+    <LayoutBoards v-if="positions.isCreate" title="Position Name" :loading="boardLoading">
+        <template #header-options>
+            <button class="text-gray-500 hover:text-white hover:bg-red-600 absolute top-2 right-2" @click="positions.isCreate = false">
+                <Icon name="mdi:close" class="h-5 w-5" />
+            </button>
+        </template>
         <div class="text-gray-500">
             <form @submit.prevent="addPosition">
                 <div class="grid grid-rows-1 mt-1">

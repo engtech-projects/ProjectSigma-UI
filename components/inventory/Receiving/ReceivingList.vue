@@ -9,7 +9,7 @@ defineProps({
     },
 })
 const mainStore = useReceivingStore()
-const { receiving } = storeToRefs(mainStore)
+const { warehouseReceivings } = storeToRefs(mainStore)
 
 const headers = [
     { name: "Reference No.", id: "reference_no" },
@@ -30,21 +30,21 @@ const showInformation = (data) => {
     })
 }
 const changePaginate = (newParams) => {
-    receiving.value.params.page = newParams.page ?? ""
+    warehouseReceivings.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="receiving.isLoading">
+    <LayoutLoadingContainer class="w-full" :loading="warehouseReceivings.isLoading">
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="items ?? []"
+                :datas="warehouseReceivings.list"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <PsCustomPagination :links="receiving.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="warehouseReceivings.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
 </template>

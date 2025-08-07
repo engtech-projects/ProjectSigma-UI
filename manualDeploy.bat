@@ -1,4 +1,3 @@
-
-npm ci;
-npm install;
-npm run generate;
+call npm ci
+call npm install
+call npm run generate

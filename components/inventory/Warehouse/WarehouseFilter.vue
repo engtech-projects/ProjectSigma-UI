@@ -8,7 +8,7 @@ const wareHouseId = ref(null)
 const mainPss = ref(null)
 
 const doSet = () => {
-    if (warehousePss.value.list.length > 0) {
+    if (warehousePss.value.list && warehousePss.value.list.length > 0) {
         mainPss.value = warehousePss.value.list[0].user_id
     } else {
         mainPss.value = null
@@ -19,7 +19,6 @@ const doSet = () => {
 const saveNewPss = async () => {
     warehousePssForm.value = {
         user_id: mainPss.value,
-        warehouse_id: wareHouseId.value,
     }
     await warehouseStore.updatePssWarehouse(wareHouseId.value)
     if (warehouseStore.errorMessage !== "") {
@@ -96,7 +95,7 @@ const filterWarehouse = async () => {
                                     </h2>
                                 </div>
                                 <div class="p-4">
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div class="grid grid-cols-1 gap-8">
                                         <div class="group">
                                             <div class="flex items-start space-x-3">
                                                 <div class="flex-1 min-w-0">
@@ -143,17 +142,17 @@ const filterWarehouse = async () => {
                                 <div class="p-4 border-b border-gray-100">
                                     <div class="flex items-center justify-between">
                                         <h2 class="text-lg font-medium text-gray-900">
-                                            PSS Manager
+                                            PSS
                                         </h2>
 
                                         <!-- Intelligent Action Button -->
-                                        <div v-show="AccessibilityTypes.inventory_warehouse_pssmanager && warehousePss.inWarehouse">
+                                        <div v-show="AccessibilityTypes.inventory_warehouse_pssmanager && wareHouseId">
                                             <button
                                                 v-if="isSet"
                                                 class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
                                                 @click="doSet"
                                             >
-                                                Edit
+                                                Set
                                             </button>
                                             <div v-else class="flex items-center space-x-3">
                                                 <button
@@ -173,18 +172,12 @@ const filterWarehouse = async () => {
                                     </div>
                                 </div>
 
-                                <div class="p-4">
-                                    <div v-if="isSet && warehouseDetails.warehouse_pss?.user" class="space-y-4">
-                                        <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="p-2">
+                                    <div v-if="isSet && warehouseDetails.warehouse_pss" class="space-y-2">
+                                        <div class="flex items-start space-x-4 p-2 bg-gray-50 rounded-lg">
                                             <div class="flex-1 min-w-0">
                                                 <p class="text-sm font-medium text-gray-900 truncate">
-                                                    {{ warehouseDetails.warehouse_pss?.user?.employee?.fullname_first }}
-                                                </p>
-                                                <p class="text-xs text-gray-500 truncate">
-                                                    {{ warehouseDetails.warehouse_pss?.user?.employee?.current_position }}
-                                                </p>
-                                                <p class="text-xs text-gray-400 truncate">
-                                                    {{ warehouseDetails.warehouse_pss?.user?.employee?.current_department }}
+                                                    {{ warehouseDetails.warehouse_pss?.employee?.fullname_last }}
                                                 </p>
                                             </div>
                                             <div class="w-2 h-2 bg-green-500 rounded-full shrink-0 mt-2" />
