@@ -1,86 +1,211 @@
 <script setup>
-
-import { storeToRefs } from "pinia"
-import { useMain } from "@/stores/hrms/setup/settings"
-
-const mains = useMain()
-
-const { updateSettings, errorMessage } = storeToRefs(mains)
-
+import { useHrmsSettingsStore } from "~/stores/hrms/setup/settings"
+const compId = useId()
+const settingsStore = useHrmsSettingsStore()
+const { allSettings } = storeToRefs(settingsStore)
 const snackbar = useSnackbar()
-const boardLoading = ref(false)
-
-const cancelEdit = () => {
-    mains.reset()
-}
-
-const edit = async () => {
+onMounted(async () => {
+    await settingsStore.getAllSettings()
+})
+const payrollLockupGroupAndDescription = [
+    {
+        name: HrmsSetupSettingsEnums.PAYROLL_20TH_LOCKUP_DAY_LIMIT,
+        description: "The days before this day will be locked for 20th Payroll Lockup",
+    },
+    {
+        name: HrmsSetupSettingsEnums.PAYROLL_20TH_LOCKUP_SCHEDULE_DAY_OF_MONTH,
+        description: "The day of the month to schedule 20th Payroll Lockup",
+    },
+    {
+        name: HrmsSetupSettingsEnums.PAYROLL_20TH_LOCKUP_SCHEDULE_TIME_OF_DAY,
+        description: "The time of day to schedule 20th Payroll Lockup",
+    },
+    {
+        name: HrmsSetupSettingsEnums.PAYROLL_5TH_LOCKUP_DAY_LIMIT,
+        description: "The days before this day will be locked for 5th Payroll Lockup",
+    },
+    {
+        name: HrmsSetupSettingsEnums.PAYROLL_5TH_LOCKUP_SCHEDULE_DAY_OF_MONTH,
+        description: "The day of the month to schedule 5th Payroll Lockup",
+    },
+    {
+        name: HrmsSetupSettingsEnums.PAYROLL_5TH_LOCKUP_SCHEDULE_TIME_OF_DAY,
+        description: "The time of day to schedule 5th Payroll Lockup",
+    },
+]
+const attendanceGroupAndDescription = [
+    {
+        name: HrmsSetupSettingsEnums.EARLY_LOGIN,
+        description: "Hours early an employee CAN login before employee's scheduled login time",
+    },
+    {
+        name: HrmsSetupSettingsEnums.LATE_LOGIN,
+        description: "Hours late an employee CAN logout after employee's scheduled logout time",
+    },
+    {
+        name: HrmsSetupSettingsEnums.LATE_ALLOWANCE,
+        description: "Minutes late allowed before being considered late.",
+    },
+    {
+        name: HrmsSetupSettingsEnums.LATE_ABSENT,
+        description: "Minutes late allowed before being considered absent.",
+    },
+]
+const specialAccessibilityGroupAndDescription = [
+    {
+        name: HrmsSetupSettingsEnums.USER_201_EDITOR,
+        description: "User accounts that can edit 201 data.",
+    },
+    {
+        name: HrmsSetupSettingsEnums.USER_SALARY_GRADE_SETTER,
+        description: "User accounts that can set salary grade.",
+    },
+]
+const updateSetting = async (id, value) => {
     try {
-        boardLoading.value = true
-        await mains.editone()
+        await settingsStore.updateSetting(id, value)
         snackbar.add({
+            message: "Setting updated successfully",
             type: "success",
-            text: mains.successMessage,
         })
-    } catch {
+    } catch (error) {
         snackbar.add({
+            message: error,
             type: "error",
-            text: errorMessage || "something went wrong."
         })
-    } finally {
-        mains.clearMessages()
-        boardLoading.value = false
     }
 }
-
 </script>
 <template>
-    <LayoutBoards title="Edit Setting Form" class="mb-5">
-        <form class="space-y-3 mt-5" @submit.prevent="edit">
-            <div class="grid grid-cols-2 gap-4 mb-3 mt-3">
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Setting Name
-                    </label>
+    <HrmsCommonTabsMainContainer>
+        <template #tab-titles>
+            <HrmsCommonTabsTabTitle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.hrms_setup_settings,
+                ])"
+                title="Payroll Lockup Settings"
+                :target-id="'tab1'+compId"
+            />
+            <HrmsCommonTabsTabTitle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.hrms_setup_settings,
+                ])"
+                title="Attendance Settings"
+                :target-id="'tab2'+compId"
+            />
+            <HrmsCommonTabsTabTitle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.SUPERADMIN,
+                ])"
+                title="Admin Settings"
+                :target-id="'tab3'+compId"
+            />
+        </template>
+        <template #tab-containers>
+            <HrmsCommonTabsTabContainer :id="'tab1'+compId">
+                <div class="space-y-4">
+                    <template v-for="setting, index in allSettings.data">
+                        <div v-if="payrollLockupGroupAndDescription.find((s) => s.name === setting.setting_name)" :key="setting.id" class="space-y-1">
+                            <span class="text-sm font-medium">{{ setting.setting_name }}</span>
+                            <div class="flex flex-col">
+                                <div class="flex flex-row gap-2">
+                                    <input
+                                        v-if="[
+                                            HrmsSetupSettingsEnums.PAYROLL_20TH_LOCKUP_DAY_LIMIT,
+                                            HrmsSetupSettingsEnums.PAYROLL_20TH_LOCKUP_SCHEDULE_DAY_OF_MONTH,
+                                            HrmsSetupSettingsEnums.PAYROLL_5TH_LOCKUP_DAY_LIMIT,
+                                            HrmsSetupSettingsEnums.PAYROLL_5TH_LOCKUP_SCHEDULE_DAY_OF_MONTH,
+                                        ].includes(setting.setting_name)"
+                                        v-model="allSettings.data[index].value"
+                                        type="number"
+                                        class="input w-1/2"
+                                        min="0"
+                                        max="23"
+                                    >
+                                    <input
+                                        v-if="[
+                                            HrmsSetupSettingsEnums.PAYROLL_20TH_LOCKUP_SCHEDULE_TIME_OF_DAY,
+                                            HrmsSetupSettingsEnums.PAYROLL_5TH_LOCKUP_SCHEDULE_TIME_OF_DAY,
+                                        ].includes(setting.setting_name)"
+                                        v-model="allSettings.data[index].value"
+                                        type="time"
+                                        class="input w-1/2"
+                                        step="60"
+                                        pattern="[0-9]{2}:[0-9]{2}"
+                                    >
+                                    <button
+                                        class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                                        @click="updateSetting(setting.id, setting.value)"
+                                    >
+                                        Set
+                                    </button>
+                                </div>
+                                <span class="text-xs text-gray-500">{{ payrollLockupGroupAndDescription.find((s) => s.name === setting.setting_name).description }}</span>
+                            </div>
+                        </div>
+                    </template>
                 </div>
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Setting Value
-                    </label>
+            </HrmsCommonTabsTabContainer>
+            <HrmsCommonTabsTabContainer :id="'tab2'+compId">
+                <div class="space-y-4">
+                    <template v-for="setting, index in allSettings.data">
+                        <div v-if="attendanceGroupAndDescription.find((s) => s.name === setting.setting_name)" :key="setting.id" class="space-y-1">
+                            <span class="text-sm font-medium">{{ setting.setting_name }}</span>
+                            <div class="flex flex-col">
+                                <div class="flex flex-row gap-2">
+                                    <input
+                                        v-if="[HrmsSetupSettingsEnums.EARLY_LOGIN, HrmsSetupSettingsEnums.LATE_LOGIN].includes(setting.setting_name)"
+                                        v-model="allSettings.data[index].value"
+                                        type="number"
+                                        class="input w-1/2"
+                                        min="0"
+                                        max="23"
+                                    >
+                                    <input
+                                        v-else-if="[HrmsSetupSettingsEnums.LATE_ALLOWANCE, HrmsSetupSettingsEnums.LATE_ABSENT].includes(setting.setting_name)"
+                                        v-model="allSettings.data[index].value"
+                                        type="number"
+                                        class="input w-1/2"
+                                    >
+                                    <button
+                                        class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                                        @click="updateSetting(setting.id, setting.value)"
+                                    >
+                                        Set
+                                    </button>
+                                </div>
+                                <span class="text-xs text-gray-500">{{ attendanceGroupAndDescription.find((s) => s.name === setting.setting_name).description }}</span>
+                            </div>
+                        </div>
+                    </template>
                 </div>
-            </div>
-            <div v-for="item, index in updateSettings" :key="index">
-                <div class="grid grid-cols-2 gap-4 mb-3 mt-3">
-                    <div>
-                        <input
-                            v-model="item.setting_name"
-                            type="text"
-                            class="bg-gray-50 border disabled border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Setting Name"
-                            disabled
-                            required
-                        >
-                    </div>
-                    <div>
-                        <input
-                            v-model="item.value"
-                            type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Setting Value"
-                            required
-                        >
-                    </div>
+            </HrmsCommonTabsTabContainer>
+            <HrmsCommonTabsTabContainer :id="'tab3'+compId">
+                <div class="space-y-4">
+                    <template v-for="setting, index in allSettings.data">
+                        <div v-if="specialAccessibilityGroupAndDescription.find((s) => s.name === setting.setting_name)" :key="setting.id" class="space-y-1">
+                            <span class="text-sm font-medium">{{ setting.setting_name }}</span>
+                            <div class="flex flex-col">
+                                <div class="flex flex-row justify-between">
+                                    <!-- TO CHANGE INPUT TO USER MULTI SELECT/TABLE CHECKBOX -->
+                                    <input
+                                        v-model="allSettings.data[index].value"
+                                        type="text"
+                                        class="input w-1/2"
+                                    >
+                                    <button
+                                        class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                                        @click="updateSetting(setting.id, setting.value)"
+                                    >
+                                        Set
+                                    </button>
+                                </div>
+                                <span class="text-xs text-gray-500">{{ specialAccessibilityGroupAndDescription.find((s) => s.name === setting.setting_name).description }}</span>
+                            </div>
+                        </div>
+                    </template>
                 </div>
-            </div>
-            <div class="flex space-x-1 justify-end">
-                <button type="button" class="w-18 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" @click="cancelEdit">
-                    Cancel
-                </button>
-                <button type="submit" class="w-38 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-0 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Save
-                    <Icon name="material-symbols:speaker-notes-outline-rounded" color="white" class="w-5 h-5" />
-                </button>
-            </div>
-        </form>
-    </LayoutBoards>
+            </HrmsCommonTabsTabContainer>
+        </template>
+    </HrmsCommonTabsMainContainer>
 </template>
