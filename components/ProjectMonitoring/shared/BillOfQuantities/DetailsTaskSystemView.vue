@@ -118,7 +118,7 @@ const orderedMarketingResources = computed(() => {
                     <td class="text-center ">
                         {{ task.name }}
                     </td>
-                    <td class="p-2 ">
+                    <td class="p-2 text-center">
                         {{ task.description }}
                     </td>
                     <td class="p-2  text-center">

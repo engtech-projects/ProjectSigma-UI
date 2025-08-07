@@ -45,10 +45,10 @@ const totalDirectCost = (id: number) => {
             <table class="border border-collapse border-gray-800 w-full">
                 <thead>
                     <tr>
-                        <th class="uppercase py-2  font-normal border-b-0 w-2/12">
+                        <th class="uppercase py-2 font-normal border-b-0 w-2/12">
                             ITEM NO.
                         </th>
-                        <th class="uppercase py-2  font-normal border-b-0 w-3/12">
+                        <th class="uppercase py-2 font-normal border-b-0 w-3/12">
                             ITEM DESCRIPTION
                         </th>
                         <th class="uppercase py-2  font-normal border-b-0 w-1/12">
@@ -66,7 +66,7 @@ const totalDirectCost = (id: number) => {
                         <td class="text-center ">
                             {{ task.name }}
                         </td>
-                        <td class="p-2 ">
+                        <td class="p-2 text-center">
                             {{ task.description }}
                         </td>
                         <td class="p-2  text-center">
@@ -81,7 +81,7 @@ const totalDirectCost = (id: number) => {
                 </tbody>
                 <AccountingLoadScreen :is-loading="boardLoading" />
                 <tbody v-for="(rnames, index) in resourceStore.resourceNames" :key="rnames.id">
-                    <tr class="">
+                    <tr class="border-y border-gray-700">
                         <td colspan="6" class="px-2 py-1">
                             <div class="flex justify-between">
                                 <span class="font-semibold uppercase">
