@@ -73,6 +73,17 @@ export const useRevisionStore = defineStore("revisionStore", {
             errorMessage: "",
             successMessage: "",
         },
+        allRevisionList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            pagination: {},
+            params: {
+                project_key: ""
+            },
+            errorMessage: "",
+            successMessage: "",
+        },
         list: [] as Project[],
         pagination: {},
         revisionSelected: null,
@@ -93,6 +104,35 @@ export const useRevisionStore = defineStore("revisionStore", {
         },
     }),
     actions: {
+        async getAllRevisions () {
+            await useProjectsApi(
+                "/api/project-revisions/revisions",
+                {
+                    method: "GET",
+                    params: this.allRevisionList.params,
+                    onRequest: () => {
+                        this.allRevisionList.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        this.allRevisionList.isLoading = false
+                        if (response.ok) {
+                            this.allRevisionList.list = response._data.data
+                            this.allRevisionList.pagination = {
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
+                            }
+                            this.allRevisionList.successMessage = response._data.message
+                        } else {
+                            this.allRevisionList.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
         async getRevisions () {
             await useProjectsApi(
                 `/api/projects/${this.getParams.project_id}/revisions`,
