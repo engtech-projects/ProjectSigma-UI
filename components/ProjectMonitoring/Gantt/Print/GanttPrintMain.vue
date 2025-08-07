@@ -25,10 +25,44 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
     }
     return res
 }
+function makeElementHorizontallyDraggable (el: any) {
+    let isDown = false
+    let startX: any
+    let scrollLeft: any
+
+    el.addEventListener("mousedown", (e: any) => {
+        isDown = true
+        el.classList.add("dragging")
+        startX = e.pageX - el.offsetLeft
+        scrollLeft = el.scrollLeft
+    })
+
+    el.addEventListener("mouseleave", () => {
+        isDown = false
+        el.classList.remove("dragging")
+    })
+
+    el.addEventListener("mouseup", () => {
+        isDown = false
+        el.classList.remove("dragging")
+    })
+
+    el.addEventListener("mousemove", (e: any) => {
+        if (!isDown) { return }
+        e.preventDefault()
+        const x = e.pageX - el.offsetLeft
+        const walk = (x - startX) * 1.5 // scroll speed
+        el.scrollLeft = scrollLeft - walk
+    })
+}
+onMounted(() => {
+    const ganttContainer = document.querySelector("#GanttContainer")
+    makeElementHorizontallyDraggable(ganttContainer)
+})
 </script>
 <template>
     <div>
-        <div class="overflow-auto">
+        <div id="GanttContainer" class="overflow-auto">
             <table class="min-w-full border border-black text-[10px] !table-fixed">
                 <thead>
                     <tr>
@@ -53,8 +87,11 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                         <th class="border border-black p-1 text-[10px]" rowspan="4">
                             RELATIVE WEIGHT
                         </th>
-                        <th class="border border-black p-1 text-[10px]" rowspan="4">
+                        <!-- <th class="border border-black p-1 text-[10px]" rowspan="4">
                             TOTAL DAYS
+                        </th> -->
+                        <th class="border border-black p-1 text-[10px]" rowspan="1" colspan="3">
+                            WORK SCHEDULE
                         </th>
                         <th class="border border-black p-1 text-[10px] font-normal" colspan="60" rowspan="2">
                             255 CD
@@ -62,6 +99,18 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                     </tr>
                     <tr />
                     <tr>
+                        <th class="border border-black p-1" rowspan="2">
+                            Duration
+                        </th>
+                        <th class="border border-black p-1 w-[100px]" rowspan="2">
+                            Start Date
+                        </th>
+                        <th class="border border-black p-1 w-[100px]" rowspan="2">
+                            End Date
+                        </th>
+                        <!-- <th class="border border-black p-1 w-[100px]" rowspan="2">
+                            Action
+                        </th> -->
                         <th class="border border-black p-1" colspan="6">
                             FEBRUARY
                         </th>
@@ -302,6 +351,12 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                         <td class="border border-black p-1" rowspan="2">
                             {{ gantt.totalDays }}
                         </td>
+                        <td class="border border-black p-1" rowspan="2">
+                            feb 1
+                        </td>
+                        <td class="border border-black p-1" rowspan="2">
+                            feb 2
+                        </td>
                         <td v-for="x in 60" :key="x" class="border border-black p-1 py-2" :class="gTimeline(5,60,x,index) ? 'bg-blue-400' : ''" />
                     </tr>
                     <tr>
@@ -320,7 +375,7 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                         <td class="border border-black p-1 font-bold" rowspan="1">
                             100%
                         </td>
-                        <td class="border border-black p-1" rowspan="1" />
+                        <td class="border border-black p-1" rowspan="1" colspan="3" />
                         <td v-for="x in 10" :key="x" class="border border-black p-1 py-2" colspan="6" />
                     </tr>
                     <tr>
@@ -330,7 +385,7 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                         <td class="border-y border-black p-1" colspan="4">
                             PLANNED ACCOMPLISHMENT PER MONTH
                         </td>
-                        <td class="border-y border-black p-1" colspan="3">
+                        <td class="border-y border-black p-1" colspan="5">
                             %AGE
                         </td>
                         <td v-for="y in 10" :key="y" class="border border-black p-1 py-1" colspan="6">
@@ -341,7 +396,7 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                         <td class="border-y border-black p-1" colspan="4">
                             CUMULATIVE ACCOMPLISHMENT PER MONTH
                         </td>
-                        <td class="border-y border-black p-1" colspan="3">
+                        <td class="border-y border-black p-1" colspan="5">
                             %AGE
                         </td>
                         <td v-for="y in 10" :key="y" class="border border-black p-1 py-1" colspan="6">
@@ -355,7 +410,7 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                         <td class="border-y border-black p-1" colspan="4">
                             PROJECTED AMOUNT
                         </td>
-                        <td class="border-y border-black p-1" colspan="3">
+                        <td class="border-y border-black p-1" colspan="5">
                             PESO
                         </td>
                         <td v-for="y in 10" :key="y" class="border border-black p-1 py-1 text-right" colspan="6">
@@ -366,7 +421,7 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                         <td class="border-y border-black p-1" colspan="4">
                             CUMMULATIVE AMOUNT
                         </td>
-                        <td class="border-y border-black p-1" colspan="3">
+                        <td class="border-y border-black p-1" colspan="5">
                             PESO
                         </td>
                         <td v-for="y in 10" :key="y" class="border border-black p-1 py-1 text-right" colspan="6">
@@ -376,7 +431,7 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                 </tbody>
                 <thead>
                     <tr class="border-black border-y-2">
-                        <th class="border border-black p-1 text-[10px] px-8 text-left" colspan="8">
+                        <th class="border border-black p-1 text-[10px] px-8 text-left" colspan="10">
                             EQUIPMENT UTILIZATION SCHEDULE
                         </th>
                         <th class="border border-black p-1" colspan="6">
@@ -416,7 +471,7 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                         <td class="border border-black p-1" colspan="5">
                             {{ equip.pName }}
                         </td>
-                        <td class="border border-black p-1 text-center" colspan="3">
+                        <td class="border border-black p-1 text-center" colspan="5">
                             {{ 1 }}
                         </td>
                         <td v-for="x in 10" :key="x" class="border border-black p-1 py-2" colspan="6" :class="equipmentTimeLine(x, equip) ? 'bg-orange-400' : ''" />
@@ -424,7 +479,7 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                 </tbody>
                 <thead>
                     <tr class="border-black border-y-2">
-                        <th class="border border-black p-1 text-[10px] px-8 text-left" colspan="8">
+                        <th class="border border-black p-1 text-[10px] px-8 text-left" colspan="10">
                             MANPOWER UTILIZATION SCHEDULE
                         </th>
                         <th class="border border-black p-1" colspan="6">
@@ -461,7 +516,7 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
                 </thead>
                 <tbody>
                     <tr v-for="mp,index in useGanttData().manpower" :key="index" class="border-black">
-                        <td class="border border-black p-1" colspan="8">
+                        <td class="border border-black p-1" colspan="10">
                             {{ mp.pName }}
                         </td>
                         <td v-for="x in 10" :key="x" class="border border-black p-1 py-2 bg-orange-100" colspan="6" />
@@ -571,5 +626,13 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
 </template>
 
 <style>
+#GanttContainer.dragging {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
 
+#GanttContainer {
+  cursor: grab;
+  cursor: -webkit-grab;
+}
 </style>

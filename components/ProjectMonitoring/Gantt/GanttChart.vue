@@ -183,12 +183,15 @@
                 </tr>
             </tbody>
         </table>
+        <ProjectMonitoringModalsWorkScheduleCreate :show-modal="showModal" @hide-modal="showModal = false" />
     </div>
 </template>
 
 <script setup>
 import * as JSGantt from "jsgantt-improved"
 import "jsgantt-improved/dist/jsgantt.css"
+
+const showModal = ref(false)
 
 onMounted(() => {
     const g = new JSGantt.GanttChart(
@@ -225,8 +228,17 @@ onMounted(() => {
             relativeWeight: {
                 title: "Relative Weight",
             },
-            totalDays: {
-                title: "Total Days",
+            duration: {
+                title: "Duration",
+            },
+            start: {
+                title: "Start",
+            },
+            end: {
+                title: "End",
+            },
+            action: {
+                title: "Action",
             },
         },
         vShowRes: 0, // Resource
@@ -238,10 +250,15 @@ onMounted(() => {
         vFormatArr: ["Day", "Week", "Month", "Quarter"], // Even with setUseSingleCell using Hour format on such a large chart can cause issues in some browsers,
     })
 
+    window.addTask = (pID) => {
+        showModal.value = true
+        console.log(pID)
+    }
     useGanttData().gantt.forEach((task) => {
+        task.action = `<span onClick="addTask(${task.pID})" class="text-green-500 cursor-pointer hover:underline">+ Add</span>`
+
         g.AddTaskItemObject(task)
     })
-
     g.Draw()
 })
 </script>
