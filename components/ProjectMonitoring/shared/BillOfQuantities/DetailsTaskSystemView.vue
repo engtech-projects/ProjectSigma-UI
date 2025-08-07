@@ -183,7 +183,7 @@ const orderedMarketingResources = computed(() => {
                 </tr>
                 <tr v-for="resource in filterResources(rnames.id)" :key="resource.id">
                     <td class="text-center " />
-                    <td class="p-2 ">
+                    <td class="p-2 text-center">
                         {{ resource.description }}
                     </td>
                     <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
