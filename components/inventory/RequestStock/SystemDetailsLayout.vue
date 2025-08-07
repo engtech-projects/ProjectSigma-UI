@@ -40,7 +40,7 @@ const handleRequest = async (type: "approve" | "deny", id: number) => {
         })
 
         main.$reset()
-        navigateTo({ path: "/inventory/requisition-slip" })
+        navigateTo({ path: "/inventory/request-stocks" })
     } catch (error: any) {
         snackbar.add({
             type: "error",

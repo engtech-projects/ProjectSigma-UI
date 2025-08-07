@@ -25,7 +25,7 @@ const headers = [
 ]
 
 useHead({
-    title: "Requisition Slip",
+    title: "Request Stocks",
 })
 
 </script>
