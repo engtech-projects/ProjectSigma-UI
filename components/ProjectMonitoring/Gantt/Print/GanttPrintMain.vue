@@ -4,7 +4,6 @@ const equipmentTimeLine = (index: number, eq: any) => {
     const current = index + 1
     const start = eq.pStart
     const end = eq.pEnd
-
     if (current > start && current <= end) {
         res = true
     }
@@ -12,7 +11,6 @@ const equipmentTimeLine = (index: number, eq: any) => {
 }
 const gTimeline = (start: number, end: number, current: number, index: number) => {
     let res = true
-
     if (current < start) {
         res = false
     }
@@ -25,6 +23,7 @@ const gTimeline = (start: number, end: number, current: number, index: number) =
     }
     return res
 }
+
 function makeElementHorizontallyDraggable (el: any) {
     let isDown = false
     let startX: any
@@ -36,17 +35,14 @@ function makeElementHorizontallyDraggable (el: any) {
         startX = e.pageX - el.offsetLeft
         scrollLeft = el.scrollLeft
     })
-
     el.addEventListener("mouseleave", () => {
         isDown = false
         el.classList.remove("dragging")
     })
-
     el.addEventListener("mouseup", () => {
         isDown = false
         el.classList.remove("dragging")
     })
-
     el.addEventListener("mousemove", (e: any) => {
         if (!isDown) { return }
         e.preventDefault()
@@ -87,9 +83,6 @@ onMounted(() => {
                         <th class="border border-black p-1 text-[10px]" rowspan="4">
                             RELATIVE WEIGHT
                         </th>
-                        <!-- <th class="border border-black p-1 text-[10px]" rowspan="4">
-                            TOTAL DAYS
-                        </th> -->
                         <th class="border border-black p-1 text-[10px]" rowspan="1" colspan="3">
                             WORK SCHEDULE
                         </th>
@@ -108,9 +101,6 @@ onMounted(() => {
                         <th class="border border-black p-1 w-[100px]" rowspan="2">
                             End Date
                         </th>
-                        <!-- <th class="border border-black p-1 w-[100px]" rowspan="2">
-                            Action
-                        </th> -->
                         <th class="border border-black p-1" colspan="6">
                             FEBRUARY
                         </th>

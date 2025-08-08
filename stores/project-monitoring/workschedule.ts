@@ -32,7 +32,7 @@ export const useWorkScheduleStore = defineStore("workschedule", {
     actions: {
         async getWorkSchedules (projectId: number, itemId: number) {
             this.isLoading.list = true
-            const { data, error } = await useProjectsApi(
+            await useProjectsApi(
                 `/api/projects/${projectId}/items/${itemId}/work-schedules`,
                 {
                     method: "GET",
@@ -40,20 +40,17 @@ export const useWorkScheduleStore = defineStore("workschedule", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.list = response._data.data
+                        } else {
+                            throw new Error(response._data?.message || "Failed to fetch work schedules")
                         }
                     },
+                    onResponseError: ({ response }) => {
+                        throw new Error(response?._data?.message || "Network error occurred")
+                    }
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
-
         async createWorkSchedule () {
-            this.successMessage = ""
-            this.errorMessage = ""
             await useProjectsApi(
                 `/api/projects/${this.workSchedule.project_id}/items/${this.workSchedule.item_id}/work-schedules`,
                 {
@@ -61,47 +58,37 @@ export const useWorkScheduleStore = defineStore("workschedule", {
                     body: this.workSchedule,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (!response.ok) {
-                            this.errorMessage = response._data.message
-                        } else {
-                            this.$reset()
-                            this.getWorkSchedules(this.workSchedule.project_id, this.workSchedule.item_id)
-                            this.successMessage = response._data.message
-                        }
+                        this.$reset()
+                        this.getWorkSchedules(
+                            this.workSchedule.project_id,
+                            this.workSchedule.item_id
+                        )
+                        this.successMessage = response._data?.message || "Work schedule created successfully"
                     },
+                    onResponseError: ({ response }) => {
+                        throw new Error(response?._data?.message || "Network or server error occurred")
+                    }
                 }
             )
         },
-
         async editWorkSchedule () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            const { data, error } = await useProjectsApi<any>(
+            await useProjectsApi(
                 `/api/projects/${this.workSchedule.project_id}/items/${this.workSchedule.item_id}/work-schedules/${this.workSchedule.id}`,
                 {
                     method: "PATCH",
                     body: this.workSchedule,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (!response.ok) {
-                            this.errorMessage = response._data.message
-                        } else {
-                            this.$reset()
-                            this.getWorkSchedules(this.workSchedule.project_id, this.workSchedule.item_id)
-                            this.successMessage = response._data.message
-                        }
+                        this.$reset()
+                        this.getWorkSchedules(this.workSchedule.project_id, this.workSchedule.item_id)
+                        this.successMessage = response._data.message
                     },
+                    onResponseError: ({ response }) => {
+                        throw new Error(response?._data?.message || "Network or server error occurred")
+                    }
                 }
             )
-            if (data.value) {
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
-
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""

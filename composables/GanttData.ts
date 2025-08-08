@@ -26,7 +26,6 @@ export const useGanttData = () => {
                 contractAmount: "57,120.00",
                 relativeWeight: "0.059%",
                 pClass: "gtaskpurple",
-
                 duration: "255", // This value can influence the date generation in a real app, but here it's illustrative
             },
             {
@@ -60,7 +59,6 @@ export const useGanttData = () => {
                 contractAmount: "107,520.00",
                 relativeWeight: "0.111%",
                 pClass: "gtaskpurple",
-
                 duration: "120"
             },
             {
@@ -88,7 +86,6 @@ export const useGanttData = () => {
                 contractAmount: "19,629.12",
                 relativeWeight: "0.020%",
                 pClass: "gtaskpurple",
-
                 duration: "255"
             },
             {
@@ -105,7 +102,6 @@ export const useGanttData = () => {
                 contractAmount: "288,201.77",
                 relativeWeight: "0.299%",
                 pClass: "gtaskpurple",
-
                 duration: "255"
             },
             {
@@ -122,7 +118,6 @@ export const useGanttData = () => {
                 contractAmount: "84,392.00",
                 relativeWeight: "0.087%",
                 pClass: "gtaskpurple",
-
                 duration: "255"
             },
             {
@@ -139,7 +134,6 @@ export const useGanttData = () => {
                 contractAmount: "61,600.00",
                 relativeWeight: "0.064%",
                 pClass: "gtaskpurple",
-
                 duration: "25"
             },
             {
@@ -167,7 +161,6 @@ export const useGanttData = () => {
                 contractAmount: "14,918.40",
                 relativeWeight: "0.015%",
                 pClass: "gtaskpurple",
-
                 duration: "25"
             },
             {
@@ -194,7 +187,6 @@ export const useGanttData = () => {
                 unitCost: "92.33",
                 contractAmount: "1,433,018.84",
                 relativeWeight: "1.485%",
-
                 duration: "83",
                 pClass: "gtaskpurple",
             },
@@ -211,7 +203,6 @@ export const useGanttData = () => {
                 unitCost: "6,177.88",
                 contractAmount: "2,617,197.08",
                 relativeWeight: "2.712%",
-
                 duration: "83",
                 pClass: "gtaskpurple",
             },
@@ -239,7 +230,6 @@ export const useGanttData = () => {
                 unitCost: "14.15",
                 contractAmount: "273,095.00",
                 relativeWeight: "0.283%",
-
                 duration: "83",
                 pClass: "gtaskpurple",
             },
@@ -267,7 +257,6 @@ export const useGanttData = () => {
                 unitCost: "313,850.88",
                 contractAmount: "313,850.88",
                 relativeWeight: "0.325%",
-
                 duration: "83",
                 pClass: "gtaskpurple",
             },
@@ -293,7 +282,6 @@ export const useGanttData = () => {
                 unitCost: "29.43",
                 contractAmount: "306,072.00",
                 relativeWeight: "0.317%",
-
                 duration: "25",
                 pClass: "gtaskpurple",
             },
@@ -310,7 +298,6 @@ export const useGanttData = () => {
                 unitCost: "334.63",
                 contractAmount: "18,377,849.48",
                 relativeWeight: "19.046%",
-
                 duration: "122",
                 pClass: "gtaskpurple",
             },
@@ -327,7 +314,6 @@ export const useGanttData = () => {
                 unitCost: "1,432.01",
                 contractAmount: "801,252.56",
                 relativeWeight: "0.830%",
-
                 duration: "122",
                 pClass: "gtaskpurple",
             },
@@ -344,7 +330,6 @@ export const useGanttData = () => {
                 unitCost: "7,690.16",
                 contractAmount: "64,957,344.00",
                 relativeWeight: "66.945%",
-
                 duration: "61",
                 pClass: "gtaskpurple",
             },
@@ -361,7 +346,6 @@ export const useGanttData = () => {
                 unitCost: "863.24",
                 contractAmount: "7,100,149.00",
                 relativeWeight: "7.358%",
-
                 duration: "61",
                 pClass: "gtaskpurple",
             },
