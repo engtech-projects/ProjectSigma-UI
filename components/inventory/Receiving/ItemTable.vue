@@ -4,7 +4,11 @@ defineProps<{
     headerColumns: HeaderColumn[]
 }>()
 const model = defineModel<Record<string, any>>({ default: () => ({}) })
-
+const calculatedGrandTotal = computed(() => {
+    return model.value.items?.reduce((total:any, item:any) => {
+        return total + (item.ext_price || 0)
+    }, 0) || 0
+})
 const canAcceptReject = computed(() => {
     const metadata = model.value.metadata || {}
     return !!(
@@ -60,7 +64,7 @@ const canAcceptReject = computed(() => {
                                     <strong>Grand Total:</strong>
                                 </p>
                                 <p class="text-md text-gray-900">
-                                    {{ useFormatCurrency(model.grand_total || 0) }}
+                                    {{ useFormatCurrency(calculatedGrandTotal || 0) }}
                                 </p>
                             </div>
                         </div>

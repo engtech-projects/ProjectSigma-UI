@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { useReceivingStore } from "~/stores/inventory/receiving"
+const mainStore = useReceivingStore()
+const { receiving } = storeToRefs(mainStore)
 useHead({
     title: "Receivings",
 })
@@ -24,7 +27,7 @@ useHead({
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="Form">
-                    <InventoryReceivingForm />
+                    <InventoryReceivingForm v-model="receiving.form" />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="allRequest">
                     <InventoryReceivingRequestAllRequests />

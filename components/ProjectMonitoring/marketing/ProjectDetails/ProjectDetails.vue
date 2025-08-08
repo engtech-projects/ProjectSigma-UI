@@ -16,7 +16,7 @@ defineProps({
     projectDetails: {
         type: Object,
         required: true,
-    }
+    },
 })
 </script>
 <template>
@@ -82,7 +82,7 @@ defineProps({
             <template #tab-options>
                 <ProjectAttachmentUploadButton />
                 <ProjectMonitoringProjectStageButton
-                    v-if="!projectStore.viewState && projectStore.information.stage.toLowerCase() !== useProjectMarketingStatusEnums.stages[useProjectMarketingStatusEnums.stages.length - 1].toLowerCase()"
+                    v-if="projectStore.information.stage.toLowerCase() !== useProjectMarketingStatusEnums.stages[useProjectMarketingStatusEnums.stages.length - 1].toLowerCase()"
                     :stage="projectDetails.stage"
                     @updating-stage="boardLoading = true"
                     @update-success="boardLoading = false"
