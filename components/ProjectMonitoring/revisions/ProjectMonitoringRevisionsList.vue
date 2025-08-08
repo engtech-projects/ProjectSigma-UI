@@ -1,42 +1,42 @@
 <script lang="ts" setup>
-const searchInput = ref("")
+import { storeToRefs } from "pinia"
+import { useRevisionStore } from "@/stores/project-monitoring/revisions"
+const revisionStore = useRevisionStore()
+const { allRevisionList } = storeToRefs(revisionStore)
+const headers = [
+    { name: "PROJECT NAME", id: "project_name", style: "text-left" },
+    { name: "PROJECT CODE", id: "project_code", style: "text-left" },
+]
+const actions = {
+    showTable: true,
+    custom: true,
+}
+const changePaginate = (newParams) => {
+    allRevisionList.value.params.page = newParams.page ?? ""
+}
+const projectDetails = (data: any) => {
+    navigateTo(`/project-monitoring/information/revision-view?id=${data.id}`)
+}
+const duplicateProject = (data: any) => {
+    revisionStore.copyToProjectRevisions(data.id)
+}
 </script>
-
 <template>
-    <LayoutBoards title="Project Revisions">
+    <LayoutBoards title="Projects List">
         <div class="text-gray-500 flex flex-col gap-4 p-2">
-            <BasicSearchBar v-model:searchInput="searchInput" class="w-full my-2" />
-            <table class="table-auto w-full border-collapse">
-                <thead>
-                    <tr>
-                        <th
-                            class="p-2 uppercase text-left bg-gray-100 text-xs"
-                        >
-                            Project Code
-                        </th>
-                        <th
-                            class="p-2 uppercase text-left bg-gray-100 text-xs"
-                        >
-                            Project Name
-                        </th>
-                        <th
-                            class="p-2 uppercase text-left bg-gray-100 text-xs"
-                        >
-                            Version
-                        </th>
-                        <th class="p-2 uppercase text-left bg-gray-100 text-xs">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td :colspan="4" class="text-center p-2">
-                            NO DATA
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <BasicSearchBar v-model="allRevisionList.params.project_key" class="w-full my-2" />
+            <LayoutLoadingContainer :loading="allRevisionList.isLoading">
+                <LayoutPsTable
+                    :header-columns="headers"
+                    :actions="actions"
+                    :datas="allRevisionList.list ?? []"
+                    @show-table="projectDetails"
+                    @custom-action="duplicateProject"
+                />
+                <div class="flex justify-center mx-auto">
+                    <PsCustomPagination :links="allRevisionList.pagination" @change-params="changePaginate" />
+                </div>
+            </LayoutLoadingContainer>
         </div>
     </LayoutBoards>
 </template>
