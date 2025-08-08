@@ -103,7 +103,7 @@ const updateSetting = async (id, value) => {
         </template>
         <template #tab-containers>
             <HrmsCommonTabsTabContainer :id="'tab1'+compId">
-                <div class="space-y-4">
+                <div class="space-y-2 p-2">
                     <template v-for="setting, index in allSettings.data">
                         <div v-if="payrollLockupGroupAndDescription.find((s) => s.name === setting.setting_name)" :key="setting.id" class="space-y-1">
                             <span class="text-sm font-medium">{{ setting.setting_name }}</span>
@@ -118,7 +118,7 @@ const updateSetting = async (id, value) => {
                                         ].includes(setting.setting_name)"
                                         v-model="allSettings.data[index].value"
                                         type="number"
-                                        class="input w-1/2"
+                                        class="input rounded-lg w-1/3"
                                         min="0"
                                         max="23"
                                     >
@@ -129,7 +129,7 @@ const updateSetting = async (id, value) => {
                                         ].includes(setting.setting_name)"
                                         v-model="allSettings.data[index].value"
                                         type="time"
-                                        class="input w-1/2"
+                                        class="input rounded-lg w-1/3"
                                         step="60"
                                         pattern="[0-9]{2}:[0-9]{2}"
                                     >
@@ -147,7 +147,7 @@ const updateSetting = async (id, value) => {
                 </div>
             </HrmsCommonTabsTabContainer>
             <HrmsCommonTabsTabContainer :id="'tab2'+compId">
-                <div class="space-y-4">
+                <div class="space-y-2 p-2">
                     <template v-for="setting, index in allSettings.data">
                         <div v-if="attendanceGroupAndDescription.find((s) => s.name === setting.setting_name)" :key="setting.id" class="space-y-1">
                             <span class="text-sm font-medium">{{ setting.setting_name }}</span>
@@ -157,7 +157,7 @@ const updateSetting = async (id, value) => {
                                         v-if="[HrmsSetupSettingsEnums.EARLY_LOGIN, HrmsSetupSettingsEnums.LATE_LOGOUT].includes(setting.setting_name)"
                                         v-model="allSettings.data[index].value"
                                         type="number"
-                                        class="input w-1/2"
+                                        class="input rounded-lg w-1/3"
                                         min="0"
                                         max="23"
                                     >
@@ -165,7 +165,7 @@ const updateSetting = async (id, value) => {
                                         v-else-if="[HrmsSetupSettingsEnums.LATE_ALLOWANCE, HrmsSetupSettingsEnums.LATE_ABSENT].includes(setting.setting_name)"
                                         v-model="allSettings.data[index].value"
                                         type="number"
-                                        class="input w-1/2"
+                                        class="input rounded-lg w-1/3"
                                     >
                                     <button
                                         class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
@@ -174,14 +174,19 @@ const updateSetting = async (id, value) => {
                                         Set
                                     </button>
                                 </div>
-                                <span class="text-xs text-gray-500">{{ attendanceGroupAndDescription.find((s) => s.name === setting.setting_name).description }}</span>
+                                <span
+                                    class="text-xs text-gray-500 opacity-0 transition-opacity duration-300"
+                                    :class="{ 'opacity-100': allSettings.data[index].value === '' }"
+                                >
+                                    {{ attendanceGroupAndDescription.find((s) => s.name === setting.setting_name).description }}
+                                </span>
                             </div>
                         </div>
                     </template>
                 </div>
             </HrmsCommonTabsTabContainer>
             <HrmsCommonTabsTabContainer :id="'tab3'+compId">
-                <div class="space-y-4">
+                <div class="space-y-2 p-2">
                     <template v-for="setting, index in allSettings.data">
                         <div v-if="specialAccessibilityGroupAndDescription.find((s) => s.name === setting.setting_name)" :key="setting.id" class="space-y-1">
                             <span class="text-sm font-medium">{{ setting.setting_name }}</span>
@@ -191,7 +196,7 @@ const updateSetting = async (id, value) => {
                                     <input
                                         v-model="allSettings.data[index].value"
                                         type="text"
-                                        class="input w-1/2"
+                                        class="input rounded-lg w-1/3"
                                     >
                                     <button
                                         class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
