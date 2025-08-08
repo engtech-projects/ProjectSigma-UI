@@ -121,6 +121,8 @@ const updateSetting = async (id, value) => {
                                         class="input rounded-lg w-1/3"
                                         min="0"
                                         max="23"
+                                        @focusin="allSettings.data[index].focus = true"
+                                        @focusout="allSettings.data[index].focus = false"
                                     >
                                     <input
                                         v-if="[
@@ -132,6 +134,8 @@ const updateSetting = async (id, value) => {
                                         class="input rounded-lg w-1/3"
                                         step="60"
                                         pattern="[0-9]{2}:[0-9]{2}"
+                                        @focusin="allSettings.data[index].focus = true"
+                                        @focusout="allSettings.data[index].focus = false"
                                     >
                                     <button
                                         class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
@@ -140,7 +144,12 @@ const updateSetting = async (id, value) => {
                                         Set
                                     </button>
                                 </div>
-                                <span class="text-xs text-gray-500">{{ payrollLockupGroupAndDescription.find((s) => s.name === setting.setting_name).description }}</span>
+                                <span
+                                    class="text-xs text-gray-500 opacity-0 transition-opacity duration-300"
+                                    :class="{ 'opacity-100': setting.focus }"
+                                >
+                                    {{ payrollLockupGroupAndDescription.find((s) => s.name === setting.setting_name).description }}
+                                </span>
                             </div>
                         </div>
                     </template>
@@ -160,12 +169,16 @@ const updateSetting = async (id, value) => {
                                         class="input rounded-lg w-1/3"
                                         min="0"
                                         max="23"
+                                        @focusin="allSettings.data[index].focus = true"
+                                        @focusout="allSettings.data[index].focus = false"
                                     >
                                     <input
                                         v-else-if="[HrmsSetupSettingsEnums.LATE_ALLOWANCE, HrmsSetupSettingsEnums.LATE_ABSENT].includes(setting.setting_name)"
                                         v-model="allSettings.data[index].value"
                                         type="number"
                                         class="input rounded-lg w-1/3"
+                                        @focusin="allSettings.data[index].focus = true"
+                                        @focusout="allSettings.data[index].focus = false"
                                     >
                                     <button
                                         class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
@@ -176,7 +189,7 @@ const updateSetting = async (id, value) => {
                                 </div>
                                 <span
                                     class="text-xs text-gray-500 opacity-0 transition-opacity duration-300"
-                                    :class="{ 'opacity-100': allSettings.data[index].value === '' }"
+                                    :class="{ 'opacity-100': setting.focus }"
                                 >
                                     {{ attendanceGroupAndDescription.find((s) => s.name === setting.setting_name).description }}
                                 </span>
@@ -197,6 +210,8 @@ const updateSetting = async (id, value) => {
                                         v-model="allSettings.data[index].value"
                                         type="text"
                                         class="input rounded-lg w-1/3"
+                                        @focusin="allSettings.data[index].focus = true"
+                                        @focusout="allSettings.data[index].focus = false"
                                     >
                                     <button
                                         class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
@@ -205,7 +220,12 @@ const updateSetting = async (id, value) => {
                                         Set
                                     </button>
                                 </div>
-                                <span class="text-xs text-gray-500">{{ specialAccessibilityGroupAndDescription.find((s) => s.name === setting.setting_name).description }}</span>
+                                <span
+                                    class="text-xs text-gray-500 opacity-0 transition-opacity duration-300"
+                                    :class="{ 'opacity-100': setting.focus }"
+                                >
+                                    {{ specialAccessibilityGroupAndDescription.find((s) => s.name === setting.setting_name).description }}
+                                </span>
                             </div>
                         </div>
                     </template>
