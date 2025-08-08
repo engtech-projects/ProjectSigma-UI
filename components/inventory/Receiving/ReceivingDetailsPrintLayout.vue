@@ -10,6 +10,11 @@ const { title, headerColumns, data } = defineProps<{
     headerColumns: HeaderColumn[];
     data: any;
 }>()
+const grandTotal = computed(() => {
+    return data.items.reduce((total:any, item:any) => {
+        return total + (item.ext_price || 0)
+    }, 0)
+})
 </script>
 
 <template>
@@ -166,7 +171,7 @@ const { title, headerColumns, data } = defineProps<{
                                     Grand Total
                                 </td>
                                 <td class="border px-2 py-1 text-right font-bold text-sm">
-                                    ₱{{ useFormatCurrency(data.metadata?.grand_total || 0) }}
+                                    ₱{{ useFormatCurrency(grandTotal) }}
                                 </td>
                                 <td />
                             </tr>

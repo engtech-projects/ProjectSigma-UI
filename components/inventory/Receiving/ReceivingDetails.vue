@@ -11,25 +11,18 @@ const main = useReceivingStore()
 const { receiving, remarks } = storeToRefs(main)
 const snackbar = useSnackbar()
 const isSaving = ref(false)
-const showEditSupplier = ref(false)
-const route = useRoute()
 const hasProcessedItem = computed(() => receiving.value.items.some(item => item.status === "Served"))
 
 const performAutoSave = useDebouncedFn(async () => {
     try {
         isSaving.value = true
-        if (!model.value) {
-            return
-        }
         await main.updateReceiving(model.value)
-        main.getOne(route.query.key)
         snackbar.add({ type: "success", text: "Saved successfully" })
     } catch (error: any) {
         snackbar.add({ type: "error", text: error.message || "Auto-save failed" })
     } finally {
         isSaving.value = false
     }
-    showEditSupplier.value = false
 }, 500)
 </script>
 
@@ -72,40 +65,15 @@ const performAutoSave = useDebouncedFn(async () => {
                         <div class="p-4">
                             <div class="grid grid-cols-2 items-center w-full gap-y-2">
                                 <label class="text-sm font-medium text-gray-700">Supplier:</label>
-                                <div
-                                    v-if="hasProcessedItem"
-                                    class="w-full px-4 py-3 rounded-lg transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700"
-                                >
-                                    {{ model.supplier_name }}
+                                <InventoryCommonSearchSupplierSelector
+                                    v-if="!hasProcessedItem"
+                                    v-model="model.supplier_id"
+                                    :disabled="hasProcessedItem"
+                                    @change="performAutoSave"
+                                />
+                                <div v-else class="w-full px-4 py-3 rounded-lg transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700">
+                                    {{ model.supplier }}
                                 </div>
-                                <template v-else>
-                                    <div v-if="!showEditSupplier" class="flex items-center gap-2">
-                                        <div
-                                            class="w-full px-4 py-3 rounded-lg transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700"
-                                        >
-                                            {{ model.supplier_name || "Choose Supplier" }}
-                                        </div>
-                                        <button
-                                            class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
-                                            @click="showEditSupplier = true"
-                                        >
-                                            Set
-                                        </button>
-                                    </div>
-                                    <div v-else class="flex items-center gap-2">
-                                        <InventoryCommonSearchSupplierSelector
-                                            v-model="model.supplier_id"
-                                            :disabled="hasProcessedItem"
-                                            @supplier-selected="performAutoSave"
-                                        />
-                                        <button
-                                            class="text-sm text-gray-400 hover:text-gray-600 font-medium transition-colors"
-                                            @click="showEditSupplier = false"
-                                        >
-                                            Cancel
-                                        </button>
-                                    </div>
-                                </template>
                                 <label class="text-sm font-medium text-gray-700">Reference:</label>
                                 <input
                                     v-model="model.reference"

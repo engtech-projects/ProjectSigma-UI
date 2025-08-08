@@ -3,32 +3,31 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const route = useRoute()
 const snackbar = useSnackbar()
+const attachments = ref()
 
 const projectStore = useProjectStore()
 
 const uploadAttachment = async (event: any) => {
     try {
-        const projectId = Number(route.query?.id)
-        if (!projectId || isNaN(projectId)) {
-            throw new Error("Project ID not found in the route")
+        const projectId = Number(route.params?.id)
+        if (!projectId) {
+            throw new Error("Missing project ID from route")
         }
 
-        const input = event.target as HTMLInputElement
-        const file = input.files?.[0]
+        const file = event.target.files[0]
         if (!file) {
             throw new Error("No file selected")
         }
-
         const formData = new FormData()
-        formData.append("attachment", file)
+        formData.append("attachments", file)
 
-        await projectStore.uploadAttachments(projectId, formData)
+        const files: File[] = [file]
+        await projectStore.uploadAttachments(projectId, files)
 
         snackbar.add({
             type: "success",
             text: "File uploaded successfully",
         })
-        input.value = ""
     } catch (error: any) {
         snackbar.add({
             type: "error",
@@ -36,11 +35,30 @@ const uploadAttachment = async (event: any) => {
         })
     }
 }
-
 </script>
 <template>
     <div class="flex flex-col gap-4">
         <div class="flex flex-row gap-4 justify-start mt-4">
+            LayoutFormPsSelect
+            v-model="attachments.form.attachment_name"
+            :options-list="[
+            'PLANS',
+            'PROGRAM OF WORKS',
+            'CONTRACT AGREEMENT',
+            'PERMIT',
+            'OTHERS'
+            ]"
+            class="w-full"
+            title="Attachment Type"
+            >
+
+            <LayoutFormPsTextInput
+                v-if="attachments?.form.attachment_name === 'OTHERS'"
+                v-model="attachments.form.other_type"
+                class="w-full"
+                title="File Name"
+            />
+
             <div class="w-full">
                 <label class="block mb-1 text-sm font-medium text-gray-900">
                     File

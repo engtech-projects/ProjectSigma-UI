@@ -126,6 +126,14 @@
                     icon="material-symbols:view-list"
                     single-nav-title="Projects List"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.INVENTORY_SETUP_LISTS_PROJECT_LIST,
+                    ])"
+                    linkarea="/inventory/setup/lists/warehouse-list"
+                    icon="material-symbols:view-list"
+                    single-nav-title="Warehouses List"
+                />
             </LayoutNavGroup>
         </LayoutNavGroup>
         <LayoutNavGroup
@@ -172,7 +180,7 @@
         />
         <LayoutNavSingle
             v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_REQUESTSTOCK_GROUP])"
-            linkarea="/inventory/request-stocks"
+            linkarea="/inventory/requisition-slip"
             icon="material-symbols-light:shopping-cart-checkout-sharp"
             single-nav-title="Requisition Slip"
         />

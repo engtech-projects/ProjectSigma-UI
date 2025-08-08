@@ -80,7 +80,6 @@ defineProps({
                 />
             </template>
             <template #tab-options>
-                <ProjectAttachmentUploadButton />
                 <ProjectMonitoringProjectStageButton
                     v-if="!projectStore.viewState && projectStore.information.stage.toLowerCase() !== useProjectMarketingStatusEnums.stages[useProjectMarketingStatusEnums.stages.length - 1].toLowerCase()"
                     :stage="projectDetails.stage"
