@@ -204,7 +204,7 @@ const updateSetting = async (id, value) => {
                         <div v-if="specialAccessibilityGroupAndDescription.find((s) => s.name === setting.setting_name)" :key="setting.id" class="space-y-1">
                             <span class="text-sm font-medium">{{ setting.setting_name }}</span>
                             <div class="flex flex-col">
-                                <div class="flex flex-row justify-between">
+                                <div class="flex flex-row">
                                     <!-- TO CHANGE INPUT TO USER MULTI SELECT/TABLE CHECKBOX -->
                                     <input
                                         v-model="allSettings.data[index].value"
