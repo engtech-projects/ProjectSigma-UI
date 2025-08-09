@@ -695,12 +695,12 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
-        async viewDocumentAttachments (projectId: number) {
+        async viewAttachments (projectId: number) {
             this.errorMessage = ""
             this.successMessage = ""
 
             await useProjectsApi(
-                `/api/v1/project/${projectId}/document-viewer`,
+                `/api/projects/${projectId}/document-viewer`,
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
