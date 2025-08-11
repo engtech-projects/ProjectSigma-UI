@@ -1,9 +1,4 @@
 <script setup>
-import { useMain } from "@/stores/hrms/setup/settings"
-
-const mains = useMain()
-mains.getAll()
-
 useHead({
     title: "Settings",
 })

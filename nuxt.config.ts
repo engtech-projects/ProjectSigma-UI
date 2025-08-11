@@ -13,6 +13,8 @@ export default defineNuxtConfig({
             "@nuxtjs/eslint-module",
             {
                 formatter: "stylish",
+                emitWarning: true,
+                failOnWarning: true,
                 failOnError: true,
                 lintOnStart: false,
                 fix: false // change to true when you want to auto fix eslint errors
