@@ -39,11 +39,21 @@ function getTotal (supplierIndex, itemIndex) {
     return 0
 }
 
+// New function to calculate supplier total
+function getSupplierTotal (supplierIndex) {
+    const supplier = props.suppliers[supplierIndex]
+    if (!supplier?.items) { return 0 }
+
+    return supplier.items.reduce((total, _item, itemIndex) => {
+        return total + getTotal(supplierIndex, itemIndex)
+    }, 0)
+}
+
 </script>
 <template>
-    <div class="w-full lg:w-1/2 overflow-hidden">
+    <div class="w-full lg:w-1/2 border-r bg-white overflow-hidden">
         <div class="overflow-auto max-h-96 lg:max-h-full" style="scrollbar-width: thin;">
-            <table class="min-w-full table-fixed text-xs sm:text-sm text-gray-800">
+            <table class="min-w-full table-auto text-xs sm:text-sm text-gray-800">
                 <thead class="sticky top-0 z-10 bg-white">
                     <tr class="bg-gradient-to-r from-green-50 to-green-100">
                         <th
@@ -129,10 +139,15 @@ function getTotal (supplierIndex, itemIndex) {
                             </td>
                         </template>
                     </tr>
-                    <tr>
-                        <th colspan="5" class="border-b border-r px-2 sm:px-4 py-2 sm:py-4 text-center text-lg  font-bold uppercase">
-                            total amount 12
-                        </th>
+                    <!-- Supplier Totals Row -->
+                    <tr class="border-t-2 text-center items-center">
+                        <template v-for="(supplier, colIndex) in suppliers" :key="'total-' + colIndex">
+                            <td colspan="3" class="border-r px-1 sm:px-3 py-2 sm:py-3 text-center font-bold" :style="{ minWidth: '80px' }">
+                                <div class="truncate text-lg" :title="formatCurrency(getSupplierTotal(colIndex))">
+                                    {{ formatCurrency(getSupplierTotal(colIndex)) }}
+                                </div>
+                            </td>
+                        </template>
                     </tr>
                 </tbody>
             </table>
