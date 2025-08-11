@@ -27,7 +27,7 @@ const viewAttachments = async () => {
     } catch (err: any) {
         snackbar.add({
             type: "error",
-            text: err.response?.data?.message || err.message || "Failed to open attachments viewer"
+            text: err.response?.data?.message
         })
     }
 }
