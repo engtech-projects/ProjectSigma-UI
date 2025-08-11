@@ -27,9 +27,17 @@
             v-if="useCheckAccessibility([
                 AccessibilityTypes.PROJECTMONITORING_REVISIONS,
             ])"
-            linkarea="/project-monitoring/projects"
+            linkarea="/project-monitoring/schedule-control"
             icon="ant-design:project-twotone"
-            single-nav-title="Projects"
+            single-nav-title="Schedule Control"
+        />
+        <LayoutNavSingle
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.PROJECTMONITORING_SETUP_POSITION,
+            ])"
+            linkarea="/project-monitoring/schedule-control/timeline-planner"
+            icon="icon-park-twotone:vertical-timeline"
+            single-nav-title="Timeline Planner"
         />
         <LayoutNavSingle
             v-if="useCheckAccessibility([

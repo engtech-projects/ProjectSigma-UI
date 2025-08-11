@@ -23,7 +23,7 @@ const ddata = computed(() => {
     return activeList.value.list ?? []
 })
 const projectDetails = (data: any) => {
-    navigateTo(`/project-monitoring/projects/timeline?id=${data.id}`)
+    navigateTo(`/project-monitoring/schedule-control/timeline?id=${data.id}`)
 }
 </script>
 <template>
