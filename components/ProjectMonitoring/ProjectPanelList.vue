@@ -1,22 +1,6 @@
-<script setup lang="ts">
-defineProps({
-    activeTab: {
-        type: String,
-        default: ""
-    },
-    tabs: {
-        type: Array,
-        default: () => []
-    }
-})
-const emit = defineEmits(["update:activeTab"])
-const handleClick = (tabKey: string) => {
-    emit("update:activeTab", tabKey)
-}
-</script>
 <template>
     <div class="flex">
-        <ul class="space-y-1 text-xs">
+        <ul class="space-y-1 text-sm">
             <template v-for="item in tabs" :key="item.key">
                 <li
                     :class="['cursor-pointer hover:bg-gray-100 px-2 py-1',{ 'bg-gray-200 font-bold': activeTab === item.key }]"
@@ -46,3 +30,23 @@ const handleClick = (tabKey: string) => {
         </ul>
     </div>
 </template>
+
+<script setup lang="ts">
+defineProps({
+    activeTab: {
+        type: String,
+        default: ""
+    },
+    tabs: {
+        type: Array,
+        default: () => []
+    }
+})
+
+const emit = defineEmits(["update:activeTab"])
+
+const handleClick = (tabKey: string) => {
+    emit("update:activeTab", tabKey)
+}
+
+</script>

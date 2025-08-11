@@ -14,12 +14,15 @@ const uploadAttachment = async (event: any) => {
             throw new Error("Missing project ID from route")
         }
 
-        const file = event.target.files[0]
-        if (!file) {
-            throw new Error("No file selected")
+        const input = event.target as HTMLInputElement
+        const files = input.files
+        if (!files || files.length === 0) {
+            throw new Error("No files selected")
         }
         const formData = new FormData()
-        formData.append("attachments", file)
+        for (const file of files) {
+            formData.append("attachments[]", file)
+        }
 
         const files: File[] = [file]
         await projectStore.uploadAttachments(projectId, files)
@@ -67,6 +70,7 @@ const uploadAttachment = async (event: any) => {
                     class="w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
                     type="file"
                     accept=".doc, .docx, .pdf, .png, .jpeg"
+                    multiple
                     @change="uploadAttachment"
                 >
             </div>

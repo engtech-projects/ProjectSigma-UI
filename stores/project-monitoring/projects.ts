@@ -159,18 +159,6 @@ export const useProjectStore = defineStore("projects", {
             errorMessage: "",
             successMessage: "",
         },
-        activeList: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {
-                status: "Scheduled",
-                stage_status: ProjectStatus.AWARDED
-            },
-            pagination: {},
-            errorMessage: "",
-            successMessage: "",
-        },
         cashFlowByQuarter: {
             cash_flow: {
                 q1: {
@@ -442,36 +430,6 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
-
-        async getActiveProjects () {
-            this.activeList.isLoading = true
-            const { data, error } = await useProjectsApi(
-                "/api/projects/resource",
-                {
-                    method: "GET",
-                    params: this.activeList.params,
-                    onRequest: () => {
-                        this.activeList.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.activeList.isLoading = false
-                        if (response.ok) {
-                            this.activeList.list = response._data.data
-                            this.activeList.pagination = {
-                                first_page: response._data.meta.first,
-                                pages: response._data.meta.links,
-                                last_page: response._data.meta.last,
-                            }
-                        }
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
         async getMyProjects () {
             this.myProjectList.isLoading = true
 
@@ -543,23 +501,6 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
-        async viewProjectRevisions (id: number) {
-            await useProjectsApi(
-                `/api/project-revisions/revisions/${id}`,
-                {
-                    method: "GET",
-                    onRequest: () => {
-                        this.isLoading.list = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.isLoading.list = false
-                        if (response.ok) {
-                            this.information = response._data.data.data
-                        }
-                    },
-                }
-            )
-        },
         async publishProposal (id: number) {
             this.successMessage = ""
             this.errorMessage = ""
@@ -589,7 +530,7 @@ export const useProjectStore = defineStore("projects", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useProjectsApi<any>(
-                "/api/projects/resource/" + this.information.id,
+                "/api/projects/" + this.information.id,
                 {
                     method: "PATCH",
                     body: this.information,
@@ -597,6 +538,8 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
             if (data.value) {
+                this.$reset()
+                this.getMyProjects()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -752,12 +695,12 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
-        async viewDocumentAttachments (projectId: number) {
+        async viewAttachments (projectId: number) {
             this.errorMessage = ""
             this.successMessage = ""
 
             await useProjectsApi(
-                `/api/v1/project/${projectId}/document-viewer`,
+                `/api/projects/${projectId}/document-viewer`,
                 {
                     method: "GET",
                     onResponse: ({ response }) => {

@@ -70,11 +70,6 @@ const sync = async () => {
                             url="/api/setup/sync/hrms/users"
                             api="inventory"
                         />
-                        <LayoutSyncItem
-                            name="Accessibilities"
-                            url="/api/setup/sync/hrms/accessibilities"
-                            api="inventory"
-                        />
                     </LayoutSyncGroup>
                     <LayoutSyncGroup name="PROJECT" url="/api/setup/sync/project/all" api="inventory">
                         <LayoutSyncItem

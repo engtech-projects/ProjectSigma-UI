@@ -13,7 +13,9 @@ const snackbar = useSnackbar()
 const isSaving = ref(false)
 const hasProcessedItem = computed(() => receiving.value.items.some(item => item.status === "Served"))
 
-const performAutoSave = useDebouncedFn(async () => {
+const performAutoSave = async (field: string, value: any) => {
+    if (!model.value.id) { return }
+
     try {
         isSaving.value = true
         await main.updateReceiving(model.value)
@@ -76,21 +78,21 @@ const performAutoSave = useDebouncedFn(async () => {
                                 </div>
                                 <label class="text-sm font-medium text-gray-700">Reference:</label>
                                 <input
-                                    v-model="model.reference"
-                                    :placeholder="model.reference"
+                                    v-model="model.metadata.reference"
+                                    :placeholder="model.metadata.reference"
                                     class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700"
-                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasProcessedItem }"
-                                    :disabled="hasProcessedItem"
-                                    @change="performAutoSave"
+                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
+                                    :disabled="hasAcceptedItems"
+                                    @input="!hasAcceptedItems && updateMetadata('reference', ($event.target as HTMLInputElement).value)"
                                 >
 
                                 <label class="text-sm font-medium text-gray-700">Terms of Payment:</label>
                                 <select
-                                    v-model="model.terms_of_payment"
+                                    v-model="model.metadata.terms_of_payment"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md appearance-none cursor-pointer"
-                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasProcessedItem }"
-                                    :disabled="hasProcessedItem"
-                                    @change="performAutoSave"
+                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
+                                    :disabled="hasAcceptedItems"
+                                    @change="!hasAcceptedItems && updateMetadata('terms_of_payment', ($event.target as HTMLSelectElement).value)"
                                 >
                                     <option value="">
                                         Choose Terms of Payment
@@ -102,12 +104,12 @@ const performAutoSave = useDebouncedFn(async () => {
 
                                 <label class="text-sm font-medium text-gray-700">Particulars:</label>
                                 <input
-                                    v-model="model.particulars"
-                                    placeholder="Enter particulars..."
+                                    v-model="model.metadata.particulars"
+                                    :placeholder="model.metadata?.particulars || 'Enter particulars...'"
                                     class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
-                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasProcessedItem }"
-                                    :disabled="hasProcessedItem"
-                                    @change="performAutoSave"
+                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
+                                    :disabled="hasAcceptedItems"
+                                    @input="!hasAcceptedItems && updateMetadata('particulars', ($event.target as HTMLSelectElement).value)"
                                 >
                             </div>
                         </div>

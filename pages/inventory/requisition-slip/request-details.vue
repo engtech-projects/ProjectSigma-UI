@@ -35,38 +35,31 @@ useHead({
             AccessibilityTypes.INVENTORY_REQUESTSTOCK_GROUP,
         ])"
     >
-        <LayoutBoards title="Requisition Slip" class="w-full" :loading="requestStock.isLoading">
-            <template #header-options>
-                <PsCloseBackOrPrevpage prev-page="/inventory/requisition-slip" />
-            </template>
-            <template #default>
-                <template v-if="validKey">
-                    <LayoutPrintAdvanced>
-                        <template #system-layout>
-                            <LayoutBoards>
-                                <InventoryRequestStockSystemDetailsLayout
-                                    v-if="requestStock.details"
-                                    title="Requisition Slip"
-                                    :data="requestStock.details"
-                                />
-                            </LayoutBoards>
-                        </template>
-                        <template #print-layout>
-                            <InventoryRequestStockPrintDetailsLayout
-                                v-if="requestStock.details"
-                                title="Requisition Slip"
-                                :data="requestStock.details"
-                                :header-columns="headers"
-                            />
-                        </template>
-                    </LayoutPrintAdvanced>
+        <template v-if="validKey">
+            <LayoutPrintAdvanced>
+                <template #system-layout>
+                    <LayoutBoards>
+                        <InventoryRequestStockSystemDetailsLayout
+                            v-if="requestStock.details"
+                            title="Requisition Slip"
+                            :data="requestStock.details"
+                        />
+                    </LayoutBoards>
                 </template>
-                <template v-else>
-                    <div class="grid grid-cols-1 gap-4">
-                        <h2> 404 NOT FOUND</h2>
-                    </div>
+                <template #print-layout>
+                    <InventoryRequestStockPrintDetailsLayout
+                        v-if="requestStock.details"
+                        title="Requisition Slip"
+                        :data="requestStock.details"
+                        :header-columns="headers"
+                    />
                 </template>
-            </template>
-        </LayoutBoards>
+            </LayoutPrintAdvanced>
+        </template>
+        <template v-else>
+            <div class="grid grid-cols-1 gap-4">
+                <h2> 404 NOT FOUND</h2>
+            </div>
+        </template>
     </LayoutAcessContainer>
 </template>
