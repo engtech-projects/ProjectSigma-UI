@@ -7,8 +7,8 @@ export const useGanttData = () => {
                 pGroup: 1,
                 pParent: 0,
                 pOpen: 1,
-                pStart: "", // Groups usually don't have start/end dates in this format
-                pEnd: "", // Groups usually don't have start/end dates in this format
+                pStart: "",
+                pEnd: "",
                 pClass: "ggroupblack",
                 description: "FACILITIES FOR THE ENGINEER"
             },
@@ -26,7 +26,7 @@ export const useGanttData = () => {
                 contractAmount: "57,120.00",
                 relativeWeight: "0.059%",
                 pClass: "gtaskpurple",
-                duration: "255", // This value can influence the date generation in a real app, but here it's illustrative
+                duration: "255",
             },
             {
                 pID: 3,
@@ -42,7 +42,6 @@ export const useGanttData = () => {
                 contractAmount: "40,320.00",
                 relativeWeight: "0.042%",
                 pClass: "gtaskpurple",
-
                 duration: "255"
             },
             {
@@ -179,8 +178,8 @@ export const useGanttData = () => {
                 pName: "404(1)a",
                 pGroup: 0,
                 pParent: 12,
-                pStart: "2024-07-20", // Random date
-                pEnd: "2024-08-15", // Random date (after pStart)
+                pStart: "2024-07-20",
+                pEnd: "2024-08-15",
                 description: "Reinforcing Steel (Deformed), Grade 40",
                 quantity: "15,520.62",
                 unit: "kgs.",
@@ -195,8 +194,8 @@ export const useGanttData = () => {
                 pName: "405(1)a3",
                 pGroup: 0,
                 pParent: 12,
-                pStart: "2024-08-01", // Random date
-                pEnd: "2024-09-01", // Random date (after pStart)
+                pStart: "2024-08-01",
+                pEnd: "2024-09-01",
                 description: "Structural Concrete, 20.68Mpa, Class A, 28 days",
                 quantity: "423.64",
                 unit: "cu.m.",
@@ -222,8 +221,8 @@ export const useGanttData = () => {
                 pName: "611(1)",
                 pGroup: 0,
                 pParent: 15,
-                pStart: "2024-09-10", // Random date
-                pEnd: "2024-10-05", // Random date (after pStart)
+                pStart: "2024-09-10",
+                pEnd: "2024-10-05",
                 description: "Trees Furnishing and Transplanting",
                 quantity: "19,300.00",
                 unit: "each",
@@ -249,8 +248,8 @@ export const useGanttData = () => {
                 pName: "1600(3)",
                 pGroup: 0,
                 pParent: 17,
-                pStart: "2024-10-01", // Random date
-                pEnd: "2024-10-28", // Random date (after pStart)
+                pStart: "2024-10-01",
+                pEnd: "2024-10-28",
                 description: "Dewatering",
                 quantity: "1.00",
                 unit: "l.s.",
@@ -274,8 +273,8 @@ export const useGanttData = () => {
                 pName: "1700(1)",
                 pGroup: 0,
                 pParent: 19,
-                pStart: "2024-10-15", // Random date
-                pEnd: "2024-11-05", // Random date (after pStart)
+                pStart: "2024-10-15",
+                pEnd: "2024-11-05",
                 description: "Clearing and Grubbing",
                 quantity: "10,400.00",
                 unit: "sq.m.",
@@ -290,8 +289,8 @@ export const useGanttData = () => {
                 pName: "1701(2)",
                 pGroup: 0,
                 pParent: 19,
-                pStart: "2024-11-01", // Random date
-                pEnd: "2024-12-10", // Random date (after pStart)
+                pStart: "2024-11-01",
+                pEnd: "2024-12-10",
                 description: "Surplus Common Excavation",
                 quantity: "54,919.91",
                 unit: "cu.m.",
@@ -306,8 +305,8 @@ export const useGanttData = () => {
                 pName: "1704(1)a",
                 pGroup: 0,
                 pParent: 19,
-                pStart: "2024-11-05", // Random date
-                pEnd: "2024-12-15", // Random date (after pStart)
+                pStart: "2024-11-05",
+                pEnd: "2024-12-15",
                 description: "Embankment (from Excavation)",
                 quantity: "559.53",
                 unit: "cu.m.",
@@ -322,8 +321,8 @@ export const useGanttData = () => {
                 pName: "1716(1)",
                 pGroup: 0,
                 pParent: 19,
-                pStart: "2024-12-01", // Random date
-                pEnd: "2025-01-20", // Random date (after pStart)
+                pStart: "2024-12-01",
+                pEnd: "2025-01-20",
                 description: "Structural Steel Sheet Pile, Furnished",
                 quantity: "8,400.00",
                 unit: "m.",
@@ -338,8 +337,8 @@ export const useGanttData = () => {
                 pName: "1716(12)",
                 pGroup: 0,
                 pParent: 19,
-                pStart: "2024-12-05", // Random date
-                pEnd: "2025-01-25", // Random date (after pStart)
+                pStart: "2024-12-05",
+                pEnd: "2025-01-25",
                 description: "Structural Steel Sheet Pile (Driven)",
                 quantity: "8,225.00",
                 unit: "m.",
@@ -365,11 +364,11 @@ export const useGanttData = () => {
             {
                 pID: 1,
                 pName: "Payloader",
-                pGroup: 0, // Assuming each listed item is an individual task/item
+                pGroup: 0,
                 pParent: 0,
                 pOpen: 1,
-                pClass: "ggroupblack", // No specific class mentioned, can be added if needed for styling
-                unit: "1", // Assuming common unit for equipment
+                pClass: "ggroupblack",
+                unit: "1",
                 pStart: "2024-07-01",
                 pEnd: "2024-07-20"
             },
@@ -532,11 +531,11 @@ export const useGanttData = () => {
             {
                 pID: 1,
                 pName: "Payloader",
-                pGroup: 0, // Assuming each listed item is an individual task/item
+                pGroup: 0,
                 pParent: 0,
                 pOpen: 1,
-                pClass: "ggroupblack", // No specific class mentioned, can be added if needed for styling
-                unit: "1", // Assuming common unit for equipment
+                pClass: "ggroupblack",
+                unit: "1",
                 pStart: 1,
                 pEnd: 7
             },

@@ -93,9 +93,5 @@ export const useWorkScheduleStore = defineStore("workschedule", {
             this.errorMessage = ""
             this.successMessage = ""
         },
-
-        reset () {
-            this.$reset()
-        },
     },
 })
