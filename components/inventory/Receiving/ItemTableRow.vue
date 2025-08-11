@@ -174,9 +174,19 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
         <td class="border px-2 py-1 text-center">
             <div v-if="model.metadata?.status" class="flex justify-center relative group">
                 <Icon
-                    :name="model.metadata?.status === 'Rejected' ? 'mdi:close-circle' : 'mdi:check-circle'"
-                    :class="model.metadata?.status === 'Rejected' ? 'text-red-700' : 'text-green-700'"
-                    class="h-8 w-8"
+                    v-if="model.acceptance_status === 'Accepted'"
+                    name="mdi:check-circle"
+                    class="text-green-700 h-8 w-8"
+                />
+                <Icon
+                    v-else-if="model.acceptance_status === 'Rejected'"
+                    name="mdi:close-circle"
+                    class="text-red-700 h-8 w-8"
+                />
+                <Icon
+                    v-else
+                    name="mdi:close-circle"
+                    class="text-gray-600 h-8 w-8"
                 />
                 <div
                     class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md"
