@@ -1,6 +1,7 @@
 <script setup>
 import { useProcurementRequestStore } from "~/stores/inventory/procurement/request"
 import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
+import { useCanvassSummaryStore } from "~/stores/inventory/procurement/canvassSummary"
 
 useHead({
     title: "PROCUREMENT REQUESTS",
@@ -9,6 +10,7 @@ useHead({
 const procurementRequestStore = useProcurementRequestStore()
 const { viewRequests } = storeToRefs(procurementRequestStore)
 const priceQuotationStore = usePriceQuotationStore()
+const canvassSummaryStore = useCanvassSummaryStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -180,11 +182,12 @@ const closeEditNcpo = () => {
                     </button>
                 </template>
                 <template #default>
-                    <InventoryCanvassSummaryForm
-                        v-model="canvassSummaryForm"
-                        :request-details="requestDetails"
-                        title="CANVASS SUMMARY"
-                    />
+                    <LayoutLoadingContainer :loading="canvassSummaryStore.createRequest.isLoading">
+                        <InventoryCanvassSummaryForm
+                            :cs-id="csId"
+                            @submit-success="closeCreateCs"
+                        />
+                    </LayoutLoadingContainer>
                 </template>
             </LayoutBoards>
             <LayoutBoards

@@ -3,7 +3,7 @@ import { defineStore } from "pinia"
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
 export const DENIED = "Denied"
-export const APPROVALS = "Price Quotation"
+export const APPROVALS = "Request Canvass Summary"
 export const REQ_STATUS = [
     APPROVED,
     PENDING,
@@ -37,34 +37,47 @@ export const AVAILABILITY = [
 ]
 
 export const PICKUP = "PICKUP"
-export const DELIVERED_ON_SITE = "DELEIVERED ON SITE"
+export const DELIVERED_ON_SITE = "DELIVERED ON SITE"
 export const FOR_SHIPMENT = "FOR SHIPMENT"
 export const DELIVERY_TERMS = [
     PICKUP,
     DELIVERED_ON_SITE,
     FOR_SHIPMENT,
 ]
+
 export interface CanvassSummaryDetails {
-    date: string;
-    rs_no: string;
-    project_code: string;
-    proj_address: string;
-    equipment_no: string;
-    cs_number: string;
-    conso_reference_no: string;
-}
-export interface CanvassSummaryItems {
-    id: string;
-    item_id: string;
-    specification: string;
-    qty: string;
-    unit: string;
-    total_amount: string;
-    terms_and_conditions: string;
+    id?: string;
+    price_quotation_id: string;
+    cs_number?: string;
+    terms_of_payment: string;
     availability: string;
     delivery_terms: string;
     remarks: string;
+    metadata?: any;
+    approvals?: any[];
+    request_status?: string;
+    created_by?: string;
+    created_at?: string;
+    updated_at?: string;
+    // Additional fields from price quotation relationship
+    date?: string;
+    project_code?: string;
+    conso_reference_no?: string;
 }
+
+export interface CanvassSummaryItems {
+    id?: string;
+    request_canvass_summary_id?: string;
+    item_id: string;
+    unit_price: string;
+    metadata?: any;
+    specification?: string;
+    qty?: string;
+    unit?: string;
+    total_amount?: string;
+    remarks?: string;
+}
+
 export interface SupplierDetails {
     supplier_id: string;
     sup_address: string;
@@ -74,6 +87,15 @@ export interface SupplierDetails {
     remarks: string;
 }
 
+export interface CanvassSummaryForm {
+    price_quotation_id: number;
+    terms_of_payment: string;
+    availability: string;
+    delivery_terms: string;
+    remarks: string;
+    items: any[];
+}
+
 export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
     state: () => ({
         canvassSummary: {
@@ -81,71 +103,68 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
             isLoaded: false,
             form: {} as CanvassSummaryDetails,
             items: [] as Array<CanvassSummaryItems>,
-            params: {
-                department_id: null as null | Number,
-            },
+            details: null as CanvassSummaryDetails | null,
+            params: {},
             list: [] as Array<CanvassSummaryDetails>,
             pagination: {},
+            errorMessage: "",
+            successMessage: "",
         },
-        allRequests: {
+        createRequest: {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
-            pagination: {},
-        },
-        myApprovals: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {},
-            pagination: {},
-        },
-        myRequests: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {},
-            pagination: {},
-        },
-        approvalList: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
+            details: {},
+            form: {
+                price_quotation_id: 0,
+                terms_of_payment: "",
+                availability: "",
+                delivery_terms: "",
+                remarks: "",
+                items: []
+            } as CanvassSummaryForm,
             params: {},
             pagination: {},
             errorMessage: "",
             successMessage: "",
+        },
+        myApprovals: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as Array<CanvassSummaryDetails>,
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        myRequests: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as Array<CanvassSummaryDetails>,
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        approvalList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as Array<CanvassSummaryDetails>,
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        items: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as Array<CanvassSummaryItems>,
         },
         errorMessage: "",
         successMessage: "",
         remarks: "",
     }),
     actions: {
-        async getAllRequests () {
-            await useInventoryApi(
-                "/api/canvass-summary/all-request",
-                {
-                    method: "GET",
-                    params: this.allRequests.params,
-                    onRequest: () => {
-                        this.allRequests.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.allRequests.isLoading = false
-                        if (response.ok) {
-                            this.allRequests.list = response._data.data.data
-                            this.allRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
-                            }
-                            this.allRequests.isLoaded = true
-                        }
-                    },
-                }
-            )
-        },
         async getMyRequests () {
             await useInventoryApi(
                 "/api/canvass-summary/my-request",
@@ -159,19 +178,23 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                         this.myRequests.isLoading = false
                         if (response.ok) {
                             this.myRequests.isLoaded = true
-                            this.myRequests.list = response._data.data.data
-                            this.myRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
-                            }
+                            this.myRequests.list = response._data.data.data || response._data.data
+                            this.myRequests.pagination = response._data.data.links
+                                ? {
+                                    first_page: response._data.data.links.first,
+                                    pages: response._data.data.meta.links,
+                                    last_page: response._data.data.links.last,
+                                }
+                                : {}
                         } else {
+                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
                 }
             )
         },
+
         async getMyApprovals () {
             await useInventoryApi(
                 "/api/canvass-summary/my-approvals",
@@ -185,32 +208,35 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
-                            this.myApprovals.list = response._data.data.data
+                            this.myApprovals.list = response._data.data.data || response._data.data
                             this.myApprovals.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
+                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
                 }
             )
         },
-        async fetchQuotations () {
+
+        async getCanvassSummaryResource () {
             await useInventoryApi(
-                "/api/canvass-summary/resource",
+                "/api/procurement-request/canvass-summary/resource",
                 {
                     method: "GET",
                     params: this.canvassSummary.params,
                     onRequest: () => {
                         this.canvassSummary.isLoading = true
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         this.canvassSummary.isLoading = false
                         if (response.ok) {
-                            this.canvassSummary.list = response._data.data
+                            this.canvassSummary.list = response._data.data.data || response._data.data
+                            this.canvassSummary.isLoaded = true
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -219,92 +245,94 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                 }
             )
         },
-        async fetchCanvassSummaryDetails (id: any) {
-            await useInventoryApi(
-                "/api/canvass-summary/resource/" + id,
-                {
-                    method: "GET",
-                    watch: false,
-                    onRequest: () => {
-                        this.canvassSummary.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.canvassSummary.isLoading = false
-                        if (response.ok) {
-                            this.canvassSummary.details = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async fetchCanvassSummaryByWarehouseId (id: any) {
-            await useInventoryApi(
-                "/api/canvass-summary/warehouse/" + id,
-                {
-                    method: "GET",
-                    watch: false,
-                    onRequest: () => {
-                        this.canvassSummary.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.canvassSummary.isLoading = false
-                        if (response.ok) {
-                            this.canvassSummary.details = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async storeRequest () {
-            await useInventoryApiO(
-                "/api/canvass-summary/resource",
-                {
-                    method: "POST",
-                    body: {
-                        ...this.canvassSummary.form,
-                        details: this.canvassSummary.details, // Include details
-                    },
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.reloadResources()
-                            this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
+
         async getOne (id: number) {
             return await useInventoryApiO(
-                "/api/canvass-summary/resource/" + id,
+                "/api/procurement-request/canvass-summary/" + id,
                 {
                     method: "GET",
                     params: this.canvassSummary.params,
+                    onRequest: () => {
+                        this.canvassSummary.isLoading = true
+                    },
                     onResponse: ({ response }: any) => {
+                        this.canvassSummary.isLoading = false
                         if (response.ok) {
                             this.canvassSummary.details = response._data.data
+                            this.canvassSummary.isLoaded = true
                             return response._data.data
                         } else {
+                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
                 }
             )
         },
+
+        async fetchCanvassSummaryByWarehouseId (id: any) {
+            await useInventoryApi(
+                "/api/procurement-request/canvass-summary/warehouse/" + id,
+                {
+                    method: "GET",
+                    watch: false,
+                    onRequest: () => {
+                        this.canvassSummary.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.canvassSummary.isLoading = false
+                        if (response.ok) {
+                            this.canvassSummary.details = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+
+        async storeRequest () {
+            this.clearMessages()
+            await useInventoryApiO(
+                "/api/procurement-request/canvass-summary/resource",
+                {
+                    method: "POST",
+                    body: this.createRequest.form,
+                    watch: false,
+                    onRequest: () => {
+                        this.canvassSummary.isLoading = true
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.canvassSummary.isLoading = false
+                        if (response.ok) {
+                            this.reloadResources()
+                            this.createRequest.successMessage = response._data.message
+                            this.createRequest.form = {
+                                price_quotation_id: 0,
+                                terms_of_payment: "",
+                                availability: "",
+                                delivery_terms: "",
+                                remarks: "",
+                                items: []
+                            }
+                            this.createRequest.isLoading = false
+                        }
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.createRequest.isLoading = false
+                        this.createRequest.errorMessage = response?._data?.message || "Unexpected server error while creating canvass summary."
+                        throw new Error(this.createRequest.errorMessage || "Unexpected server error while creating canvass summary.")
+                    }
+                }
+            )
+        },
+
         async approveApprovalForm (id: number) {
             this.successMessage = ""
             this.errorMessage = ""
             await useInventoryApi(
-                "/api/approvals/approve/CanvassSummary/" + id,
+                "/api/procurement-request/approvals/approve/CanvassSummary/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -320,6 +348,7 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                 }
             )
         },
+
         async denyApprovalForm (id: string) {
             this.successMessage = ""
             this.errorMessage = ""
@@ -327,7 +356,7 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
             formData.append("id", id)
             formData.append("remarks", this.remarks)
             await useInventoryApi(
-                "/api/approvals/disapprove/CanvassSummary/" + id,
+                "/api/procurement-request/approvals/disapprove/CanvassSummary/" + id,
                 {
                     method: "POST",
                     body: formData,
@@ -344,102 +373,38 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                 }
             )
         },
-        async acceptAllItem (id: number, data: { remarks: string }) {
-            this.errorMessage = ""
-            this.successMessage = ""
-
-            await useInventoryApi(
-                `/api/canvass-summary/item/${id}/accept-all`,
-                {
-                    method: "PATCH",
-                    body: JSON.stringify(data),
-                    watch: false,
-                    onRequest: () => {
-                        this.items.isLoading = true
-                    },
-                    onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        async acceptQtyRemarks (id: number, data: { acceptedQty: number, remarks: string }) {
-            this.errorMessage = ""
-            this.successMessage = ""
-
-            await useInventoryApi(
-                `/api/canvass-summary/item/${id}/accept-with-details`,
-                {
-                    method: "PATCH",
-                    body: JSON.stringify(data),
-                    watch: false,
-                    onRequest: () => {
-                        this.items.isLoading = true
-                    },
-                    onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        async rejectItem (id: number, data: { remarks: string }) {
-            this.errorMessage = ""
-            this.successMessage = ""
-
-            await useInventoryApi(
-                `/api/canvass-summary/item/${id}/reject`,
-                {
-                    method: "PATCH",
-                    body: JSON.stringify(data),
-                    watch: false,
-                    onRequest: () => {
-                        this.items.isLoading = true
-                    },
-                    onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
 
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
+            this.approvalList.errorMessage = ""
+            this.approvalList.successMessage = ""
         },
+
+        resetForm () {
+            this.canvassSummary.form = {} as CanvassSummaryDetails
+            this.canvassSummary.items = []
+            this.canvassSummary.details = null
+        },
+
         reloadResources () {
             const backup = this.approvalList.list
             const callFunctions = []
-            if (this.allRequests.isLoaded) {
-                callFunctions.push(this.getAllRequests)
-            }
             if (this.myRequests.isLoaded) {
                 callFunctions.push(this.getMyRequests)
             }
             if (this.myApprovals.isLoaded) {
                 callFunctions.push(this.getMyApprovals)
             }
+            if (this.canvassSummary.isLoaded) {
+                callFunctions.push(this.fetchQuotations)
+            }
+
             this.$reset()
             this.approvalList.list = backup
-            callFunctions.forEach((element) => {
-                element()
+
+            callFunctions.forEach((fn) => {
+                fn()
             })
         },
     },
