@@ -1,7 +1,7 @@
 <template>
     <div class="w-full max-w-4xl mx-auto">
         <!-- Header -->
-        <div class="b-white text-gray-500 px-2 shadow-lg py-2">
+        <div class="bg-white text-gray-500 px-2 shadow-lg py-2">
             <div class="flex items-center gap-3">
                 <h2 class="text-md font-bold">
                     PRF Transaction Flow
@@ -29,7 +29,6 @@
                             ]"
                         >
                             <div class="flex items-center gap-4">
-                                <!-- Content -->
                                 <div class="flex-1">
                                     <!-- Status Badge -->
                                     <div v-if="index === 0" class="mb-2">
@@ -96,79 +95,55 @@
                 </div>
             </div>
 
-            <!-- Management Flow -->
-            <div v-else class="p-6 space-y-4">
-                <!-- In Progress Item -->
-                <div
-                    class="bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200 rounded-xl p-6 transition-all duration-300 hover:shadow-lg"
-                >
-                    <div class="flex items-center gap-4">
-                        <!-- Status Badge -->
-                        <div class="flex-shrink-0">
-                            <span
-                                class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-yellow-500 text-white shadow-md"
-                            >
-                                <div class="w-2 h-2 bg-white rounded-full animate-pulse" />
-                                In Progress
-                            </span>
-                        </div>
+            <!-- Management/Viewing Flow -->
+            <div v-else class="p-2">
+                <div class="space-y-3">
+                    <div
+                        v-for="(transactionFlowModel, index) in transactionFlowModelList"
+                        :key="index"
+                        class="relative group transition-all duration-300"
+                    >
+                        <!-- Step Card -->
+                        <div
+                            :class="[
+                                'relative z-10 flex items-center gap-4 p-4 rounded-xl transition-all duration-300 border',
+                                getStepClasses(transactionFlowModel.status)
+                            ]"
+                        >
+                            <!-- Step Content -->
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-sm font-semibold text-gray-800 mb-1">
+                                            {{ transactionFlowModel.name }}
+                                        </h3>
+                                    </div>
 
-                        <!-- Content -->
-                        <div class="flex-1 min-w-0">
-                            <p class="text-lg font-medium text-gray-800 leading-relaxed">
-                                Sample 1 ipsum dolor sit amet sample create
-                            </p>
-                        </div>
-
-                        <!-- Action Button -->
-                        <div class="flex-shrink-0">
-                            <button
-                                class="px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-yellow-300"
-                            >
-                                Mark Done
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Completed Item -->
-                <div
-                    class="bg-gradient-to-r from-green-50 to-emerald-50 border-green-200 rounded-xl p-6 transition-all duration-300 hover:shadow-lg"
-                >
-                    <div class="flex items-center gap-4">
-                        <!-- Content -->
-                        <div class="flex-1">
-                            <p class="text-lg font-medium text-gray-800 leading-relaxed">
-                                Sample 2 ipsum dolor sit amet sample create
-                            </p>
-                        </div>
-
-                        <!-- Success Icon -->
-                        <div class="flex-shrink-0">
-                            <div
-                                class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-lg"
-                            >
-                                <svg
-                                    class="w-6 h-6 text-white"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M5 13l4 4L19 7"
-                                    />
-                                </svg>
+                                    <div>
+                                        <span
+                                            :class="[
+                                                'inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium',
+                                                getStatusBadgeClasses(transactionFlowModel.status)
+                                            ]"
+                                        >
+                                            <div
+                                                v-if="transactionFlowModel.status === 'in_progress'"
+                                                class="w-2 h-2 bg-current rounded-full animate-pulse"
+                                            />
+                                            {{ formatStatus(transactionFlowModel.status) }}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Progress Bar -->
         <div
-            v-if="transactionOption === 'create' && transactionFlowModelList.length > 0"
+            v-if="transactionFlowModelList.length > 0"
             class="mt-4 bg-white rounded-lg shadow-md p-4"
         >
             <div class="flex items-center gap-3">
@@ -176,11 +151,11 @@
                 <div class="flex-1 bg-gray-200 rounded-full h-2">
                     <div
                         class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500"
-                        :style="{ width: `${(1 / transactionFlowModelList.length) * 100}%` }"
+                        :style="{ width: `${calculateProgress()}%` }"
                     />
                 </div>
                 <span class="text-sm font-medium text-gray-600">
-                    1 of {{ transactionFlowModelList.length }}
+                    {{ getCompletedCount() }} of {{ transactionFlowModelList.length }}
                 </span>
             </div>
         </div>
@@ -188,7 +163,7 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
     transactionOption: {
         type: String,
         default: "create",
@@ -198,17 +173,63 @@ defineProps({
         default: () => [],
     },
 })
+const getStepClasses = (status) => {
+    switch (status) {
+    case "done":
+        return "bg-gradient-to-r from-green-50 to-emerald-50 border-green-200 shadow-sm"
+    case "pending":
+    default:
+        return "bg-gray-50 border-gray-200 hover:border-gray-300 hover:bg-gray-100"
+    }
+}
+
+const getStatusBadgeClasses = (status) => {
+    switch (status) {
+    case "done":
+        return "bg-green-600 text-green-100"
+    case "pending":
+    default:
+        return "bg-gray-100 text-gray-700"
+    }
+}
+
+const formatStatus = (status) => {
+    switch (status) {
+    case "done":
+        return "Done"
+    case "pending":
+    default:
+        return "Pending"
+    }
+}
+
+const getCompletedCount = () => {
+    if (props.transactionOption === "create") {
+        return 1
+    }
+    return props.transactionFlowModelList.filter(item => item.status === "done").length
+}
+
+const calculateProgress = () => {
+    if (props.transactionFlowModelList.length === 0) {
+        return 0
+    }
+
+    if (props.transactionOption === "create") {
+        return (1 / props.transactionFlowModelList.length) * 100
+    }
+
+    const completedCount = getCompletedCount()
+    return (completedCount / props.transactionFlowModelList.length) * 100
+}
 </script>
 
 <style scoped>
 /* Custom animations */
 @keyframes pulse {
-
-    0%,
-    100% {
+    0%, 100% {
         opacity: 1;
     }
-
     50% {
         opacity: 0.5;
     }
@@ -218,10 +239,12 @@ defineProps({
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Smooth transitions for all interactive elements */
 * {
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 300ms;
+}
+.group:hover .group-hover\:scale-105 {
+    transform: scale(1.05);
 }
 </style>
