@@ -185,7 +185,7 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                 />
                 <Icon
                     v-else
-                    name="mdi:close-circle"
+                    name="mdi:circle-slice-3"
                     class="text-gray-600 h-8 w-8"
                 />
                 <div
