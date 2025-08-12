@@ -679,7 +679,7 @@ export const useProjectStore = defineStore("projects", {
             this.successMessage = ""
             this.errorMessage = ""
             await useProjectsApi(
-                "/api/v1/project/" + projectId + "/marketing/attachments",
+                "/api/projects/" + projectId + "/attachments",
                 {
                     method: "POST",
                     body: params,
