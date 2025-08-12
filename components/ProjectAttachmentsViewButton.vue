@@ -27,7 +27,7 @@ const viewAttachments = async () => {
     } catch (err: any) {
         snackbar.add({
             type: "error",
-            text: err.response?.data?.message || err.message || "Failed to open attachments viewer"
+            text: err.response?.data?.message
         })
     }
 }
@@ -36,7 +36,7 @@ const viewAttachments = async () => {
 <template>
     <div class="flex flex-row gap-4 justify-start mt-4">
         <button
-            class="px-4 py-2 text-sm font-medium text-white bg-gray-50 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
+            class="px-4 py-2 text-sm font-medium text-black bg-gray-50 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
             @click="viewAttachments"
         >
             View Attachments
