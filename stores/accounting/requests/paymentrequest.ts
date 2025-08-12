@@ -56,6 +56,14 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             errorMessage: "",
             successMessage: "",
         },
+        transactionFlowModel: {
+            isLoading: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         paymentRequestAttachmentData: {
             isLoading: false,
             attachment_files: "",
@@ -268,6 +276,26 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 return error
             }
         },
+        async getTransactionFlow () {
+            this.isLoading.show = true
+            const { data, error } = await useAccountingApi(
+                "/api/get-all-transaction-flow-models",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading.show = false
+                        this.transactionFlowModel = response._data.data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         async editPaymentRequest () {
             this.paymentRequest.isLoading = true
             const { data, error } = await useAccountingApi(
@@ -386,6 +414,9 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             }
             if (this.myApprovals.isLoaded) {
                 callFunctions.push(this.getMyApprovals)
+            }
+            if (this.myDeniedRequests.isLoaded) {
+                callFunctions.push(this.getMyDeniedRequests)
             }
             this.$reset()
             this.paymentRequest.approvals = backup
