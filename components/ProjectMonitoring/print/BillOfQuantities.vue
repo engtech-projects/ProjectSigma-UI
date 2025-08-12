@@ -1,9 +1,6 @@
 <template>
     <!-- Header -->
     <div class="mb-4">
-        <div class="mb-4">
-            <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" :document-code="useInventoryDocCode.mrr" />
-        </div>
         <div class="mb-6">
             <div class="flex flex-col">
                 <div class="flex mb-4">
@@ -12,23 +9,23 @@
                         Department of Public Works and Highways
                     </p>
                 </div>
-                <div class="flex">
+                <div v-if="projectStore.information" class="flex">
                     <p class="w-1/3">
                         Contract ID:
                     </p>
-                    <span class="font-semibold w-2/3">{{ projectStore.information.contract_id }}</span>
+                    <span class="font-semibold w-2/3">{{ projectStore.information?.contract_id ?? 'N/A' }}</span>
                 </div>
                 <div class="flex">
                     <p class="w-1/3">
                         Contract Name:
                     </p>
-                    <span class="font-semibold w-2/3">{{ projectStore.information.name }}</span>
+                    <span class="font-semibold w-2/3">{{ projectStore.information?.name ?? 'N/A' }}</span>
                 </div>
                 <div class="flex">
                     <p class="w-1/3">
                         Contract Location:
                     </p>
-                    <span class="font-semibold w-2/3">{{ projectStore.information.location }}</span>
+                    <span class="font-semibold w-2/3">{{ projectStore.information?.location ?? 'N/A' }}</span>
                 </div>
             </div>
             <h1 class="text-2xl font-bold mt-4 mb-2 text-center block">
@@ -91,7 +88,7 @@
                     </th>
                 </tr>
             </thead>
-            <tbody v-for="phase in projectStore.information.phases" :key="phase.id">
+            <tbody v-for="phase in projectStore.information?.phases ?? []" :key="phase.id">
                 <tr class="border border-black">
                     <th colspan="1" class="bg-[#ffe598] text-left">
                         {{ phase.name }}
@@ -225,7 +222,7 @@
                     </td>
                     <td class="w-1 border border-black px-2 text-right">
                         <b>
-                            {{ accountingCurrency(projectStore.information.total_cost ?? 0) }}
+                            {{ accountingCurrency(projectStore.information?.total_cost ?? 0) }}
                         </b>
                     </td>
                 </tr>
@@ -239,7 +236,7 @@
                 <tr>
                     <th colspan="6">
                         <p class="text-left">
-                            {{ amountToWords(projectStore.information.total_cost ?? 0) }}
+                            {{ amountToWords(projectStore.information?.total_cost ?? 0) }}
                         </p>
                     </th>
                 </tr>
@@ -254,12 +251,12 @@
                 :signatory="{
                     name: 'Angel A. Abrau',
                     title: 'Authorized Managing Officer',
-                    subtitle: projectStore.information.license
+                    subtitle: projectStore.information?.license
                 }"
             />
             <div class="flex items-center text-sm gap-4 mt-16">
                 <span>DATE:</span>
-                <span class="underline">{{ fullDate(new Date(projectStore.information.contract_date)) }}</span>
+                <span class="underline">{{ fullDate(new Date(projectStore.information?.contract_date)) }}</span>
             </div>
         </div>
     </div>
