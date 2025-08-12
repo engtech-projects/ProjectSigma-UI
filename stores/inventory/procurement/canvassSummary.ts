@@ -15,25 +15,27 @@ export const CREDIT_7_DAYS = "CREDIT 7 DAYS"
 export const CREDIT_15_DAYS = "CREDIT 15 DAYS"
 export const CREDIT_30_DAYS = "CREDIT 30 DAYS"
 export const PROGRESS_BILLING = "PROGRESS BILLING"
+export const DOWNPAYMENT_50_50 = "50% DOWNPAYMENT, 50% UPON PICK UP"
+export const DOWNPAYMENT_30_70 = "30% DOWNPAYMENT, 70% UPON PICK UP"
 export const TERMS = [
     PREPAYMENT_IN_FULL,
     CREDIT_7_DAYS,
     CREDIT_15_DAYS,
     CREDIT_30_DAYS,
-    PROGRESS_BILLING
+    PROGRESS_BILLING,
+    DOWNPAYMENT_50_50,
+    DOWNPAYMENT_30_70
 ]
 
 export const AVAILABLE = "AVAILABLE"
 export const UNAVAILABLE = "UNAVAILABLE"
 export const ORDER_BASIS_7_DAYS = "ORDER BASIS 7 DAYS"
-export const ORDER_BASIS_15_DAYS = "ORDER BASIS 15 DAYS"
-export const ORDER_BASIS_30_DAYS = "ORDER BASIS 30 DAYS"
+export const ORDER_BASIS_10_DAYS = "ORDER BASIS 10 DAYS"
 export const AVAILABILITY = [
     AVAILABLE,
     UNAVAILABLE,
     ORDER_BASIS_7_DAYS,
-    ORDER_BASIS_15_DAYS,
-    ORDER_BASIS_30_DAYS,
+    ORDER_BASIS_10_DAYS,
 ]
 
 export const PICKUP = "PICKUP"
@@ -69,7 +71,6 @@ export interface CanvassSummaryItems {
     id?: string;
     request_canvass_summary_id?: string;
     item_id: string;
-    unit_price: string;
     metadata?: any;
     specification?: string;
     qty?: string;
@@ -83,7 +84,6 @@ export interface SupplierDetails {
     sup_address: string;
     contact_no: string;
     contact_person: string;
-    unit_price: string;
     remarks: string;
 }
 

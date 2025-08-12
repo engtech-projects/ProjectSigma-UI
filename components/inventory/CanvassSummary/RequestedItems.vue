@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from "vue"
 const props = defineProps({
     items: {
         type: Array,
@@ -69,14 +68,10 @@ function createAlignedItemsArray (supplierItems, allItems) {
             }
         }
 
-        // Return null if supplier doesn't have this item
         return null
     })
 }
 
-// function toggleItemSelection (index) {
-//     selectedItems.value[index] = selectedItems.value[index] !== true
-// }
 function toggleItemSelection (index) {
     const itemId = allUniqueItems.value[index]?.item_id
     if (!itemId) { return }
@@ -91,29 +86,6 @@ function itemBelongsToActiveSupplier (itemIndex) {
     return supplier?.items?.[itemIndex] !== null && supplier?.items?.[itemIndex] !== undefined
 }
 
-// function toggleSupplierHeader (supplierIndex) {
-//     activeSupplier.value = activeSupplier.value === supplierIndex ? null : supplierIndex
-// }
-
-// function highlightCell (rowIndex, supplierIndex) {
-//     return selectedItems.value[rowIndex] === true && activeSupplier.value === supplierIndex
-// }
-
-// function formatCurrency (value) {
-//     if (!value || isNaN(value)) { return null }
-//     return new Intl.NumberFormat("en-PH", {
-//         minimumFractionDigits: 2,
-//         maximumFractionDigits: 2
-//     }).format(value)
-// }
-
-// function getTotal (supplierIndex, itemIndex) {
-//     const supplierItem = transformedSuppliers.value[supplierIndex]?.items?.[itemIndex]
-//     if (supplierItem && supplierItem.qty && supplierItem.unit_price) {
-//         return supplierItem.qty * supplierItem.unit_price
-//     }
-//     return 0
-// }
 </script>
 
 <template>
@@ -121,25 +93,29 @@ function itemBelongsToActiveSupplier (itemIndex) {
         <div class="overflow-hidden max-h-96 lg:max-h-full">
             <table class="min-w-full table-auto text-xs sm:text-sm text-gray-800">
                 <thead class="sticky top-0 z-10 bg-white">
-                    <tr>
-                        <th colspan="5" class="text-center text-lg items-center font-bold border border-gray-700 uppercase py-12">
-                            requested items(s) / services
+                    <tr class="h-20">
+                        <th colspan="5" class="text-center text-lg font-bold border border-gray-700 border-r uppercase">
+                            <div class="flex items-center justify-center">
+                                <div class="text-center leading-tight">
+                                    requested items(s) / services
+                                </div>
+                            </div>
                         </th>
                     </tr>
-                    <tr class="font-semibold uppercase border border-gray-700 p-1">
-                        <th class="border-r border-gray-700 text-wrap w-12">
+                    <tr class="font-semibold uppercase border border-gray-700">
+                        <th class="border-r border-gray-700 text-wrap w-12 text-xs">
                             item no.
                         </th>
-                        <th class="border-r border-gray-700">
+                        <th class="border-r border-gray-700 text-xs">
                             item description
                         </th>
-                        <th class="border-r border-gray-700">
+                        <th class="border-r border-gray-700 text-xs">
                             specification
                         </th>
-                        <th class="border-r border-gray-700 w-10">
+                        <th class="border-r border-gray-700 w-10 text-xs">
                             qty
                         </th>
-                        <th class="border-r border-gray-700 text-wrap w-12 p-2">
+                        <th class="border-r border-gray-700 text-wrap w-12 p-1 text-xs">
                             unit of measurement
                         </th>
                     </tr>
@@ -156,30 +132,30 @@ function itemBelongsToActiveSupplier (itemIndex) {
                         ]"
                         @click="toggleItemSelection(index)"
                     >
-                        <td class="border-r border-gray-700 px-1 sm:px-3 py-2 sm:py-3 text-center font-medium text-gray-600 transition-all duration-200">
+                        <td class="border border-gray-700 px-1 sm:px-3 py-2 sm:py-3 text-center font-medium text-gray-600 transition-all duration-200">
                             {{ index + 1 }}
                         </td>
-                        <td class="border-r border-gray-700 px-1 sm:px-3 py-2 sm:py-3 font-medium transition-all duration-200 text-center">
+                        <td class="border border-gray-700 px-1 sm:px-3 py-2 sm:py-3 font-medium transition-all duration-200 text-center">
                             <div class="truncate" :title="item.item_profile?.item_description || item.itemDescription">
                                 {{ item.item_profile?.item_description || item.itemDescription }}
                             </div>
                         </td>
-                        <td class="border-r border-gray-700 px-1 sm:px-3 py-2 sm:py-3 text-center text-gray-600 hidden md:table-cell transition-all duration-200">
+                        <td class="border border-gray-700 px-1 sm:px-3 py-2 sm:py-3 text-center text-gray-600 hidden md:table-cell transition-all duration-200">
                             <div class="truncate" :title="item.specification">
                                 {{ item.specification || '-' }}
                             </div>
                         </td>
-                        <td class="border-r border-gray-700 px-1 sm:px-3 py-2 sm:py-3 text-center font-semibold text-gray-600 transition-all duration-200">
+                        <td class="border border-gray-700 px-1 sm:px-3 py-2 sm:py-3 text-center font-semibold text-gray-600 transition-all duration-200">
                             {{ item.quantity || '-' }}
                         </td>
-                        <td class="border-r border-gray-700 px-1 sm:px-3 py-2 sm:py-3 text-center text-gray-600 transition-all duration-200">
+                        <td class="border border-gray-700 px-1 sm:px-3 py-2 sm:py-3 text-center text-gray-600 transition-all duration-200">
                             <div class="truncate" :title="item.uom_name">
                                 {{ item.uom_name || '-' }}
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="5" class="border border-gray-700 px-2 sm:px-4 py-2 sm:py-4 text-center text-lg  font-bold uppercase">
+                        <th colspan="5" class="border border-gray-700 text-center text-lg font-bold uppercase p-2">
                             total amount
                         </th>
                     </tr>
@@ -188,81 +164,3 @@ function itemBelongsToActiveSupplier (itemIndex) {
         </div>
     </div>
 </template>
-
-<!-- <style scoped>
-/* Custom scrollbar styling */
-.overflow-auto::-webkit-scrollbar {
-    height: 6px;
-    width: 6px;
-}
-
-.overflow-auto::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 3px;
-}
-
-.overflow-auto::-webkit-scrollbar-thumb {
-    background: #94a3b8;
-    border-radius: 3px;
-    transition: background 0.2s;
-}
-
-.overflow-auto::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-}
-
-/* Firefox scrollbar */
-.overflow-auto {
-    scrollbar-width: thin;
-    scrollbar-color: #94a3b8 #f1f5f9;
-}
-
-/* Smooth scrolling */
-.overflow-auto {
-    scroll-behavior: smooth;
-}
-
-/* Row height consistency */
-tbody tr {
-    height: 40px;
-}
-
-@media (min-width: 640px) {
-    tbody tr {
-        height: 48px;
-    }
-}
-
-td, th {
-    box-sizing: border-box;
-}
-
-.bg-yellow-100 {
-    animation: highlight 0.3s ease-in-out;
-}
-
-@keyframes highlight {
-    0% {
-        background-color: #fef3c7;
-    }
-    100% {
-        background-color: #fef9c3;
-    }
-}
-
-.bg-green-200 {
-    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-}
-
-.truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-@media (max-width: 640px) {
-    .min-w-full {
-        min-width: 100%;
-    }
-}
-</style> -->

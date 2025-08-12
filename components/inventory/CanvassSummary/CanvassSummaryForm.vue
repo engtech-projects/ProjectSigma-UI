@@ -7,105 +7,22 @@ import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 const mainStore = useCanvassSummaryStore()
 const priceQuotationStore = usePriceQuotationStore()
 const procurementRequestStore = useProcurementRequestStore()
-const { createRequest, canvassSummary, approvalList } = storeToRefs(mainStore)
+const approvalsStore = useApprovalStore()
+
+const { createRequest, approvalList } = storeToRefs(mainStore)
 const { viewRequests } = storeToRefs(procurementRequestStore)
 const { priceQuotation } = storeToRefs(priceQuotationStore)
 
 const route = useRoute()
 const snackbar = useSnackbar()
+
 defineProps({
-    title: {
-        type: String,
-        required: true,
-    },
+    title: { type: String, required: true }
 })
-// const emit = defineEmits(["submit-success"])
-const approvals = useApprovalStore()
-approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
+
 const selectedItems = ref({})
-// const selectedSuppliers = ref({})
 const activeSupplier = ref(null)
-const storeForm = async () => {
-    try {
-        const selectedItemIds = priceQuotation.value.list[0].items
-            ?.filter(item => selectedItems.value[item.item_id] === true)
-            .map(item => ({
-                item_id: item.item_id,
-                unit_price: priceQuotation.value.list[0].items
-                    ?.find(i => i.item_id === item.item_id)?.price || 0
-            })) || []
 
-        // const preparedSelectedSuppliers = Object.entries(selectedSuppliers.value)
-        //     .filter(([_, value]) => value !== null)
-        //     .reduce((acc, [key, value]) => {
-        //         acc[key] = value
-        //         return acc
-        //     }, {})
-
-        const payload = {
-            ...createRequest.value.form,
-            price_quotation_id: canvassSummary.value.details?.price_quotation?.id,
-            items: selectedItemIds,
-        }
-        createRequest.value.form.items = selectedItemIds
-        // createRequest.value.form.suppliers = preparedSelectedSuppliers
-        createRequest.value.form.approvals = approvalList.value.list
-
-        await mainStore.storeRequest(payload)
-
-        if (mainStore.errorMessage) {
-            snackbar.add({
-                type: "error",
-                text: mainStore.errorMessage,
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: mainStore.successMessage,
-            })
-        }
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error.message || error,
-        })
-    }
-}
-// const storeForm = async () => {
-//     try {
-//         const payload = {
-//             ...createRequest.value.form,
-//             selectedItems: Object.keys(selectedItems.value).filter(key => selectedItems.value[key] === true)
-//                 .map(key => parseInt(key)),
-//             selectedSuppliers: Object.entries(selectedSuppliers.value)
-//                 .filter(([_, value]) => value !== null)
-//                 .reduce((acc, [key, value]) => {
-//                     acc[key] = value
-//                     return acc
-//                 }, {}),
-//         }
-
-//         await mainStore.storeRequest(payload)
-
-//         if (mainStore.errorMessage) {
-//             snackbar.add({
-//                 type: "error",
-//                 text: mainStore.errorMessage,
-//             })
-//         } else {
-//             snackbar.add({
-//                 type: "success",
-//                 text: mainStore.successMessage,
-//             })
-//         }
-//     } catch (error) {
-//         snackbar.add({
-//             type: "error",
-//             text: error.message || error,
-//         })
-//     }
-// }
-// const supplierId = defineModel("supplierId", { required: false, type: Number })
 const supplierColumns = [
     { name: "ITEM NO.", key: "id" },
     { name: "ITEM DESCRIPTION", key: "itemDescription" },
@@ -119,33 +36,64 @@ const supplierColumns = [
     ])
 ]
 
+approvalList.value.list = await approvalsStore.getApprovalByName(APPROVALS)
+
+const initFormFromSlip = (slip) => {
+    if (!slip) { return }
+    createRequest.value.form.date = new Date().toISOString().split("T")[0]
+    createRequest.value.form.project_code = slip.office_project
+    createRequest.value.form.project_address = slip.office_project_address
+    createRequest.value.form.conso_reference_no = slip.reference_no
+    createRequest.value.form.price_quotation_id = route.query.pr_id
+}
+
+const storeForm = async () => {
+    try {
+        const items = priceQuotation.value.list[0].items
+            ?.filter(item => selectedItems.value[item.item_id] === true)
+            .map(item => ({
+                item_id: item.item_id,
+                // unit_price: item.price || 0
+            })) || []
+
+        const payload = {
+            ...createRequest.value.form,
+            price_quotation_id: route.query.pr_id,
+            items,
+            approvals: approvalList.value.list
+        }
+
+        createRequest.value.form.items = items
+        createRequest.value.form.approvals = approvalList.value.list
+
+        await mainStore.storeRequest(payload)
+
+        snackbar.add({
+            type: mainStore.createRequest.errorMessage ? "error" : "success",
+            text: mainStore.createRequest.errorMessage || mainStore.createRequest.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error.message || error
+        })
+    }
+}
+
 onMounted(() => {
     procurementRequestStore.getOne(route.query.pr_id)
     priceQuotationStore.getQuotations(route.query.pr_id)
-    if (viewRequests.value.details?.requisition_slip) {
-        createRequest.value.form.date = new Date().toISOString().split("T")[0]
-        createRequest.value.form.item_group_project_code = viewRequests.value.details.requisition_slip.office_project
-        createRequest.value.form.conso_reference_no = viewRequests.value.details.requisition_slip.reference_no
-        createRequest.value.form.price_quotation_id = route.query.pr_id
-    }
+    initFormFromSlip(viewRequests.value.details?.requisition_slip)
 })
+
 watch(
-    () => viewRequests.value.details,
-    (newDetails) => {
-        if (newDetails?.requisition_slip) {
-            createRequest.value.form.date = new Date().toISOString().split("T")[0]
-            createRequest.value.form.item_group_project_code = viewRequests.value.details.requisition_slip.office_project
-            createRequest.value.form.conso_reference_no = viewRequests.value.details.requisition_slip.reference_no
-            createRequest.value.form.price_quotation_id = route.query.pr_id
-        }
-    },
+    () => viewRequests.value.details?.requisition_slip,
+    slip => initFormFromSlip(slip),
     { deep: true }
 )
 </script>
+
 <template>
-    <!-- <pre>{{ createRequest.form }}</pre>
-    ------------------------------------ -->
-    <!-- <pre>PQ: {{ priceQuotation }}</pre> -->
     <div class="text-gray-500 p-2">
         <form @submit.prevent="storeForm">
             <div class="flex flex-col gap-4 pt-4 w-full">
@@ -157,25 +105,22 @@ watch(
 
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="flex flex-row justify-between gap-4">
-                        <div class="w-full flex flex-col gap-2">
+                        <div class="w-full flex flex-col">
                             <InventoryCommonFormPsFormLabel
                                 v-for="(value, label) in {
                                     'DATE': createRequest.form.date,
-                                    'RS NUMBER': createRequest.form.rs_number,
-                                    'PROJECT CODE': createRequest.form.item_group_project_code,
-                                    'EQUIPMENT NUMBER': createRequest.form.equipment_number,
+                                    'PROJECT CODE': createRequest.form.project_code,
+                                    'CONSO/RS REFERENCE NUMBER': createRequest.form.conso_reference_no,
                                 }"
                                 :key="label"
                                 :title="label"
                                 :value="value"
                             />
                         </div>
-                        <div class="w-full flex flex-col gap-2">
+                        <div class="w-full flex flex-col">
                             <InventoryCommonFormPsFormLabel
                                 v-for="(value, label) in {
-                                    'CS NUMBER': createRequest.form.cs_number,
-                                    'CONSO/RS REFERENCE NUMBER': createRequest.form.conso_reference_no,
-                                    'PROJECT ADDRESS': createRequest.form.project_address,
+                                    'CS NUMBER': createRequest.form.cs_number || 'Generated after submission',
                                 }"
                                 :key="label"
                                 :title="label"
@@ -184,7 +129,7 @@ watch(
                         </div>
                     </div>
 
-                    <div class="w-full">
+                    <div>
                         <InventoryCanvassSummaryItemList
                             v-model:selected-items="selectedItems"
                             v-model:active-supplier="activeSupplier"
@@ -193,37 +138,40 @@ watch(
                             :columns="supplierColumns"
                         />
 
-                        <!-- Dropdowns -->
-                        <div class="flex flex-col gap-4 mt-4">
+                        <div class="border border-t-0 border-gray-700 shadow-sm uppercase text-black">
                             <div
-                                v-for="(options, label, i) in {
-                                    'Terms and Conditions': TERMS,
-                                    'Availability': AVAILABILITY,
-                                    'Delivery Terms': DELIVERY_TERMS
-                                }"
+                                v-for="(options, label, i) in {'Terms and Conditions': TERMS, 'Availability': AVAILABILITY, 'Delivery Terms': DELIVERY_TERMS}"
                                 :key="i"
-                                class="w-1/4"
+                                class="flex h-[60px] border-b border-gray-700 last:border-b-0"
                             >
-                                <label class="font-medium">{{ label }}:</label>
-                                <select
-                                    v-model="createRequest.form[label === 'Terms and Conditions' ? 'terms_of_payment' :label.replace(/ /g, '_').toLowerCase()]"
-                                    class="w-full border rounded px-2 py-1"
-                                >
-                                    <option v-for="(option, j) in options" :key="j" :value="option">
-                                        {{ option }}
-                                    </option>
-                                </select>
+                                <div class="w-1/2 px-4 py-4 font-medium  border-r border-gray-700 flex items-center justify-center">
+                                    {{ label }}
+                                </div>
+                                <div class="w-1/4 px-4 py-4 flex items-center text-black">
+                                    <select
+                                        v-model="createRequest.form[label === 'Terms and Conditions' ? 'terms_of_payment' : label.replace(/ /g, '_').toLowerCase()]"
+                                        class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                                    >
+                                        <option v-for="(option, j) in options" :key="j" :value="option">
+                                            {{ option }}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Remarks -->
-                        <div class="mt-4">
-                            <label class="font-medium">Remarks:</label>
-                            <textarea
-                                v-model="createRequest.form.remarks"
-                                class="w-full border rounded px-2 py-1"
-                                rows="3"
-                            />
+                            <div class="flex h-[100px] ">
+                                <div class="w-1/2 px-4 py-4 font-medium  border-r border-gray-700 flex items-center justify-center">
+                                    Remarks
+                                </div>
+                                <div class="w-1/2 px-4 py-4">
+                                    <textarea
+                                        v-model="createRequest.form.remarks"
+                                        class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500 resize-none"
+                                        rows="2"
+                                        placeholder="Enter remarks..."
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
 

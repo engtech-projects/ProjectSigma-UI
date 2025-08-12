@@ -7,9 +7,15 @@ const procurementRequestStore = useProcurementRequestStore()
 
 const { viewRequests } = storeToRefs(procurementRequestStore)
 
-const headers = [
+const PriceQuotationsHeaders = [
     { name: "Supplier", id: "supplier_name" },
     { name: "Quotation Date", id: "created_at_human" },
+]
+const CanvassSummaryHeaders = [
+    { name: "Terms of Payment", id: "terms_of_payment" },
+    { name: "Availability", id: "availability" },
+    { name: "Delivery Terms", id: "delivery_terms" },
+    { name: "Created at", id: "created_at" },
 ]
 const createPq = () => {
     router.push({
@@ -87,7 +93,7 @@ const editCs = (cs: any) => {
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer id="rpq">
                         <InventoryCommonLayoutFormCreate
-                            :headers="headers"
+                            :headers="PriceQuotationsHeaders"
                             :datas="viewRequests.details.price_quotations"
                             :on-create="createPq"
                             :on-edit="editPq"
@@ -97,7 +103,7 @@ const editCs = (cs: any) => {
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="cs">
                         <InventoryCommonLayoutFormCreate
-                            :headers="headers"
+                            :headers="CanvassSummaryHeaders"
                             :datas="viewRequests.details.canvass_summaries"
                             :on-create="createCs"
                             :on-edit="editCs"

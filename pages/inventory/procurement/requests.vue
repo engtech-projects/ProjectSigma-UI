@@ -46,6 +46,9 @@ onMounted(() => {
     if (route.query.pq_id) {
         priceQuotationStore.getPriceQuotationDetails(route.query.pq_id)
     }
+    if (route.query.cs_id) {
+        canvassSummaryStore.getOne(route.query.cs_id)
+    }
 })
 const prId = computed(() => route.query.pr_id || null)
 const createPq = computed(() => !!route.query.create_pq)
@@ -67,6 +70,7 @@ watch(pqId, (newVal) => {
 })
 watch(csId, (newVal) => {
     if (newVal) {
+        canvassSummaryStore.getOne(newVal)
         // eslint-disable-next-line no-console
         console.log("Fetching Canvass Summary details for CS ID:", newVal)
     }
@@ -200,7 +204,10 @@ const closeEditNcpo = () => {
                     </button>
                 </template>
                 <template #default>
-                    VIEW CANVASS SUMMARY HERE
+                    <InventoryCanvassSummaryFormEdit
+                        :cs-id="csId"
+                        @submit-success="closeEditCs"
+                    />
                 </template>
             </LayoutBoards>
             <LayoutBoards
