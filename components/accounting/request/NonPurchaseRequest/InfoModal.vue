@@ -269,11 +269,20 @@ watch(showModal, (newVal) => {
                     <div class="w-full">
                         <LayoutApprovalsListView :approvals="paymentData?.approvals" />
                     </div>
+                    <div v-if="paymentData.next_approval && useCheckIsCurrentUser(paymentData.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
+                        <HrmsCommonApprovalDenyButton
+                            v-model:deny-remarks="remarks"
+                            :request-id="paymentData.id"
+                            @approve="approvedRequest"
+                            @deny="denyRequest"
+                        />
+                    </div>
                 </div>
                 <div class="w-1/4">
                     <AccountingCommonTransactionFlow
                         :transaction-option="'view'"
                         :transaction-flow-model-list="paymentData.transaction_flow"
+                        @close-modal="closeViewModal"
                     />
                 </div>
             </div>
@@ -282,14 +291,6 @@ watch(showModal, (newVal) => {
             </LayoutPrint>
         </template>
         <template #footer>
-            <div v-if="paymentData.next_approval && useCheckIsCurrentUser(paymentData.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
-                <HrmsCommonApprovalDenyButton
-                    v-model:deny-remarks="remarks"
-                    :request-id="paymentData.id"
-                    @approve="approvedRequest"
-                    @deny="denyRequest"
-                />
-            </div>
             <div class="flex gap-2 justify-end w-full p-8">
                 <button v-if="!printPreview && paymentData.request_status === AccountingRequestStatus.denied" class="flex items-center gap-1 justify-center bg-green-600 p-2 hover:bg-green-900 text-white rounded-md w-32 text-sm" @click="useAsNewRequest(paymentData)">
                     USE AS NEW REQUEST

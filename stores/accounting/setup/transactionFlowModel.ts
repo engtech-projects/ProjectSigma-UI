@@ -43,11 +43,13 @@ export const useTransactionFlowStore = defineStore("transactionFlowStore", {
         async updateTransactionFlow (id: number) {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                `/api/transaction-flow-model/${id}`,
+                "/api/update-transaction-flow",
                 {
-                    method: "PATCH",
+                    method: "POST",
                     body: {
                         user_id: this.selectedId,
+                        flow_id: id,
+                        update_type: "user"
                     },
                     watch: false,
                 }
@@ -62,14 +64,17 @@ export const useTransactionFlowStore = defineStore("transactionFlowStore", {
                 return error
             }
         },
-        async updateTransactionFlowStatus (id: number) {
+        async updateTransactionFlowStatus (flowId: number, userId: number) {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                `/api/transaction-flow-model/${id}`,
+                "/api/update-transaction-flow",
                 {
-                    method: "PATCH",
+                    method: "POST",
                     body: {
+                        flow_id: flowId,
                         status: this.status,
+                        update_type: "status",
+                        user_id: userId
                     },
                     watch: false,
                 }

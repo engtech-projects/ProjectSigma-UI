@@ -51,8 +51,8 @@
                                     </p>
                                 </div>
                                 <AccountingCommonTransactionProgressIndicator
-                                    :is-loading="index === 0"
-                                    :is-in-progress="index != 0"
+                                    :is-in-progress="index === 0"
+                                    :is-pending="index != 0"
                                 />
                             </div>
                         </div>
@@ -106,15 +106,15 @@
                                     </p>
                                 </div>
                                 <AccountingCommonTransactionProgressIndicator
-                                    :is-loading="transactionFlowModel.status === 'pending'"
+                                    :is-pending="transactionFlowModel.status === 'pending'"
                                     :is-complete="transactionFlowModel.status === 'done'"
                                     :is-in-progress="transactionFlowModel.status === 'in_progress'"
                                 />
                             </div>
-                            <div v-show="transactionFlowModel.status === 'in_progress'" class="w-full flex justify-end">
+                            <div v-show="transactionFlowModel.status === 'in_progress' && transactionFlowModel.user_id === userData?.employee?.id" class="w-full flex justify-end pt-2">
                                 <button
-                                    class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-                                    @click="handleTransactionFlowUpdate"
+                                    class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+                                    @click="handleTransactionFlowUpdate(transactionFlowModel.id, userData?.employee?.id)"
                                 >
                                     Mark as done
                                 </button>
@@ -148,8 +148,11 @@
 
 <script setup>
 import { useTransactionFlowStore } from "~/stores/accounting/setup/transactionFlowModel"
+import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
 const transactionFlowStore = useTransactionFlowStore()
-
+const paymentRequestStore = usePaymentRequestStore()
+const { data: userData } = useAuth()
+const snackbar = useSnackbar()
 const props = defineProps({
     transactionOption: {
         type: String,
@@ -160,6 +163,7 @@ const props = defineProps({
         default: () => [],
     },
 })
+const emit = defineEmits(["closeModal"])
 
 const getStepClasses = (status) => {
     switch (status) {
@@ -214,13 +218,15 @@ const calculateProgress = () => {
     const completedCount = getCompletedCount()
     return (completedCount / props.transactionFlowModelList.length) * 100
 }
-const handleTransactionFlowUpdate = async () => {
+const handleTransactionFlowUpdate = async (flowId, userId) => {
     try {
-        await transactionFlowStore.updateTransactionFlowStatus(props.userId)
+        await transactionFlowStore.updateTransactionFlowStatus(flowId, userId)
         snackbar.add({
             type: "success",
             text: transactionFlowStore.successMessage
         })
+        paymentRequestStore.getAllRequests()
+        emit("closeModal")
     } catch (error) {
         snackbar.add({
             type: "error",
