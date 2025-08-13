@@ -675,7 +675,7 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
-        async uploadAttachments (projectId: number, params: any) {
+        async uploadAttachments (projectId: number, params: FormData) {
             this.successMessage = ""
             this.errorMessage = ""
             await useProjectsApi(
