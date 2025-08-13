@@ -5,16 +5,41 @@ const projectStore = useProjectStore()
 const snackbar = useSnackbar()
 const route = useRoute()
 
-const viewDocumentAttachments = async () => {
+const viewAttachments = async () => {
     try {
-        const projectId = Number(route.params?.id)
-        if (!projectId) { throw new Error("Missing project ID") }
+        const projectId = Number(route.params.id || route.query.id) // Check both params and query
+        if (!projectId || isNaN(projectId)) {
+            throw new Error("Missing or invalid project ID")
+        }
 
-        await projectStore.viewDocumentAttachments(projectId)
-        snackbar.add({ type: "success", text: "Opening document viewer..." })
+        snackbar.add({
+            type: "info",
+            text: "Preparing attachments viewer..."
+        })
+
+        const response = await projectStore.viewAttachments(projectId)
+
+        if (!response?.data?.url) {
+            throw new Error("Failed to generate attachments viewer URL")
+        }
+
+        window.open(response.data.url, "_blank")
     } catch (err: any) {
-        snackbar.add({ type: "error", text: err.message || "Failed to open document viewer" })
+        snackbar.add({
+            type: "error",
+            text: err.response?.data?.message
+        })
     }
 }
-defineExpose({ viewDocumentAttachments })
 </script>
+
+<template>
+    <div class="flex flex-row gap-4 justify-start mt-4">
+        <button
+            class="px-4 py-2 text-sm font-medium text-black bg-gray-50 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
+            @click="viewAttachments"
+        >
+            View Attachments
+        </button>
+    </div>
+</template>

@@ -732,11 +732,11 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
-        async uploadAttachments (projectId: number, params: any) {
+        async uploadAttachments (projectId: number, params: FormData) {
             this.successMessage = ""
             this.errorMessage = ""
             await useProjectsApi(
-                "/api/v1/project/" + projectId + "/marketing/attachments",
+                "/api/projects/" + projectId + "/attachments",
                 {
                     method: "POST",
                     body: params,
@@ -752,12 +752,12 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
-        async viewDocumentAttachments (projectId: number) {
+        async viewAttachments (projectId: number) {
             this.errorMessage = ""
             this.successMessage = ""
 
             await useProjectsApi(
-                `/api/v1/project/${projectId}/document-viewer`,
+                `/api/projects/${projectId}/document-viewer`,
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
