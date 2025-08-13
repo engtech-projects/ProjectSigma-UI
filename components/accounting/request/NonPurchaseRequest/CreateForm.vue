@@ -2,18 +2,23 @@
 import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
 import { useApprovalStore, APPROVAL_PAYMENT_REQUEST_NPO } from "@/stores/hrms/setup/approvals"
 import { useWithholdingTaxStore } from "~/stores/accounting/setup/withholdingtax"
+import { useTransactionFlowStore } from "~/stores/accounting/setup/transactionFlowModel"
 const paymentRequestStore = usePaymentRequestStore()
-const { paymentRequest, vat, paymentRequestAttachmentData, transactionFlowModel } = storeToRefs(paymentRequestStore)
+const withHoldingTaxStore = useWithholdingTaxStore()
+const transactionFlowStore = useTransactionFlowStore()
+
+const { paymentRequest, vat, paymentRequestAttachmentData } = storeToRefs(paymentRequestStore)
+const { TransactionFlowList } = storeToRefs(transactionFlowStore)
 const snackbar = useSnackbar()
 const approvals = useApprovalStore()
-const withHoldingTaxStore = useWithholdingTaxStore()
+
 await paymentRequestStore.getVat()
 
 paymentRequest.value.approvals = await approvals.getApprovalByName(APPROVAL_PAYMENT_REQUEST_NPO)
 onMounted(() => {
     paymentRequestStore.generatePrNo()
     withHoldingTaxStore.getAllWithholdingTaxes()
-    paymentRequestStore.getTransactionFlow()
+    transactionFlowStore.getTransactionFlow()
 })
 defineProps({
     fillable: {
@@ -77,7 +82,7 @@ const selectStakeholder = (stakeholder) => {
 }
 </script>
 <template>
-    <div class="w-full flex gap-2">
+    <div class="w-full flex gap-4">
         <div class="w-3/4">
             <LayoutBoards title="Payment Request Form (Non-Purchase)" :loading="paymentRequest.isLoading" class="w-90">
                 <div>
@@ -88,7 +93,7 @@ const selectStakeholder = (stakeholder) => {
                             </h1>
                             <div class="w-full">
                                 <div class="w-full flex justify-between">
-                                    <div class="w-full">
+                                    <div class="w-full py-2">
                                         <div class="w-1/3 flex flex-col gap-2">
                                             <template v-if="paymentRequestAttachmentData.attachment_files.length > 0">
                                                 <div
@@ -172,19 +177,6 @@ const selectStakeholder = (stakeholder) => {
                                             for="payee"
                                             class="text-xs italic"
                                         >Payee</label>
-                                        <!-- <AccountingCommonSelectStakeHolder
-                                            v-model:stakeholder-info="paymentRequest.stakeholderInformation"
-                                            v-model:selected-type="paymentRequest.stakeolder_type"
-                                            class="w-full"
-                                            :selected-id="paymentRequest.stakeholder_id"
-                                            :filter-options="['employee', 'supplier', 'payee']"
-                                        /> -->
-                                        <!--
-                                            Selects a stakeholder from a list of employees, suppliers, or payees
-                                            and emits the selected stakeholder to the parent component.
-                                            The style prop is used to stack the dropdowns on top of each
-                                            other, with the highest z-index on top.
-                                        -->
                                         <AccountingCommonSelectStakeholderSelect
                                             :stakeholder-id="paymentRequest.stakeholder_id"
                                             :stakeholder="paymentRequest.stakeholderInformation"
@@ -308,7 +300,7 @@ const selectStakeholder = (stakeholder) => {
         <div class="w-1/4">
             <AccountingCommonTransactionFlow
                 :transaction-option="'create'"
-                :transaction-flow-model-list="transactionFlowModel"
+                :transaction-flow-model-list="TransactionFlowList"
             />
         </div>
     </div>

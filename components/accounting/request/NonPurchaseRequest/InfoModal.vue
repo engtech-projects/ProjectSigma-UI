@@ -120,7 +120,7 @@ watch(showModal, (newVal) => {
         <template #body>
             <AccountingStatusRibbon :type="ribbonTypes[paymentData?.request_status.toLowerCase()]" position="top-left" :status="paymentData?.request_status" class="z-30" />
             <div v-if="!printPreview" class="flex gap-2 px-4">
-                <div class="w-4/5">
+                <div class="w-3/4">
                     <div class="p-2 py-4 flex gap-2 w-full mb-4">
                         <span class="text-gray-900 text-4xl text-center w-full block flex-1">Payment Request</span>
                     </div>
@@ -270,7 +270,7 @@ watch(showModal, (newVal) => {
                         <LayoutApprovalsListView :approvals="paymentData?.approvals" />
                     </div>
                 </div>
-                <div class="w-1/5">
+                <div class="w-1/4">
                     <AccountingCommonTransactionFlow
                         :transaction-option="'view'"
                         :transaction-flow-model-list="paymentData.transaction_flow"
