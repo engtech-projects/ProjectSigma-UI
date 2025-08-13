@@ -9,8 +9,8 @@ const projectStore = useProjectStore()
 const uploadAttachment = async (event: any) => {
     try {
         const projectId = Number(route.query?.id)
-        if (!projectId) {
-            throw new Error("Missing project ID from route")
+        if (!projectId || isNaN(projectId)) {
+            throw new Error("Project ID not found in the route")
         }
 
         const input = event.target as HTMLInputElement
@@ -18,6 +18,7 @@ const uploadAttachment = async (event: any) => {
         if (!files || files.length === 0) {
             throw new Error("No files selected")
         }
+
         const formData = new FormData()
         for (const file of files) {
             formData.append("attachments[]", file)
@@ -37,6 +38,7 @@ const uploadAttachment = async (event: any) => {
         })
     }
 }
+
 </script>
 <template>
     <div class="flex flex-col gap-4">
