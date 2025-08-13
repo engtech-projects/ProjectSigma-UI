@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { useProjectStore } from "~/stores/project-monitoring/projects"
-
 const projectStore = useProjectStore()
-
 const processedData = computed(() => {
     const data = []
     const cashFlow = projectStore.information?.cash_flow
@@ -10,7 +8,6 @@ const processedData = computed(() => {
         for (const i in cashFlow.q1) {
             data.push({ name: i, values: {} })
         }
-
         for (const i in data) {
             const value = data[i]
             for (const j in cashFlow) {
