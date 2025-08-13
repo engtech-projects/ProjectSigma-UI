@@ -7,18 +7,28 @@ const route = useRoute()
 
 const viewAttachments = async () => {
     try {
-        const projectId = Number(route.query.id)
+        const projectId = Number(route.params.id || route.query.id)
         if (!projectId || isNaN(projectId)) {
             throw new Error("Missing or invalid project ID")
         }
 
-        snackbar.add({ type: "info", text: "Preparing attachments viewer..." })
-
-        await projectStore.viewAttachments(projectId, {
-            headers: { Accept: "application/json" }
+        snackbar.add({
+            type: "info",
+            text: "Preparing attachments viewer..."
         })
+
+        const response = await projectStore.viewAttachments(projectId)
+
+        if (!response?.data?.url) {
+            throw new Error("Failed to generate attachments viewer URL")
+        }
+
+        window.open(response.data.url, "_blank")
     } catch (err: any) {
-        snackbar.add({ type: "error", text: err.message || "Something went wrong" })
+        snackbar.add({
+            type: "error",
+            text: err.response?.data?.message
+        })
     }
 }
 </script>
