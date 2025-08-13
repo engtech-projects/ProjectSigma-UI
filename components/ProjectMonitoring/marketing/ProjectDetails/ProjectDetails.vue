@@ -34,11 +34,11 @@ defineProps({
             <template #info-details>
                 <ProjectMonitoringInformationProject
                     :label="'PROJECT INFORMATION DETAILS'"
-                    :name="projectDetails.name"
-                    :location="projectDetails.location"
-                    :license="projectDetails.license"
-                    :code="projectDetails.contract_id"
-                    :stage-status="projectDetails.stage"
+                    :name="projectDetails?.name"
+                    :location="projectDetails?.location"
+                    :license="projectDetails?.license"
+                    :code="projectDetails?.contract_id"
+                    :stage-status="projectDetails?.stage"
                 />
             </template>
             <template #tab-titles>
@@ -83,7 +83,10 @@ defineProps({
                 <ProjectAttachmentUploadButton />
                 <ProjectAttachmentsViewButton />
                 <ProjectMonitoringProjectStageButton
-                    v-if="projectStore.information.stage.toLowerCase() !== useProjectMarketingStatusEnums.stages[useProjectMarketingStatusEnums.stages.length - 1].toLowerCase()"
+                    v-if="!projectStore.viewState
+                        && projectStore.information
+                        && projectStore.information.stage
+                        && projectStore.information.stage.toLowerCase() !== useProjectMarketingStatusEnums.stages[useProjectMarketingStatusEnums.stages.length - 1].toLowerCase()"
                     :stage="projectDetails.stage"
                     @updating-stage="boardLoading = true"
                     @update-success="boardLoading = false"

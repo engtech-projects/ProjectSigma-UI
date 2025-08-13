@@ -3,17 +3,14 @@ import { useHrmsSettingsStore } from "~/stores/hrms/setup/settings"
 const settingsStore = useHrmsSettingsStore()
 const { allSettings } = storeToRefs(settingsStore)
 const snackbar = useSnackbar()
-onMounted(async () => {
-    await settingsStore.getAllSettings()
-})
 const nameAndDescriptions = [
     {
-        name: HrmsSetupSettingsEnums.LATE_ALLOWANCE,
-        description: "Minutes late allowed before being considered late.",
+        name: HrmsSetupSettingsEnums.LOGOUT_CHANGE_PASSWORD,
+        description: "Logout all other sessions when a user changes their password.",
     },
     {
-        name: HrmsSetupSettingsEnums.LATE_ABSENT,
-        description: "Minutes late allowed before being considered absent.",
+        name: HrmsSetupSettingsEnums.SINGLE_DEVICE_LOGIN,
+        description: "Only one instance of the application can be logged in at a time.",
     },
 ]
 const updateSetting = async (id, value) => {
@@ -37,25 +34,21 @@ const updateSetting = async (id, value) => {
             <div v-if="nameAndDescriptions.find((s) => s.name === setting.setting_name)" :key="setting.id" class="space-y-1">
                 <span class="text-sm font-medium">{{ setting.setting_name }}</span>
                 <div class="flex flex-col">
-                    <div class="flex flex-row gap-2">
-                        <input
-                            v-if="[HrmsSetupSettingsEnums.EARLY_LOGIN, HrmsSetupSettingsEnums.LATE_LOGOUT].includes(setting.setting_name)"
+                    <div class="flex flex-row">
+                        <!-- TO CHANGE INPUT TO USER MULTI SELECT/TABLE CHECKBOX -->
+                        <select
                             v-model="allSettings.data[index].value"
-                            type="number"
-                            class="input rounded-lg w-1/3"
-                            min="0"
-                            max="23"
-                            @focusin="allSettings.data[index].focus = true"
-                            @focusout="allSettings.data[index].focus = false"
-                        >
-                        <input
-                            v-else-if="[HrmsSetupSettingsEnums.LATE_ALLOWANCE, HrmsSetupSettingsEnums.LATE_ABSENT].includes(setting.setting_name)"
-                            v-model="allSettings.data[index].value"
-                            type="number"
                             class="input rounded-lg w-1/3"
                             @focusin="allSettings.data[index].focus = true"
                             @focusout="allSettings.data[index].focus = false"
                         >
+                            <option :value="true">
+                                True
+                            </option>
+                            <option :value="false">
+                                False
+                            </option>
+                        </select>
                         <button
                             class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
                             @click="updateSetting(setting.id, setting.value)"

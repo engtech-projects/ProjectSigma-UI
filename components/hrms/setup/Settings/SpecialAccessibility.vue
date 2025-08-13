@@ -6,11 +6,11 @@ const snackbar = useSnackbar()
 const nameAndDescriptions = [
     {
         name: HrmsSetupSettingsEnums.USER_201_EDITOR,
-        description: "User accounts that can edit 201 data.",
+        description: "User accounts that can set edit 201 data accessibility.",
     },
     {
         name: HrmsSetupSettingsEnums.USER_SALARY_GRADE_SETTER,
-        description: "User accounts that can set salary grade.",
+        description: "User accounts that can set setup salary grade accessibility.",
     },
 ]
 const updateSetting = async (id, value) => {

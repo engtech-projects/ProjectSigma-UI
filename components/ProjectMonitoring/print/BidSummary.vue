@@ -7,9 +7,9 @@
                 <p>Contract Location</p>
             </div>
             <div class="font-bold">
-                <p>{{ projectStore.information.contract_id }}</p>
-                <p>{{ projectStore.information.name }}</p>
-                <p>{{ projectStore.information.location }}</p>
+                <p>{{ projectStore.information?.contract_id ?? 'N/A' }}</p>
+                <p>{{ projectStore.information?.name ?? 'N/A' }}</p>
+                <p>{{ projectStore.information?.location ?? 'N/A' }}</p>
             </div>
         </div>
 
@@ -68,7 +68,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in projectStore.information.summary_of_bid" :key="item.id">
+                <tr v-for="item in projectStore.information?.summary_of_bid ?? []" :key="item.id">
                     <td class="p-2 border border-black">
                         {{ item.part_no }}
                     </td>
@@ -118,8 +118,14 @@
             <div>
                 <p>Signed : <span class="underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
             </div>
-            <div class="flex justify-end">
-                <p>Date : <span class="font-bold underline">January 15, 2024</span></p>
+
+            <div class="grid grid-cols-10 gap-y-4 items-center mb-10">
+                <p class="col-span-5">
+                    Duly authorized to sign the Bid for and on behalf of:
+                </p>
+                <span class="col-span-5 text-sm font-semibold underline text-center">
+                    {{ projectStore.information?.license ?? 'N/A' }}
+                </span>
             </div>
         </div>
 
@@ -138,9 +144,10 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 
 const totalAmount = computed(() => {
-    return (projectStore.information.summary_of_bid ?? []).reduce((total, item) => {
-        return total + item.total_amount
-    }, 0)
+    const bids = Array.isArray(projectStore.information?.summary_of_bid)
+        ? projectStore.information.summary_of_bid
+        : []
+    return bids.reduce((total: number, item: any) => total + (item.total_amount || 0), 0)
 })
 </script>
 

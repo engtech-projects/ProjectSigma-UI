@@ -3,7 +3,10 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 const { information } = storeToRefs(projectStore)
 const totalAmount = computed(() => {
-    return information.value.summary_of_bid.reduce((total, item) => total + item.total_amount, 0)
+    return information.value?.summary_of_bid?.reduce(
+        (total: number, item: any) => total + item.total_amount,
+        0
+    ) ?? 0
 })
 </script>
 <template>
@@ -29,7 +32,7 @@ const totalAmount = computed(() => {
                         <tr class="bg-yellow-200 border border-black">
                             <th class="text-center align-middle p-2" colspan="3">
                                 <p>
-                                    <span class="font-semibold">ABC =</span> {{ accountingCurrency(information.amount) }}
+                                    <span class="font-semibold">ABC =</span> {{ accountingCurrency(Number(information?.amount) || 0) }}
                                 </p>
                             </th>
                         </tr>
@@ -38,7 +41,7 @@ const totalAmount = computed(() => {
                                 CONTRACT ID:
                             </th>
                             <th colspan="2" class="p-2 text-left">
-                                {{ information.contract_id }}
+                                {{ information?.contract_id || 'N/A' }}
                             </th>
                         </tr>
                         <tr class="bg-orange-200">
@@ -52,7 +55,7 @@ const totalAmount = computed(() => {
                                 TOTAL AMOUNT
                             </th>
                         </tr>
-                        <tr v-for="(item, index) in information.summary_of_bid" :key="index">
+                        <tr v-for="(item, index) in information?.summary_of_bid ?? []" :key="index">
                             <td class="border border-black p-2">
                                 {{ item.part_no }}
                             </td>
@@ -82,7 +85,7 @@ const totalAmount = computed(() => {
                             </td>
                         </tr>
                     </table>
-                    <p><span class="mb-6">Project to be completed within {{ information.duration }} (Calendar Days)</span></p>
+                    <p><span class="mb-6">Project to be completed within {{ information?.duration ?? '0' }} (Calendar Days)</span></p>
                 </div>
             </template>
             <template #print-layout>

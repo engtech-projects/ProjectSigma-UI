@@ -1,8 +1,34 @@
+<script lang="ts" setup>
+import { useProjectStore } from "~/stores/project-monitoring/projects"
+const projectStore = useProjectStore()
+const processedData = computed(() => {
+    const data = []
+    const cashFlow = projectStore.information?.cash_flow
+    if (cashFlow?.q1 && typeof cashFlow.q1 === "object") {
+        for (const i in cashFlow.q1) {
+            data.push({ name: i, values: {} })
+        }
+        for (const i in data) {
+            const value = data[i]
+            for (const j in cashFlow) {
+                if (cashFlow[j] && typeof cashFlow[j] === "object") {
+                    for (const k in cashFlow[j]) {
+                        if (value.name === k) {
+                            value.values[j] = cashFlow[j][k]
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return data
+})
+</script>
 <template>
     <div class="max-w-4xl mx-auto">
         <div class="text-center mb-8">
             <p class="text-sm font-bold">
-                {{ projectStore.information.license }}
+                {{ projectStore.information?.license ?? 'N/A' }}
             </p>
         </div>
 
@@ -13,9 +39,9 @@
                 <p>Contract Location</p>
             </div>
             <div class="font-bold">
-                <p>{{ projectStore.information.id }}</p>
-                <p>{{ projectStore.information.name }}</p>
-                <p>{{ projectStore.information.location }}</p>
+                <p>{{ projectStore.information?.id ?? 'N/A' }}</p>
+                <p>{{ projectStore.information?.name ?? 'N/A' }}</p>
+                <p>{{ projectStore.information?.location ?? 'N/A' }}</p>
             </div>
         </div>
 
@@ -49,7 +75,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="data in processedData" :key="data.name">
+                <tr v-for="data in processedData ?? []" :key="data.name">
                     <td class="p-2 border border-black uppercase">
                         {{ data.name }}
                     </td>
@@ -112,33 +138,6 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-import { useProjectStore } from "~/stores/project-monitoring/projects"
-
-const projectStore = useProjectStore()
-
-const processedData = computed(() => {
-    const data = []
-    if (projectStore.information.cash_flow) {
-        for (const i in projectStore.information.cash_flow.q1) {
-            data.push({ name: i, values: {} })
-        }
-        for (const i in data) {
-            const value = data[i]
-            for (const j in projectStore.information.cash_flow) {
-                for (const k in projectStore.information.cash_flow[j]) {
-                    if (value.name === k) {
-                        value.values[j] = projectStore.information.cash_flow[j][k]
-                    }
-                }
-            }
-        }
-    }
-    return data
-})
-</script>
-
 <style>
 
 </style>
