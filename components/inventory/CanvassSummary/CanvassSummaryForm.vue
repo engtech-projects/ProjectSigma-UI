@@ -53,7 +53,6 @@ const storeForm = async () => {
             ?.filter(item => selectedItems.value[item.item_id] === true)
             .map(item => ({
                 item_id: item.item_id,
-                // unit_price: item.price || 0
             })) || []
 
         const payload = {
@@ -136,6 +135,7 @@ watch(
                             :items="viewRequests?.details?.requisition_slip?.request_stock_items"
                             :suppliers="priceQuotation.list"
                             :columns="supplierColumns"
+                            :loading="priceQuotation.isLoading || viewRequests.isLoading"
                         />
 
                         <div class="border border-t-0 border-gray-700 shadow-sm uppercase text-black">
@@ -196,15 +196,6 @@ watch(
                             Submit
                         </button>
                     </div>
-                    <!-- <div class="flex w-full justify-end no-print">
-                        <button
-                            type="submit"
-                            class="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                            :disabled="Object.keys(selectedItems).filter(key => selectedItems[key] === true).length === 0"
-                        >
-                            Submit ({{ Object.keys(selectedItems).filter(key => selectedItems[key] === true).length }} items selected)
-                        </button>
-                    </div> -->
                 </div>
             </div>
         </form>

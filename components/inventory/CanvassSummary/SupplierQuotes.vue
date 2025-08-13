@@ -19,13 +19,44 @@ function toggleSupplierHeader (supplierIndex) {
 
 function highlightCell (rowIndex, supplierIndex) {
     return selectedItems.value[rowIndex] === true &&
-        activeSupplier.value === supplierIndex
+    activeSupplier.value === supplierIndex
 }
 
+const tableContainer = ref(null)
+const isDown = ref(false)
+let startX = 0
+let scrollLeft = 0
+
+function startDrag (e) {
+    isDown.value = true
+    tableContainer.value.classList.add("cursor-grabbing")
+    startX = e.pageX - tableContainer.value.offsetLeft
+    scrollLeft = tableContainer.value.scrollLeft
+}
+
+function stopDrag () {
+    isDown.value = false
+    tableContainer.value.classList.remove("cursor-grabbing")
+}
+
+function onDrag (e) {
+    if (!isDown.value) { return }
+    e.preventDefault()
+    const x = e.pageX - tableContainer.value.offsetLeft
+    tableContainer.value.scrollLeft = scrollLeft - (x - startX)
+}
 </script>
+
 <template>
     <div class="w-full lg:w-1/2 bg-white overflow-hidden">
-        <div class="overflow-hidden max-h-96 lg:max-h-full">
+        <div
+            ref="tableContainer"
+            class="overflow-auto max-h-96 lg:max-h-full scrollbar-thin cursor-grab select-none scroll-smooth"
+            @mousedown="startDrag"
+            @mouseup="stopDrag"
+            @mouseleave="stopDrag"
+            @mousemove="onDrag"
+        >
             <table class="min-w-full table-fixed text-xs sm:text-sm text-gray-800">
                 <thead class="sticky top-0 bg-white">
                     <tr class="h-20">
@@ -33,7 +64,7 @@ function highlightCell (rowIndex, supplierIndex) {
                             v-for="(supplier, index) in suppliers"
                             :key="'supplier-header-' + index"
                             colspan="3"
-                            class="text-center font-bold border border-gray-700 border-r uppercase cursor-pointer hover:bg-green-200 transition-all duration-200 text-ellipsis"
+                            class="text-center font-bold border border-gray-700 border-r uppercase cursor-pointer hover:bg-green-200 transition-all duration-200 text-ellipsis w-1/2"
                             :class="activeSupplier === index ? 'bg-green-200 shadow-inner' : ''"
                             @click="toggleSupplierHeader(index)"
                         >
@@ -49,7 +80,7 @@ function highlightCell (rowIndex, supplierIndex) {
                     </tr>
                     <tr class="font-semibold uppercase border border-gray-700 h-10">
                         <template v-for="(supplier, index) in suppliers" :key="'price-header-' + index">
-                            <th class="border-r border-gray-700 text-xs whitespace-pre-line break-all py-1">
+                            <th class="border-r border-gray-700 text-xs py-1">
                                 unit price
                             </th>
                             <th class="border-r border-gray-700 text-xs">
@@ -62,7 +93,11 @@ function highlightCell (rowIndex, supplierIndex) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, rowIndex) in items" :key="'row-' + rowIndex" class="border-b border-gray-700 hover:bg-gray-25 transition-colors duration-150">
+                    <tr
+                        v-for="(item, rowIndex) in items"
+                        :key="'row-' + rowIndex"
+                        class="border-b border-gray-700 hover:bg-gray-25 transition-colors duration-150"
+                    >
                         <template v-for="(supplier, colIndex) in suppliers" :key="'cell-' + rowIndex + '-' + colIndex">
                             <!-- unit price -->
                             <td
@@ -108,7 +143,7 @@ function highlightCell (rowIndex, supplierIndex) {
                     </tr>
                     <tr class="text-center items-center">
                         <template v-for="(item, index) in suppliers" :key="'total-' + index">
-                            <td colspan="3" class="border border-t-2 border-gray-700 p-2 text-center font-bold">
+                            <td colspan="3" class="border border-t border-gray-700 p-2 text-center font-bold">
                                 <div class="truncate text-lg">
                                     ₱{{ formatToCurrency(item.grand_total) ?? '0.00' }}
                                 </div>
@@ -120,3 +155,28 @@ function highlightCell (rowIndex, supplierIndex) {
         </div>
     </div>
 </template>
+
+<style scoped>
+.scrollbar-thin::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+
+.cursor-grabbing {
+  cursor: grabbing !important;
+}
+</style>

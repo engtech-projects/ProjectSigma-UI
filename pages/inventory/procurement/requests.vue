@@ -196,7 +196,7 @@ const closeEditNcpo = () => {
             </LayoutBoards>
             <LayoutBoards
                 v-if="csId"
-                title="Create Canvass Summary"
+                title="Canvass Summary"
             >
                 <template #header-options>
                     <button class="text-gray-500 hover:text-white hover:bg-red-600" @click="closeEditCs">
