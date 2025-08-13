@@ -13,8 +13,8 @@ const letterHeader = (index: number) => {
     const remainder = index % 26
     return String.fromCharCode(65 + remainder) + (base > 0 ? String.fromCharCode(65 + base - 1) : "")
 }
-const filterResources = (id: number) => {
-    return task.value.resources.filter(resource => resource.resource_name.id === id)
+const filterResources = (name: string) => {
+    return task.value.resources.filter(resource => resource.resource_name === name)
 }
 const totalDirectCost = (id: number) => {
     return task.value.resources.filter(resource => resource.resource_name.id === id).reduce((total: number, resource: any) => total + ((resource.unit_cost * resource.quantity) * (resource.unit_count ?? 1)), 0)
@@ -80,37 +80,37 @@ const totalDirectCost = (id: number) => {
                     </tr>
                 </tbody>
                 <AccountingLoadScreen :is-loading="boardLoading" />
-                <tbody v-for="(rnames, index) in resourceStore.resourceNames" :key="rnames.id">
+                <tbody v-for="(rnames, index) in resourceStore.resourceNames" :key="index">
                     <tr class="border-y border-gray-700">
                         <td colspan="6" class="px-2 py-1">
                             <div class="flex justify-between">
                                 <span class="font-semibold uppercase">
-                                    {{ letterHeader(index) }}. {{ rnames.name }}
+                                    {{ letterHeader(index) }}. {{ rnames.label }}
                                 </span>
                             </div>
                         </td>
                     </tr>
-                    <tr v-if="filterResources(rnames.id)?.length > 0" class="border border-gray-700">
+                    <tr v-if="filterResources(rnames.label)?.length > 0" class="border border-gray-700">
                         <td />
                         <td class="uppercase text-xs font-semibold pt-2 text-left">
                             Name and Specification
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor" class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor" class="uppercase text-xs font-semibold pt-2 text-center">
                             No of Person
                         </td>
-                        <td v-else-if="rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-else-if="rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
                             No of Equipment
                         </td>
                         <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Quantity
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
                             No. of Hrs.
                         </td>
                         <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Unit
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
                             Hourly Rate
                         </td>
                         <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
@@ -120,24 +120,24 @@ const totalDirectCost = (id: number) => {
                             Amount
                         </td>
                     </tr>
-                    <tr v-for="resource in filterResources(rnames.id)" :key="resource.id">
+                    <tr v-for="resource in filterResources(rnames.label)" :key="resource.id">
                         <td class="text-center " />
                         <td class="p-2 ">
                             {{ resource.description }}
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                             {{ resource.unit_count }}
                         </td>
                         <td v-else class="p-2  text-center">
                             {{ resource.quantity }}
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                             {{ resource.quantity }}
                         </td>
                         <td v-else class="p-2  text-center">
                             {{ resource.unit }}
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                             {{ resource.unit_cost + " / hour" }}
                         </td>
                         <td v-else class="p-2  text-center">
@@ -147,9 +147,9 @@ const totalDirectCost = (id: number) => {
                             {{ accountingCurrency(resource.total_cost) }}
                         </td>
                     </tr>
-                    <tr v-if="filterResources(rnames.id)?.length > 0" class="border-b border-gray-700 text-sm font-bold">
+                    <tr v-if="filterResources(rnames.label)?.length > 0" class="border-b border-gray-700 text-sm font-bold">
                         <td class="text-right px-2" colspan="5">
-                            Direct {{ rnames.name }} Cost
+                            Direct {{ rnames.label }} Cost
                         </td>
                         <td class="text-right px-2">
                             {{ accountingCurrency(totalDirectCost(rnames.id)) }}

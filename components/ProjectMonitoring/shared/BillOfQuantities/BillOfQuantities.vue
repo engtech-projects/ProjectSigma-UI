@@ -121,9 +121,6 @@ const removePhase = async (phase) => {
             <template #system-layout>
                 <div>
                     <AccountingLoadScreen :is-loading="boardLoading" />
-                    <div class="mb-4">
-                        <DocumentTemplatesIsoHeader :page="{currentPage: 1, totalPages: 1}" :document-code="useInventoryDocCode.mrr" />
-                    </div>
                     <div class="flex flex-col gap-6 border-t-2 border-gray-800 pt-6 mb-4">
                         <div class="flex justify-between">
                             <div class="flex items-end gap-2">
@@ -193,14 +190,14 @@ const removePhase = async (phase) => {
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody v-if="projectStore.information.phases.length === 0">
+                            <tbody v-if="(projectStore.information?.phases?.length ?? 0) === 0">
                                 <tr>
                                     <td colspan="6" class="text-center py-4 font-semibold text-md italic text-gray-500">
                                         No Data Available!
                                     </td>
                                 </tr>
                             </tbody>
-                            <tbody v-for="phase in projectStore.information.phases" :key="phase.id">
+                            <tbody v-for="phase in projectStore.information?.phases ?? []" :key="phase.id">
                                 <tr>
                                     <td class="bg-[#ffe598] text-left">
                                         {{ phase.name }}
