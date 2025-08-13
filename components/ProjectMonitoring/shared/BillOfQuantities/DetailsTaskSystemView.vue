@@ -31,7 +31,7 @@ const editResource = (resource: any) => {
     showResourceModal.value = true
     resourceStore.reset()
     resourceStore.resource = resource
-    resourceStore.resource.resource_type = resource.resource_name.label
+    resourceStore.resource.resource_type = resource.resource_type
 }
 const boardLoading = ref(false)
 const snackbar = useSnackbar()
