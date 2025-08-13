@@ -1,15 +1,5 @@
 import { defineStore } from "pinia"
 
-export const APPROVED = "Approved"
-export const PENDING = "Pending"
-export const DENIED = "Denied"
-export const APPROVALS = "Request Canvass Summary"
-export const REQ_STATUS = [
-    APPROVED,
-    PENDING,
-    DENIED,
-]
-
 export const PREPAYMENT_IN_FULL = "PREPAYMENT IN FULL"
 export const CREDIT_7_DAYS = "CREDIT 7 DAYS"
 export const CREDIT_15_DAYS = "CREDIT 15 DAYS"
@@ -94,6 +84,7 @@ export interface CanvassSummaryForm {
     delivery_terms: string;
     remarks: string;
     items: any[];
+    approvals: any[];
 }
 
 export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
@@ -113,17 +104,15 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
         createRequest: {
             isLoading: false,
             isLoaded: false,
-            list: [],
-            details: {},
             form: {
                 price_quotation_id: 0,
                 terms_of_payment: "",
                 availability: "",
                 delivery_terms: "",
                 remarks: "",
-                items: []
+                items: [],
+                approvals: []
             } as CanvassSummaryForm,
-            params: {},
             pagination: {},
             errorMessage: "",
             successMessage: "",
@@ -178,14 +167,12 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                         this.myRequests.isLoading = false
                         if (response.ok) {
                             this.myRequests.isLoaded = true
-                            this.myRequests.list = response._data.data.data || response._data.data
-                            this.myRequests.pagination = response._data.data.links
-                                ? {
-                                    first_page: response._data.data.links.first,
-                                    pages: response._data.data.meta.links,
-                                    last_page: response._data.data.links.last,
-                                }
-                                : {}
+                            this.myRequests.list = response._data.data
+                            this.myRequests.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -314,7 +301,8 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                                 availability: "",
                                 delivery_terms: "",
                                 remarks: "",
-                                items: []
+                                items: [],
+                                approvals: []
                             }
                             this.createRequest.isLoading = false
                         }

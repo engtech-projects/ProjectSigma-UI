@@ -1,15 +1,15 @@
 <script setup>
-import { useCanvassSummaryStore, TERMS, AVAILABILITY, DELIVERY_TERMS, APPROVALS } from "~/stores/inventory/procurement/canvassSummary"
+import { useCanvassSummaryStore, TERMS, AVAILABILITY, DELIVERY_TERMS } from "~/stores/inventory/procurement/canvassSummary"
 import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 import { useProcurementRequestStore } from "~/stores/inventory/procurement/request"
-import { useApprovalStore } from "@/stores/hrms/setup/approvals"
+import { useApprovalStore, APPROVAL_REQUEST_CANVASS_SUMMARY } from "@/stores/hrms/setup/approvals"
 
 const mainStore = useCanvassSummaryStore()
 const priceQuotationStore = usePriceQuotationStore()
 const procurementRequestStore = useProcurementRequestStore()
-const approvalsStore = useApprovalStore()
+const approvals = useApprovalStore()
 
-const { createRequest, approvalList } = storeToRefs(mainStore)
+const { createRequest } = storeToRefs(mainStore)
 const { viewRequests } = storeToRefs(procurementRequestStore)
 const { priceQuotation } = storeToRefs(priceQuotationStore)
 
@@ -36,8 +36,6 @@ const supplierColumns = [
     ])
 ]
 
-approvalList.value.list = await approvalsStore.getApprovalByName(APPROVALS)
-
 const initFormFromSlip = (slip) => {
     if (!slip) { return }
     createRequest.value.form.date = new Date().toISOString().split("T")[0]
@@ -49,39 +47,34 @@ const initFormFromSlip = (slip) => {
 
 const storeForm = async () => {
     try {
-        const items = priceQuotation.value.list[0].items
-            ?.filter(item => selectedItems.value[item.item_id] === true)
-            .map(item => ({
-                item_id: item.item_id,
-            })) || []
+        const items = (viewRequests.value.details?.requisition_slip?.request_stock_items || [])
+            .filter(item => selectedItems.value[item.item_id] === true)
+            .map(item => ({ item_id: item.item_id }))
 
-        const payload = {
-            ...createRequest.value.form,
-            price_quotation_id: route.query.pr_id,
-            items,
-            approvals: approvalList.value.list
+        if (!items.length) {
+            throw new Error("Please select at least one item.")
         }
 
         createRequest.value.form.items = items
-        createRequest.value.form.approvals = approvalList.value.list
+        createRequest.value.form.approvals = await approvals.getApprovalByName(APPROVAL_REQUEST_CANVASS_SUMMARY)
 
-        await mainStore.storeRequest(payload)
+        await mainStore.storeRequest()
 
         snackbar.add({
-            type: mainStore.createRequest.errorMessage ? "error" : "success",
-            text: mainStore.createRequest.errorMessage || mainStore.createRequest.successMessage
+            type: "success",
+            text: mainStore.createRequest.successMessage
         })
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: error.message || error
+            text: error?.message || mainStore.createRequest.errorMessage || "An unexpected error occurred."
         })
     }
 }
-
-onMounted(() => {
-    procurementRequestStore.getOne(route.query.pr_id)
-    priceQuotationStore.getQuotations(route.query.pr_id)
+onMounted(async () => {
+    createRequest.value.approvals = await approvals.getApprovalByName(APPROVAL_REQUEST_CANVASS_SUMMARY)
+    await procurementRequestStore.getOne(route.query.pr_id)
+    await priceQuotationStore.getQuotations(route.query.pr_id)
     initFormFromSlip(viewRequests.value.details?.requisition_slip)
 })
 
@@ -96,8 +89,9 @@ watch(
     <div class="text-gray-500 p-2">
         <form @submit.prevent="storeForm">
             <div class="flex flex-col gap-4 pt-4 w-full">
+                <DocumentTemplatesIsoHeader :page="{ currentPage: 1, totalPages: 1 }" />
                 <div v-if="title" class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4">
-                    <h3 class="pl-4 text-xl font-bold text-gray-900 p-4 tracking-wide">
+                    <h3 class="pl-4 text-2xl font-bold text-gray-900 p-4 uppercase">
                         {{ title }}
                     </h3>
                 </div>
@@ -180,14 +174,13 @@ watch(
                             <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">
                                 Approval:</label>
                             <HrmsSetupApprovalsList
-                                v-for="(approv, apr) in approvalList.list"
+                                v-for="(approv, apr) in createRequest.approvals"
                                 :key="'hrmsetupapprovallist' + approv"
-                                v-model="approvalList.list[apr]"
+                                v-model="createRequest.approvals[apr]"
                             />
                         </div>
                     </div>
 
-                    <!-- Submit Button -->
                     <div class="flex w-full justify-end no-print">
                         <button
                             type="submit"

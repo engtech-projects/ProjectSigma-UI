@@ -161,7 +161,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                         this.priceQuotation.isLoading = false
                         if (response.ok) {
                             this.priceQuotation.isLoaded = true
-                            this.priceQuotation.list = response._data.data.data || response._data.data
+                            this.priceQuotation.list = response._data.data
                             this.priceQuotation.pagination = response._data.data.links
                                 ? {
                                     first_page: response._data.data.links.first,
@@ -255,35 +255,6 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                 this.errorMessage = error.message || "Failed to update price quotation item"
                 throw error
             }
-        },
-        async getPriceQuotations (id: number) {
-            await useInventoryApi(
-                "/api/procurement-request/" + id + "/price-quotations",
-                {
-                    method: "GET",
-                    params: this.priceQuotation.params,
-                    onRequest: () => {
-                        this.priceQuotation.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.priceQuotation.isLoading = false
-                        if (response.ok) {
-                            this.priceQuotation.isLoaded = true
-                            this.priceQuotation.list = response._data.data.data || response._data.data
-                            this.priceQuotation.pagination = response._data.data.links
-                                ? {
-                                    first_page: response._data.data.links.first,
-                                    pages: response._data.data.meta.links,
-                                    last_page: response._data.data.links.last,
-                                }
-                                : {}
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
         },
         clearMessages () {
             this.errorMessage = ""

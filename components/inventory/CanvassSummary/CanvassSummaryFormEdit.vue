@@ -1,15 +1,15 @@
 <script setup>
-import { useCanvassSummaryStore, APPROVALS } from "~/stores/inventory/procurement/canvassSummary"
+import { useCanvassSummaryStore } from "~/stores/inventory/procurement/canvassSummary"
 import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 import { useProcurementRequestStore } from "~/stores/inventory/procurement/request"
-import { useApprovalStore } from "@/stores/hrms/setup/approvals"
+// import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 
 const mainStore = useCanvassSummaryStore()
 const priceQuotationStore = usePriceQuotationStore()
 const procurementRequestStore = useProcurementRequestStore()
-const approvalsStore = useApprovalStore()
+// const approvalsStore = useApprovalStore()
 
-const { approvalList, canvassSummary } = storeToRefs(mainStore)
+const { canvassSummary } = storeToRefs(mainStore)
 const { viewRequests } = storeToRefs(procurementRequestStore)
 const { priceQuotation } = storeToRefs(priceQuotationStore)
 
@@ -35,7 +35,7 @@ const supplierColumns = [
     ])
 ]
 
-approvalList.value.list = await approvalsStore.getApprovalByName(APPROVALS)
+createRequest.value.approvals = await approvals.getApprovalByName(APPROVAL_REQUEST_CANVASS_SUMMARY)
 
 onMounted(() => {
     procurementRequestStore.getOne(route.query.pr_id)
@@ -46,8 +46,9 @@ onMounted(() => {
 <template>
     <div class="text-gray-500 p-2">
         <div class="flex flex-col gap-4 pt-4 w-full">
+            <DocumentTemplatesIsoHeader :page="{ currentPage: 1, totalPages: 1 }" />
             <div v-if="title" class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4">
-                <h3 class="pl-4 text-xl font-bold text-gray-900 p-4 tracking-wide">
+                <h3 class="pl-4 text-2xl font-bold text-gray-900 p-4 uppercase">
                     {{ title }}
                 </h3>
             </div>
@@ -123,9 +124,9 @@ onMounted(() => {
                         <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">
                             Approval:</label>
                         <HrmsSetupApprovalsList
-                            v-for="(approv, apr) in approvalList.list"
+                            v-for="(approv, apr) in createRequest.approvals"
                             :key="'hrmsetupapprovallist' + approv"
-                            v-model="approvalList.list[apr]"
+                            v-model="createRequest.approvals[apr]"
                         />
                     </div>
                 </div>

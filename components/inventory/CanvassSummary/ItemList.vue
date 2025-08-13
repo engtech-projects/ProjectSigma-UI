@@ -11,7 +11,7 @@ defineProps({
     loading: {
         type: Boolean,
         required: true
-    }
+    },
 })
 
 const selectedItems = defineModel("selectedItems", { default: () => ({}) })

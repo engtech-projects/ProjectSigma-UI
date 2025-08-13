@@ -71,8 +71,6 @@ watch(pqId, (newVal) => {
 watch(csId, (newVal) => {
     if (newVal) {
         canvassSummaryStore.getOne(newVal)
-        // eslint-disable-next-line no-console
-        console.log("Fetching Canvass Summary details for CS ID:", newVal)
     }
 })
 watch(ncpoId, (newVal) => {
@@ -189,6 +187,7 @@ const closeEditNcpo = () => {
                     <LayoutLoadingContainer :loading="canvassSummaryStore.createRequest.isLoading">
                         <InventoryCanvassSummaryForm
                             :cs-id="csId"
+                            title="Canvass Summary"
                             @submit-success="closeCreateCs"
                         />
                     </LayoutLoadingContainer>
@@ -206,6 +205,7 @@ const closeEditNcpo = () => {
                 <template #default>
                     <InventoryCanvassSummaryFormEdit
                         :cs-id="csId"
+                        title="Canvass Summary"
                         @submit-success="closeEditCs"
                     />
                 </template>
