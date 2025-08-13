@@ -27,8 +27,15 @@ onMounted(async () => {
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.SUPERADMIN,
                 ])"
-                title="Special Accessibility"
+                title="General Account Settings"
                 :target-id="'tab3'+compId"
+            />
+            <HrmsCommonTabsTabTitle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.SUPERADMIN,
+                ])"
+                title="Special Accessibility"
+                :target-id="'tab4'+compId"
             />
         </template>
         <template #tab-containers>
@@ -39,6 +46,9 @@ onMounted(async () => {
                 <HrmsSetupSettingsAttendanceSettings />
             </HrmsCommonTabsTabContainer>
             <HrmsCommonTabsTabContainer :id="'tab3'+compId">
+                <HrmsSetupSettingsGeneralAccount />
+            </HrmsCommonTabsTabContainer>
+            <HrmsCommonTabsTabContainer :id="'tab4'+compId">
                 <HrmsSetupSettingsSpecialAccessibility />
             </HrmsCommonTabsTabContainer>
         </template>
