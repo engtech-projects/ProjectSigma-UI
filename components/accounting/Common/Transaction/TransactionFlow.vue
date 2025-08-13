@@ -114,9 +114,10 @@
                             <div v-show="transactionFlowModel.status === 'in_progress' && transactionFlowModel.user_id === userData?.employee?.id" class="w-full flex justify-end pt-2">
                                 <button
                                     class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+                                    :disabled="isLoading"
                                     @click="handleTransactionFlowUpdate(transactionFlowModel.id, userData?.employee?.id)"
                                 >
-                                    Mark as done
+                                    {{ isLoading ? "Loading..." : "Mark as done" }}
                                 </button>
                             </div>
                         </div>
@@ -151,6 +152,7 @@ import { useTransactionFlowStore } from "~/stores/accounting/setup/transactionFl
 import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
 const transactionFlowStore = useTransactionFlowStore()
 const paymentRequestStore = usePaymentRequestStore()
+const isLoading = ref(false)
 const { data: userData } = useAuth()
 const snackbar = useSnackbar()
 const props = defineProps({
@@ -219,6 +221,7 @@ const calculateProgress = () => {
     return (completedCount / props.transactionFlowModelList.length) * 100
 }
 const handleTransactionFlowUpdate = async (flowId, userId) => {
+    isLoading.value = true
     try {
         await transactionFlowStore.updateTransactionFlowStatus(flowId, userId)
         snackbar.add({
@@ -232,6 +235,8 @@ const handleTransactionFlowUpdate = async (flowId, userId) => {
             type: "error",
             text: error || "something went wrong."
         })
+    } finally {
+        isLoading.value = false
     }
 }
 </script>
