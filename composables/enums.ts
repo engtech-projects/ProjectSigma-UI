@@ -36,3 +36,8 @@ export const AccountingRequestStatus = {
     approved: "Approved",
     denied: "Denied",
 }
+export const AccountingProgressIndicatorTypeStatus = {
+    PENDING: "pending",
+    IN_PROGRESS: "in_progress",
+    DONE: "done",
+}

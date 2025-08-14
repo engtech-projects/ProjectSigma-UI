@@ -114,9 +114,7 @@ const formatStatus = (status) => {
                     </p>
                 </div>
                 <AccountingCommonTransactionProgressIndicator
-                    :is-pending="transactionFlowModel.status === 'pending'"
-                    :is-complete="transactionFlowModel.status === 'done'"
-                    :is-in-progress="transactionFlowModel.status === 'in_progress'"
+                    :indicator-status-type="transactionFlowModel.status === 'pending' ? AccountingProgressIndicatorTypeStatus.PENDING : transactionFlowModel.status === 'done' ? AccountingProgressIndicatorTypeStatus.DONE : AccountingProgressIndicatorTypeStatus.IN_PROGRESS"
                 />
             </div>
             <div v-show="transactionFlowModel.status === 'in_progress' && transactionFlowModel.user_id === userData?.employee?.id" class="w-full flex justify-end pt-2">

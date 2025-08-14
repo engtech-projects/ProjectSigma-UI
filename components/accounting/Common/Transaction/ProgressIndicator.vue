@@ -1,17 +1,26 @@
+<script setup>
+defineProps({
+    indicatorStatusType: {
+        type: String,
+        required: true,
+        default: AccountingProgressIndicatorTypeStatus.PENDING
+    },
+})
+</script>
 <template>
     <div>
         <div
             :class="[
                 'w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300',
-                isComplete
+                indicatorStatusType === AccountingProgressIndicatorTypeStatus.DONE
                     ? 'bg-green-500 text-white'
-                    : isInProgress
+                    : indicatorStatusType === AccountingProgressIndicatorTypeStatus.IN_PROGRESS
                         ? 'bg-yellow-500 text-white'
                         : 'bg-gray-200 text-gray-400'
             ]"
         >
             <svg
-                v-show="isPending"
+                v-show="indicatorStatusType === AccountingProgressIndicatorTypeStatus.PENDING"
                 class="w-4 h-4 animate-spin"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -31,7 +40,7 @@
                 />
             </svg>
             <svg
-                v-show="isComplete"
+                v-show="indicatorStatusType === AccountingProgressIndicatorTypeStatus.DONE"
                 class="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
@@ -45,7 +54,7 @@
                 />
             </svg>
             <svg
-                v-show="isInProgress"
+                v-show="indicatorStatusType === AccountingProgressIndicatorTypeStatus.IN_PROGRESS"
                 class="w-4 h-4 animate-spin"
                 fill="none"
                 stroke="currentColor"
@@ -60,23 +69,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-defineProps({
-    isPending: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
-    isComplete: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
-    isInProgress: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
-})
-</script>

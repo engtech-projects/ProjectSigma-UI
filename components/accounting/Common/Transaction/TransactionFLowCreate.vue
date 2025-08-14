@@ -47,8 +47,7 @@ const props = defineProps({
                             </p>
                         </div>
                         <AccountingCommonTransactionProgressIndicator
-                            :is-in-progress="index === 0"
-                            :is-pending="index != 0"
+                            :indicator-status-type="index === 0 ? AccountingProgressIndicatorTypeStatus.IN_PROGRESS : AccountingProgressIndicatorTypeStatus.PENDING"
                         />
                     </div>
                 </div>
