@@ -162,15 +162,12 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                         if (response.ok) {
                             this.priceQuotation.isLoaded = true
                             this.priceQuotation.list = response._data.data
-                            this.priceQuotation.pagination = response._data.data.links
-                                ? {
-                                    first_page: response._data.data.links.first,
-                                    pages: response._data.data.meta.links,
-                                    last_page: response._data.data.links.last,
-                                }
-                                : {}
+                            this.priceQuotation.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.links.last,
+                            }
                         } else {
-                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
