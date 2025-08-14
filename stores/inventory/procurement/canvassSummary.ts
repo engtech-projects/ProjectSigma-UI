@@ -305,16 +305,16 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                     onRequest: () => {
                         this.createRequest.isLoading = true
                     },
+                    onResponseError: ({ response }: any) => {
+                        this.createRequest.isLoading = false
+                        this.createRequest.errorMessage = response?._data?.message || "Unexpected server error while creating canvass summary."
+                        throw new Error(this.createRequest.errorMessage || "Unexpected server error while creating canvass summary.")
+                    },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.createRequest.successMessage = response._data.message
                         }
                         this.createRequest.isLoading = false
-                    },
-                    onResponseError: ({ response }: any) => {
-                        this.createRequest.isLoading = false
-                        this.createRequest.errorMessage = response?._data?.message || "Unexpected server error while creating canvass summary."
-                        throw new Error(this.createRequest.errorMessage || "Unexpected server error while creating canvass summary.")
                     },
                 }
             )

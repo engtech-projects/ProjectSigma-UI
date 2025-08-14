@@ -9,7 +9,7 @@ const procurementRequestStore = useProcurementRequestStore()
 
 const { canvassSummary } = storeToRefs(mainStore)
 const { viewRequests } = storeToRefs(procurementRequestStore)
-const { priceQuotation } = storeToRefs(priceQuotationStore)
+const { quotationsForCanvass } = storeToRefs(priceQuotationStore)
 
 const route = useRoute()
 
@@ -35,11 +35,11 @@ const supplierColumns = [
 ]
 
 const orderedSuppliers = computed(() => {
-    if (!priceQuotation.value.list || !canvassSummary.value.details) {
+    if (!quotationsForCanvass.value.list || !canvassSummary.value.details) {
         return []
     }
 
-    const allSuppliers = [...priceQuotation.value.list]
+    const allSuppliers = [...quotationsForCanvass.value.list]
     const selectedQuotationId = canvassSummary.value.details.price_quotation_id
 
     const selectedSupplierIndex = allSuppliers.findIndex(
@@ -74,10 +74,7 @@ onMounted(() => {
         procurementRequestStore.getOne(canvassSummary.value.details.price_quotation.request_procurement_id)
     }
 
-    const procurementId = canvassSummary.value.details?.price_quotation?.request_procurement_id
-    if (procurementId) {
-        priceQuotationStore.getQuotationsForCanvass(procurementId)
-    }
+    priceQuotationStore.getQuotationsForCanvass(route.query.cs_id)
 })
 
 watch(
@@ -137,7 +134,7 @@ watch(
                         :items="viewRequests?.details?.requisition_slip?.request_stock_items"
                         :suppliers="orderedSuppliers"
                         :columns="supplierColumns"
-                        :loading="priceQuotation.isLoading || viewRequests.isLoading || canvassSummary.isLoading"
+                        :loading="quotationsForCanvass.isLoading || viewRequests.isLoading || canvassSummary.isLoading"
                     />
 
                     <div class="border border-t-0 border-gray-700 shadow-sm uppercase text-black bg-white">

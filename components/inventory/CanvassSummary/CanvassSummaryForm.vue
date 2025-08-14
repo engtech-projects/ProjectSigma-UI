@@ -11,7 +11,7 @@ const approvals = useApprovalStore()
 
 const { createRequest } = storeToRefs(mainStore)
 const { viewRequests } = storeToRefs(procurementRequestStore)
-const { priceQuotation } = storeToRefs(priceQuotationStore)
+const { quotationsForCanvass } = storeToRefs(priceQuotationStore)
 
 const route = useRoute()
 const snackbar = useSnackbar()
@@ -56,7 +56,7 @@ const storeForm = async () => {
         if (activeSupplier.value === null) {
             throw new Error("Please select a supplier before submitting.")
         }
-        const selectedSupplier = priceQuotation.value.list[activeSupplier.value]
+        const selectedSupplier = quotationsForCanvass.value.list[activeSupplier.value]
         if (!selectedSupplier || !selectedSupplier.id) {
             throw new Error("Invalid supplier selection. Please try again.")
         }
@@ -79,9 +79,7 @@ const storeForm = async () => {
         })
     }
 }
-onMounted(async () => {
-    createRequest.value.approvals = await approvals.getApprovalByName(APPROVAL_REQUEST_CANVASS_SUMMARY)
-})
+createRequest.value.approvals = await approvals.getApprovalByName(APPROVAL_REQUEST_CANVASS_SUMMARY)
 onMounted(() => {
     mainStore.resetForm()
     procurementRequestStore.getOne(route.query.pr_id)
@@ -138,9 +136,9 @@ watch(
                             v-model:selected-items="selectedItems"
                             v-model:active-supplier="activeSupplier"
                             :items="viewRequests?.details?.requisition_slip?.request_stock_items"
-                            :suppliers="priceQuotation.list"
+                            :suppliers="quotationsForCanvass.list"
                             :columns="supplierColumns"
-                            :loading="priceQuotation.isLoading || viewRequests.isLoading"
+                            :loading="quotationsForCanvass.isLoading || viewRequests.isLoading"
                         />
 
                         <div class="border border-t-0 border-gray-700 shadow-sm uppercase text-black">

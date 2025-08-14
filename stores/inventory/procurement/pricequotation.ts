@@ -142,6 +142,16 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
             errorMessage: "",
             successMessage: "",
         },
+        quotationsForCanvass: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            details: {},
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         selectedItem: "",
         errorMessage: "",
         successMessage: "",
@@ -153,21 +163,21 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                 "/api/procurement-request/quotations-for-canvass/" + id,
                 {
                     method: "GET",
-                    params: this.priceQuotation.params,
+                    params: this.quotationsForCanvass.params,
                     onRequest: () => {
-                        this.priceQuotation.isLoading = true
+                        this.quotationsForCanvass.isLoading = true
                     },
                     onResponseError: ({ response }: any) => {
-                        this.priceQuotation.isLoading = false
-                        this.priceQuotation.errorMessage = response?._data?.message || "Unexpected server error while creating canvass summary."
-                        throw new Error(this.priceQuotation.errorMessage || "Unexpected server error while creating canvass summary.")
+                        this.quotationsForCanvass.isLoading = false
+                        this.quotationsForCanvass.errorMessage = response?._data?.message || "Unexpected server error while creating canvass summary."
+                        throw new Error(this.quotationsForCanvass.errorMessage || "Unexpected server error while creating canvass summary.")
                     },
                     onResponse: ({ response }) => {
-                        this.priceQuotation.isLoading = false
+                        this.quotationsForCanvass.isLoading = false
                         if (response.ok) {
-                            this.priceQuotation.isLoaded = true
-                            this.priceQuotation.list = response._data.data
-                            this.priceQuotation.pagination = {
+                            this.quotationsForCanvass.isLoaded = true
+                            this.quotationsForCanvass.list = response._data.data
+                            this.quotationsForCanvass.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.links,
                                 last_page: response._data.data.links.last,
