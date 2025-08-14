@@ -764,13 +764,11 @@ export const useProjectStore = defineStore("projects", {
                             this.errorMessage = response._data?.message || "Unable to get viewer link"
                             throw new Error(this.errorMessage)
                         }
-
-                        const viewerUrl: string = response._data
-                        if (!viewerUrl) {
+                        const { url } = response._data || {}
+                        if (!url) {
                             throw new Error("Empty viewer URL received")
                         }
-
-                        window.open(viewerUrl, "_blank")
+                        window.open(url, "_blank")
                         this.successMessage = "Opening document viewer..."
                     },
                     onResponseError: ({ response }) => {

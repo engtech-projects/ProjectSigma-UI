@@ -1,5 +1,8 @@
 <script setup>
+import ProjectAttachmentUploadButton from "../../details/ProjectAttachmentUploadButton.vue"
+import ProjectAttachmentsViewButton from "../../details/ProjectAttachmentsViewButton.vue"
 import { useProjectStore } from "~/stores/project-monitoring/projects"
+
 const router = useRouter()
 const projectStore = useProjectStore()
 const boardLoading = ref(false)
