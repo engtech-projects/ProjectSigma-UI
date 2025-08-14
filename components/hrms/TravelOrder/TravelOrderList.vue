@@ -4,9 +4,12 @@ import { useTravelorderStore } from "@/stores/hrms/travelorder"
 
 const travels = useTravelorderStore()
 const { allList } = storeToRefs(travels)
+const debGetAllList = useDebouncedFn(() => {
+    travels.getTravelorders()
+}, 500)
 onMounted(() => {
     if (!allList.value.isLoaded) {
-        travels.getTravelorders()
+        debGetAllList()
     }
 })
 
@@ -33,6 +36,16 @@ const showInformation = (data) => {
 const changePaginate = (newParams) => {
     allList.value.params.page = newParams.page ?? ""
 }
+watch(
+    () => ({ ...allList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            allList.value.params.page = 1
+        }
+        debGetAllList()
+    },
+    { deep: true }
+)
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="allList.isLoading">
@@ -51,16 +64,6 @@ const changePaginate = (newParams) => {
         <div class="flex justify-center mx-auto">
             <PsCustomPagination :links="allList.pagination" @change-params="changePaginate" />
         </div>
-        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
-            {{ errorMessage }}
-        </p>
-        <p
-            v-show="successMessage"
-            hidden
-            class="success-message text-green-600 text-center font-semibold italic"
-        >
-            {{ successMessage }}
-        </p>
         <HrmsTravelOrderInfoModal
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
