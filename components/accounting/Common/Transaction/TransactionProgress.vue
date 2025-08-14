@@ -9,20 +9,16 @@ const props = defineProps({
         default: "create",
     },
 })
-
 const calculateProgress = () => {
     if (props.transactionFlowModelList.length === 0) {
         return 0
     }
-
     if (props.transactionOption === "create") {
         return (1 / props.transactionFlowModelList.length) * 100
     }
-
     const completedCount = getCompletedCount()
     return (completedCount / props.transactionFlowModelList.length) * 100
 }
-
 const getCompletedCount = () => {
     if (props.transactionOption === "create") {
         return 1

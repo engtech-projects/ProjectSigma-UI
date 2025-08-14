@@ -1,3 +1,38 @@
+<script setup>
+import { useTransactionFlowStore } from "@/stores/accounting/setup/transactionFlowModel"
+const transactionFlow = useTransactionFlowStore()
+const snackbar = useSnackbar()
+const isEdit = ref(false)
+const editId = ref(null)
+onMounted(async () => {
+    await transactionFlow.getTransactionFlow()
+})
+const handleAssigneeEdit = (id) => {
+    isEdit.value = !isEdit.value
+    editId.value = id
+}
+const handleAssigneeSave = async (id) => {
+    try {
+        isEdit.value = !isEdit.value
+        editId.value = id
+        await transactionFlow.updateTransactionFlow(id)
+
+        snackbar.add({
+            type: "success",
+            text: "Transaction Flow Successfully Updated",
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: "Transaction Flow Failed to Update",
+        })
+    }
+}
+useHead({
+    title: "Accounting Transaction Flow",
+})
+</script>
+
 <template>
     <div class="w-full flex justify-center">
         <div class="w-1/2 bg-white">
@@ -61,38 +96,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import { useTransactionFlowStore } from "@/stores/accounting/setup/transactionFlowModel"
-const transactionFlow = useTransactionFlowStore()
-const snackbar = useSnackbar()
-const isEdit = ref(false)
-const editId = ref(null)
-onMounted(async () => {
-    await transactionFlow.getTransactionFlow()
-})
-const handleAssigneeEdit = (id) => {
-    isEdit.value = !isEdit.value
-    editId.value = id
-}
-const handleAssigneeSave = async (id) => {
-    try {
-        isEdit.value = !isEdit.value
-        editId.value = id
-        await transactionFlow.updateTransactionFlow(id)
-
-        snackbar.add({
-            type: "success",
-            text: "Transaction Flow Successfully Updated",
-        })
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: "Transaction Flow Failed to Update",
-        })
-    }
-}
-useHead({
-    title: "Accounting Transaction Flow",
-})
-</script>
