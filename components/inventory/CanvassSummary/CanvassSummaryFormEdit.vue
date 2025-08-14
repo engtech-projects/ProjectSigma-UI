@@ -38,20 +38,15 @@ const orderedSuppliers = computed(() => {
     if (!quotationsForCanvass.value.list || !canvassSummary.value.details) {
         return []
     }
-
     const allSuppliers = [...quotationsForCanvass.value.list]
     const selectedQuotationId = canvassSummary.value.details.price_quotation_id
-
     const selectedSupplierIndex = allSuppliers.findIndex(
         supplier => supplier.id === selectedQuotationId
     )
-
     if (selectedSupplierIndex === -1) {
         return allSuppliers.slice(0, 3)
     }
-
     const selectedSupplier = allSuppliers.splice(selectedSupplierIndex, 1)[0]
-
     const reorderedSuppliers = [selectedSupplier, ...allSuppliers]
     return reorderedSuppliers.slice(0, 3)
 })
@@ -69,11 +64,9 @@ const initializeSelectedItems = () => {
 
 onMounted(() => {
     mainStore.getOne(route.query.cs_id || props.csId)
-
     if (canvassSummary.value.details?.price_quotation?.request_procurement_id) {
         procurementRequestStore.getOne(canvassSummary.value.details.price_quotation.request_procurement_id)
     }
-
     priceQuotationStore.getQuotationsForCanvass(route.query.cs_id)
 })
 

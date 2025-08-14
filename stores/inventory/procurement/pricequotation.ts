@@ -144,11 +144,8 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
         },
         quotationsForCanvass: {
             isLoading: false,
-            isLoaded: false,
             list: [],
-            details: {},
             params: {},
-            pagination: {},
             errorMessage: "",
             successMessage: "",
         },
@@ -175,13 +172,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                     onResponse: ({ response }) => {
                         this.quotationsForCanvass.isLoading = false
                         if (response.ok) {
-                            this.quotationsForCanvass.isLoaded = true
                             this.quotationsForCanvass.list = response._data.data
-                            this.quotationsForCanvass.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.links.last,
-                            }
                         }
                     },
                 }
