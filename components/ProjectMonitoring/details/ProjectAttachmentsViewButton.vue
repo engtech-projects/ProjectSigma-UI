@@ -11,18 +11,14 @@ const viewAttachments = async () => {
         if (!projectId || isNaN(projectId)) {
             throw new Error("Missing or invalid project ID")
         }
-
         snackbar.add({
             type: "info",
             text: "Preparing attachments viewer..."
         })
-
         const response = await projectStore.viewAttachments(projectId)
-
         if (!response?.data?.url) {
             throw new Error("Failed to generate attachments viewer URL")
         }
-
         window.open(response.data.url, "_blank")
     } catch (err: any) {
         snackbar.add({

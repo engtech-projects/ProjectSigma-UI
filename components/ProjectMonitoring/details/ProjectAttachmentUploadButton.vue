@@ -3,7 +3,6 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const route = useRoute()
 const snackbar = useSnackbar()
-
 const projectStore = useProjectStore()
 
 const uploadAttachment = async (event: any) => {
@@ -12,20 +11,16 @@ const uploadAttachment = async (event: any) => {
         if (!projectId || isNaN(projectId)) {
             throw new Error("Project ID not found in the route")
         }
-
         const input = event.target as HTMLInputElement
         const files = input.files
         if (!files || files.length === 0) {
             throw new Error("No files selected")
         }
-
         const formData = new FormData()
         for (const file of files) {
             formData.append("attachments[]", file)
         }
-
         await projectStore.uploadAttachments(projectId, formData)
-
         snackbar.add({
             type: "success",
             text: "File uploaded successfully",

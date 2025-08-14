@@ -755,7 +755,6 @@ export const useProjectStore = defineStore("projects", {
         async viewAttachments (projectId: number) {
             this.errorMessage = ""
             this.successMessage = ""
-
             await useProjectsApi(
                 `/api/projects/${projectId}/document-viewer`,
                 {
