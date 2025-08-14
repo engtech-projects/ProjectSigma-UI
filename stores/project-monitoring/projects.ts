@@ -760,16 +760,12 @@ export const useProjectStore = defineStore("projects", {
                 `/api/projects/${projectId}/document-viewer`,
                 {
                     method: "GET",
-                    onResponse: ({ response }) => {
-                        if (!response.ok) {
-                            this.errorMessage = response._data?.message || "Unable to get viewer link"
-                            throw new Error(this.errorMessage)
-                        }
-                        apiResponse = response._data
-                    },
                     onResponseError: ({ response }) => {
                         this.errorMessage = response._data?.message || "Failed to open document viewer"
                         throw new Error(this.errorMessage)
+                    },
+                    onResponse: ({ response }) => {
+                        apiResponse = response._data
                     },
                 }
             )
