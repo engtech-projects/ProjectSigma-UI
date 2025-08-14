@@ -4,9 +4,12 @@ import { useOvertimeStore } from "@/stores/hrms/overtime"
 
 const overtimes = useOvertimeStore()
 const { approvalList } = storeToRefs(overtimes)
+const debouncedGetData = useDebouncedFn(() => {
+    overtimes.getMyApprovalRequests()
+})
 onMounted(() => {
     if (!approvalList.value.isLoaded) {
-        overtimes.getMyApprovalRequests()
+        debouncedGetData()
     }
 })
 const headers = [
@@ -28,6 +31,16 @@ const showInformation = (data) => {
 const changePaginate = (newParams) => {
     approvalList.value.params.page = newParams.page ?? ""
 }
+watch(
+    () => ({ ...approvalList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            approvalList.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="approvalList.isLoading">

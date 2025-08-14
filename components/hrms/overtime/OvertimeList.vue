@@ -4,9 +4,12 @@ import { useOvertimeStore } from "@/stores/hrms/overtime"
 
 const overtimes = useOvertimeStore()
 const { allList } = storeToRefs(overtimes)
+const debouncedGetData = useDebouncedFn(() => {
+    overtimes.getOvertime()
+})
 onMounted(() => {
     if (!allList.value.isLoaded) {
-        overtimes.getOvertime()
+        debouncedGetData()
     }
 })
 const headers = [
@@ -28,28 +31,19 @@ const showInformation = (data) => {
     showInfoModal.value = true
 }
 
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
-const setEdit = (ovr) => {
-    isEdit.value = true
-    overtime.value = ovr
-}
-
-const deleteReq = async (req) => {
-    try {
-        boardLoading.value = true
-        await overtimes.deleteRequest(req.id)
-        snackbar.add({
-            type: "success",
-            text: overtimes.successMessage
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
 const changePaginate = (newParams) => {
     allList.value.params.page = newParams.page ?? ""
 }
+watch(
+    () => ({ ...allList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            allList.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="allList.isLoading">
@@ -62,8 +56,6 @@ const changePaginate = (newParams) => {
                 :header-columns="headers"
                 :datas="allList.list"
                 :actions="actions"
-                @edit-row="setEdit"
-                @delete-row="deleteReq"
                 @show-table="showInformation"
             />
         </div>
@@ -74,15 +66,5 @@ const changePaginate = (newParams) => {
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
         />
-        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
-            {{ errorMessage }}
-        </p>
-        <p
-            v-show="successMessage"
-            hidden
-            class="success-message text-green-600 text-center font-semibold italic"
-        >
-            {{ successMessage }}
-        </p>
     </LayoutBoards>
 </template>
