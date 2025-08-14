@@ -1,5 +1,4 @@
 <script setup>
-import { ProjectMonitoringDetailsProjectAttachmentUploadButton } from "#components"
 import { useProjectStore } from "~/stores/project-monitoring/projects"
 
 const router = useRouter()
