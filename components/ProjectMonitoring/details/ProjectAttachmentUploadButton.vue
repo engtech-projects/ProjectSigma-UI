@@ -8,7 +8,7 @@ const projectStore = useProjectStore()
 
 const uploadAttachment = async (event: any) => {
     try {
-        const projectId = Number(route.query?.id)
+        const projectId = Number(route.query.id || route.params.id)
         if (!projectId || isNaN(projectId)) {
             throw new Error("Project ID not found in the route")
         }
@@ -38,8 +38,8 @@ const uploadAttachment = async (event: any) => {
         })
     }
 }
-
 </script>
+
 <template>
     <div class="flex flex-col gap-4">
         <div class="flex flex-row gap-4 justify-start mt-4">
