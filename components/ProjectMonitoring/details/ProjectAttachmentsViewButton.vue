@@ -7,7 +7,7 @@ const route = useRoute()
 
 const viewAttachments = async () => {
     try {
-        const projectId = Number(route.params.id || route.query.id) // Check both params and query
+        const projectId = Number(route.params.id || route.query.id)
         if (!projectId || isNaN(projectId)) {
             throw new Error("Missing or invalid project ID")
         }
