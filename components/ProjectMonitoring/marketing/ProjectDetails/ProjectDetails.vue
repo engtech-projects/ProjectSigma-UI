@@ -1,6 +1,5 @@
 <script setup>
-import ProjectAttachmentUploadButton from "../../details/ProjectAttachmentUploadButton.vue"
-import ProjectAttachmentsViewButton from "../../details/ProjectAttachmentsViewButton.vue"
+import { ProjectMonitoringDetailsProjectAttachmentUploadButton } from "#components"
 import { useProjectStore } from "~/stores/project-monitoring/projects"
 
 const router = useRouter()
@@ -83,8 +82,8 @@ defineProps({
                 />
             </template>
             <template #tab-options>
-                <ProjectAttachmentUploadButton />
-                <ProjectAttachmentsViewButton />
+                <ProjectMonitoringDetailsProjectAttachmentUploadButton />
+                <ProjectMonitoringDetailsProjectAttachmentsViewButton />
                 <ProjectMonitoringProjectStageButton
                     v-if="!projectStore.viewState
                         && projectStore.information
