@@ -17,32 +17,43 @@ export const useTransactionFlowStore = defineStore("transactionFlowStore", {
         TransactionFlowList: [] as TransactionFlowModel[],
         selectedId: null,
         status: "done",
-        errorMessage: null,
-        successMessage: null,
+        errorMessage: null as string | null,
+        successMessage: null as string | null,
         isLoading: false,
     }),
     actions: {
         async getTransactionFlow () {
-            this.isLoading = true
-            const { data, error } = await useAccountingApi(
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAccountingApiO(
                 "/api/transaction-flow-model",
                 {
                     method: "GET",
-                    onResponse: ({ response }) => {
+                    watch: false,
+                    onRequest: () => {
+                        this.isLoading = true
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
                         this.isLoading = false
-                        this.TransactionFlowList = response._data.data
+                        if (response.ok) {
+                            this.TransactionFlowList = response._data.data
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
         async updateTransactionFlow (id: number) {
-            this.isLoading = true
-            const { data, error } = await useAccountingApi(
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAccountingApiO(
                 "/api/update-transaction-flow",
                 {
                     method: "POST",
@@ -52,21 +63,31 @@ export const useTransactionFlowStore = defineStore("transactionFlowStore", {
                         update_type: "user"
                     },
                     watch: false,
+                    onRequest: () => {
+                        this.isLoading = true
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.isLoading = false
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.selectedId = null
+                            return response
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                await this.getTransactionFlow()
-                this.successMessage = "Transaction flow successfully updated."
-                this.selectedId = null
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
         async updateTransactionFlowStatus (flowId: number, userId: number) {
-            this.isLoading = true
-            const { data, error } = await useAccountingApi(
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAccountingApiO(
                 "/api/update-transaction-flow",
                 {
                     method: "POST",
@@ -77,18 +98,26 @@ export const useTransactionFlowStore = defineStore("transactionFlowStore", {
                         user_id: userId
                     },
                     watch: false,
+                    onRequest: () => {
+                        this.isLoading = true
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.isLoading = false
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.selectedId = null
+                            return response
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                await this.getTransactionFlow()
-                this.successMessage = "Transaction flow successfully updated."
-                this.selectedId = null
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
-
     }
 })
