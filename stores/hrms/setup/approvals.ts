@@ -18,6 +18,7 @@ export const APPROVAL_DISBURSEMENT_VOUCHER = "Disbursement Voucher Request"
 export const APPROVAL_CASH_VOUCHER = "Cash Voucher Request"
 // INVENTORY APPROVALS
 export const APPROVAL_NEW_ITEM_PROFILE = "New Item Profile"
+export const APPROVAL_REQUEST_CANVASS_SUMMARY = "Request Canvass Summary"
 // PROJECTS APPROVALS
 export const APPROVAL_PROJECT_CREATION = "Project Award Request"
 

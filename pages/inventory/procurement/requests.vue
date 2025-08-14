@@ -1,6 +1,7 @@
 <script setup>
 import { useProcurementRequestStore } from "~/stores/inventory/procurement/request"
 import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
+import { useCanvassSummaryStore } from "~/stores/inventory/procurement/canvassSummary"
 
 useHead({
     title: "PROCUREMENT REQUESTS",
@@ -9,6 +10,7 @@ useHead({
 const procurementRequestStore = useProcurementRequestStore()
 const { viewRequests } = storeToRefs(procurementRequestStore)
 const priceQuotationStore = usePriceQuotationStore()
+const canvassSummaryStore = useCanvassSummaryStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -44,6 +46,9 @@ onMounted(() => {
     if (route.query.pq_id) {
         priceQuotationStore.getPriceQuotationDetails(route.query.pq_id)
     }
+    if (route.query.cs_id) {
+        canvassSummaryStore.getOne(route.query.cs_id)
+    }
 })
 const prId = computed(() => route.query.pr_id || null)
 const createPq = computed(() => !!route.query.create_pq)
@@ -65,8 +70,7 @@ watch(pqId, (newVal) => {
 })
 watch(csId, (newVal) => {
     if (newVal) {
-        // eslint-disable-next-line no-console
-        console.log("Fetching Canvass Summary details for CS ID:", newVal)
+        canvassSummaryStore.getOne(newVal)
     }
 })
 watch(ncpoId, (newVal) => {
@@ -180,16 +184,18 @@ const closeEditNcpo = () => {
                     </button>
                 </template>
                 <template #default>
-                    <InventoryCanvassSummaryForm
-                        v-model="canvassSummaryForm"
-                        :request-details="requestDetails"
-                        title="CANVASS SUMMARY"
-                    />
+                    <LayoutLoadingContainer :loading="canvassSummaryStore.createRequest.isLoading">
+                        <InventoryCanvassSummaryForm
+                            :cs-id="csId"
+                            title="Canvass Summary"
+                            @submit-success="closeCreateCs"
+                        />
+                    </LayoutLoadingContainer>
                 </template>
             </LayoutBoards>
             <LayoutBoards
                 v-if="csId"
-                title="Create Canvass Summary"
+                title="Canvass Summary"
             >
                 <template #header-options>
                     <button class="text-gray-500 hover:text-white hover:bg-red-600" @click="closeEditCs">
@@ -197,7 +203,11 @@ const closeEditNcpo = () => {
                     </button>
                 </template>
                 <template #default>
-                    VIEW CANVASS SUMMARY HERE
+                    <InventoryCanvassSummaryFormEdit
+                        :cs-id="csId"
+                        title="Canvass Summary"
+                        @submit-success="closeEditCs"
+                    />
                 </template>
             </LayoutBoards>
             <LayoutBoards
