@@ -80,6 +80,8 @@ defineProps({
                 />
             </template>
             <template #tab-options>
+                <ProjectAttachmentUploadButton />
+                <ProjectAttachmentsViewButton />
                 <ProjectMonitoringProjectStageButton
                     v-if="!projectStore.viewState
                         && projectStore.information

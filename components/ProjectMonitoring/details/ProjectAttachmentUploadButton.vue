@@ -3,31 +3,29 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const route = useRoute()
 const snackbar = useSnackbar()
-const attachments = ref()
-
 const projectStore = useProjectStore()
 
 const uploadAttachment = async (event: any) => {
     try {
-        const projectId = Number(route.params?.id)
-        if (!projectId) {
-            throw new Error("Missing project ID from route")
+        const projectId = Number(route.query.id || route.params.id)
+        if (!projectId || isNaN(projectId)) {
+            throw new Error("Project ID not found in the route")
         }
-
-        const file = event.target.files[0]
-        if (!file) {
-            throw new Error("No file selected")
+        const input = event.target as HTMLInputElement
+        const files = input.files
+        if (!files || files.length === 0) {
+            throw new Error("No files selected")
         }
         const formData = new FormData()
-        formData.append("attachments", file)
-
-        const files: File[] = [file]
-        await projectStore.uploadAttachments(projectId, files)
-
+        for (const file of files) {
+            formData.append("attachments[]", file)
+        }
+        await projectStore.uploadAttachments(projectId, formData)
         snackbar.add({
             type: "success",
             text: "File uploaded successfully",
         })
+        input.value = ""
     } catch (error: any) {
         snackbar.add({
             type: "error",
@@ -36,29 +34,10 @@ const uploadAttachment = async (event: any) => {
     }
 }
 </script>
+
 <template>
     <div class="flex flex-col gap-4">
         <div class="flex flex-row gap-4 justify-start mt-4">
-            LayoutFormPsSelect
-            v-model="attachments.form.attachment_name"
-            :options-list="[
-            'PLANS',
-            'PROGRAM OF WORKS',
-            'CONTRACT AGREEMENT',
-            'PERMIT',
-            'OTHERS'
-            ]"
-            class="w-full"
-            title="Attachment Type"
-            >
-
-            <LayoutFormPsTextInput
-                v-if="attachments?.form.attachment_name === 'OTHERS'"
-                v-model="attachments.form.other_type"
-                class="w-full"
-                title="File Name"
-            />
-
             <div class="w-full">
                 <label class="block mb-1 text-sm font-medium text-gray-900">
                     File
@@ -67,6 +46,7 @@ const uploadAttachment = async (event: any) => {
                     class="w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
                     type="file"
                     accept=".doc, .docx, .pdf, .png, .jpeg"
+                    multiple
                     @change="uploadAttachment"
                 >
             </div>
