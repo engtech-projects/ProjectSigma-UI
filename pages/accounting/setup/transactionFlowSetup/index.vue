@@ -16,7 +16,7 @@ const handleAssigneeSave = async (id) => {
         isEdit.value = !isEdit.value
         editId.value = id
         await transactionFlow.updateTransactionFlow(id)
-
+        await transactionFlow.getTransactionFlow()
         snackbar.add({
             type: "success",
             text: "Transaction Flow Successfully Updated",
@@ -68,24 +68,24 @@ useHead({
                             </p>
                         </div>
                     </div>
-                    <div class="flex justify-end gap-2 py-2">
-                        <HrmsCommonSearchEmployeeSelector
+                    <div class="flex justify-end gap-2 py-2 mt-2">
+                        <HrmsCommonUserEmployeeSelector
                             v-show="isEdit && flow.id === editId"
                             id="users_list"
                             v-model="transactionFlow.selectedId"
-                            title=""
+                            :form="index + 'approvform'"
                             class="w-full"
                         />
                         <button
                             v-show="isEdit && flow.id === editId"
                             :disabled="!transactionFlow.selectedId"
-                            class="bg-green-600 text-white p-2 px-4 rounded-md hover:bg-green-700 transition-all duration-300 h-14"
+                            class="bg-green-600 text-white p-2 px-4 rounded-md hover:bg-green-700 transition-all duration-300"
                             @click="handleAssigneeSave(flow.id)"
                         >
                             Save
                         </button>
                         <button
-                            class="bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-700 transition-all duration-300 h-14"
+                            class="bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-700 transition-all duration-300"
                             @click="handleAssigneeEdit(flow.id)"
                         >
                             {{ isEdit && flow.id === editId ? "Cancel" : "Edit" }}

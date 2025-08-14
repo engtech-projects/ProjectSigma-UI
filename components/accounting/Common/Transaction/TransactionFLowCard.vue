@@ -15,9 +15,7 @@ defineProps({
         default: () => {},
     },
 })
-
 const emit = defineEmits(["closeModal"])
-
 const handleTransactionFlowUpdate = async (flowId, userId) => {
     isLoading.value = true
     try {
@@ -37,7 +35,6 @@ const handleTransactionFlowUpdate = async (flowId, userId) => {
         isLoading.value = false
     }
 }
-
 const getStepClasses = (status) => {
     switch (status) {
     case "done":
@@ -47,7 +44,6 @@ const getStepClasses = (status) => {
         return "bg-gray-50 border-gray-200 hover:border-gray-300"
     }
 }
-
 const getStatusBadgeClasses = (status) => {
     switch (status) {
     case "done":
@@ -59,7 +55,6 @@ const getStatusBadgeClasses = (status) => {
         return "bg-gray-100 text-gray-700"
     }
 }
-
 const formatStatus = (status) => {
     switch (status) {
     case "done":
@@ -117,11 +112,11 @@ const formatStatus = (status) => {
                     :indicator-status-type="transactionFlowModel.status === 'pending' ? AccountingProgressIndicatorTypeStatus.PENDING : transactionFlowModel.status === 'done' ? AccountingProgressIndicatorTypeStatus.DONE : AccountingProgressIndicatorTypeStatus.IN_PROGRESS"
                 />
             </div>
-            <div v-show="transactionFlowModel.status === 'in_progress' && transactionFlowModel.user_id === userData?.employee?.id" class="w-full flex justify-end pt-2">
+            <div v-show="transactionFlowModel.status === 'in_progress' && useCheckIsCurrentUser(transactionFlowModel.user_id)" class="w-full flex justify-end pt-2">
                 <button
                     class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
                     :disabled="isLoading"
-                    @click="handleTransactionFlowUpdate(transactionFlowModel.id, userData?.employee?.id)"
+                    @click="handleTransactionFlowUpdate(transactionFlowModel.id, transactionFlowModel.user_id)"
                 >
                     {{ isLoading ? "Loading..." : "Mark as done" }}
                 </button>
