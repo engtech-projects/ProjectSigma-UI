@@ -240,6 +240,7 @@ export enum AccessibilityTypes {
     ACCOUNTING_SETUP_PARTICULAR_GROUP = "accounting:setup_particular group",
     ACCOUNTING_SETUP_TERMS = "accounting:setup_terms",
     ACCOUNTING_SETUP_WITHHOLDING_TAX = "accounting:setup_withholding tax",
+    ACCOUNTING_SETUP_TRANSACTION_FLOW_SETUP = "accounting:setup_transaction flow setup",
 
     // ACCOUNTING REQUEST
     ACCOUNTING_REQUEST_GROUP = "accounting:request_",

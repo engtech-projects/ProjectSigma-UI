@@ -387,6 +387,9 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             if (this.myApprovals.isLoaded) {
                 callFunctions.push(this.getMyApprovals)
             }
+            if (this.myDeniedRequests.isLoaded) {
+                callFunctions.push(this.getMyDeniedRequests)
+            }
             this.$reset()
             this.paymentRequest.approvals = backup
             callFunctions.forEach((element) => {
