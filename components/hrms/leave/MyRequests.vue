@@ -6,6 +6,14 @@ const leaveRequest = useLeaveRequest()
 const { myRequestList } = storeToRefs(leaveRequest)
 const leaveRequestData = ref(null)
 const showInformationModal = ref(false)
+const debouncedGetData = useDebouncedFn(() => {
+    leaveRequest.myRequest()
+}, 500)
+onMounted(() => {
+    if (!myRequestList.value.isLoaded) {
+        debouncedGetData()
+    }
+})
 const showInformation = (data) => {
     leaveRequestData.value = data
     showInformationModal.value = true
@@ -25,6 +33,16 @@ const headers = [
 const actions = {
     showTable: true,
 }
+watch(
+    () => ({ ...myRequestList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            myRequestList.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="myRequestList.isLoading">
