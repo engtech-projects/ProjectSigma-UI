@@ -15,7 +15,7 @@ const CanvassSummaryHeaders = [
     { name: "Terms of Payment", id: "terms_of_payment" },
     { name: "Availability", id: "availability" },
     { name: "Delivery Terms", id: "delivery_terms" },
-    { name: "Created at", id: "created_at" },
+    { name: "Created at", id: "created_at_human" },
 ]
 const createPq = () => {
     router.push({

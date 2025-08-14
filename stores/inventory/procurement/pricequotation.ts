@@ -148,7 +148,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
         remarks: "",
     }),
     actions: {
-        async getQuotations (id: number) {
+        async getQuotationsForCanvass (id: number) {
             await useInventoryApi(
                 "/api/procurement-request/quotations-for-canvass/" + id,
                 {
@@ -156,6 +156,11 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                     params: this.priceQuotation.params,
                     onRequest: () => {
                         this.priceQuotation.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.priceQuotation.isLoading = false
+                        this.priceQuotation.errorMessage = response?._data?.message || "Unexpected server error while creating canvass summary."
+                        throw new Error(this.priceQuotation.errorMessage || "Unexpected server error while creating canvass summary.")
                     },
                     onResponse: ({ response }) => {
                         this.priceQuotation.isLoading = false
@@ -167,8 +172,6 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                                 pages: response._data.data.links,
                                 last_page: response._data.data.links.last,
                             }
-                        } else {
-                            throw new Error(response._data.message)
                         }
                     },
                 }

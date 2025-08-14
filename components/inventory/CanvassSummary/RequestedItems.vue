@@ -132,10 +132,10 @@ function itemBelongsToActiveSupplier (itemIndex) {
                         ]"
                         @click="toggleItemSelection(index)"
                     >
-                        <td class="border border-gray-700 px-1 sm:px-3 py-2 sm:py-3 text-center font-medium text-gray-600 transition-all duration-200">
+                        <td class="border border-gray-700 p-1 text-center font-medium text-gray-600 transition-all duration-200">
                             {{ index + 1 }}
                         </td>
-                        <td class="border border-gray-700 px-1 sm:px-3 py-2 sm:py-3 font-medium transition-all duration-200 text-center">
+                        <td class="border border-gray-700 p-1 font-medium transition-all duration-200 text-center">
                             <div class="truncate" :title="item.item_profile?.item_description || item.itemDescription">
                                 {{ item.item_profile?.item_description || item.itemDescription }}
                             </div>

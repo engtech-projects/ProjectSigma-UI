@@ -15,6 +15,7 @@ const { priceQuotation } = storeToRefs(priceQuotationStore)
 
 const route = useRoute()
 const snackbar = useSnackbar()
+const emit = defineEmits(["submit-success"])
 
 defineProps({
     title: { type: String, required: true }
@@ -35,14 +36,12 @@ const supplierColumns = [
         { name: "REMARKS", key: `supplier${i}_remarks` }
     ])
 ]
-
 const initFormFromSlip = (slip) => {
     if (!slip) { return }
     createRequest.value.form.date = new Date().toISOString().split("T")[0]
     createRequest.value.form.project_code = slip.office_project
     createRequest.value.form.project_address = slip.office_project_address
     createRequest.value.form.conso_reference_no = slip.reference_no
-    createRequest.value.form.price_quotation_id = route.query.pr_id
 }
 
 const storeForm = async () => {
@@ -54,8 +53,16 @@ const storeForm = async () => {
         if (!items.length) {
             throw new Error("Please select at least one item.")
         }
+        if (activeSupplier.value === null) {
+            throw new Error("Please select a supplier before submitting.")
+        }
+        const selectedSupplier = priceQuotation.value.list[activeSupplier.value]
+        if (!selectedSupplier || !selectedSupplier.id) {
+            throw new Error("Invalid supplier selection. Please try again.")
+        }
 
         createRequest.value.form.items = items
+        createRequest.value.form.price_quotation_id = selectedSupplier.id
         createRequest.value.form.approvals = await approvals.getApprovalByName(APPROVAL_REQUEST_CANVASS_SUMMARY)
 
         await mainStore.storeRequest()
@@ -64,6 +71,7 @@ const storeForm = async () => {
             type: "success",
             text: mainStore.createRequest.successMessage
         })
+        emit("submit-success")
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -73,8 +81,11 @@ const storeForm = async () => {
 }
 onMounted(async () => {
     createRequest.value.approvals = await approvals.getApprovalByName(APPROVAL_REQUEST_CANVASS_SUMMARY)
-    await procurementRequestStore.getOne(route.query.pr_id)
-    await priceQuotationStore.getQuotations(route.query.pr_id)
+})
+onMounted(() => {
+    mainStore.resetForm()
+    procurementRequestStore.getOne(route.query.pr_id)
+    priceQuotationStore.getQuotationsForCanvass(route.query.pr_id)
     initFormFromSlip(viewRequests.value.details?.requisition_slip)
 })
 
@@ -96,8 +107,8 @@ watch(
                     </h3>
                 </div>
 
-                <div class="flex flex-col gap-4 mb-5">
-                    <div class="flex flex-row justify-between gap-4">
+                <div class="flex flex-col">
+                    <div class="flex flex-row justify-between gap-20">
                         <div class="w-full flex flex-col">
                             <InventoryCommonFormPsFormLabel
                                 v-for="(value, label) in {
@@ -122,7 +133,7 @@ watch(
                         </div>
                     </div>
 
-                    <div>
+                    <div class="mt-4">
                         <InventoryCanvassSummaryItemList
                             v-model:selected-items="selectedItems"
                             v-model:active-supplier="activeSupplier"
@@ -146,6 +157,9 @@ watch(
                                         v-model="createRequest.form[label === 'Terms and Conditions' ? 'terms_of_payment' : label.replace(/ /g, '_').toLowerCase()]"
                                         class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500"
                                     >
+                                        <option value="" disabled>
+                                            Select {{ label }}...
+                                        </option>
                                         <option v-for="(option, j) in options" :key="j" :value="option">
                                             {{ option }}
                                         </option>

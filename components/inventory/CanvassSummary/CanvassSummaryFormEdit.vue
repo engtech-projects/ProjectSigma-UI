@@ -2,12 +2,10 @@
 import { useCanvassSummaryStore } from "~/stores/inventory/procurement/canvassSummary"
 import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 import { useProcurementRequestStore } from "~/stores/inventory/procurement/request"
-// import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 
 const mainStore = useCanvassSummaryStore()
 const priceQuotationStore = usePriceQuotationStore()
 const procurementRequestStore = useProcurementRequestStore()
-// const approvalsStore = useApprovalStore()
 
 const { canvassSummary } = storeToRefs(mainStore)
 const { viewRequests } = storeToRefs(procurementRequestStore)
@@ -16,11 +14,12 @@ const { priceQuotation } = storeToRefs(priceQuotationStore)
 const route = useRoute()
 
 defineProps({
-    title: { type: String, required: true }
+    title: { type: String, required: true },
+    csId: { type: [String, Number], required: true }
 })
 
 const selectedItems = ref({})
-const activeSupplier = ref(null)
+const activeSupplier = ref(0)
 
 const supplierColumns = [
     { name: "ITEM NO.", key: "id" },
@@ -35,12 +34,64 @@ const supplierColumns = [
     ])
 ]
 
-createRequest.value.approvals = await approvals.getApprovalByName(APPROVAL_REQUEST_CANVASS_SUMMARY)
+const orderedSuppliers = computed(() => {
+    if (!priceQuotation.value.list || !canvassSummary.value.details) {
+        return []
+    }
+
+    const allSuppliers = [...priceQuotation.value.list]
+    const selectedQuotationId = canvassSummary.value.details.price_quotation_id
+
+    const selectedSupplierIndex = allSuppliers.findIndex(
+        supplier => supplier.id === selectedQuotationId
+    )
+
+    if (selectedSupplierIndex === -1) {
+        return allSuppliers.slice(0, 3)
+    }
+
+    const selectedSupplier = allSuppliers.splice(selectedSupplierIndex, 1)[0]
+
+    const reorderedSuppliers = [selectedSupplier, ...allSuppliers]
+    return reorderedSuppliers.slice(0, 3)
+})
+
+const initializeSelectedItems = () => {
+    if (canvassSummary.value.details?.items) {
+        const itemIds = {}
+        canvassSummary.value.details.items.forEach((item, index) => {
+            itemIds[item.item_id] = true
+            itemIds[index] = true
+        })
+        selectedItems.value = itemIds
+    }
+}
 
 onMounted(() => {
-    procurementRequestStore.getOne(route.query.pr_id)
-    priceQuotationStore.getQuotations(route.query.pr_id)
+    mainStore.getOne(route.query.cs_id || props.csId)
+
+    if (canvassSummary.value.details?.price_quotation?.request_procurement_id) {
+        procurementRequestStore.getOne(canvassSummary.value.details.price_quotation.request_procurement_id)
+    }
+
+    const procurementId = canvassSummary.value.details?.price_quotation?.request_procurement_id
+    if (procurementId) {
+        priceQuotationStore.getQuotationsForCanvass(procurementId)
+    }
 })
+
+watch(
+    () => canvassSummary.value.details,
+    (newDetails) => {
+        if (newDetails) {
+            nextTick(() => {
+                initializeSelectedItems()
+                activeSupplier.value = 0
+            })
+        }
+    },
+    { deep: true }
+)
 </script>
 
 <template>
@@ -58,7 +109,7 @@ onMounted(() => {
                     <div class="w-full flex flex-col">
                         <InventoryCommonFormPsFormLabel
                             v-for="(value, label) in {
-                                'DATE':canvassSummary.details?.date,
+                                'DATE': canvassSummary.details?.price_quotation?.created_at,
                                 'PROJECT CODE': viewRequests.details?.requisition_slip?.office_project,
                                 'CONSO/RS REFERENCE NUMBER': viewRequests.details?.requisition_slip?.reference_no,
                             }"
@@ -81,12 +132,12 @@ onMounted(() => {
 
                 <div>
                     <InventoryCanvassSummaryItemList
-                        v-model:selected-items="selectedItems"
-                        v-model:active-supplier="activeSupplier"
+                        :selected-items="selectedItems"
+                        :active-supplier="activeSupplier"
                         :items="viewRequests?.details?.requisition_slip?.request_stock_items"
-                        :suppliers="priceQuotation.list"
+                        :suppliers="orderedSuppliers"
                         :columns="supplierColumns"
-                        :loading="priceQuotation.isLoading || viewRequests.isLoading"
+                        :loading="priceQuotation.isLoading || viewRequests.isLoading || canvassSummary.isLoading"
                     />
 
                     <div class="border border-t-0 border-gray-700 shadow-sm uppercase text-black bg-white">
@@ -97,47 +148,51 @@ onMounted(() => {
                                 'Delivery Terms': canvassSummary.details?.delivery_terms,
                             }"
                             :key="label"
-                            :value="value"
                             class="flex h-[60px] border-b border-gray-700 last:border-b-0"
                         >
-                            <div class="w-1/2 px-4 py-4 font-medium  border-r border-gray-700 flex items-center justify-center">
+                            <div class="w-1/2 px-4 py-4 font-medium border-r border-gray-700 flex items-center justify-center">
                                 {{ label }}
                             </div>
-                            <div class="w-1/4 px-4 py-4 flex items-center text-black">
-                                {{ canvassSummary.details?.[label === 'Terms and Conditions' ? 'terms_of_payment' : label.replace(/ /g, '_').toLowerCase()] }}
+                            <div class="w-1/4 px-4 py-4 flex items-center text-black font-semibold">
+                                {{ value || '-' }}
                             </div>
                         </div>
 
-                        <div class="flex h-[100px] ">
-                            <div class="w-1/2 px-4 py-4 font-medium  border-r border-gray-700 flex items-center justify-center">
+                        <div class="flex h-[100px]">
+                            <div class="w-1/2 px-4 py-4 font-medium border-r border-gray-700 flex items-center justify-center">
                                 Remarks
                             </div>
-                            <div class="w-1/2 px-4 py-4">
-                                {{ canvassSummary.details?.remarks }}
+                            <div class="w-1/2 px-4 py-4 font-semibold">
+                                {{ canvassSummary.details?.remarks || 'No remarks' }}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex w-full">
-                    <div class="pt-5 w-full mb-2 rounded-lg p-4 bg-slate-100 ">
-                        <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">
-                            Approval:</label>
-                        <HrmsSetupApprovalsList
-                            v-for="(approv, apr) in createRequest.approvals"
-                            :key="'hrmsetupapprovallist' + approv"
-                            v-model="createRequest.approvals[apr]"
-                        />
+                <div v-if="canvassSummary.details?.request_status" class="bg-slate-50 rounded-lg p-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm font-medium text-gray-700">Status:</span>
+                        <span
+                            class="px-2 py-1 rounded-full text-xs font-medium"
+                            :class="{
+                                'bg-yellow-100 text-yellow-800': canvassSummary.details.request_status === 'PENDING',
+                                'bg-green-100 text-green-800': canvassSummary.details.request_status === 'APPROVED',
+                                'bg-red-100 text-red-800': canvassSummary.details.request_status === 'REJECTED',
+                            }"
+                        >
+                            {{ canvassSummary.details.request_status }}
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
 <style scoped>
 @media print {
     .no-print {
-    display: none !important;
+        display: none !important;
     }
 }
 </style>

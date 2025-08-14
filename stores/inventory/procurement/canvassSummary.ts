@@ -156,12 +156,17 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
     actions: {
         async getMyRequests () {
             await useInventoryApi(
-                "/api/canvass-summary/my-request",
+                "/api/procurement-request/canvass-summary/my-request",
                 {
                     method: "GET",
                     params: this.myRequests.params,
                     onRequest: () => {
                         this.myRequests.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.myRequests.isLoading = false
+                        this.myRequests.errorMessage = response?._data?.message || "Unexpected server error while fetching my requests."
+                        throw new Error(this.myRequests.errorMessage || "Unexpected server error while fetching my requests.")
                     },
                     onResponse: ({ response }) => {
                         this.myRequests.isLoading = false
@@ -169,13 +174,10 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                             this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data
                             this.myRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -184,26 +186,28 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
 
         async getMyApprovals () {
             await useInventoryApi(
-                "/api/canvass-summary/my-approvals",
+                "/api/procurement-request/canvass-summary/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
                     onRequest: () => {
                         this.myApprovals.isLoading = true
                     },
-                    onResponse: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         this.myApprovals.isLoading = false
+                        this.myApprovals.errorMessage = response?._data?.message || "Unexpected server error while fetching my approvals."
+                        throw new Error(this.errorMessage || "Unexpected server error while fetching my approvals.")
+                    },
+                    onResponse: ({ response }) => {
+                        this.myApprovals.isLoading = true
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
-                            this.myApprovals.list = response._data.data.data || response._data.data
+                            this.myApprovals.list = response._data.data
                             this.myApprovals.pagination = {
                                 first_page: response._data.links.first,
                                 pages: response._data.meta.links,
                                 last_page: response._data.links.last,
                             }
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -219,14 +223,21 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                     onRequest: () => {
                         this.canvassSummary.isLoading = true
                     },
+                    onResponseError: ({ response }: any) => {
+                        this.canvassSummary.isLoading = false
+                        this.canvassSummary.errorMessage = response?._data?.message || "Unexpected server error while fetching canvass summary."
+                        throw new Error(this.canvassSummary.errorMessage || "Unexpected server error while fetching canvass summary.")
+                    },
                     onResponse: ({ response }: any) => {
                         this.canvassSummary.isLoading = false
                         if (response.ok) {
-                            this.canvassSummary.list = response._data.data.data || response._data.data
+                            this.canvassSummary.list = response._data.data
+                            this.canvassSummary.pagination = {
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
+                            }
                             this.canvassSummary.isLoaded = true
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -242,15 +253,17 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                     onRequest: () => {
                         this.canvassSummary.isLoading = true
                     },
+                    onResponseError: ({ response }: any) => {
+                        this.canvassSummary.isLoading = false
+                        this.canvassSummary.errorMessage = response?._data?.message || "Unexpected server error while fetching canvass summary."
+                        throw new Error(this.canvassSummary.errorMessage || "Unexpected server error while fetching canvass summary.")
+                    },
                     onResponse: ({ response }: any) => {
                         this.canvassSummary.isLoading = false
                         if (response.ok) {
                             this.canvassSummary.details = response._data.data
                             this.canvassSummary.isLoaded = true
                             return response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -266,13 +279,15 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                     onRequest: () => {
                         this.canvassSummary.isLoading = true
                     },
+                    onResponseError: ({ response }: any) => {
+                        this.canvassSummary.isLoading = false
+                        this.canvassSummary.errorMessage = response?._data?.message || "Unexpected server error while creating canvass summary."
+                        throw new Error(this.canvassSummary.errorMessage || "Unexpected server error while creating canvass summary.")
+                    },
                     onResponse: ({ response }) => {
                         this.canvassSummary.isLoading = false
                         if (response.ok) {
                             this.canvassSummary.details = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -288,30 +303,19 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                     body: this.createRequest.form,
                     watch: false,
                     onRequest: () => {
-                        this.canvassSummary.isLoading = true
+                        this.createRequest.isLoading = true
                     },
                     onResponse: ({ response }: any) => {
-                        this.canvassSummary.isLoading = false
                         if (response.ok) {
-                            this.reloadResources()
                             this.createRequest.successMessage = response._data.message
-                            this.createRequest.form = {
-                                price_quotation_id: 0,
-                                terms_of_payment: "",
-                                availability: "",
-                                delivery_terms: "",
-                                remarks: "",
-                                items: [],
-                                approvals: []
-                            }
-                            this.createRequest.isLoading = false
                         }
+                        this.createRequest.isLoading = false
                     },
                     onResponseError: ({ response }: any) => {
                         this.createRequest.isLoading = false
                         this.createRequest.errorMessage = response?._data?.message || "Unexpected server error while creating canvass summary."
                         throw new Error(this.createRequest.errorMessage || "Unexpected server error while creating canvass summary.")
-                    }
+                    },
                 }
             )
         },
@@ -373,6 +377,12 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
             this.canvassSummary.form = {} as CanvassSummaryDetails
             this.canvassSummary.items = []
             this.canvassSummary.details = null
+            this.createRequest.form = {
+                price_quotation_id: 0,
+                terms_of_payment: "",
+                availability: "",
+                delivery_terms: "",
+            } as CanvassSummaryForm
         },
 
         reloadResources () {
@@ -385,7 +395,7 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                 callFunctions.push(this.getMyApprovals)
             }
             if (this.canvassSummary.isLoaded) {
-                callFunctions.push(this.fetchQuotations)
+                callFunctions.push(this.getCanvassSummaryResource)
             }
 
             this.$reset()
