@@ -15,15 +15,15 @@ const viewAttachments = async () => {
             type: "info",
             text: "Preparing attachments viewer..."
         })
-        const response = await projectStore.viewAttachments(projectId)
-        if (!response?.data?.url) {
-            throw new Error("Failed to generate attachments viewer URL")
+        const { url } = await projectStore.viewAttachments(projectId)
+        if (!url) {
+            throw new Error("Empty viewer URL received")
         }
-        window.open(response.data.url, "_blank")
+        window.open(url, "_blank")
     } catch (err: any) {
         snackbar.add({
             type: "error",
-            text: err.response?.data?.message
+            text: err.response?._data?.message || err.message || "Unexpected error occurred"
         })
     }
 }

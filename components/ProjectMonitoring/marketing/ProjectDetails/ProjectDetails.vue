@@ -1,5 +1,6 @@
 <script setup>
 import { useProjectStore } from "~/stores/project-monitoring/projects"
+
 const router = useRouter()
 const projectStore = useProjectStore()
 const boardLoading = ref(false)
@@ -80,8 +81,8 @@ defineProps({
                 />
             </template>
             <template #tab-options>
-                <ProjectAttachmentUploadButton />
-                <ProjectAttachmentsViewButton />
+                <ProjectMonitoringDetailsProjectAttachmentUploadButton />
+                <ProjectMonitoringDetailsProjectAttachmentsViewButton />
                 <ProjectMonitoringProjectStageButton
                     v-if="!projectStore.viewState
                         && projectStore.information

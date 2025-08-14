@@ -755,30 +755,21 @@ export const useProjectStore = defineStore("projects", {
         async viewAttachments (projectId: number) {
             this.errorMessage = ""
             this.successMessage = ""
+            let apiResponse: any = null
             await useProjectsApi(
                 `/api/projects/${projectId}/document-viewer`,
                 {
                     method: "GET",
-                    onResponse: ({ response }) => {
-                        if (!response.ok) {
-                            this.errorMessage = response._data?.message || "Unable to get viewer link"
-                            throw new Error(this.errorMessage)
-                        }
-
-                        const viewerUrl: string = response._data
-                        if (!viewerUrl) {
-                            throw new Error("Empty viewer URL received")
-                        }
-
-                        window.open(viewerUrl, "_blank")
-                        this.successMessage = "Opening document viewer..."
-                    },
                     onResponseError: ({ response }) => {
                         this.errorMessage = response._data?.message || "Failed to open document viewer"
                         throw new Error(this.errorMessage)
                     },
+                    onResponse: ({ response }) => {
+                        apiResponse = response._data
+                    },
                 }
             )
+            return apiResponse
         },
     },
 })
