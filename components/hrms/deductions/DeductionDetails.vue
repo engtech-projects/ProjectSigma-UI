@@ -77,7 +77,7 @@ const showMakePayment = () => {
         <div class="flex flex-col mt-6">
             <div class="flex items-center justify-between border-b pb-2">
                 <label for="" class="text-md text-slate-700 font-bold">Payment History</label>
-                <button v-if="!data.is_fully_paid" class="bg-green-500 rounded-md px-4 py-1 text-white hover:bg-green-600 active:bg-green-700" @click="showMakePayment()">
+                <button v-if="!data.is_fully_paid && useCheckAccessibility([AccessibilityTypes.HRMS_LOANSANDADVANCES_OTHERDEDUCTIONS_MAKEPAYMENT])" class="bg-green-500 rounded-md px-4 py-1 text-white hover:bg-green-600 active:bg-green-700" @click="showMakePayment()">
                     <Icon name="iconoir:hand-card" class="font-bold text-xl" />
                     Make Payment
                 </button>

@@ -11,42 +11,42 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_loans_and_advances_other_deductions,
+            AccessibilityTypes.HRMS_LOANSANDADVANCES_OTHERDEDUCTIONS_GROUP,
         ])"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_loans_and_advances_other_deductions,
+                        AccessibilityTypes.HRMS_LOANSANDADVANCES_OTHERDEDUCTIONS_FORMS,
                     ])"
                     :target-id="'tab0'+compID"
                     title="Other Deductions Request Form"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_loans_and_advances_other_deductions,
+                        AccessibilityTypes.HRMS_LOANSANDADVANCES_OTHERDEDUCTIONS_ALL,
                     ])"
                     :target-id="'tab1'+compID"
                     title="All Other Deductions"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_loans_and_advances_other_deductions,
+                        AccessibilityTypes.HRMS_LOANSANDADVANCES_OTHERDEDUCTIONS_ONGOING,
                     ])"
                     :target-id="'tab2'+compID"
                     title="Ongoing Other Deductions"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_loans_and_advances_other_deductions,
+                        AccessibilityTypes.HRMS_LOANSANDADVANCES_OTHERDEDUCTIONS_PAID,
                     ])"
                     :target-id="'tab3'+compID"
                     title="Paid Other Deductions"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_loans_and_advances_other_deductions,
+                        AccessibilityTypes.HRMS_LOANSANDADVANCES_OTHERDEDUCTIONS_PAYMENTS,
                     ])"
                     :target-id="'tab4'+compID"
                     title="Other Deductions Payments"

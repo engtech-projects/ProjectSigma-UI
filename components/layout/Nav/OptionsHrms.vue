@@ -188,7 +188,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_loans_and_advances_other_deductions,
+                    AccessibilityTypes.HRMS_LOANSANDADVANCES_OTHERDEDUCTIONS_GROUP,
                 ])"
                 linkarea="/hrms/loans/otherdeductions"
                 icon="material-symbols:dynamic-form-outline-rounded"
