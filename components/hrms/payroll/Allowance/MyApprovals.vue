@@ -13,7 +13,7 @@ if (!myApprovals.value.isLoaded) {
 watch(
     () => ({ ...myApprovals.value.params }),
     (newParams, oldParams) => {
-        if (newParams.page !== oldParams.page) {
+        if (newParams.page === oldParams.page) {
             myApprovals.value.params.page = 1
         }
         debouncedGetData()

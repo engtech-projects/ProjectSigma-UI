@@ -13,7 +13,7 @@ if (!allRequests.value.isLoaded) {
 watch(
     () => ({ ...allRequests.value.params }),
     (newParams, oldParams) => {
-        if (newParams.page !== oldParams.page) {
+        if (newParams.page === oldParams.page) {
             allRequests.value.params.page = 1
         }
         debouncedGetData()
