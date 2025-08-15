@@ -18,7 +18,7 @@ watch(
         }
         debouncedGetData()
     },
-    { immediate: true, deep: true }
+    { deep: true }
 )
 const headers = [
     { name: "Charge Department", id: "charge_name" },

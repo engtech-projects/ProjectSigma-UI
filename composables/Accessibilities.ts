@@ -140,7 +140,11 @@ export enum AccessibilityTypes {
     HRMS_PAYROLL_13THMONTH_ALLREQUESTS = "hrms:payroll_13th month_all requests",
     HRMS_PAYROLL_13THMONTH_MYAPPROVALS = "hrms:payroll_13th month_my approvals",
     HRMS_PAYROLL_13THMONTH_SUMMARY = "hrms:payroll_13th month_summary",
-    hrms_payroll_allowance = "hrms:payroll_allowance",
+    HRMS_PAYROLL_ALLOWANCE_GROUP = "hrms:payroll_allowance_",
+    HRMS_PAYROLL_ALLOWANCE_FORMANDMYREQUEST = "hrms:payroll_allowance_form and my requests",
+    HRMS_PAYROLL_ALLOWANCE_ALLREQUESTS = "hrms:payroll_allowance_all requests",
+    HRMS_PAYROLL_ALLOWANCE_MYAPPROVALS = "hrms:payroll_allowance_my approvals",
+    HRMS_PAYROLL_ALLOWANCE_ALLOWANCERECORD = "hrms:payroll_allowance_allowance records",
     // SCHEDULE
     hrms_schedule_group = "hrms:schedule_",
     hrms_schedule_department = "hrms:schedule_department",

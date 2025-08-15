@@ -260,7 +260,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_payroll_allowance,
+                    AccessibilityTypes.HRMS_PAYROLL_ALLOWANCE_GROUP,
                 ])"
                 linkarea="/hrms/payroll/allowance"
                 icon="material-symbols:dynamic-form-outline-rounded"

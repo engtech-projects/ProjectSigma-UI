@@ -18,7 +18,7 @@ watch(
         }
         debouncedGetData()
     },
-    { immediate: true, deep: true }
+    { deep: true }
 )
 const boardLoading = ref(false)
 
