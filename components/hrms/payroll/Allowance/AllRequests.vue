@@ -4,11 +4,22 @@ import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowan
 
 const genallowstore = useGenerateAllowanceStore()
 const { allRequests, errorMessage, successMessage } = storeToRefs(genallowstore)
-if (!allRequests.value.isLoaded) {
-    allRequests.value.isLoaded = true
+const debouncedGetData = useDebounceFn(() => {
     genallowstore.getAllRequests()
+}, 500)
+if (!allRequests.value.isLoaded) {
+    debouncedGetData()
 }
-
+watch(
+    () => ({ ...allRequests.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page !== oldParams.page) {
+            allRequests.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { immediate: true, deep: true }
+)
 const boardLoading = ref(false)
 
 const changePaginate = (newParams) => {

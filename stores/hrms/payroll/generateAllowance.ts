@@ -74,6 +74,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 {
                     method: "GET",
                     params: this.allowanceRecords.params,
+                    watch: false,
                     onRequest: () => {
                         this.allowanceRecords.isLoading = true
                     },
@@ -107,13 +108,14 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 {
                     method: "GET",
                     params: this.allRequests.params,
+                    watch: false,
                     onRequest: () => {
+                        this.allRequests.isLoaded = true
                         this.allRequests.isLoading = true
                     },
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data
                             this.allRequests.pagination = {
                                 first_page: response._data.links.first,
@@ -131,13 +133,14 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 {
                     method: "GET",
                     params: this.myRequests.params,
+                    watch: false,
                     onRequest: () => {
+                        this.myRequests.isLoaded = true
                         this.myRequests.isLoading = true
                     },
                     onResponse: ({ response }) => {
                         this.myRequests.isLoading = false
                         if (response.ok) {
-                            this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data
                             this.myRequests.pagination = {
                                 first_page: response._data.links.first,
@@ -158,13 +161,14 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 {
                     method: "GET",
                     params: this.myApprovals.params,
+                    watch: false,
                     onRequest: () => {
+                        this.myApprovals.isLoaded = true
                         this.myApprovals.isLoading = true
                     },
                     onResponse: ({ response }) => {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
-                            this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data
                             this.myApprovals.successMessage = response._data.message
                         } else {
