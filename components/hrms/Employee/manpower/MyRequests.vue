@@ -4,11 +4,24 @@ import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
 const { myRequests } = storeToRefs(manpowers)
+const debouncedGetData = useDebouncedFn(() => {
+    manpowers.getAllRequests()
+}, 500)
 onMounted(() => {
     if (!myRequests.value.isLoaded) {
-        manpowers.getMyRequests()
+        debouncedGetData()
     }
 })
+watch(
+    () => ({ ...myRequests.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            myRequests.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
