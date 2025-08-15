@@ -2,10 +2,22 @@
 import { use13thMonthStore } from "@/stores/hrms/payroll/13thmonth"
 const dataStore = use13thMonthStore()
 const { allRequests } = storeToRefs(dataStore)
-if (!allRequests.value.isLoaded) {
-    allRequests.value.isLoaded = true
+const debouncedGetData = useDebounceFn(() => {
     dataStore.getAllRequests()
+}, 500)
+if (!allRequests.value.isLoaded) {
+    debouncedGetData()
 }
+watch(
+    () => ({ ...allRequests.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            allRequests.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const changePaginate = (newParams) => {
     allRequests.value.params.page = newParams.page ?? ""
 }
