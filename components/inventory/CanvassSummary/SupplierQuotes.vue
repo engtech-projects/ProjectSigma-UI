@@ -7,7 +7,8 @@ defineProps({
     suppliers: {
         type: Array,
         required: true
-    }
+    },
+    readOnly: { type: Boolean, default: false }
 })
 
 const selectedItems = defineModel("selectedItems", { default: () => ({}) })
@@ -69,7 +70,7 @@ function onDrag (e) {
                         colspan="3"
                         class="text-center font-bold border border-gray-700 border-r uppercase cursor-pointer hover:bg-green-200 transition-all duration-200 text-ellipsis w-1/2"
                         :class="activeSupplier === index ? 'bg-green-200 shadow-inner' : ''"
-                        @click="toggleSupplierHeader(index)"
+                        @click="!readOnly && toggleSupplierHeader(index)"
                     >
                         <div class="flex items-center justify-center">
                             <div class="text-center leading-tight">

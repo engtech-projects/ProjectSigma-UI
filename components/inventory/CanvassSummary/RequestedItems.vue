@@ -9,7 +9,8 @@ const props = defineProps({
         type: Array,
         required: true,
         default: () => []
-    }
+    },
+    readOnly: { type: Boolean, default: false }
 })
 
 const selectedItems = defineModel("selectedItems", { default: () => ({}) })
@@ -58,7 +59,6 @@ function createAlignedItemsArray (supplierItems, allItems) {
         const matchingItem = supplierItems.find(item =>
             item.item_id === requestedItem.item_id
         )
-
         if (matchingItem) {
             return {
                 unit_price: parseFloat(matchingItem.price) || 0,
@@ -67,7 +67,6 @@ function createAlignedItemsArray (supplierItems, allItems) {
                 remarks: matchingItem.remarks
             }
         }
-
         return null
     })
 }
@@ -130,7 +129,7 @@ function itemBelongsToActiveSupplier (itemIndex) {
                             itemBelongsToActiveSupplier(index) ? 'bg-green-50 border-green-200' : '',
                             'bg-white'
                         ]"
-                        @click="toggleItemSelection(index)"
+                        @click="!readOnly && toggleItemSelection(index)"
                     >
                         <td class="border border-gray-700 p-1 text-center font-medium text-gray-600 transition-all duration-200">
                             {{ index + 1 }}
