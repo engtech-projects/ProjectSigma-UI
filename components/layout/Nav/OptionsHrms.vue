@@ -180,7 +180,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_loans_and_advances_loans,
+                    AccessibilityTypes.HRMS_LOANSANDADVANCES_LOANS_GROUP,
                 ])"
                 linkarea="/hrms/loans"
                 icon="material-symbols:dynamic-form-outline-rounded"
