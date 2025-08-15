@@ -4,12 +4,24 @@ import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 
 const cashadvances = useCashadvanceStore()
 const { cashAdvanceList } = storeToRefs(cashadvances)
-
+const debouncedGetData = useDebouncedFn(() => {
+    cashadvances.getCA()
+}, 500)
 onMounted(() => {
     if (!cashAdvanceList.value.isLoaded) {
-        cashadvances.getCA()
+        debouncedGetData()
     }
 })
+watch(
+    () => ({ ...cashAdvanceList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            cashAdvanceList.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const headers = [
     { text: "Employee Name", value: "employee.fullname_first" },
     { text: "Cash Advance Amount", value: "amount_formatted" },

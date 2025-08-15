@@ -5,11 +5,24 @@ import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 const cashadvances = useCashadvanceStore()
 const { myApprovalRequestList, pagination, getParams, ca } = storeToRefs(cashadvances)
 const showInformationModal = ref(false)
+const debouncedGetData = useDebouncedFn(() => {
+    cashadvances.getMyApprovalRequests()
+}, 500)
 onMounted(() => {
     if (!myApprovalRequestList.value.isLoaded) {
-        cashadvances.getMyApprovalRequests()
+        debouncedGetData()
     }
 })
+watch(
+    () => ({ ...myApprovalRequestList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            myApprovalRequestList.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const showInformation = (data) => {
     ca.value = data
     showInformationModal.value = true
