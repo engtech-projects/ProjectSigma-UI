@@ -708,6 +708,9 @@ export const useProjectStore = defineStore("projects", {
                         this.information.isLoading = false
                         if (response.ok) {
                             this.getProjectsInformation(projectId)
+                            if (stage === "generate_to_tss") {
+                                this.viewState = true
+                            }
                             this.successMessage = response._data.message || "Project stage updated successfully."
                         }
                     },
