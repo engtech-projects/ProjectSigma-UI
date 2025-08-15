@@ -1,6 +1,6 @@
 <template>
     <!-- Header -->
-    <div class="mb-4">
+    <div class="mb-4 p-2">
         <div class="mb-6">
             <div class="flex flex-col">
                 <div class="flex mb-4">
@@ -235,7 +235,7 @@
                 </tr>
                 <tr>
                     <th colspan="6">
-                        <p class="text-left">
+                        <p class="text-left underline">
                             {{ amountToWords(projectStore.information?.total_cost ?? 0) }}
                         </p>
                     </th>
@@ -243,26 +243,17 @@
             </tfoot>
         </table>
 
-        <div class="flex justify-start items-center">
-            <FormSignatory
-                class="mt-16"
-                label="Submitted By"
-                :align="'left'"
-                :signatory="{
-                    name: 'Angel A. Abrau',
-                    title: 'Authorized Managing Officer',
-                    subtitle: projectStore.information?.license
-                }"
+        <div class="flex flex-row items-center justify-between mt-16">
+            <CommonSubmittedByWithDate
+                name="ANGEL A. ABRAU"
+                position="Authorized Managing Officer"
+                :license="projectStore.information?.license"
+                :date="projectStore.information?.created_at"
             />
-            <div class="flex items-center text-sm gap-4 mt-16">
-                <span>DATE:</span>
-                <span class="underline">{{ fullDate(new Date(projectStore.information?.contract_date)) }}</span>
-            </div>
         </div>
     </div>
 </template>
 <script setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
-
 const projectStore = useProjectStore()
 </script>
