@@ -5,7 +5,7 @@ import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 
 const jobApplicant = useJobapplicantStore()
 const { allJobApplicants } = storeToRefs(jobApplicant)
-const debouncedGetData = useDebouncedFn(() => {
+const debouncedGetData = useDebounceFn(() => {
     jobApplicant.getAllJobApplicant()
 }, 500)
 onMounted(() => {

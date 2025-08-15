@@ -6,7 +6,7 @@ const leaveRequest = useLeaveRequest()
 const { approvalList } = storeToRefs(leaveRequest)
 const leaveRequestData = ref(null)
 const showInformationModal = ref(false)
-const debouncedGetData = useDebouncedFn(() => {
+const debouncedGetData = useDebounceFn(() => {
     leaveRequest.allApprovals()
 }, 500)
 onMounted(() => {

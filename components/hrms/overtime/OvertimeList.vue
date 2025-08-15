@@ -4,7 +4,7 @@ import { useOvertimeStore } from "@/stores/hrms/overtime"
 
 const overtimes = useOvertimeStore()
 const { allList } = storeToRefs(overtimes)
-const debouncedGetData = useDebouncedFn(() => {
+const debouncedGetData = useDebounceFn(() => {
     overtimes.getOvertime()
 })
 onMounted(() => {

@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
-const debouncedGetData = useDebouncedFn(() => {
+const debouncedGetData = useDebounceFn(() => {
     pan.getMyApprovals()
 }, 500)
 onMounted(() => {

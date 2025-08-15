@@ -4,7 +4,7 @@ import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 
 const cashadvances = useCashadvanceStore()
 const { cashAdvanceList } = storeToRefs(cashadvances)
-const debouncedGetData = useDebouncedFn(() => {
+const debouncedGetData = useDebounceFn(() => {
     cashadvances.getCA()
 }, 500)
 onMounted(() => {

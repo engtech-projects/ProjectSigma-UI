@@ -5,7 +5,7 @@ import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 const cashadvances = useCashadvanceStore()
 const { myRequestList, pagination, getParams, ca } = storeToRefs(cashadvances)
 const showInformationModal = ref(false)
-const debouncedGetData = useDebouncedFn(() => {
+const debouncedGetData = useDebounceFn(() => {
     cashadvances.getMyRequests()
 }, 500)
 onMounted(() => {

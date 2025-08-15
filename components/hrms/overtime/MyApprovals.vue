@@ -4,7 +4,7 @@ import { useOvertimeStore } from "@/stores/hrms/overtime"
 
 const overtimes = useOvertimeStore()
 const { approvalList } = storeToRefs(overtimes)
-const debouncedGetData = useDebouncedFn(() => {
+const debouncedGetData = useDebounceFn(() => {
     overtimes.getMyApprovalRequests()
 })
 onMounted(() => {

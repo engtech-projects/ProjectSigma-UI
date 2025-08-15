@@ -6,7 +6,7 @@ const leaveRequest = useLeaveRequest()
 const { allList } = storeToRefs(leaveRequest)
 const leaveRequestData = ref(null)
 const showInformationModal = ref(false)
-const debouncedGetData = useDebouncedFn(() => {
+const debouncedGetData = useDebounceFn(() => {
     leaveRequest.allLeaves()
 }, 500)
 onMounted(() => {

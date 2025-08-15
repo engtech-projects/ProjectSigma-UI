@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
 const { myApprovals } = storeToRefs(manpowers)
-const debouncedGetData = useDebouncedFn(() => {
+const debouncedGetData = useDebounceFn(() => {
     manpowers.getMyApprovals()
 }, 500)
 onMounted(() => {

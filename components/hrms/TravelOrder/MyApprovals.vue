@@ -4,7 +4,7 @@ import { useTravelorderStore } from "@/stores/hrms/travelorder"
 
 const travels = useTravelorderStore()
 const { approvalList } = storeToRefs(travels)
-const debouncedGetData = useDebouncedFn(() => {
+const debouncedGetData = useDebounceFn(() => {
     travels.getMyApprovalRequests()
 }, 500)
 onMounted(() => {
