@@ -93,12 +93,12 @@ const emit = defineEmits(["hideModal"])
                         <label class="text-md text-gray-700">
                             Resource Name
                         </label>
-                        <select v-model="resourceStore.resource.name_id" class="border border-gray-300 rounded-md" disabled>
+                        <select v-model="resourceStore.resource.resource_type" class="border border-gray-300 rounded-md" disabled>
                             <option value="" disabled selected>
                                 Select Resource Name
                             </option>
-                            <option v-for="resourceName in resourceStore.resourceNames" :key="resourceName.id" :value="resourceName.id">
-                                {{ resourceName.name }}
+                            <option v-for="name, index in resourceStore.resourceNames" :key="index" :value="name.value">
+                                {{ name.label }}
                             </option>
                         </select>
                     </div>
@@ -112,7 +112,7 @@ const emit = defineEmits(["hideModal"])
                             </label>
                             <input
                                 v-model="resourceStore.resource.unit_cost"
-                                type="text"
+                                type="number"
                                 class="border border-gray-300 rounded-md"
                                 placeholder="0.00"
                                 required

@@ -48,9 +48,23 @@ const updateStage = async () => {
         projectStore.clearMessages()
     }
 }
+
+const stageLabel = (stage: string) => {
+    const labels = {
+        generate_to_tss: "Generate To TSS",
+        awarded: "Awarded",
+        draft: "Draft",
+        proposal: "Proposal",
+        bidding: "Bidding",
+        archived: "Archived"
+    }
+
+    return labels[stage.toLowerCase()] || null
+}
+
 </script>
 
 <template>
-    <LayoutFormPsButton :button-title="'Proceed to ' + upperFirst(nextStage)" @click="showModal = true" />
+    <LayoutFormPsButton :button-title="'Proceed to ' + upperFirst(stageLabel(nextStage))" @click="showModal = true" />
     <ProjectMonitoringModalsStageTransitionConfirmationModal :show-modal="showModal" :stage="nextStage" @update-stage="updateStage" @hide-modal="showModal = false" />
 </template>

@@ -6,6 +6,13 @@ const compId = useId()
         <template #tab-titles>
             <HrmsCommonTabsTabTitle
                 v-if="useCheckAccessibility([
+                    AccessibilityTypes.hrms_lnotnto_overtime_form,
+                ])"
+                :target-id="'form' + compId"
+                title="Request Form"
+            />
+            <HrmsCommonTabsTabTitle
+                v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_lnotnto_overtime_list,
                 ])"
                 :target-id="'all-list' + compId"
@@ -27,6 +34,9 @@ const compId = useId()
             />
         </template>
         <template #tab-containers>
+            <HrmsCommonTabsTabContainer :id="'form' + compId">
+                <HrmsOvertimeFormReq />
+            </HrmsCommonTabsTabContainer>
             <HrmsCommonTabsTabContainer :id="'all-list' + compId">
                 <HrmsOvertimeList />
             </HrmsCommonTabsTabContainer>

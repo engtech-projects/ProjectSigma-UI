@@ -6,6 +6,14 @@ const leaveRequest = useLeaveRequest()
 const { approvalList } = storeToRefs(leaveRequest)
 const leaveRequestData = ref(null)
 const showInformationModal = ref(false)
+const debouncedGetData = useDebounceFn(() => {
+    leaveRequest.allApprovals()
+}, 500)
+onMounted(() => {
+    if (!approvalList.value.isLoaded) {
+        debouncedGetData()
+    }
+})
 const showInformation = (data) => {
     leaveRequestData.value = data
     showInformationModal.value = true
@@ -25,6 +33,16 @@ const headers = [
 const actions = {
     showTable: true,
 }
+watch(
+    () => ({ ...approvalList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            approvalList.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="approvalList.isLoading">

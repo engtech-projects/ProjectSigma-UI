@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { useProjectStore } from "@/stores/project-monitoring/projects"
 import { useTaskStore } from "@/stores/project-monitoring/task"
 import { usePhaseStore } from "@/stores/project-monitoring/phase"
 import { useResourceStore } from "@/stores/project-monitoring/resource"
 const resourceStore = useResourceStore()
 const taskStore = useTaskStore()
 const phaseStore = usePhaseStore()
+const projectStore = useProjectStore()
 defineProps({
     showModal: {
         type: Boolean,
@@ -55,6 +57,7 @@ const handleSubmit = async (isEdit: boolean) => {
     } finally {
         boardLoading.value = false
         emit("hideModal")
+        projectStore.getProject(projectStore.information.id)
     }
 }
 const emit = defineEmits(["hideModal", "save"])

@@ -30,4 +30,7 @@
 <script setup>
 import { usePayrollRequestStore } from "@/stores/accounting/requests/payrollrequest"
 const payrollRequestStore = usePayrollRequestStore()
+onMounted(() => {
+    payrollRequestStore.getAllRequests()
+})
 </script>

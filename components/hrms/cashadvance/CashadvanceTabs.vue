@@ -5,6 +5,13 @@
         <template #tab-titles>
             <HrmsCommonTabsTabTitle
                 v-if="useCheckAccessibility([
+                    AccessibilityTypes.hrms_loans_and_advances_cash_advance_formsmyrequest,
+                ])"
+                title="Cash Advance Request Form"
+                target-id="requestFormCA"
+            />
+            <HrmsCommonTabsTabTitle
+                v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_loans_and_advances_cash_advance_allrequests,
                 ])"
                 title="All Requests"
@@ -42,11 +49,14 @@
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_loans_and_advances_cash_advance_myapprovals,
                 ])"
-                title="Payments Cash Advance"
+                title="CA Payments List"
                 target-id="paymentCA"
             />
         </template>
         <template #tab-containers>
+            <HrmsCommonTabsTabContainer id="requestFormCA">
+                <HrmsCashadvanceForm />
+            </HrmsCommonTabsTabContainer>
             <HrmsCommonTabsTabContainer id="allListCA">
                 <HrmsCashadvanceList />
             </HrmsCommonTabsTabContainer>

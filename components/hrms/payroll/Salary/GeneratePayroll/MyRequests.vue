@@ -3,13 +3,26 @@ import { useGeneratePayrollStore, PAYROLL_TYPE, RELEASE_TYPE } from "@/stores/hr
 
 const genPayrollRequestsStore = useGeneratePayrollStore()
 const { myRequests } = storeToRefs(genPayrollRequestsStore)
+const debouncedGetData = useDebounceFn(() => {
+    genPayrollRequestsStore.getMyRequests()
+}, 500)
 onMounted(() => {
     if (!myRequests.value.isLoaded) {
         myRequests.value.isLoaded = true
-        genPayrollRequestsStore.getMyRequests()
+        debouncedGetData()
     }
 })
-
+watch(
+    () => ({ ...myRequests.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            myRequests.value.page = 1
+        }
+        debouncedGetData()
+    }, {
+        deep: true,
+    }
+)
 const headers = [
     { name: "Payroll Date", id: "payroll_date_human" },
     { name: "Charged to", id: "charging_name" },

@@ -4,10 +4,12 @@ import { useOvertimeStore } from "@/stores/hrms/overtime"
 
 const overtimes = useOvertimeStore()
 const { myRequestList } = storeToRefs(overtimes)
-
+const debouncedGetData = useDebounceFn(() => {
+    overtimes.getMyRequests()
+})
 onMounted(() => {
     if (!myRequestList.value.isLoaded) {
-        overtimes.getMyRequests()
+        debouncedGetData()
     }
 })
 const headers = [
@@ -29,6 +31,16 @@ const showInformation = (data) => {
 const changePaginate = (newParams) => {
     myRequestList.value.params.page = newParams.page ?? ""
 }
+watch(
+    () => ({ ...myRequestList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            myRequestList.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="myRequestList.isLoading">
@@ -41,8 +53,6 @@ const changePaginate = (newParams) => {
                 :header-columns="headers"
                 :datas="myRequestList.list"
                 :actions="actions"
-                @edit-row="setEdit"
-                @delete-row="deleteReq"
                 @show-table="showInformation"
             />
         </div>

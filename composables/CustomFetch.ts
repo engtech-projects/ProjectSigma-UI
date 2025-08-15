@@ -66,7 +66,9 @@ export function useHRMSApi<T> (url: string, options: AsyncDataOptions<T>|UseFetc
         },
         onResponseError (_ctx) {
             // throw new myBusinessError()
-        }
+        },
+        // server: false,
+        // lazy: true,
     }
     const params = defu(options, defaults)
     return useFetch(url, params)

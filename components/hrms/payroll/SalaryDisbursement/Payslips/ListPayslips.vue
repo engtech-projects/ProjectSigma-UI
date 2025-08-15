@@ -3,12 +3,24 @@ import { useSalaryDisbursementStore } from "@/stores/hrms/payroll/salaryDisburse
 
 const salaryDisbursementStore = useSalaryDisbursementStore()
 const { payslipReadyRecords } = storeToRefs(salaryDisbursementStore)
+const debouncedGetData = useDebounceFn(() => {
+    salaryDisbursementStore.getPayslipReadyRecords()
+}, 500)
 onMounted(() => {
     if (!payslipReadyRecords.value.isLoaded) {
-        payslipReadyRecords.value.isLoaded = true
-        salaryDisbursementStore.getPayslipReadyRecords()
+        debouncedGetData()
     }
 })
+watch(
+    () => ({ ...payslipReadyRecords.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            payslipReadyRecords.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const changePaginate = (newParams: any) => {
     payslipReadyRecords.value.params.page = newParams.page ?? ""
 }

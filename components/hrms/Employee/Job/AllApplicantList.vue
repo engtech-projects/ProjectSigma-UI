@@ -5,13 +5,24 @@ import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 
 const jobApplicant = useJobapplicantStore()
 const { allJobApplicants } = storeToRefs(jobApplicant)
-
+const debouncedGetData = useDebounceFn(() => {
+    jobApplicant.getAllJobApplicant()
+}, 500)
 onMounted(() => {
     if (!allJobApplicants.value.isLoaded) {
-        jobApplicant.getAllJobApplicant()
+        debouncedGetData()
     }
 })
-
+watch(
+    () => ({ ...allJobApplicants.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            allJobApplicants.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const changePaginate = (newParams) => {
     allJobApplicants.value.params.page = newParams.page ?? ""
 }

@@ -88,6 +88,7 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
             return await useHRMSApi("/api/other-deduction/resource", {
                 method: "GET",
                 params: this.allList.params,
+                watch: false,
                 onRequest: () => {
                     this.allList.isLoading = true
                 },
@@ -112,6 +113,7 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
             return await useHRMSApi("/api/other-deduction/ongoing", {
                 method: "GET",
                 params: this.ongoingList.params,
+                watch: false,
                 onRequest: () => {
                     this.ongoingList.isLoading = true
                 },
@@ -136,6 +138,7 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
             return await useHRMSApi("/api/other-deduction/paid", {
                 method: "GET",
                 params: this.paidList.params,
+                watch: false,
                 onRequest: () => {
                     this.paidList.isLoading = true
                 },
@@ -160,6 +163,7 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
             return await useHRMSApi("/api/other-deduction/payments", {
                 method: "GET",
                 params: this.paymentsList.params,
+                watch: false,
                 onRequest: () => {
                     this.paymentsList.isLoading = true
                 },

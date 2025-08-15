@@ -121,7 +121,7 @@ const stakeholderType = computed(() => {
     return ""
 })
 const results = ref([])
-const debouncedSearchStakeholder = useDebouncedFn(async () => {
+const debouncedSearchStakeholder = useDebounceFn(async () => {
     await searchStakeholder()
 }, 500)
 watch(searchString, (newQuery) => {

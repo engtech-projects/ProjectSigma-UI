@@ -22,9 +22,6 @@ const actions = {
 const changePaginate = (newParams) => {
     attendanceLogs.value.params.page = newParams.page ?? ""
 }
-const setEmployee = (emp) => {
-    attendanceLogs.value.params.employee_id = emp.id
-}
 const deleteLog = async (req) => {
     try {
         await attendancePortal.deleteLog(req.id)
@@ -56,10 +53,10 @@ const grouptype = ref(null)
                 ATTENDANCE LOG INFORMATION
             </p>
             <div class="w-full flex flex-col md:flex-row gap-2 md:justify-between p-2">
-                <SearchBar class="w-full" @search-changed="setEmployee" />
                 <div class="w-full">
-                    <input v-model="attendanceLogs.params.date" type="date" class="w-full rounded py-2">
+                    <HrmsCommonSearchEmployeeSelector v-model="attendanceLogs.params.employee_id" title="" />
                 </div>
+                <LayoutFormPsDateInput v-model="attendanceLogs.params.date" title="" />
                 <div class="w-full">
                     <HrmsCommonAttendanceTypeSelector
                         v-model:attendance-type="attendanceLogs.params.attendance_type"

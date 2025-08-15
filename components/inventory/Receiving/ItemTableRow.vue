@@ -62,7 +62,7 @@ const rejectAllItems = async ({ requestId, remarks }: { requestId: number, remar
         snackbar.add({ type: "error", text: error.message || "Something went wrong." })
     }
 }
-const updateDetails = useDebouncedFn(async () => {
+const updateDetails = useDebounceFn(async () => {
     try {
         await main.updateReceivingItem(model.value)
     } catch (error: any) {

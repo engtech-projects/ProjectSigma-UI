@@ -82,7 +82,7 @@ export const useOvertimeStore = defineStore("overtimes", {
             )
         },
         async getOvertime () {
-            await useHRMSApi(
+            await useHRMSApiO(
                 "/api/overtime/resource",
                 {
                     method: "GET",
@@ -91,10 +91,10 @@ export const useOvertimeStore = defineStore("overtimes", {
                         this.allList.isLoading = true
                         this.allList.list = []
                     },
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         this.allList.isLoading = false
                         if (response.ok) {
                             this.allList.isLoaded = true
@@ -110,7 +110,7 @@ export const useOvertimeStore = defineStore("overtimes", {
             )
         },
         async getMyRequests () {
-            await useHRMSApi(
+            await useHRMSApiO(
                 "/api/overtime/my-request",
                 {
                     method: "GET",
@@ -119,10 +119,10 @@ export const useOvertimeStore = defineStore("overtimes", {
                         this.myRequestList.isLoading = true
                         this.myRequestList.list = []
                     },
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         this.myRequestList.isLoading = false
                         if (response.ok) {
                             this.myRequestList.isLoaded = true
@@ -138,7 +138,7 @@ export const useOvertimeStore = defineStore("overtimes", {
             )
         },
         async getMyApprovalRequests () {
-            await useHRMSApi(
+            await useHRMSApiO(
                 "/api/overtime/my-approvals",
                 {
                     method: "GET",
@@ -147,10 +147,10 @@ export const useOvertimeStore = defineStore("overtimes", {
                         this.approvalList.isLoading = true
                         this.approvalList.list = []
                     },
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         this.approvalList.isLoading = false
                         if (response.ok) {
                             this.approvalList.isLoaded = true
@@ -274,7 +274,7 @@ export const useOvertimeStore = defineStore("overtimes", {
                 }
             )
         },
-        async denyApprovalForm (id: String) {
+        async denyApprovalForm (id: string) {
             this.successMessage = ""
             this.errorMessage = ""
             const formData = new FormData()

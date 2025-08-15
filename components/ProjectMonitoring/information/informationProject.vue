@@ -5,6 +5,11 @@ defineProps({
         required: false,
         default: "Project Information",
     },
+    contractId: {
+        type: String,
+        required: false,
+        default: null,
+    },
     code: {
         type: String,
         required: false,
@@ -34,16 +39,9 @@ defineProps({
 </script>
 <template>
     <div>
-        <div class="w-full flex items-center justify-center">
-            <div>
-                <h1 class="text-2xl text-center uppercase font-bold">
-                    {{ license }}
-                </h1>
-            </div>
-        </div>
         <div class="flex flex-col gap-3">
             <div class="flex items-first gap-1">
-                <h1 class="text-black uppercase font-semibold">
+                <h1 class="text-black uppercase font-semibold text-lg">
                     {{ label }}
                 </h1>
             </div>
@@ -53,23 +51,39 @@ defineProps({
                         Contract ID:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
-                        {{ code ?? "No project yet." }}
+                        {{ contractId ?? "No project yet." }}
                     </span>
                 </div>
                 <div class="flex items-end gap-4">
                     <span class="text-gray-500 uppercase w-[140px] text-text-left whitespace-nowrap">
-                        Contract Name:
+                        Project Name:
+                    </span>
+                    <span class="text-black text-md flex-1 font-semibold">
+                        {{ name }}
+                    </span>
+                </div>
+                <div v-if="code" class="flex items-end gap-4">
+                    <span class="text-gray-500 uppercase w-[140px] text-text-left whitespace-nowrap">
+                        Project Code:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
-                        {{ name }}
+                        {{ code }}
                     </span>
                 </div>
                 <div class="flex items-end gap-4">
                     <span class="text-gray-500 uppercase w-[140px] text-text-left">
                         Location:
                     </span>
-                    <span class="text-black text-md uppercase flex-1 font-semibold">
+                    <span class="text-black text-md flex-1 font-semibold">
                         {{ location }}
+                    </span>
+                </div>
+                <div class="flex items-end gap-4">
+                    <span class="text-gray-500 uppercase w-[140px] text-text-left whitespace-nowrap">
+                        License:
+                    </span>
+                    <span class="text-black text-md flex-1 font-semibold">
+                        {{ license }}
                     </span>
                 </div>
                 <div v-if="stageStatus" class="flex items-center gap-4">
@@ -77,7 +91,7 @@ defineProps({
                         Stage Status:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
-                        {{ stageStatus }}
+                        {{ stageStatus === 'generate_to_tss' ? 'Generate To TSS' : stageStatus }}
                     </span>
                 </div>
             </div>

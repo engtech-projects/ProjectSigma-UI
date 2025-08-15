@@ -33,7 +33,7 @@ export const useTaskStore = defineStore("taskStore", {
         async getTasks (projectId: number) {
             this.isLoading.list = true
             const { data, error } = await useFetch(
-                "/api/tasks?project_id=" + projectId,
+                "/api/tasks/" + projectId,
                 {
                     baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",

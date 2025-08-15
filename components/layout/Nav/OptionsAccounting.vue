@@ -182,6 +182,11 @@
                 icon="material-symbols:dynamic-form-outline-rounded"
                 single-nav-title="Withholding Tax"
             />
+            <LayoutNavSingle
+                linkarea="/accounting/setup/transactionFlowSetup"
+                icon="iconoir:database-script-minus"
+                single-nav-title="Transaction Flow Setup"
+            />
         </LayoutNavGroup>
     </LayoutNavModuleGroup>
 </template>

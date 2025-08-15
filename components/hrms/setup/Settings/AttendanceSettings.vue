@@ -8,14 +8,6 @@ onMounted(async () => {
 })
 const nameAndDescriptions = [
     {
-        name: HrmsSetupSettingsEnums.EARLY_LOGIN,
-        description: "Hours early an employee can login before employee's scheduled login time",
-    },
-    {
-        name: HrmsSetupSettingsEnums.LATE_LOGOUT,
-        description: "Hours late an employee can logout after employee's scheduled logout time",
-    },
-    {
         name: HrmsSetupSettingsEnums.LATE_ALLOWANCE,
         description: "Minutes late allowed before being considered late.",
     },
