@@ -3,21 +3,24 @@ import { storeToRefs } from "pinia"
 import { useLeaveRequest } from "~/stores/hrms/leaveRequest"
 
 const leaveRequest = useLeaveRequest()
-
 const { allList } = storeToRefs(leaveRequest)
-
 const leaveRequestData = ref(null)
 const showInformationModal = ref(false)
-
+const debouncedGetData = useDebounceFn(() => {
+    leaveRequest.allLeaves()
+}, 500)
+onMounted(() => {
+    if (!allList.value.isLoaded) {
+        debouncedGetData()
+    }
+})
 const showInformation = (data) => {
     leaveRequestData.value = data
     showInformationModal.value = true
 }
-
 const changePaginate = (newParams) => {
     allList.value.params.page = newParams.page ?? ""
 }
-
 const headers = [
     { name: "EMPLOYEE NAME", id: "employee.fullname_last" },
     { name: "LEAVE AVAILMENT", id: "leave" },
@@ -27,11 +30,19 @@ const headers = [
     { name: "WITH PAY", id: "with_pay" },
     { name: "LEAVE STATUS", id: "request_status" },
 ]
-
 const actions = {
     showTable: true,
 }
-
+watch(
+    () => ({ ...allList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            allList.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="allList.isLoading">

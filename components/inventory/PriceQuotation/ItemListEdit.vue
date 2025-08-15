@@ -10,7 +10,7 @@ watch(item, () => {
     debouncedSubmitUpdate()
 }, { deep: true })
 
-const debouncedSubmitUpdate = useDebouncedFn(() => {
+const debouncedSubmitUpdate = useDebounceFn(() => {
     submitUpdate()
 }, 500)
 const submitUpdate = async () => {

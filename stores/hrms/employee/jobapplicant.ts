@@ -350,6 +350,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 {
                     method: "GET",
                     params: this.allJobApplicants.params,
+                    watch: false,
                     onRequest: () => {
                         this.allJobApplicants.isLoading = true
                     },

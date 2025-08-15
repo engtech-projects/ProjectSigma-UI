@@ -82,6 +82,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                 {
                     method: "GET",
                     params: this.allRequests.params,
+                    watch: false,
                     onRequest: () => {
                         this.allRequests.isLoading = true
                     },
@@ -106,6 +107,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                 {
                     method: "GET",
                     params: this.myRequests.params,
+                    watch: false,
                     onRequest: () => {
                         this.myRequests.isLoading = true
                     },
@@ -133,6 +135,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                 {
                     method: "GET",
                     params: this.myApprovals.params,
+                    watch: false,
                     onRequest: () => {
                         this.myApprovals.isLoading = true
                     },
@@ -161,6 +164,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                 {
                     method: "GET",
                     params: this.payslipReadyRecords.params,
+                    watch: false,
                     onRequest: () => {
                         this.payslipReadyRecords.isLoading = true
                     },

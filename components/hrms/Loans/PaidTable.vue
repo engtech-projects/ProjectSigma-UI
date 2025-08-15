@@ -2,11 +2,24 @@
 import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
 const loansStore = useLoansStore()
 const { paidList } = storeToRefs(loansStore)
+const debouncedGetData = useDebounceFn(() => {
+    loansStore.getPaidList()
+}, 500)
 onMounted(() => {
     if (!paidList.value.isLoaded) {
-        loansStore.getPaidList()
+        debouncedGetData()
     }
 })
+watch(
+    () => ({ ...paidList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            paidList.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const headers = [
     { text: "Employee Name", value: "employee.fullname_first" },
     { text: "Date Filed", value: "date_filed" },

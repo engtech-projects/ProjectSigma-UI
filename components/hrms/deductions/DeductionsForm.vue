@@ -19,10 +19,8 @@ const submitAdd = async () => {
 }
 </script>
 <template>
-    <form @submit.prevent="submitAdd">
-        <AccountingLoadScreen :is-loading="createData.isLoading" />
-        <div class="md:mt-0 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-            <label for="" class="text-xl font-semibold text-gray-900">Other Deductions Form</label>
+    <LayoutLoadingContainer :loading="createData.isLoading">
+        <form @submit.prevent="submitAdd">
             <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                     <label for="deduction_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deduction Name</label>
@@ -99,8 +97,8 @@ const submitAdd = async () => {
                     <Icon name="ic:baseline-add" class="w-4 h-4 " fill="currentColor" /> Add
                 </button>
             </div>
-        </div>
-    </form>
+        </form>
+    </LayoutLoadingContainer>
 </template>
 <style scoped>
 .customize-table {

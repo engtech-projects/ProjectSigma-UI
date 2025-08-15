@@ -91,6 +91,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                 {
                     method: "GET",
                     params: this.hrmsApprovals.params,
+                    watch: false,
                     onRequest: () => {
                         this.hrmsApprovals.isLoading = true
                     },

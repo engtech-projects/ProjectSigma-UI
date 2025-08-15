@@ -1,8 +1,5 @@
-import { useDebounceFn } from "@vueuse/core"
+export { useDebounceFn } from "@vueuse/core"
 const config = useRuntimeConfig()
-export const useDebouncedFn = (fn: any, delay = 300) => {
-    return useDebounceFn(fn, delay)
-}
 export const useUtilities = () => {
     function formatTime (time: string) {
         // Handle potential seconds in the input string

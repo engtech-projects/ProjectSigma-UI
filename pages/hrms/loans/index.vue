@@ -11,7 +11,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_loans_and_advances_loans,
+            AccessibilityTypes.HRMS_LOANSANDADVANCES_LOANS_GROUP,
         ])"
     >
         <div class="w-full flex gap-2">
@@ -19,35 +19,35 @@ useHead({
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_loans_and_advances_loans,
+                            AccessibilityTypes.HRMS_LOANSANDADVANCES_LOANS_FORMS,
                         ])"
                         :target-id="'tab0'+compID"
                         title="Loans Form"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_loans_and_advances_loans,
+                            AccessibilityTypes.HRMS_LOANSANDADVANCES_LOANS_ALL,
                         ])"
                         :target-id="'tab1'+compID"
                         title="All Loans"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_loans_and_advances_loans,
+                            AccessibilityTypes.HRMS_LOANSANDADVANCES_LOANS_ONGOING,
                         ])"
                         :target-id="'tab2'+compID"
                         title="Ongoing Loans"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_loans_and_advances_loans,
+                            AccessibilityTypes.HRMS_LOANSANDADVANCES_LOANS_PAID,
                         ])"
                         :target-id="'tab3'+compID"
                         title="Paid Loans"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_loans_and_advances_loans,
+                            AccessibilityTypes.HRMS_LOANSANDADVANCES_LOANS_PAYMENTS,
                         ])"
                         :target-id="'tab4'+compID"
                         title="Loan Payments"

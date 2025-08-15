@@ -4,11 +4,22 @@ import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowan
 
 const genallowstore = useGenerateAllowanceStore()
 const { myRequests } = storeToRefs(genallowstore)
-if (!myRequests.value.isLoaded) {
-    myRequests.value.isLoaded = true
+const debouncedGetData = useDebounceFn(() => {
     genallowstore.getMyRequests()
+}, 500)
+if (!myRequests.value.isLoaded) {
+    debouncedGetData()
 }
-
+watch(
+    () => ({ ...myRequests.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            myRequests.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const headers = [
     { name: "Charge Department", id: "charge_name" },
     { name: "Cutoff Start", id: "cutoff_start_human" },
