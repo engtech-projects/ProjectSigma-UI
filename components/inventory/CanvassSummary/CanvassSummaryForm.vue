@@ -139,6 +139,7 @@ watch(
                             :suppliers="quotationsForCanvass.list"
                             :columns="supplierColumns"
                             :loading="quotationsForCanvass.isLoading || viewRequests.isLoading"
+                            :read-only="false"
                         />
 
                         <div class="border border-t-0 border-gray-700 shadow-sm uppercase text-black">

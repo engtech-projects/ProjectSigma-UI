@@ -3,19 +3,16 @@ import { useCanvassSummaryStore } from "~/stores/inventory/procurement/canvassSu
 import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 import { useProcurementRequestStore } from "~/stores/inventory/procurement/request"
 
+const route = useRoute()
 const mainStore = useCanvassSummaryStore()
 const priceQuotationStore = usePriceQuotationStore()
 const procurementRequestStore = useProcurementRequestStore()
-
 const { canvassSummary } = storeToRefs(mainStore)
 const { viewRequests } = storeToRefs(procurementRequestStore)
 const { quotationsForCanvass } = storeToRefs(priceQuotationStore)
 
-const route = useRoute()
-
 defineProps({
     title: { type: String, required: true },
-    csId: { type: [String, Number], required: true }
 })
 
 const selectedItems = ref({})
@@ -38,7 +35,13 @@ const orderedSuppliers = computed(() => {
     if (!quotationsForCanvass.value.list || !canvassSummary.value.details) {
         return []
     }
-    const allSuppliers = [...quotationsForCanvass.value.list]
+    const selectedItemIds = new Set(
+        canvassSummary.value.details.items.map(item => item.item_id)
+    )
+    const allSuppliers = quotationsForCanvass.value.list.map(supplier => ({
+        ...supplier,
+        items: supplier.items.filter(item => selectedItemIds.has(item.item_id))
+    }))
     const selectedQuotationId = canvassSummary.value.details.price_quotation_id
     const selectedSupplierIndex = allSuppliers.findIndex(
         supplier => supplier.id === selectedQuotationId
@@ -47,38 +50,23 @@ const orderedSuppliers = computed(() => {
         return allSuppliers.slice(0, 3)
     }
     const selectedSupplier = allSuppliers.splice(selectedSupplierIndex, 1)[0]
-    const reorderedSuppliers = [selectedSupplier, ...allSuppliers]
-    return reorderedSuppliers.slice(0, 3)
+    return [selectedSupplier, ...allSuppliers].slice(0, 3)
 })
 
-const initializeSelectedItems = () => {
-    if (canvassSummary.value.details?.items) {
-        const itemIds = {}
-        canvassSummary.value.details.items.forEach((item, index) => {
-            itemIds[item.item_id] = true
-            itemIds[index] = true
-        })
-        selectedItems.value = itemIds
-    }
-}
-
 onMounted(() => {
-    mainStore.getOne(route.query.cs_id || props.csId)
-    if (canvassSummary.value.details?.price_quotation?.request_procurement_id) {
-        procurementRequestStore.getOne(canvassSummary.value.details.price_quotation.request_procurement_id)
-    }
-    priceQuotationStore.getQuotationsForCanvass(route.query.cs_id)
+    priceQuotationStore.getQuotationsForCanvass(route.query.pr_id)
 })
 
 watch(
     () => canvassSummary.value.details,
-    (newDetails) => {
-        if (newDetails) {
-            nextTick(() => {
-                initializeSelectedItems()
-                activeSupplier.value = 0
-            })
-        }
+    (details) => {
+        if (!details?.items) { return }
+        selectedItems.value = Object.fromEntries(
+            details.items.map((item, _idx) => [item.item_id, true]).concat(
+                details.items.map((_, idx) => [idx, true])
+            )
+        )
+        activeSupplier.value = 0
     },
     { deep: true }
 )
@@ -99,7 +87,7 @@ watch(
                     <div class="w-full flex flex-col">
                         <InventoryCommonFormPsFormLabel
                             v-for="(value, label) in {
-                                'DATE': canvassSummary.details?.price_quotation?.created_at,
+                                'DATE': canvassSummary.details?.date,
                                 'PROJECT CODE': viewRequests.details?.requisition_slip?.office_project,
                                 'CONSO/RS REFERENCE NUMBER': viewRequests.details?.requisition_slip?.reference_no,
                             }"
@@ -124,10 +112,11 @@ watch(
                     <InventoryCanvassSummaryItemList
                         :selected-items="selectedItems"
                         :active-supplier="activeSupplier"
-                        :items="viewRequests?.details?.requisition_slip?.request_stock_items"
+                        :items="canvassSummary?.details?.items"
                         :suppliers="orderedSuppliers"
                         :columns="supplierColumns"
                         :loading="quotationsForCanvass.isLoading || viewRequests.isLoading || canvassSummary.isLoading"
+                        :read-only="true"
                     />
 
                     <div class="border border-t-0 border-gray-700 shadow-sm uppercase text-black bg-white">
@@ -156,22 +145,6 @@ watch(
                                 {{ canvassSummary.details?.remarks || 'No remarks' }}
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div v-if="canvassSummary.details?.request_status" class="bg-slate-50 rounded-lg p-4">
-                    <div class="flex items-center gap-2">
-                        <span class="text-sm font-medium text-gray-700">Status:</span>
-                        <span
-                            class="px-2 py-1 rounded-full text-xs font-medium"
-                            :class="{
-                                'bg-yellow-100 text-yellow-800': canvassSummary.details.request_status === 'PENDING',
-                                'bg-green-100 text-green-800': canvassSummary.details.request_status === 'APPROVED',
-                                'bg-red-100 text-red-800': canvassSummary.details.request_status === 'REJECTED',
-                            }"
-                        >
-                            {{ canvassSummary.details.request_status }}
-                        </span>
                     </div>
                 </div>
             </div>

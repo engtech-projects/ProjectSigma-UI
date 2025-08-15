@@ -94,7 +94,10 @@ const closeEditPq = () => {
     router.replace({ query: { ...route.query, pq_id: undefined } })
     pqId.value = null
 }
-const closeCreateCs = () => {
+const closeCreateCs = async () => {
+    if (prId.value) {
+        await canvassSummaryStore.getOne(prId.value)
+    }
     router.replace({ query: { ...route.query, create_cs: undefined } })
     createCs.value = false
 }
