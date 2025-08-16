@@ -15,6 +15,7 @@ const headers = [
     { name: "AMOUNT", id: "amount", style: "text-left" },
     { name: "DATE CREATED", id: "created_at", style: "text-left" },
     { name: "STATUS", id: "stage", style: "text-left" },
+    { name: "TSS Submission", id: "tss_submission", style: "text-left" },
 ]
 const actions = {
     showTable: true,

@@ -15,7 +15,7 @@ const showEditSupplier = ref(false)
 const route = useRoute()
 const hasProcessedItem = computed(() => receiving.value.items.some(item => item.status === "Served"))
 
-const performAutoSave = useDebouncedFn(async () => {
+const performAutoSave = useDebounceFn(async () => {
     try {
         isSaving.value = true
         if (!model.value) {

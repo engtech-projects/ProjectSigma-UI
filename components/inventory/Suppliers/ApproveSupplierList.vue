@@ -31,7 +31,9 @@ const actions = {
     edit: useCheckAccessibility([AccessibilityTypes.inventory_procurement_edit]),
     delete: false,
 }
-
+const changePaginate = (newParams) => {
+    approvedSuppliers.value.params.page = newParams.page ?? ""
+}
 </script>
 <template>
     <div class="h-full w-full">
@@ -45,6 +47,9 @@ const actions = {
                 :datas="approvedSuppliers.list ?? []"
                 @edit-row="editInformation"
             />
+        </div>
+        <div class="flex justify-center mx-auto">
+            <PsCustomPagination :links="approvedSuppliers.pagination" @change-params="changePaginate" />
         </div>
     </div>
 </template>

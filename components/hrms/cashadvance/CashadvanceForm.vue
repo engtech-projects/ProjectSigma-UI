@@ -42,7 +42,7 @@ const setEmployee = (emp: any) => {
 }
 </script>
 <template>
-    <LayoutBoards title="Cash Advance Request Form" class="w-full" :loading="boardLoading">
+    <LayoutLoadingContainer class="w-full" :loading="boardLoading">
         <div class="text-gray-500">
             <form @submit.prevent="submitForm">
                 <div class="gap-2 p-2">
@@ -111,7 +111,7 @@ const setEmployee = (emp: any) => {
                 </div>
             </form>
         </div>
-    </LayoutBoards>
+    </LayoutLoadingContainer>
 </template>
 
 <style scoped>

@@ -12,11 +12,13 @@ interface Approval {
 }
 interface Project {
     id: null | number,
+    isLoading: false | boolean,
     uuid: null | String,
     position: null | String,
     parent_project_id: null | number,
     contract_id: null | number,
     code: null | String,
+    stage: null | String,
     name: null | String,
     amount: null | Number,
     location: null | String,
@@ -46,6 +48,7 @@ export const useProjectStore = defineStore("projects", {
         isEdit: false,
         viewState: false,
         information: {
+            isLoading: false,
             id: null,
             uuid: null,
             position: null,
@@ -54,6 +57,7 @@ export const useProjectStore = defineStore("projects", {
             parent_project_id: null,
             contract_id: null,
             code: null,
+            stage: null,
             name: null,
             amount: null,
             location: null,
@@ -691,7 +695,7 @@ export const useProjectStore = defineStore("projects", {
         async updateProjectStage (projectId: number | null, stage: string) {
             this.successMessage = ""
             this.errorMessage = ""
-
+            this.information.isLoading = true
             await useProjectsApi(
                 `api/projects/${projectId}/update-stage`,
                 {
@@ -699,12 +703,17 @@ export const useProjectStore = defineStore("projects", {
                     body: { stage },
                     watch: false,
                     onResponseError: ({ response }) => {
+                        this.information.isLoading = false
                         this.errorMessage = response._data.message || "Failed to update project stage."
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }) => {
+                        this.information.isLoading = false
                         if (response.ok) {
                             this.getProjectsInformation(projectId)
+                            if (stage === "generate_to_tss") {
+                                this.viewState = true
+                            }
                             this.successMessage = response._data.message || "Project stage updated successfully."
                         }
                     },

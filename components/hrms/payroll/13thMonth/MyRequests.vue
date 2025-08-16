@@ -2,10 +2,22 @@
 import { use13thMonthStore } from "@/stores/hrms/payroll/13thmonth"
 const dataStore = use13thMonthStore()
 const { myRequests } = storeToRefs(dataStore)
-if (!myRequests.value.isLoaded) {
-    myRequests.value.isLoaded = true
+const debouncedGetData = useDebounceFn(() => {
     dataStore.getMyRequests()
+}, 500)
+if (!myRequests.value.isLoaded) {
+    debouncedGetData()
 }
+watch(
+    () => ({ ...myRequests.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            myRequests.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const headers = [
     { name: "Payroll Duration", id: "payroll_duration" },
     { name: "13th Month Date", id: "date_requested" },

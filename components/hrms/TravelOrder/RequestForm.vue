@@ -4,62 +4,55 @@ import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
 const approvals = useApprovalStore()
 const travels = useTravelorderStore()
-const { travel, errorMessage, successMessage } = storeToRefs(travels)
-travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
+const { createRequestData, errorMessage, successMessage } = storeToRefs(travels)
+onMounted(() => {
+    createRequestData.value.body.approvals = approvals.getApprovalByName(APPROVAL_TRAVELORDER)
+})
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 const submitForm = async () => {
     try {
-        boardLoading.value = true
         await travels.createRequest()
-        if (travels.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: travels.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: travels.successMessage
-            })
-        }
+        snackbar.add({
+            type: "success",
+            text: travels.successMessage
+        })
     } catch (error) {
         snackbar.add({
             type: "error",
             text: travels.errorMessage
         })
     } finally {
-        travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
+        createRequestData.value.body.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
         boardLoading.value = false
     }
 }
 const startDateTime = computed(() => {
-    return `${travel.value.date_of_travel}T${travel.value.time_of_travel}:00`
+    return `${createRequestData.value.body.date_of_travel}T${createRequestData.value.body.time_of_travel}:00`
 })
 const endDateTime = computed(() => {
-    if (!travel.value.date_of_travel || !travel.value.time_of_travel || !travel.value.duration_of_travel) {
+    if (!createRequestData.value.body.date_of_travel || !createRequestData.value.body.time_of_travel || !createRequestData.value.body.duration_of_travel) {
         return ""
     }
     const newDate = new Date(startDateTime.value)
-    const millisecondsInADay = 24 * 60 * 60 * 1000
-    newDate.setTime(newDate.getTime() + travel.value.duration_of_travel * millisecondsInADay)
+    newDate.setHours(newDate.getHours() + createRequestData.value.body.duration_of_travel * 24)
     return useFormatDateTimeString(newDate)
 })
 </script>
 <template>
-    <LayoutBoards title="Travel Order Form" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="Travel Order Form" class="w-full" :loading="createRequestData.isLoading">
         <div class="text-gray-500">
             <form @submit.prevent="submitForm">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2 p-2">
                     <div class="flex-1 pt-8">
                         <div class="flex flex-col gap-2">
                             <HrmsCommonMultipleEmployeeSelector
-                                v-model="travel.employee_ids"
+                                v-model="createRequestData.body.employee_ids"
                             />
                             <HrmsCommonDepartmentProjectSelector
-                                v-model:select-type="travel.charge_type"
-                                v-model:department-id="travel.department_id"
-                                v-model:project-id="travel.project_id"
+                                v-model:select-type="createRequestData.body.charge_type"
+                                v-model:department-id="createRequestData.body.department_id"
+                                v-model:project-id="createRequestData.body.project_id"
                                 title="Charging"
                             />
                         </div>
@@ -69,28 +62,28 @@ const endDateTime = computed(() => {
                             <label for="requestingOffice" class="text-sm italic font-semibold text-gray-700">Requesting Office</label>
                             <HrmsCommonDepartmentSelector
                                 id="department"
-                                v-model="travel.requesting_office"
+                                v-model="createRequestData.body.requesting_office"
                             />
                         </div>
                         <div>
-                            <LayoutFormPsTextInput v-model="travel.destination" title="Destination" />
+                            <LayoutFormPsTextInput v-model="createRequestData.body.destination" title="Destination" />
                         </div>
                         <div>
-                            <LayoutFormPsTextInput v-model="travel.purpose_of_travel" title="Purpose of Travel" />
+                            <LayoutFormPsTextInput v-model="createRequestData.body.purpose_of_travel" title="Purpose of Travel" />
                         </div>
                         <div>
                             <label for="DOT" class="text-sm italic font-semibold text-gray-700">Date of Travel</label>
                             <input
-                                v-model="travel.date_of_travel"
+                                v-model="createRequestData.body.date_of_travel"
                                 type="date"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             >
-                            <!-- <DateRangePicker v-model="travel.date_and_time_of_travel" /> -->
+                            <!-- <DateRangePicker v-model="createRequestData.body.date_and_time_of_travel" /> -->
                         </div>
                         <div>
                             <label for="TOT" class="text-sm italic font-semibold text-gray-700">Time of Travel</label>
                             <input
-                                v-model="travel.time_of_travel"
+                                v-model="createRequestData.body.time_of_travel"
                                 type="time"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             >
@@ -98,7 +91,7 @@ const endDateTime = computed(() => {
                         <div>
                             <label for="requstedBy" class="text-sm italic font-semibold text-gray-700">Duration of Travel (days)</label>
                             <input
-                                v-model="travel.duration_of_travel"
+                                v-model="createRequestData.body.duration_of_travel"
                                 type="number"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 step="0.1"
@@ -118,10 +111,10 @@ const endDateTime = computed(() => {
                             >
                         </div>
                         <div>
-                            <LayoutFormPsTextInput v-model="travel.means_of_transportation" title="Means of Transportation" />
+                            <LayoutFormPsTextInput v-model="createRequestData.body.means_of_transportation" title="Means of Transportation" />
                         </div>
                         <div>
-                            <LayoutFormPsTextInput v-model="travel.remarks" title="Remarks" />
+                            <LayoutFormPsTextInput v-model="createRequestData.body.remarks" title="Remarks" />
                         </div>
                         <div class>
                             <HrmsCommonRequestedBy title="Prepared by" />
@@ -131,9 +124,9 @@ const endDateTime = computed(() => {
                 <div class="w-full rounded-lg p-4 bg-slate-100 ">
                     <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Approvals:</label>
                     <HrmsSetupApprovalsList
-                        v-for="(approv, apr) in travel.approvals"
+                        v-for="(approv, apr) in createRequestData.body.approvals"
                         :key="'hrmsetupapprovallist'+apr"
-                        v-model="travel.approvals[apr]"
+                        v-model="createRequestData.body.approvals[apr]"
                     />
                 </div>
                 <div class="flex justify-end">

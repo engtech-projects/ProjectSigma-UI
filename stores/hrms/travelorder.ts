@@ -10,30 +10,28 @@ export const REQ_STATUS = [
 
 export const useTravelorderStore = defineStore("travels", {
     state: () => ({
-        isEdit: false,
-        createData: {
+        createRequestData: {
             isLoading: false,
             errorMessage: "",
             successMessage: "",
-            params: {},
-        },
-        travel: {
-            id: null,
-            name: "",
-            employee_ids: [] as any[],
-            requesting_office: null,
-            destination: null,
-            purpose_of_travel: "",
-            date_of_travel: null,
-            time_of_travel: null,
-            duration_of_travel: null,
-            means_of_transportation: null,
-            remarks: "",
-            charge_type: null,
-            project_id: null,
-            department_id: null,
-            approvals: [],
-            request_status: ""
+            body: {
+                id: null,
+                name: "",
+                employee_ids: [] as any[],
+                requesting_office: null,
+                destination: null,
+                purpose_of_travel: "",
+                date_of_travel: null,
+                time_of_travel: null,
+                duration_of_travel: null,
+                means_of_transportation: null,
+                remarks: "",
+                charge_type: null,
+                project_id: null,
+                department_id: null,
+                approvals: [],
+                request_status: ""
+            },
         },
         allList: {
             isLoading: false,
@@ -62,9 +60,6 @@ export const useTravelorderStore = defineStore("travels", {
             errorMessage: "",
             successMessage: "",
         },
-        pagination: {},
-        getParams: {},
-        errorMessage: "",
         successMessage: "",
         remarks: "",
     }),
@@ -74,7 +69,6 @@ export const useTravelorderStore = defineStore("travels", {
                 "/api/travelorder-request/resource/" + id,
                 {
                     method: "GET",
-                    params: this.getParams,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             return response._data.data
@@ -91,6 +85,7 @@ export const useTravelorderStore = defineStore("travels", {
                 {
                     method: "GET",
                     params: this.allList.params,
+                    watch: false,
                     onRequest: () => {
                         this.allList.isLoading = true
                         this.allList.list = []
@@ -119,6 +114,7 @@ export const useTravelorderStore = defineStore("travels", {
                 {
                     method: "GET",
                     params: this.myRequestList.params,
+                    watch: false,
                     onRequest: () => {
                         this.myRequestList.isLoading = true
                         this.myRequestList.list = []
@@ -147,6 +143,7 @@ export const useTravelorderStore = defineStore("travels", {
                 {
                     method: "GET",
                     params: this.approvalList.params,
+                    watch: false,
                     onRequest: () => {
                         this.approvalList.isLoading = true
                         this.approvalList.list = []
@@ -169,120 +166,49 @@ export const useTravelorderStore = defineStore("travels", {
                 }
             )
         },
-
         async createRequest () {
-            if (this.createData.isLoading) { return }
-            this.successMessage = ""
-            this.errorMessage = ""
+            if (this.createRequestData.isLoading) { return }
             await useHRMSApiO(
                 "/api/travelorder-request/resource",
                 {
                     method: "POST",
-                    body: this.travel,
+                    body: this.createRequestData.body,
                     onRequest: () => {
-                        this.createData.isLoading = true
+                        this.createRequestData.isLoading = true
                     },
                     onResponseError: ({ response }: any) => {
-                        this.createData.isLoading = false
-                        this.errorMessage = response._data.message
+                        this.createRequestData.isLoading = false
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
-                        this.createData.isLoading = false
+                        this.createRequestData.isLoading = false
                         if (response.ok) {
-                            this.$reset()
-                            this.getMyApprovalRequests()
-                            this.getTravelorders()
-                            this.getMyRequests()
-                            this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
+                            this.reloadResources()
+                            this.createRequestData.successMessage = response._data.message
                         }
                     },
                 }
             )
-        },
-        clearMessages () {
-            this.errorMessage = ""
-            this.successMessage = ""
-        },
-        async editRequest () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApiO(
-                "/api/travelorder-request/resource/" + this.travel.id,
-                {
-                    method: "PATCH",
-                    body: this.travel,
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.getMyApprovalRequests()
-                            this.getTravelorders()
-                            this.getMyRequests()
-                            this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        async deleteRequest (id: number) {
-            const { data, error } = await useHRMSApi(
-                "/api/travelorder-request/resource/" + id,
-                {
-                    method: "DELETE",
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.$reset()
-                            this.getMyApprovalRequests()
-                            this.getTravelorders()
-                            this.getMyRequests()
-                            this.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-            if (error.value) {
-                this.errorMessage = error.value.data.message
-                throw new Error(this.errorMessage)
-                return error
-            }
-            if (data.value) {
-                this.getTravelorders()
-                return data
-            }
         },
         async approveApprovalForm (id: number) {
-            this.successMessage = ""
-            this.errorMessage = ""
             await useHRMSApiO(
                 "/api/approvals/approve/TravelOrder/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.reloadResources()
                             this.successMessage = response._data.message
-                            this.getMyApprovalRequests()
-                            this.getTravelorders()
-                            this.getMyRequests()
                             return response._data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }
             )
         },
         async denyApprovalForm (id: string) {
-            this.successMessage = ""
-            this.errorMessage = ""
             const formData = new FormData()
             formData.append("id", id)
             formData.append("remarks", this.remarks)
@@ -292,15 +218,12 @@ export const useTravelorderStore = defineStore("travels", {
                     method: "POST",
                     body: formData,
                     onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.reloadResources()
                             this.successMessage = response._data.message
-                            this.getMyApprovalRequests()
-                            this.getTravelorders()
-                            this.getMyRequests()
                             return response._data
                         }
                     },
@@ -314,22 +237,32 @@ export const useTravelorderStore = defineStore("travels", {
                     method: "POST",
                     params: { reason_for_void: remarks },
                     onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.reloadResources()
                             this.successMessage = response._data.message
-                            this.getMyApprovalRequests()
-                            this.getTravelorders()
-                            this.getMyRequests()
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }
             )
+        },
+        reloadResources () {
+            const callFunctions = []
+            if (this.allList.isLoaded) {
+                callFunctions.push(this.getTravelorders)
+            }
+            if (this.approvalList.isLoaded) {
+                callFunctions.push(this.getMyApprovalRequests)
+            }
+            if (this.myRequestList.isLoaded) {
+                callFunctions.push(this.getMyRequests)
+            }
+            this.$reset()
+            callFunctions.forEach((element) => {
+                element()
+            })
         },
     },
 })

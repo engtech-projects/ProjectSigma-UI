@@ -6,7 +6,7 @@ const attendanceType = defineModel("attendanceType", { required: false, type: St
         <option :value="null" disabled selected>
             Choose Attendance Type
         </option>
-        <option value="all">
+        <option value="All">
             All
         </option>
         <option value="Facial">

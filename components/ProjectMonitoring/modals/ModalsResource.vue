@@ -112,7 +112,7 @@ const emit = defineEmits(["hideModal"])
                             </label>
                             <input
                                 v-model="resourceStore.resource.unit_cost"
-                                type="text"
+                                type="number"
                                 class="border border-gray-300 rounded-md"
                                 placeholder="0.00"
                                 required

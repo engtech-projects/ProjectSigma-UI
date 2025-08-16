@@ -42,10 +42,10 @@ const updateSetting = async (id, value) => {
                             @focusin="allSettings.data[index].focus = true"
                             @focusout="allSettings.data[index].focus = false"
                         >
-                            <option :value="true">
+                            <option :value="1">
                                 True
                             </option>
-                            <option :value="false">
+                            <option :value="0">
                                 False
                             </option>
                         </select>

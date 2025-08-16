@@ -4,11 +4,24 @@ import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 const approvals = useApprovalStore()
 
 const { hrmsApprovals, editApproval } = storeToRefs(approvals)
+const debouncedGetData = useDebounceFn(() => {
+    approvals.getHrmsApprovals()
+}, 500)
 onMounted(() => {
     if (!hrmsApprovals.value.isLoaded) {
-        approvals.getHrmsApprovals()
+        debouncedGetData()
     }
 })
+watch(
+    () => ({ ...hrmsApprovals.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            hrmsApprovals.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const snackbar = useSnackbar()
 
 const setSelector = (appr) => {

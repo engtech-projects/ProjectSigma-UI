@@ -9,17 +9,6 @@ useHead({
             AccessibilityTypes.hrms_loans_and_advances_cash_advance_group,
         ])"
     >
-        <div class="flex flex-col gap-4">
-            <div>
-                <HrmsCashadvanceForm
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_loans_and_advances_cash_advance_formsmyrequest,
-                    ])"
-                />
-            </div>
-            <div>
-                <HrmsCashadvanceTabs />
-            </div>
-        </div>
+        <HrmsCashadvanceTabs />
     </LayoutAcessContainer>
 </template>

@@ -4,13 +4,24 @@ import { PAYROLL_TYPE, RELEASE_TYPE } from "@/stores/hrms/payroll/generatePayrol
 
 const salaryDisbursementStore = useSalaryDisbursementStore()
 const { myRequests } = storeToRefs(salaryDisbursementStore)
+const debouncedGetData = useDebounceFn(() => {
+    salaryDisbursementStore.getMyRequests()
+}, 500)
 onMounted(() => {
     if (!myRequests.value.isLoaded) {
-        myRequests.value.isLoaded = true
-        salaryDisbursementStore.getMyRequests()
+        debouncedGetData()
     }
 })
-
+watch(
+    () => ({ ...myRequests.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            myRequests.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const headers = [
     { name: "Payroll Date", id: "payroll_date_human" },
     { name: "Payroll Type", id: "payroll_type" },

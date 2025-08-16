@@ -2,8 +2,25 @@
 import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
-pan.getMyRequests()
 const { myRequests } = storeToRefs(pan)
+const debouncedGetData = useDebounceFn(() => {
+    pan.getMyRequests()
+}, 500)
+onMounted(() => {
+    if (!myRequests.value.isLoaded) {
+        debouncedGetData()
+    }
+})
+watch(
+    () => ({ ...pan.myRequests.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            pan.myRequests.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 
 const headers = [
     { name: "REQUEST TYPE", id: "type" },
