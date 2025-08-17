@@ -219,6 +219,9 @@ export const useProjectStore = defineStore("projects", {
             },
             list: [],
         },
+        viewAttachments: {
+            url: ""
+        }
     }),
     actions: {
         async getProjectsInformation (id: any) {
@@ -741,21 +744,20 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
-        async uploadAttachments (projectId: number, params: FormData) {
+        async uploadAttachments (projectId: number, formData: FormData) {
             this.successMessage = ""
             this.errorMessage = ""
             await useProjectsApi(
                 "/api/projects/" + projectId + "/attachments",
                 {
                     method: "POST",
-                    body: params,
-                    onResponse: ({ response }: any) => {
+                    body: formData,
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data?.message || "Failed to upload attachments."
+                    },
+                    onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
-                            return response._data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.successMessage = response._data?.message || "Attachments uploaded successfully."
                         }
                     },
                 }
@@ -764,21 +766,17 @@ export const useProjectStore = defineStore("projects", {
         async viewAttachments (projectId: number) {
             this.errorMessage = ""
             this.successMessage = ""
-            let apiResponse: any = null
-            await useProjectsApi(
-                `/api/projects/${projectId}/document-viewer`,
-                {
-                    method: "GET",
-                    onResponseError: ({ response }) => {
-                        this.errorMessage = response._data?.message || "Failed to open document viewer"
-                        throw new Error(this.errorMessage)
-                    },
-                    onResponse: ({ response }) => {
-                        apiResponse = response._data
-                    },
-                }
-            )
-            return apiResponse
+            await useProjectsApi(`/api/projects/${projectId}/document-viewer`, {
+                method: "GET",
+                onResponseError: ({ response }) => {
+                    this.errorMessage = response._data?.message || "Unable to get viewer link"
+                },
+                onResponse: ({ response }) => {
+                    if (response.ok) {
+                        this.viewAttachments.url = response._data.url
+                    }
+                },
+            })
         },
     },
 })
