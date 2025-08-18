@@ -36,7 +36,6 @@ const emit = defineEmits(["hideModal"])
                 </div>
                 <Icon name="material-symbols:close-rounded" class="h-6 w-6 text-gray-500 hover:text-gray-800 cursor-pointer" @click="emit('hideModal')" />
             </div>
-
             <form @submit.prevent="emit('hideModal')">
                 <div class="flex flex-col mb-4">
                     <label class="text-sm text-gray-700 mb-2">

@@ -1,3 +1,46 @@
+<script lang="ts" setup>
+import { useProjectStore } from "~/stores/project-monitoring/projects"
+const projectStore = useProjectStore()
+projectStore.getActiveProjects()
+const options = ["Project 1", "Project 2", "Project 3", "Project 4", "Project 5", "Project 6", "Project 7", "Project 8", "Project 9", "Project 10", "Project 11", "Project 12", "Project 13", "Project 14", "Project 15"]
+const query = ref("")
+const filtered = ref([...options])
+const open = ref(false)
+const highlight = ref(-1)
+const root = ref(null)
+const filterOptions = () => {
+    filtered.value = options.filter(o => o.toLowerCase().includes(query.value.toLowerCase()))
+    highlight.value = filtered.value.length ? 0 : -1
+}
+const openDropdown = () => {
+    open.value = true
+}
+const closeDropdown = () => {
+    open.value = false
+    highlight.value = -1
+}
+const toggleDropdown = () => {
+    open.value ? closeDropdown() : openDropdown()
+}
+const moveHighlight = (dir) => {
+    if (!open.value) { openDropdown() }
+    if (filtered.value.length) {
+        highlight.value = (highlight.value + dir + filtered.value.length) % filtered.value.length
+    }
+}
+const selectOption = (i) => {
+    query.value = filtered.value[i]
+    closeDropdown()
+}
+const selectHighlighted = () => {
+    if (highlight.value >= 0) { selectOption(highlight.value) }
+}
+const clickOutside = (e: any) => {
+    if (root.value && !root.value.contains(e.target)) { closeDropdown() }
+}
+onMounted(() => document.addEventListener("click", clickOutside))
+onBeforeUnmount(() => document.removeEventListener("click", clickOutside))
+</script>
 <template>
     <div id="app" class="w-full max-w-md">
         <div ref="root" class="relative">
@@ -41,60 +84,3 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-import { useProjectStore } from "~/stores/project-monitoring/projects"
-const projectStore = useProjectStore()
-projectStore.getActiveProjects()
-const options = ["Project 1", "Project 2", "Project 3", "Project 4", "Project 5", "Project 6", "Project 7", "Project 8", "Project 9", "Project 10", "Project 11", "Project 12", "Project 13", "Project 14", "Project 15"]
-const query = ref("")
-const filtered = ref([...options])
-const open = ref(false)
-const highlight = ref(-1)
-const root = ref(null)
-
-const filterOptions = () => {
-    filtered.value = options.filter(o => o.toLowerCase().includes(query.value.toLowerCase()))
-    highlight.value = filtered.value.length ? 0 : -1
-}
-
-function openDropdown () {
-    open.value = true
-}
-
-function closeDropdown () {
-    open.value = false
-    highlight.value = -1
-}
-
-function toggleDropdown () {
-    open.value ? closeDropdown() : openDropdown()
-}
-
-function moveHighlight (dir) {
-    if (!open.value) { openDropdown() }
-    if (filtered.value.length) {
-        highlight.value = (highlight.value + dir + filtered.value.length) % filtered.value.length
-    }
-}
-
-function selectOption (i) {
-    query.value = filtered.value[i]
-    closeDropdown()
-}
-
-function selectHighlighted () {
-    if (highlight.value >= 0) { selectOption(highlight.value) }
-}
-
-function clickOutside (e: any) {
-    if (root.value && !root.value.contains(e.target)) { closeDropdown() }
-}
-
-onMounted(() => document.addEventListener("click", clickOutside))
-onBeforeUnmount(() => document.removeEventListener("click", clickOutside))
-</script>
-
-<style>
-
-</style>

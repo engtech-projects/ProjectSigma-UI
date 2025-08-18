@@ -6,7 +6,6 @@ const taskModalShow = ref(false)
 const schedModalShow = ref(false)
 const currentItemId = ref(null)
 const editSched = ref(false)
-
 onMounted(() => {
     const g = new JSGantt.GanttChart(
         document.getElementById("GanttChartDIV"),
@@ -25,12 +24,6 @@ onMounted(() => {
         currentItemId.value = pID
         editSched.value = true
     }
-    // g.AddTaskItemObject(useGanttData().gantt[0])
-    // useGanttData().gantt.forEach((task) => {
-    //     task.action = `<span onClick="addTask(${task.pID})" class="text-green-500 cursor-pointer hover:underline">+ Add</span>`
-
-    //     g.AddTaskItemObject(task)
-    // })
     const dummyData = ref([
         // Part A
         { pID: 1, pName: "Part A", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "John", pComp: 0, pGroup: 1, pParent: 0, pOpen: 1, pType: "part" },
@@ -46,7 +39,6 @@ onMounted(() => {
         { pID: 11, pName: "Task 1", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "John", pComp: 0, pGroup: 0, pParent: 10, pOpen: 1, pType: "task" },
         { pID: 12, pName: "Task 2", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "John", pComp: 0, pGroup: 0, pParent: 10, pOpen: 1, pType: "task" },
         { pID: 13, pName: "Task 3", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "John", pComp: 0, pGroup: 0, pParent: 10, pOpen: 1, pType: "task" },
-
         // Part B
         { pID: 14, pName: "Part B", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "Anna", pComp: 0, pGroup: 1, pParent: 0, pOpen: 1, pType: "part" },
         { pID: 15, pName: "Item 1", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "Anna", pComp: 0, pGroup: 1, pParent: 14, pOpen: 1, pType: "item" },
@@ -61,7 +53,6 @@ onMounted(() => {
         { pID: 24, pName: "Task 1", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "Anna", pComp: 0, pGroup: 0, pParent: 23, pOpen: 1, pType: "task" },
         { pID: 25, pName: "Task 2", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "Anna", pComp: 0, pGroup: 0, pParent: 23, pOpen: 1, pType: "task" },
         { pID: 26, pName: "Task 3", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "Anna", pComp: 0, pGroup: 0, pParent: 23, pOpen: 1, pType: "task" },
-
         // Part C
         { pID: 27, pName: "Part C", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "Mark", pComp: 0, pGroup: 1, pParent: 0, pOpen: 1, pType: "part" },
         { pID: 28, pName: "Item 1", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "Mark", pComp: 0, pGroup: 1, pParent: 27, pOpen: 1, pType: "item" },
@@ -77,7 +68,6 @@ onMounted(() => {
         { pID: 38, pName: "Task 2", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "Mark", pComp: 0, pGroup: 0, pParent: 36, pOpen: 1, pType: "task" },
         { pID: 39, pName: "Task 3", pClass: "gtaskblue", pLink: "", pMile: 0, pRes: "Mark", pComp: 0, pGroup: 0, pParent: 36, pOpen: 1, pType: "task" }
     ])
-
     dummyData.value.forEach((task) => {
         if (task.pType === "item") {
             task.pName += `<span onclick="setSchedule(${task.pID})" class="bg-green-500 text-white text-xs w-full text-right rounded ml-6 cursor-pointer hover:bg-green-600 !p-1">Set Schedule</span>`
@@ -87,7 +77,6 @@ onMounted(() => {
         }
         g.AddTaskItemObject(task)
     })
-
     g.Draw()
 })
 const addTask = () => {
@@ -95,7 +84,6 @@ const addTask = () => {
     editSched.value = false
 }
 </script>
-
 <template>
     <div class="mb-6 bg-white p-6">
         <div class="flex justify-between items-center mb-8">
