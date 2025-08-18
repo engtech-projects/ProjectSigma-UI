@@ -2,10 +2,10 @@
 import { storeToRefs } from "pinia"
 import { useCanvassSummaryStore } from "~/stores/inventory/procurement/canvassSummary"
 const mainStore = useCanvassSummaryStore()
-const { allRequests } = storeToRefs(mainStore)
+const { myApprovals } = storeToRefs(mainStore)
 onMounted(() => {
-    if (!allRequests.isLoaded) {
-        mainStore.getAllRequests()
+    if (!myApprovals.value.isLoaded) {
+        mainStore.getMyApprovals()
     }
 })
 const headers = [
@@ -24,25 +24,25 @@ const showInformation = (data) => {
         path: "/inventory/procurement/canvass-summary/request-details",
         query: {
             key: data.id
-        },
+        }
     })
 }
 const changePaginate = (newParams) => {
-    allRequests.value.params.page = newParams.page ?? ""
+    myApprovals.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="allRequests.isLoading">
-        <div class="pb-2 text-gray-500 overflow-y-auto p-2">
+    <LayoutLoadingContainer class="w-full" :loading="myApprovals.isLoading">
+        <div class="flex flex-col gap-4 pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="allRequests.list ?? []"
+                :datas="myApprovals.list ?? []"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <PsCustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
+            <PsCustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
 </template>

@@ -20,16 +20,16 @@ useHead({
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_MYREQUESTS,
                     ])"
-                    target-id="myRequests"
-                    title="My Requests"
+                    target-id="myApprovals"
+                    title="My Approvals"
                 />
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="allRequest">
                     <InventoryCanvassSummaryRequestAllRequests />
                 </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer id="myRequests">
-                    <InventoryCanvassSummaryRequestMyRequests />
+                <HrmsCommonTabsTabContainer id="myApprovals">
+                    <InventoryCanvassSummaryRequestMyApprovals />
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>

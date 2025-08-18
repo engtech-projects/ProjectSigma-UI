@@ -126,7 +126,7 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
             errorMessage: "",
             successMessage: "",
         },
-        myRequests: {
+        allRequests: {
             isLoading: false,
             isLoaded: false,
             list: [] as Array<CanvassSummaryDetails>,
@@ -154,30 +154,25 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
         remarks: "",
     }),
     actions: {
-        async getMyRequests () {
+        async getAllRequests () {
             await useInventoryApi(
-                "/api/procurement-request/canvass-summary/my-request",
+                "/api/procurement-request/canvass-summary/all-request",
                 {
                     method: "GET",
-                    params: this.myRequests.params,
+                    params: this.allRequests.params,
                     onRequest: () => {
-                        this.myRequests.isLoading = true
-                    },
-                    onResponseError: ({ response }: any) => {
-                        this.myRequests.isLoading = false
-                        this.myRequests.errorMessage = response?._data?.message || "Unexpected server error while fetching my requests."
-                        throw new Error(this.myRequests.errorMessage || "Unexpected server error while fetching my requests.")
+                        this.allRequests.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.myRequests.isLoading = false
+                        this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.myRequests.isLoaded = true
-                            this.myRequests.list = response._data.data
-                            this.myRequests.pagination = {
+                            this.allRequests.list = response._data.data
+                            this.allRequests.pagination = {
                                 first_page: response._data.links.first,
                                 pages: response._data.meta.links,
                                 last_page: response._data.links.last,
                             }
+                            this.allRequests.isLoaded = true
                         }
                     },
                 }
@@ -199,9 +194,8 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
                         throw new Error(this.errorMessage || "Unexpected server error while fetching my approvals.")
                     },
                     onResponse: ({ response }) => {
-                        this.myApprovals.isLoading = true
+                        this.myApprovals.isLoading = false
                         if (response.ok) {
-                            this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data
                             this.myApprovals.pagination = {
                                 first_page: response._data.links.first,
@@ -324,7 +318,7 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useInventoryApi(
-                "/api/procurement-request/approvals/approve/CanvassSummary/" + id,
+                "/api/approvals/approve/RequestCanvassSummary/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -348,7 +342,7 @@ export const useCanvassSummaryStore = defineStore("canvassSummaryStore", {
             formData.append("id", id)
             formData.append("remarks", this.remarks)
             await useInventoryApi(
-                "/api/procurement-request/approvals/disapprove/CanvassSummary/" + id,
+                "/api/approvals/disapprove/RequestCanvassSummary/" + id,
                 {
                     method: "POST",
                     body: formData,
