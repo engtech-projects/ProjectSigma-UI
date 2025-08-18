@@ -34,6 +34,14 @@
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.PROJECTMONITORING_SETUP_POSITION,
                 ])"
+                linkarea="/project-monitoring/schedule-control/live-projects"
+                icon="carbon:ibm-cloud-projects"
+                single-nav-title="Live Projects"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.PROJECTMONITORING_SETUP_POSITION,
+                ])"
                 linkarea="/project-monitoring/schedule-control/timeline-planner"
                 icon="icon-park-twotone:vertical-timeline"
                 single-nav-title="Timeline Planner"
