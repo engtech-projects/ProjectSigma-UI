@@ -20,12 +20,10 @@ const handleRequest = async (type: "approve" | "deny", id: number) => {
         } else {
             await main.denyApprovalForm(id)
         }
-
         snackbar.add({
             type: "success",
             text: main.successMessage
         })
-
         main.$reset()
         navigateTo({ path: "/inventory/procurement/canvass-summary" })
     } catch (error: any) {

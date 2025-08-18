@@ -20,7 +20,6 @@ const props = defineProps({
                     {{ title }}
                 </h3>
             </div>
-
             <div class="flex flex-col gap-4 mb-5">
                 <div class="flex flex-row justify-between gap-4">
                     <div class="w-full flex flex-col">
@@ -51,7 +50,6 @@ const props = defineProps({
                     <InventoryCanvassSummaryItemTable
                         :data="props.data"
                     />
-
                     <div class="border border-t-0 border-gray-700 shadow-sm uppercase text-black bg-white">
                         <div
                             v-for="(value, label) in {
@@ -69,7 +67,6 @@ const props = defineProps({
                                 {{ value || '-' }}
                             </div>
                         </div>
-
                         <div class="flex h-[100px]">
                             <div class="w-1/2 px-4 py-4 font-medium border-r border-gray-700 flex items-center justify-center">
                                 Remarks
