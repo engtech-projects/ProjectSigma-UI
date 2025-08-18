@@ -119,8 +119,8 @@ export enum AccessibilityTypes {
     hrms_lnotnto_travel_order_group = "hrms:leaves and overtime_travel order_",
     hrms_lnotnto_travel_order_form = "hrms:leaves and overtime_travel order_form",
     hrms_lnotnto_travel_order_list = "hrms:leaves and overtime_travel order_list",
-    hrms_lnotnto_travel_order_my_request = "hrms:leaves and overtime_travel order_myrequest",
-    hrms_lnotnto_travel_order_my_approvals = "hrms:leaves and overtime_travel order_myapprovals",
+    hrms_lnotnto_travel_order_my_request = "hrms:leaves and overtime_travel order_my request",
+    hrms_lnotnto_travel_order_my_approvals = "hrms:leaves and overtime_travel order_my approvals",
     hrms_payroll_salary_generate_payroll_change_of_charging = "hrms:payroll_salary_generate payroll_change of charging",
     // PAYROLL
     hrms_payroll_group = "hrms:payroll_",
