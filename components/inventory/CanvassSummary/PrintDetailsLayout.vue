@@ -9,7 +9,6 @@ const props = defineProps({
         required: true,
     },
 })
-
 </script>
 <template>
     <div class="text-gray-900 p-2">
