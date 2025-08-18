@@ -1,74 +1,65 @@
 <script setup lang="ts">
+import { ref } from "vue"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const route = useRoute()
 const snackbar = useSnackbar()
-const attachments = ref()
-
 const projectStore = useProjectStore()
+const loading = ref(false)
 
 const uploadAttachment = async (event: any) => {
     try {
-        const projectId = Number(route.params?.id)
-        if (!projectId) {
-            throw new Error("Missing project ID from route")
+        const projectId = Number(route.query.id || route.params.id)
+        if (!projectId || isNaN(projectId)) {
+            throw new Error("Project ID not found in the route")
         }
-
-        const file = event.target.files[0]
-        if (!file) {
-            throw new Error("No file selected")
+        const input = event.target as HTMLInputElement
+        const files = input.files
+        if (!files || files.length === 0) {
+            throw new Error("No files selected")
         }
+        loading.value = true
         const formData = new FormData()
-        formData.append("attachments", file)
-
-        const files: File[] = [file]
-        await projectStore.uploadAttachments(projectId, files)
-
+        for (const file of files) {
+            formData.append("attachments[]", file)
+        }
+        await projectStore.uploadAttachments(projectId, formData)
         snackbar.add({
             type: "success",
             text: "File uploaded successfully",
         })
+        input.value = ""
+        projectStore.attachments.list = []
     } catch (error: any) {
         snackbar.add({
             type: "error",
             text: error.message || "Upload failed",
         })
+    } finally {
+        loading.value = false
     }
 }
 </script>
+
 <template>
     <div class="flex flex-col gap-4">
-        <div class="flex flex-row gap-4 justify-start mt-4">
-            LayoutFormPsSelect
-            v-model="attachments.form.attachment_name"
-            :options-list="[
-            'PLANS',
-            'PROGRAM OF WORKS',
-            'CONTRACT AGREEMENT',
-            'PERMIT',
-            'OTHERS'
-            ]"
-            class="w-full"
-            title="Attachment Type"
-            >
-
-            <LayoutFormPsTextInput
-                v-if="attachments?.form.attachment_name === 'OTHERS'"
-                v-model="attachments.form.other_type"
-                class="w-full"
-                title="File Name"
-            />
-
-            <div class="w-full">
-                <label class="block mb-1 text-sm font-medium text-gray-900">
-                    File
+        <div class="flex flex-row gap-4">
+            <div class="w-full border border-gray-300 rounded-lg p-3">
+                <label class="block mb-1 text-md font-medium text-black">
+                    Upload Attachment
                 </label>
                 <input
+                    ref="fileInput"
                     class="w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
                     type="file"
-                    accept=".doc, .docx, .pdf, .png, .jpeg"
+                    accept=".doc, .docx, .pdf, .png, .jpeg, .jpg, .csv, .xls, .xlsx, .txt, .zip, .rar, .7z"
+                    multiple
                     @change="uploadAttachment"
                 >
+                <div v-if="loading" class="flex items-center gap-2 mt-2 text-sm text-gray-600">
+                    <span class="animate-spin border-2 border-gray-400 border-t-transparent rounded-full w-4 h-4" />
+                    Uploading files...
+                </div>
             </div>
         </div>
     </div>

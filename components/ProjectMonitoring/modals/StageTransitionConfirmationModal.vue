@@ -23,18 +23,31 @@ const showAddModal = ref(false)
         size="modal-md"
         @hide="emit('hideModal')"
     >
-        <div v-if="!showAddModal" class="bg-white w-full p-6 transition-transform scale-100">
+        <div
+            v-if="!showAddModal"
+            class="bg-white w-full p-4 transition-transform scale-100 max-h-[80vh] overflow-y-auto"
+        >
             <!-- Header -->
             <h2 class="text-xl font-semibold text-gray-800 mb-4">
                 Confirm Stage Update
             </h2>
+
+            <div v-if="stage === 'generate_to_tss'" class="w-full">
+                <ProjectMonitoringEditProject />
+            </div>
+
             <!-- Message -->
             <p class="text-gray text-600 text-xl mb-6 py-4">
                 Are you sure you want to update the stage to {{ stage }}?
             </p>
 
             <!-- Actions -->
-            <div class="flex justify-end space-x-4">
+            <div
+                :class="[
+                    'flex justify-end space-x-4 bottom-0 bg-white pt-4',
+                    stage === 'generate_to_tss' ? 'sticky' : ''
+                ]"
+            >
                 <button
                     class="px-8 py-2 text-sm font-medium rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
                     @click="$emit('hideModal')"

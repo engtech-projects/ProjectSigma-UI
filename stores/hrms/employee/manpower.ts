@@ -330,6 +330,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 {
                     method: "GET",
                     params: this.approvedPositions.params,
+                    watch: false,
                     onRequest: () => {
                         this.approvedPositions.isLoading = true
                     },
@@ -357,6 +358,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 {
                     method: "GET",
                     params: this.openPositions.params,
+                    watch: false,
                     onRequest: () => {
                         this.openPositions.isLoading = true
                     },
@@ -384,6 +386,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 {
                     method: "GET",
                     params: this.allRequests.params,
+                    watch: false,
                     onRequest: () => {
                         this.allRequests.isLoading = true
                     },
@@ -411,6 +414,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 {
                     method: "GET",
                     params: this.myRequests.params,
+                    watch: false,
                     onRequest: () => {
                         this.myRequests.isLoading = true
                     },
@@ -438,6 +442,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 {
                     method: "GET",
                     params: this.myApprovals.params,
+                    watch: false,
                     onRequest: () => {
                         this.myApprovals.isLoading = true
                     },
@@ -465,6 +470,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 {
                     method: "GET",
                     params: this.forHiringRequests.params,
+                    watch: false,
                     onRequest: () => {
                         this.forHiringRequests.isLoading = true
                     },

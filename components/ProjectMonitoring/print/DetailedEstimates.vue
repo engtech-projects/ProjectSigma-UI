@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useResourceStore } from "~/stores/project-monitoring/resource"
+import { useResourceStore, MARKETING_RESOURCES } from "~/stores/project-monitoring/resource"
 import { useTaskStore } from "~/stores/project-monitoring/task"
 import { useProjectStore } from "~/stores/project-monitoring/projects"
 
@@ -13,27 +13,40 @@ const letterHeader = (index: number) => {
     const remainder = index % 26
     return String.fromCharCode(65 + remainder) + (base > 0 ? String.fromCharCode(65 + base - 1) : "")
 }
-const filterResources = (id: number) => {
-    return task.value.resources.filter(resource => resource.resource_name.id === id)
+const filterResources = (name: string) => {
+    return task.value.resources.filter(resource => resource.resource_name === name)
 }
-const totalDirectCost = (id: number) => {
-    return task.value.resources.filter(resource => resource.resource_name.id === id).reduce((total: number, resource: any) => total + ((resource.unit_cost * resource.quantity) * (resource.unit_count ?? 1)), 0)
+const totalDirectCost = (name: string) => {
+    return task.value.resources
+        .filter(resource => resource.resource_name === name)
+        .reduce((total: number, resource: any) => total + (resource.total_cost ?? 0), 0)
 }
+const orderedMarketingResources = computed(() => {
+    const names = resourceStore.resourceNames
+
+    if (!Array.isArray(names) || names.length === 0) {
+        return []
+    }
+    return names.filter((r: any) => MARKETING_RESOURCES.includes(r.label))
+        .sort((a: any, b: any) => {
+            return MARKETING_RESOURCES.indexOf(a.label) - MARKETING_RESOURCES.indexOf(b.label)
+        })
+})
 </script>
 <template>
     <div class="bg-white">
         <div class="flex flex-col gap-2 border border-black p-2">
             <div class="grid grid-cols-5">
                 <span class="col-span-1 font-semibold">Contract ID</span>
-                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore?.information.contract_id }}</span>
+                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore?.information?.contract_id ?? taskStore?.task?.project_contract_id }}</span>
             </div>
             <div class="grid grid-cols-5">
                 <span class="col-span-1 font-semibold">Contract Name</span>
-                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore?.information.name }}</span>
+                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore?.information?.name ?? taskStore?.task?.project_name }}</span>
             </div>
             <div class="grid grid-cols-5">
                 <span class="col-span-1 font-semibold">Contract Location</span>
-                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore?.information.location }}</span>
+                <span class="col-span-4"><b class="mr-2">:</b> {{ projectStore?.information?.location ?? taskStore?.task?.project_location }}</span>
             </div>
         </div>
         <div class="flex flex-col border-gray-800 pb-6">
@@ -70,47 +83,47 @@ const totalDirectCost = (id: number) => {
                             {{ task.description }}
                         </td>
                         <td class="p-2  text-center">
-                            {{ task.unit }}
+                            {{ task.quantity }}
                         </td>
                         <td class="p-2  text-center">
-                            {{ task.quantity }}
+                            {{ task.unit }}
                         </td>
                         <td class="p-2  text-center" />
                         <td class="" />
                     </tr>
                 </tbody>
                 <AccountingLoadScreen :is-loading="boardLoading" />
-                <tbody v-for="(rnames, index) in resourceStore.resourceNames" :key="rnames.id">
+                <tbody v-for="(rnames, index) in orderedMarketingResources" :key="index">
                     <tr class="border-y border-gray-700">
                         <td colspan="6" class="px-2 py-1">
                             <div class="flex justify-between">
                                 <span class="font-semibold uppercase">
-                                    {{ letterHeader(index) }}. {{ rnames.name }}
+                                    {{ letterHeader(index) }}. {{ rnames.label }}
                                 </span>
                             </div>
                         </td>
                     </tr>
-                    <tr v-if="filterResources(rnames.id)?.length > 0" class="border border-gray-700">
+                    <tr v-if="filterResources(rnames.label)?.length > 0" class="border border-gray-700">
                         <td />
                         <td class="uppercase text-xs font-semibold pt-2 text-left">
                             Name and Specification
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor" class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor" class="uppercase text-xs font-semibold pt-2 text-center">
                             No of Person
                         </td>
-                        <td v-else-if="rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-else-if="rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
                             No of Equipment
                         </td>
                         <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Quantity
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
                             No. of Hrs.
                         </td>
                         <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Unit
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
                             Hourly Rate
                         </td>
                         <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
@@ -120,39 +133,39 @@ const totalDirectCost = (id: number) => {
                             Amount
                         </td>
                     </tr>
-                    <tr v-for="resource in filterResources(rnames.id)" :key="resource.id">
+                    <tr v-for="resource in filterResources(rnames.label)" :key="resource.id">
                         <td class="text-center " />
                         <td class="p-2 ">
                             {{ resource.description }}
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
-                            {{ resource.unit_count }}
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
+                            {{ accountingCurrency(resource.unit_count) }}
                         </td>
                         <td v-else class="p-2  text-center">
-                            {{ resource.quantity }}
+                            {{ accountingCurrency(resource.quantity) }}
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
-                            {{ resource.quantity }}
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
+                            {{ accountingCurrency(resource.quantity) }}
                         </td>
                         <td v-else class="p-2  text-center">
                             {{ resource.unit }}
                         </td>
-                        <td v-if="rnames.name.toLowerCase() === DetailedEstimatesType.labor || rnames.name.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
-                            {{ resource.unit_cost + " / hour" }}
+                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
+                            {{ accountingCurrency(resource.unit_cost) + " / hour" }}
                         </td>
                         <td v-else class="p-2  text-center">
-                            {{ resource.unit_cost + " / " + resource.unit }}
+                            {{ accountingCurrency(resource.unit_cost) + " / " + resource.unit }}
                         </td>
                         <td class="p-2  text-right">
                             {{ accountingCurrency(resource.total_cost) }}
                         </td>
                     </tr>
-                    <tr v-if="filterResources(rnames.id)?.length > 0" class="border-b border-gray-700 text-sm font-bold">
+                    <tr v-if="filterResources(rnames.label)?.length > 0" class="border-b border-gray-700 text-sm font-bold">
                         <td class="text-right px-2" colspan="5">
-                            Direct {{ rnames.name }} Cost
+                            Direct {{ rnames.label }} Cost
                         </td>
                         <td class="text-right px-2">
-                            {{ accountingCurrency(totalDirectCost(rnames.id)) }}
+                            {{ accountingCurrency(totalDirectCost(rnames.label)) }}
                         </td>
                     </tr>
                 </tbody>
@@ -168,7 +181,7 @@ const totalDirectCost = (id: number) => {
                         <td class="pX-2 text-center" />
                         <td class="text-right px-2" />
                         <td class="text-right px-2">
-                            {{ accountingCurrency(task.resources?.resources_item_total) }}
+                            {{ accountingCurrency(task?.direct_cost) }}
                         </td>
                     </tr>
                     <tr>
@@ -179,14 +192,14 @@ const totalDirectCost = (id: number) => {
                             O.C.M
                         </td>
                         <td class="pX-2 text-center">
-                            10%
+                            10.00%
                         </td>
                         <td class="pX-2 text-center" />
                         <td class="text-right px-2">
                             of D
                         </td>
                         <td class="text-right px-2">
-                            {{ accountingCurrency(task.resources?.ocm) }}
+                            {{ accountingCurrency(task?.ocm) }}
                         </td>
                     </tr>
                     <tr>
@@ -197,14 +210,14 @@ const totalDirectCost = (id: number) => {
                             Contractors Profit
                         </td>
                         <td class="pX-2 text-center">
-                            10%
+                            10.00%
                         </td>
                         <td class="pX-2 text-center" />
                         <td class="text-right px-2">
                             of D
                         </td>
                         <td class="text-right px-2">
-                            {{ accountingCurrency(task.resources?.contractors_profit) }}
+                            {{ accountingCurrency(task?.contractors_profit) }}
                         </td>
                     </tr>
                     <tr>
@@ -215,14 +228,14 @@ const totalDirectCost = (id: number) => {
                             vAT (Where Applicable)
                         </td>
                         <td class="pX-2 text-center">
-                            12%
+                            12.00%
                         </td>
                         <td class="pX-2 text-center" />
                         <td class="text-right px-2">
                             of (D + E + F)
                         </td>
                         <td class="text-right px-2">
-                            {{ accountingCurrency(task.resources?.vat) }}
+                            {{ accountingCurrency(task?.vat) }}
                         </td>
                     </tr>
                     <tr>
@@ -238,7 +251,7 @@ const totalDirectCost = (id: number) => {
                             (D + E + F + G)
                         </td>
                         <td class="text-right px-2">
-                            {{ accountingCurrency(task.resources?.grand_total) }}
+                            {{ accountingCurrency(task?.grand_total) }}
                         </td>
                     </tr>
                     <tr>
@@ -248,39 +261,24 @@ const totalDirectCost = (id: number) => {
                         <td class="pX-2 uppercase">
                             Unit Cost Per
                         </td>
-                        <td class="pX-2 text-center" />
-                        <td class="pX-2 text-center" />
-                        <td class="text-right px-2">
-                            sq.m
+                        <td class="pX-2 text-center">
+                            {{ task.unit }}
                         </td>
+                        <td class="pX-2 text-center" />
+                        <td class="text-right px-2" />
                         <td class="text-right px-2">
-                            {{ accountingCurrency(task.resources?.unit_cost_per) }}
+                            {{ accountingCurrency(task?.unit_cost_per) }}
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <div class="flex gap-24">
-                <div class="flex flex-col gap-8 !text-xs mt-6 justify-between items-start">
-                    <span class="">Prepared By:</span>
-                    <div class="flex gap-8 flex-1">
-                        <div class="flex flex-col items-left gap-1">
-                            <span class="font-bold uppercase flex-1 border-b-2 border-black text-left">
-                                ANGEL A. ABRAU
-                            </span>
-                            <span class="flex-1">
-                                Authorized Managing Officer <br> ME3 CONSTRUCTION AND DEVELOPMENT CORPORATION(JOINT VENTURE)
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center gap-12">
-                    <span>
-                        DATE:
-                    </span>
-                    <span>
-                        {{ fullDate(new Date()) }}
-                    </span>
-                </div>
+            <div class="flex flex-row items-center justify-between mt-16">
+                <CommonPreparedByWithDate
+                    name="ANGEL A. ABRAU"
+                    position="Authorized Managing Officer"
+                    :license="projectStore.information?.license ?? taskStore?.task?.project_license"
+                    :date="projectStore.information?.created_at ?? taskStore?.task?.project_created_at"
+                />
             </div>
         </div>
     </div>

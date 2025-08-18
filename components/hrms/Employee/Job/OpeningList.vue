@@ -1,14 +1,27 @@
 <script setup>
+
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
 const { forHiringRequests, manpower, isDetail } = storeToRefs(manpowers)
+const debouncedGetData = useDebounceFn(() => {
+    manpowers.getManpowerHiringRequests()
+}, 500)
 onMounted(() => {
     if (!forHiringRequests.value.isLoaded) {
-        manpowers.getManpowerHiringRequests()
+        debouncedGetData()
     }
 })
-
+watch(
+    () => ({ ...forHiringRequests.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            forHiringRequests.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const changePaginate = (newParams) => {
     forHiringRequests.value.params.page = newParams.page ?? ""
 }

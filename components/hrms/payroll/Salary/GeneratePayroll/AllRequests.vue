@@ -3,13 +3,26 @@ import { useGeneratePayrollStore, PAYROLL_TYPE, RELEASE_TYPE } from "@/stores/hr
 
 const genPayrollRequestsStore = useGeneratePayrollStore()
 const { allRequests } = storeToRefs(genPayrollRequestsStore)
+const debouncedGetData = useDebounceFn(() => {
+    genPayrollRequestsStore.getAllRequests()
+}, 500)
 onMounted(() => {
     if (!allRequests.value.isLoaded) {
         allRequests.value.isLoaded = true
-        genPayrollRequestsStore.getAllRequests()
+        debouncedGetData()
     }
 })
-
+watch(
+    () => ({ ...allRequests.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            allRequests.value.page = 1
+        }
+        debouncedGetData()
+    }, {
+        deep: true,
+    }
+)
 const changePaginate = (newParams) => {
     allRequests.value.params.page = newParams.page ?? ""
 }

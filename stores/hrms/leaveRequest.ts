@@ -147,18 +147,19 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
             )
         },
         async allLeaves () {
-            await useHRMSApi(
+            await useHRMSApiO(
                 "/api/leave-request/resource",
                 {
                     method: "GET",
                     params: this.allList.params,
                     onRequest: () => {
+                        this.allList.isLoaded = true
                         this.allList.isLoading = true
                     },
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         this.allList.isLoading = false
                         if (response.ok) {
                             this.allList.isLoaded = true
@@ -174,18 +175,19 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
             )
         },
         async myRequest () {
-            await useHRMSApi(
+            await useHRMSApiO(
                 "/api/leave-request/my-request",
                 {
                     method: "GET",
                     params: this.myRequestList.params,
                     onRequest: () => {
+                        this.myRequestList.isLoaded = true
                         this.myRequestList.isLoading = true
                     },
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         this.myRequestList.isLoading = false
                         if (response.ok) {
                             this.myRequestList.isLoaded = true
@@ -203,18 +205,19 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
         async allApprovals () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApi(
+            await useHRMSApiO(
                 "/api/leave-request/my-approvals",
                 {
                     method: "GET",
                     params: this.approvalList.params,
                     onRequest: () => {
+                        this.approvalList.isLoaded = true
                         this.approvalList.isLoading = true
                     },
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         this.approvalList.isLoading = false
                         if (response.ok) {
                             this.approvalList.isLoaded = true

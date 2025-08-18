@@ -62,7 +62,7 @@ const rejectAllItems = async ({ requestId, remarks }: { requestId: number, remar
         snackbar.add({ type: "error", text: error.message || "Something went wrong." })
     }
 }
-const updateDetails = useDebouncedFn(async () => {
+const updateDetails = useDebounceFn(async () => {
     try {
         await main.updateReceivingItem(model.value)
     } catch (error: any) {
@@ -140,9 +140,19 @@ const updateDetails = useDebouncedFn(async () => {
         <td class="border px-2 py-1 text-center">
             <div v-if="model.acceptance_status" class="flex justify-center relative group">
                 <Icon
-                    :name="model.acceptance_status === 'Rejected' ? 'mdi:close-circle' : 'mdi:check-circle'"
-                    :class="model.acceptance_status === 'Rejected' ? 'text-red-700' : 'text-green-700'"
-                    class="h-8 w-8"
+                    v-if="model.acceptance_status === 'Accepted'"
+                    name="mdi:check-circle"
+                    class="text-green-700 h-8 w-8"
+                />
+                <Icon
+                    v-else-if="model.acceptance_status === 'Rejected'"
+                    name="mdi:close-circle"
+                    class="text-red-700 h-8 w-8"
+                />
+                <Icon
+                    v-else
+                    name="mdi:circle-slice-3"
+                    class="text-gray-600 h-8 w-8"
                 />
                 <div
                     class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md"

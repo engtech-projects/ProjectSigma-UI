@@ -180,15 +180,13 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         async getAllRequest () {
             this.successMessage = ""
             this.errorMessage = ""
-            if (this.allRequests.isLoaded) {
-                return true
-            }
             this.allRequests.isLoaded = true
             const { data, status, error, refresh } = await useHRMSApi(
                 "/api/pan/resource",
                 {
                     method: "GET",
                     params: this.allRequests.params,
+                    watch: false,
                     onRequest: () => {
                         this.allRequests.isLoading = true
                     },
@@ -216,15 +214,13 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         async getMyApprovals () {
             this.successMessage = ""
             this.errorMessage = ""
-            if (this.myApprovals.isLoaded) {
-                return true
-            }
             this.myApprovals.isLoaded = true
             await useHRMSApi(
                 "/api/pan/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
+                    watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.myApprovals.list = response._data.data ?? []
@@ -244,15 +240,13 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         async getMyRequests () {
             this.successMessage = ""
             this.errorMessage = ""
-            if (this.myRequests.isLoaded) {
-                return true
-            }
             this.myRequests.isLoaded = true
             await useHRMSApi(
                 "/api/pan/my-request",
                 {
                     method: "GET",
                     params: this.myRequests.params,
+                    watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.myRequests.list = response._data.data ?? []

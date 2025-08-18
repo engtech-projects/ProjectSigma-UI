@@ -2,11 +2,24 @@
 import { useOtherDeductionStore } from "@/stores/hrms/loansAndCash/otherDeduction"
 const otherDeductionStore = useOtherDeductionStore()
 const { paymentsList } = storeToRefs(otherDeductionStore)
+const debouncedGetData = useDebounceFn(() => {
+    otherDeductionStore.getPaymentsList()
+}, 500)
 onMounted(() => {
     if (!paymentsList.value.isLoaded) {
-        otherDeductionStore.getPaymentsList()
+        debouncedGetData()
     }
 })
+watch(
+    () => ({ ...paymentsList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            paymentsList.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const headers = [
     { text: "Employee Name", value: "employee.fullname_first" },
     { text: "Deduction Name", value: "otherdeduction.otherdeduction_name" },

@@ -5,7 +5,7 @@ import { useLeaveRequest } from "@/stores/hrms/leaveRequest"
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 defineProps({
     data: {
-        type: Object,
+        type: Object || null,
         required: true,
     },
 })

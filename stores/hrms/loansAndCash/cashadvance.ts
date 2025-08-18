@@ -137,6 +137,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "GET",
                     params: this.cashAdvanceList.params,
+                    watch: false,
                     onRequest: () => {
                         this.cashAdvanceList.isLoading = true
                     },
@@ -161,6 +162,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "GET",
                     params: this.getParams,
+                    watch: false,
                     onRequest: () => {
                         this.myRequestList.isLoading = true
                     },
@@ -184,6 +186,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "GET",
                     params: this.getParams,
+                    watch: false,
                     onRequest: () => {
                         this.ongoingCashAdvanceList.isLoading = true
                     },
@@ -208,6 +211,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "GET",
                     params: this.getParams,
+                    watch: false,
                     onRequest: () => {
                         this.paidCashAdvanceList.isLoading = true
                     },
@@ -233,6 +237,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "GET",
                     params: this.getParams,
+                    watch: false,
                     onRequest: () => {
                         this.myApprovalRequestList.isLoading = true
                     },
@@ -256,6 +261,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "GET",
                     params: this.getParams,
+                    watch: false,
                     onRequest: () => {
                         this.paymentCashAdvanceList.isLoading = true
                     },

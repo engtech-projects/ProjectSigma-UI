@@ -142,12 +142,42 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
             errorMessage: "",
             successMessage: "",
         },
+        quotationsForCanvass: {
+            isLoading: false,
+            list: [],
+            params: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         selectedItem: "",
         errorMessage: "",
         successMessage: "",
         remarks: "",
     }),
     actions: {
+        async getQuotationsForCanvass (id: number) {
+            await useInventoryApi(
+                "/api/procurement-request/quotations-for-canvass/" + id,
+                {
+                    method: "GET",
+                    params: this.quotationsForCanvass.params,
+                    onRequest: () => {
+                        this.quotationsForCanvass.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.quotationsForCanvass.isLoading = false
+                        this.quotationsForCanvass.errorMessage = response?._data?.message || "Unexpected server error while creating canvass summary."
+                        throw new Error(this.quotationsForCanvass.errorMessage || "Unexpected server error while creating canvass summary.")
+                    },
+                    onResponse: ({ response }) => {
+                        this.quotationsForCanvass.isLoading = false
+                        if (response.ok) {
+                            this.quotationsForCanvass.list = response._data.data
+                        }
+                    },
+                }
+            )
+        },
         async storeRequest (id: any) {
             this.clearMessages()
             await useInventoryApiO(`/api/procurement-request/${id}/create-price-quotation`, {

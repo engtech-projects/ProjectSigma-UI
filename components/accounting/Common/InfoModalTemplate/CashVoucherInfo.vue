@@ -12,14 +12,14 @@ const props = defineProps({
 const totalDebit = computed(() => {
     let total = 0
     props.voucherData?.details.forEach((d) => {
-        total += parseFloat(d?.debit)
+        total += parseFloat(d?.debit || 0)
     })
     return total
 })
 const totalCredit = computed(() => {
     let total = 0
     props.voucherData?.details.forEach((d) => {
-        total += parseFloat(d?.credit)
+        total += parseFloat(d?.credit || 0)
     })
     return total
 })
@@ -31,7 +31,7 @@ const totalCredit = computed(() => {
         </div>
         <div class="grid md:grid-cols-3 gap-2 md:justify-between">
             <div class="p-2 flex gap-2">
-                <span class="text-teal-600 text-light">DV Number: </span>
+                <span class="text-teal-600 text-light">CV Number: </span>
                 <span class="text-gray-900">{{ voucherData?.voucher_no }}</span>
             </div>
             <div class="p-2 flex gap-2">
@@ -125,7 +125,6 @@ const totalCredit = computed(() => {
                 </div>
             </div>
         </div>
-        <AccountingCommonStepperSignatureStepper class="my-8" :signatories="signatories" />
         <div class="w-full">
             <LayoutApprovalsListView :approvals="voucherData?.approvals" />
         </div>

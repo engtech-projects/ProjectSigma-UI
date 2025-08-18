@@ -89,6 +89,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
                 {
                     method: "GET",
                     params: this.allRequests.params,
+                    watch: false,
                     onRequest: () => {
                         this.allRequests.isLoading = true
                     },
@@ -113,6 +114,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
                 {
                     method: "GET",
                     params: this.myRequests.params,
+                    watch: false,
                     onRequest: () => {
                         this.myRequests.isLoading = true
                     },
@@ -140,6 +142,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
                 {
                     method: "GET",
                     params: this.myApprovals.params,
+                    watch: false,
                     onRequest: () => {
                         this.myApprovals.isLoading = true
                     },
