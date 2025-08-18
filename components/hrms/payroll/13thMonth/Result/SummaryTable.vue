@@ -11,7 +11,7 @@ defineProps({
         <thead class="text-md">
             <tr class="py-4">
                 <th
-                    colspan="8"
+                    colspan="7"
                     class="py-4 border-gray-500"
                 >
                     13TH MONTH FORMULA COMPUTATION
@@ -42,11 +42,6 @@ defineProps({
                     class="border border-gray-500"
                 >
                     REGULAR DAYS
-                </th>
-                <th
-                    class="border border-gray-500"
-                >
-                    REGULAR HOLIDAY
                 </th>
                 <th
                     class="border border-gray-500"
@@ -86,11 +81,6 @@ defineProps({
                     class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
                     {{ useFormatCurrency(_rowData.total_regular_salary || 0) }}
-                </td>
-                <td
-                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
-                >
-                    {{ useFormatCurrency(_rowData.total_regular_holiday_salary || 0) }}
                 </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
