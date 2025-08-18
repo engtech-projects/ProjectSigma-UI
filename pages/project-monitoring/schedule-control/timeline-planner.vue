@@ -8,6 +8,6 @@ useHead({
 </script>
 <template>
     <div>
-        This page is the timeline planner
+        <ProjectMonitoringProjectsTimelinePlanner />
     </div>
 </template>
