@@ -44,11 +44,8 @@ const props = defineProps({
                         />
                     </div>
                 </div>
-
                 <div>
-                    <InventoryCanvassSummaryItemTable
-                        :data="props.data"
-                    />
+                    <InventoryCanvassSummaryItemTable :data="props.data" />
                     <div class="border border-t-0 border-gray-700 shadow-sm uppercase text-black bg-white">
                         <div
                             v-for="(value, label) in {
