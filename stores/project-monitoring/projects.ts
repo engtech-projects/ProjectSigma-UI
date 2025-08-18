@@ -12,11 +12,13 @@ interface Approval {
 }
 interface Project {
     id: null | number,
+    isLoading: false | boolean,
     uuid: null | String,
     position: null | String,
     parent_project_id: null | number,
     contract_id: null | number,
     code: null | String,
+    stage: null | String,
     name: null | String,
     amount: null | Number,
     location: null | String,
@@ -46,6 +48,7 @@ export const useProjectStore = defineStore("projects", {
         isEdit: false,
         viewState: false,
         information: {
+            isLoading: false,
             id: null,
             uuid: null,
             position: null,
@@ -54,6 +57,7 @@ export const useProjectStore = defineStore("projects", {
             parent_project_id: null,
             contract_id: null,
             code: null,
+            stage: null,
             name: null,
             amount: null,
             location: null,
@@ -159,6 +163,18 @@ export const useProjectStore = defineStore("projects", {
             errorMessage: "",
             successMessage: "",
         },
+        activeList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                status: "Scheduled",
+                stage_status: ProjectStatus.AWARDED
+            },
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         cashFlowByQuarter: {
             cash_flow: {
                 q1: {
@@ -203,6 +219,9 @@ export const useProjectStore = defineStore("projects", {
             },
             list: [],
         },
+        viewAttachments: {
+            url: ""
+        }
     }),
     actions: {
         async getProjectsInformation (id: any) {
@@ -430,6 +449,36 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
+
+        async getActiveProjects () {
+            this.activeList.isLoading = true
+            const { data, error } = await useProjectsApi(
+                "/api/projects/resource",
+                {
+                    method: "GET",
+                    params: this.activeList.params,
+                    onRequest: () => {
+                        this.activeList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.activeList.isLoading = false
+                        if (response.ok) {
+                            this.activeList.list = response._data.data
+                            this.activeList.pagination = {
+                                first_page: response._data.meta.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.meta.last,
+                            }
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
         async getMyProjects () {
             this.myProjectList.isLoading = true
 
@@ -501,6 +550,23 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
+        async viewProjectRevisions (id: number) {
+            await useProjectsApi(
+                `/api/project-revisions/revisions/${id}`,
+                {
+                    method: "GET",
+                    onRequest: () => {
+                        this.isLoading.list = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.isLoading.list = false
+                        if (response.ok) {
+                            this.information = response._data.data.data
+                        }
+                    },
+                }
+            )
+        },
         async publishProposal (id: number) {
             this.successMessage = ""
             this.errorMessage = ""
@@ -530,7 +596,7 @@ export const useProjectStore = defineStore("projects", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useProjectsApi<any>(
-                "/api/projects/" + this.information.id,
+                "/api/projects/resource/" + this.information.id,
                 {
                     method: "PATCH",
                     body: this.information,
@@ -538,8 +604,6 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
             if (data.value) {
-                this.$reset()
-                this.getMyProjects()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -631,7 +695,7 @@ export const useProjectStore = defineStore("projects", {
         async updateProjectStage (projectId: number | null, stage: string) {
             this.successMessage = ""
             this.errorMessage = ""
-
+            this.information.isLoading = true
             await useProjectsApi(
                 `api/projects/${projectId}/update-stage`,
                 {
@@ -639,12 +703,17 @@ export const useProjectStore = defineStore("projects", {
                     body: { stage },
                     watch: false,
                     onResponseError: ({ response }) => {
+                        this.information.isLoading = false
                         this.errorMessage = response._data.message || "Failed to update project stage."
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }) => {
+                        this.information.isLoading = false
                         if (response.ok) {
                             this.getProjectsInformation(projectId)
+                            if (stage === "generate_to_tss") {
+                                this.viewState = true
+                            }
                             this.successMessage = response._data.message || "Project stage updated successfully."
                         }
                     },
@@ -675,21 +744,20 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
-        async uploadAttachments (projectId: number, params: FormData) {
+        async uploadAttachments (projectId: number, formData: FormData) {
             this.successMessage = ""
             this.errorMessage = ""
             await useProjectsApi(
                 "/api/projects/" + projectId + "/attachments",
                 {
                     method: "POST",
-                    body: params,
-                    onResponse: ({ response }: any) => {
+                    body: formData,
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data?.message || "Failed to upload attachments."
+                    },
+                    onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
-                            return response._data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.successMessage = response._data?.message || "Attachments uploaded successfully."
                         }
                     },
                 }
@@ -698,31 +766,17 @@ export const useProjectStore = defineStore("projects", {
         async viewAttachments (projectId: number) {
             this.errorMessage = ""
             this.successMessage = ""
-
-            await useProjectsApi(
-                `/api/projects/${projectId}/document-viewer`,
-                {
-                    method: "GET",
-                    onResponse: ({ response }) => {
-                        if (!response.ok) {
-                            this.errorMessage = response._data?.message || "Unable to get viewer link"
-                            throw new Error(this.errorMessage)
-                        }
-
-                        const viewerUrl: string = response._data
-                        if (!viewerUrl) {
-                            throw new Error("Empty viewer URL received")
-                        }
-
-                        window.open(viewerUrl, "_blank")
-                        this.successMessage = "Opening document viewer..."
-                    },
-                    onResponseError: ({ response }) => {
-                        this.errorMessage = response._data?.message || "Failed to open document viewer"
-                        throw new Error(this.errorMessage)
-                    },
-                }
-            )
+            await useProjectsApi(`/api/projects/${projectId}/document-viewer`, {
+                method: "GET",
+                onResponseError: ({ response }) => {
+                    this.errorMessage = response._data?.message || "Unable to get viewer link"
+                },
+                onResponse: ({ response }) => {
+                    if (response.ok) {
+                        this.viewAttachments.url = response._data.url
+                    }
+                },
+            })
         },
     },
 })

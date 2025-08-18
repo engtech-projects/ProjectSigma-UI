@@ -1,7 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useCanvassSummaryStore } from "~/stores/inventory/procurement/canvassSummary"
-
 const mainStore = useCanvassSummaryStore()
 const { allRequests } = storeToRefs(mainStore)
 onMounted(() => {
@@ -9,33 +8,17 @@ onMounted(() => {
         mainStore.getAllRequests()
     }
 })
-
 const headers = [
-    { name: "Supplier", id: "supplier_name" },
-    { name: "Canvass Date", id: "date" },
+    { name: "Terms of Payment", id: "terms_of_payment" },
+    { name: "Availability", id: "availability" },
+    { name: "Delivery Terms", id: "delivery_terms" },
+    { name: "Created At", id: "created_at_human" },
 ]
 const actions = {
     showTable: true,
     edit: false,
     delete: false,
 }
-const dummyData = [
-    {
-        id: 1,
-        supplier_name: "Supplier 1",
-        date: "2022-02-26"
-    },
-    {
-        id: 2,
-        supplier_name: "Supplier 2",
-        date: "2022-02-26"
-    },
-    {
-        id: 3,
-        supplier_name: "Supplier 3",
-        date: "2022-02-26"
-    }
-]
 const showInformation = (data) => {
     navigateTo({
         path: "/inventory/procurement/canvass-summary/request-details",
@@ -51,11 +34,10 @@ const changePaginate = (newParams) => {
 <template>
     <LayoutLoadingContainer class="w-full" :loading="allRequests.isLoading">
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
-            {{ allRequest }}
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="allRequests.list?.length ? allRequests.list : dummyData"
+                :datas="allRequests.list ?? []"
                 @show-table="showInformation"
             />
         </div>

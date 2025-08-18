@@ -1,137 +1,55 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 interface Settings {
     id: BigInteger,
     setting_name: String,
     value: BigInteger,
 }
-export const useMain = defineStore("Settings", {
+export const useHrmsSettingsStore = defineStore("hrmsSettings", {
     state: () => ({
-        isEdit: false,
-        settingsOne:
-        {
-            id: null,
-            setting_name: "",
-            value: "",
-        },
-        settingsTwo:
-        {
-            id: null,
-            setting_name: "",
-            value: "",
-        },
-        updateSettings: [] as Array<Settings>,
-        list: [] as Array<Settings>,
-        activeList: [] as Array<Settings>,
-        pagination: {},
-        getParams: {},
-        errorMessage: "",
-        successMessage: "",
+        allSettings: {
+            isLoading: false,
+            data: [] as Settings[],
+            successMessage: "",
+        }
     }),
     actions: {
-        async getAll () {
-            const { data, error } =
-            await useFetch(
-                "/api/settings",
+        async getAllSettings () {
+            await useHRMSApiO(
+                "/api/setup/settings",
                 {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
+                    onRequest: () => {
+                        this.allSettings.isLoading = true
                     },
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        this.list = response._data.data
-                        this.updateSettings = response._data.data
-                        this.pagination = {
-                            first_page: response._data.links.first,
-                            pages: response._data.meta.links,
-                            last_page: response._data.links.last,
-                        }
+                    onResponseError: ({ request }: any) => {
+                        this.allSettings.isLoading = false
+                        throw new Error(request._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.allSettings.isLoading = false
+                        this.allSettings.data = response._data.data
+                        this.allSettings.successMessage = response._data.message
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
-        clearMessages () {
-            this.errorMessage = ""
-            this.successMessage = ""
-        },
-
-        reset () {
-            this.settingsOne = {
-                id: null,
-                setting_name: "",
-                value: "",
-            }
-            this.settingsTwo = {
-                id: null,
-                setting_name: "",
-                value: "",
-            }
-            this.isEdit = false
-            this.successMessage = ""
-            this.errorMessage = ""
-        },
-
-        async editone () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            const { data, error } = await useFetch(
-                "/api/update-settings",
+        async updateSetting (settingId: BigInteger, value: BigInteger) {
+            return await useHRMSApiO(
+                "/api/setup/settings/" + settingId,
                 {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "PUT",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
+                    method: "PATCH",
+                    body: { value },
+                    onRequest: () => {
+                        this.allSettings.isLoading = true
                     },
-                    body: this.updateSettings,
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.getAll()
-                        this.reset()
-                        this.successMessage = response._data.message
+                    onResponseError: ({ response }: any) => {
+                        this.allSettings.isLoading = false
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: () => {
+                        this.getAllSettings()
                     },
                 }
             )
-            if (data.value) {
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
-        },
-
-        async deleteone (id: number) {
-            const { data, error } = await useFetch(
-                "/api/settings/" + id,
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "DELETE",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
-                    },
-                }
-            )
-            if (data.value) {
-                this.getAll()
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
     },
 })

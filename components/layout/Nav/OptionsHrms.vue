@@ -180,7 +180,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_loans_and_advances_loans,
+                    AccessibilityTypes.HRMS_LOANSANDADVANCES_LOANS_GROUP,
                 ])"
                 linkarea="/hrms/loans"
                 icon="material-symbols:dynamic-form-outline-rounded"
@@ -188,7 +188,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_loans_and_advances_other_deductions,
+                    AccessibilityTypes.HRMS_LOANSANDADVANCES_OTHERDEDUCTIONS_GROUP,
                 ])"
                 linkarea="/hrms/loans/otherdeductions"
                 icon="material-symbols:dynamic-form-outline-rounded"
@@ -260,7 +260,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_payroll_allowance,
+                    AccessibilityTypes.HRMS_PAYROLL_ALLOWANCE_GROUP,
                 ])"
                 linkarea="/hrms/payroll/allowance"
                 icon="material-symbols:dynamic-form-outline-rounded"

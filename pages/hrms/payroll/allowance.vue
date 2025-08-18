@@ -6,17 +6,47 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_payroll_allowance,
+            AccessibilityTypes.HRMS_PAYROLL_ALLOWANCE_GROUP,
         ])"
     >
         <div class="grid grid-cols-1 md:flex-row gap-4">
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
-                    <HrmsCommonTabsTabTitle target-id="generateallowance" title="Generate Allowance" />
-                    <HrmsCommonTabsTabTitle target-id="allowance-records" title="Allowance Records" />
-                    <HrmsCommonTabsTabTitle target-id="allRequestsList" title="All Requests" />
-                    <HrmsCommonTabsTabTitle target-id="myRequestList" title="My Requests" />
-                    <HrmsCommonTabsTabTitle target-id="myApprovalsList" title="My Approvals" />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.HRMS_PAYROLL_ALLOWANCE_FORMANDMYREQUEST,
+                        ])"
+                        target-id="generateallowance"
+                        title="Generate Allowance"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.HRMS_PAYROLL_ALLOWANCE_ALLOWANCERECORD,
+                        ])"
+                        target-id="allowance-records"
+                        title="Allowance Records"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.HRMS_PAYROLL_ALLOWANCE_ALLREQUESTS,
+                        ])"
+                        target-id="allRequestsList"
+                        title="All Requests"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.HRMS_PAYROLL_ALLOWANCE_FORMANDMYREQUEST,
+                        ])"
+                        target-id="myRequestList"
+                        title="My Requests"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.HRMS_PAYROLL_ALLOWANCE_MYAPPROVALS,
+                        ])"
+                        target-id="myApprovalsList"
+                        title="My Approvals"
+                    />
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer id="generateallowance">

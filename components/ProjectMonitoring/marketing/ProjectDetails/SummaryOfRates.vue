@@ -62,7 +62,7 @@ const updateCost = async (item: any) => {
                 <h1 class="text-2xl text-black uppercase font-semibold text-center mb-6">
                     Summary of Rates
                 </h1>
-                <div v-for="sr,i in projectStore.information.summary_of_rates" :key="i" class="flex flex-col gap-2">
+                <div v-for="sr,i in projectStore.information?.summary_of_rates ?? []" :key="i" class="flex flex-col gap-2">
                     <h3 class="text-gray-500 uppercase text-md text-center">
                         Cost of {{ i }}
                     </h3>

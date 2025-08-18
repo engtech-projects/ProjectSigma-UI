@@ -2,7 +2,9 @@
 import { useNotificationsStore } from "@/stores/notifications"
 const notifStore = useNotificationsStore()
 const { unreadList } = storeToRefs(notifStore)
-notifStore.getNotificationsStream()
+onMounted(() => {
+    notifStore.getNotificationsStream()
+})
 const reposPage = () => {
     window.scrollBy(0, 1)
 }

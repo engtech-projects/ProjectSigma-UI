@@ -23,6 +23,38 @@
             icon="material-symbols:business-center"
             single-nav-title="Marketing"
         />
+        <LayoutNavGroup
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.PROJECTMONITORING_SETUP_GROUP,
+            ])"
+            icon="ant-design:project-twotone"
+            title="Schedule Control"
+        >
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.PROJECTMONITORING_SETUP_POSITION,
+                ])"
+                linkarea="/project-monitoring/schedule-control/live-projects"
+                icon="carbon:ibm-cloud-projects"
+                single-nav-title="Live Projects"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.PROJECTMONITORING_SETUP_POSITION,
+                ])"
+                linkarea="/project-monitoring/schedule-control/timeline-planner"
+                icon="icon-park-twotone:vertical-timeline"
+                single-nav-title="Timeline Planner"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.PROJECTMONITORING_TSS,
+                ])"
+                linkarea="/project-monitoring/gantt"
+                icon="material-symbols:area-chart"
+                single-nav-title="Gantt Chart"
+            />
+        </LayoutNavGroup>
         <LayoutNavSingle
             v-if="useCheckAccessibility([
                 AccessibilityTypes.PROJECTMONITORING_TSS,
@@ -30,14 +62,6 @@
             linkarea="/project-monitoring/technical-service"
             icon="material-symbols:linked-services"
             single-nav-title="Technical Service"
-        />
-        <LayoutNavSingle
-            v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECTMONITORING_TSS,
-            ])"
-            linkarea="/project-monitoring/gantt"
-            icon="material-symbols:area-chart"
-            single-nav-title="Gantt Chart"
         />
         <LayoutNavGroup
             v-if="useCheckAccessibility([

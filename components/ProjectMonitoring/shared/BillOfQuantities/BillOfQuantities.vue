@@ -6,8 +6,6 @@ const taskStore = useTaskStore()
 const projectStore = useProjectStore()
 const phaseStore = usePhaseStore()
 const boardLoading = ref(false)
-
-const edit = projectStore.viewState
 const currentPhase = ref(null)
 phaseStore.phase.project_id = projectStore.information?.id
 const showPhaseModal = ref(false)
@@ -131,7 +129,7 @@ const removePhase = async (phase) => {
                                     Project Description
                                 </h4>
                             </div>
-                            <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9" @click="phaseModalShow">
+                            <button v-if="!projectStore.viewState" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9" @click="phaseModalShow">
                                 Create Part
                             </button>
                         </div>
@@ -190,14 +188,14 @@ const removePhase = async (phase) => {
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody v-if="projectStore.information.phases.length === 0">
+                            <tbody v-if="(projectStore.information?.phases?.length ?? 0) === 0">
                                 <tr>
                                     <td colspan="6" class="text-center py-4 font-semibold text-md italic text-gray-500">
                                         No Data Available!
                                     </td>
                                 </tr>
                             </tbody>
-                            <tbody v-for="phase in projectStore.information.phases" :key="phase.id">
+                            <tbody v-for="phase in projectStore.information?.phases ?? []" :key="phase.id">
                                 <tr>
                                     <td class="bg-[#ffe598] text-left">
                                         {{ phase.name }}
@@ -206,9 +204,11 @@ const removePhase = async (phase) => {
                                         {{ phase.description }}
                                     </td>
                                     <td class="bg-[#ffe598] py-1" colspan="5">
-                                        <div class="flex gap-1 justify-end">
+                                        <div
+                                            v-if="!projectStore.viewState"
+                                            class="flex gap-1 justify-end"
+                                        >
                                             <button
-                                                v-if="edit"
                                                 class="group relative bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-lg text-xs overflow-hidden transition-all duration-300 w-8 hover:w-28 h-8 px-2"
                                                 @click="displayTaskModal(phase)"
                                             >
@@ -223,7 +223,6 @@ const removePhase = async (phase) => {
                                                 </div>
                                             </button>
                                             <button
-                                                v-if="edit"
                                                 class="group relative bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-lg text-xs overflow-hidden transition-all duration-300 w-8 hover:w-24 h-8 px-2"
                                                 @click="phaseModalEdit(phase)"
                                             >
@@ -239,7 +238,6 @@ const removePhase = async (phase) => {
                                                 </div>
                                             </button>
                                             <button
-                                                v-if="edit"
                                                 class="group relative bg-red-500 hover:bg-red-600 active:bg-red-700 text-white rounded-lg text-xs overflow-hidden transition-all duration-300 w-8 hover:w-28 h-8 px-2"
                                                 @click="removePhase(phase)"
                                             >
@@ -331,19 +329,21 @@ const removePhase = async (phase) => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="border border-gray-700">
-                                        <div class="flex flex-col p-1 items-center justify-center gap-1">
+                                    <td
+                                        v-if="!projectStore.viewState"
+                                        class="border border-gray-700"
+                                    >
+                                        <div
+                                            class="flex flex-col p-1 items-center justify-center gap-1"
+                                        >
                                             <button
-                                                v-if="edit"
                                                 class="flex items-center justify-center bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white rounded-lg text-xs w-44 h-8 px-2 gap-1"
                                                 @click="taskModalEdit(task, phase)"
                                             >
                                                 <Icon name="material-symbols:edit" color="white" class="h-5 w-5" />
                                                 <span class="whitespace-nowrap">Edit Item</span>
                                             </button>
-
                                             <NuxtLink
-                                                v-if="edit"
                                                 :to="`/project-monitoring/marketing/detailed-estimates?id=${task.id}`"
                                                 class="flex items-center justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 text-white rounded-lg text-xs w-44 h-8 px-2 gap-1"
                                             >
@@ -352,7 +352,6 @@ const removePhase = async (phase) => {
                                             </NuxtLink>
 
                                             <button
-                                                v-if="edit"
                                                 class="flex items-center justify-center bg-red-500 hover:bg-red-600 active:bg-red-700 text-white rounded-md text-xs w-44 h-8 px-2 gap-1"
                                                 @click="removeTask(task)"
                                             >
@@ -393,11 +392,6 @@ const removePhase = async (phase) => {
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="flex justify-end gap-4 items-center">
-                        <NuxtLink v-if="!edit" to="/project-monitoring/tss" class="flex items-center justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9 text-center">
-                            Generate TSS
-                        </NuxtLink>
                     </div>
                     <ProjectMonitoringModalsPhase :is-edit="editPhaseModal" :show-modal="showPhaseModal" @hide-modal="hidePhaseModal" @save="savePhase" />
                     <ProjectMonitoringModalsTask :is-edit="editTaskModal" :show-modal="showTaskModal" @hide-modal="hideTaskModal" @save="saveTask" />

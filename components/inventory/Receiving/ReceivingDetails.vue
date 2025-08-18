@@ -11,49 +11,26 @@ const main = useReceivingStore()
 const { receiving, remarks } = storeToRefs(main)
 const snackbar = useSnackbar()
 const isSaving = ref(false)
-const autoSaveTimeout = ref<NodeJS.Timeout | null>(null)
+const showEditSupplier = ref(false)
+const route = useRoute()
+const hasProcessedItem = computed(() => receiving.value.items.some(item => item.status === "Served"))
 
-const performAutoSave = async (field: string, value: any) => {
-    if (!model.value.id) { return }
-
+const performAutoSave = useDebounceFn(async () => {
     try {
         isSaving.value = true
-        await main.autoSaveReceivingData(model.value.id, { [field]: value })
+        if (!model.value) {
+            return
+        }
+        await main.updateReceiving(model.value)
+        main.getOne(route.query.key)
         snackbar.add({ type: "success", text: "Saved successfully" })
     } catch (error: any) {
         snackbar.add({ type: "error", text: error.message || "Auto-save failed" })
     } finally {
         isSaving.value = false
     }
-}
-
-const autoSave = (field: string, value: any) => {
-    if (autoSaveTimeout.value) { clearTimeout(autoSaveTimeout.value) }
-    autoSaveTimeout.value = setTimeout(() => performAutoSave(field, value), 800)
-}
-
-const hasAcceptedItems = computed(() =>
-    model.value.items?.some(({ metadata }) => metadata?.status === "Accepted" || metadata?.status === "Rejected")
-)
-
-const updateMetadata = (field: string, value: any) => {
-    if (hasAcceptedItems.value) { return }
-    if (!model.value.metadata) {
-        model.value.metadata = {}
-    }
-    model.value.metadata[field] = value
-    autoSave(field, value)
-}
-
-onUnmounted(() => {
-    if (autoSaveTimeout.value) { clearTimeout(autoSaveTimeout.value) }
-})
-
-watch(() => model.value, (newValue) => {
-    if (newValue && !newValue.metadata) {
-        newValue.metadata = {}
-    }
-}, { immediate: true })
+    showEditSupplier.value = false
+}, 500)
 </script>
 
 <template>
@@ -95,32 +72,57 @@ watch(() => model.value, (newValue) => {
                         <div class="p-4">
                             <div class="grid grid-cols-2 items-center w-full gap-y-2">
                                 <label class="text-sm font-medium text-gray-700">Supplier:</label>
-                                <InventoryCommonSearchSupplierSelector
-                                    v-if="!hasAcceptedItems"
-                                    v-model="model.metadata.supplier_id"
-                                    :disabled="hasAcceptedItems"
-                                    @supplier-selected="!hasAcceptedItems && updateMetadata('supplier_id', $event)"
-                                />
-                                <div v-else class="w-full px-4 py-3 rounded-lg transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700">
-                                    {{ model.supplier }}
+                                <div
+                                    v-if="hasProcessedItem"
+                                    class="w-full px-4 py-3 rounded-lg transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700"
+                                >
+                                    {{ model.supplier_name }}
                                 </div>
+                                <template v-else>
+                                    <div v-if="!showEditSupplier" class="flex items-center gap-2">
+                                        <div
+                                            class="w-full px-4 py-3 rounded-lg transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700"
+                                        >
+                                            {{ model.supplier_name || "Choose Supplier" }}
+                                        </div>
+                                        <button
+                                            class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                                            @click="showEditSupplier = true"
+                                        >
+                                            Set
+                                        </button>
+                                    </div>
+                                    <div v-else class="flex items-center gap-2">
+                                        <InventoryCommonSearchSupplierSelector
+                                            v-model="model.supplier_id"
+                                            :disabled="hasProcessedItem"
+                                            @supplier-selected="performAutoSave"
+                                        />
+                                        <button
+                                            class="text-sm text-gray-400 hover:text-gray-600 font-medium transition-colors"
+                                            @click="showEditSupplier = false"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </template>
                                 <label class="text-sm font-medium text-gray-700">Reference:</label>
                                 <input
-                                    v-model="model.metadata.reference"
-                                    :placeholder="model.metadata.reference"
+                                    v-model="model.reference"
+                                    :placeholder="model.reference"
                                     class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700"
-                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
-                                    :disabled="hasAcceptedItems"
-                                    @input="!hasAcceptedItems && updateMetadata('reference', ($event.target as HTMLInputElement).value)"
+                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasProcessedItem }"
+                                    :disabled="hasProcessedItem"
+                                    @change="performAutoSave"
                                 >
 
                                 <label class="text-sm font-medium text-gray-700">Terms of Payment:</label>
                                 <select
-                                    v-model="model.metadata.terms_of_payment"
+                                    v-model="model.terms_of_payment"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md appearance-none cursor-pointer"
-                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
-                                    :disabled="hasAcceptedItems"
-                                    @change="!hasAcceptedItems && updateMetadata('terms_of_payment', ($event.target as HTMLSelectElement).value)"
+                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasProcessedItem }"
+                                    :disabled="hasProcessedItem"
+                                    @change="performAutoSave"
                                 >
                                     <option value="">
                                         Choose Terms of Payment
@@ -132,12 +134,12 @@ watch(() => model.value, (newValue) => {
 
                                 <label class="text-sm font-medium text-gray-700">Particulars:</label>
                                 <input
-                                    v-model="model.metadata.particulars"
-                                    :placeholder="model.metadata?.particulars || 'Enter particulars...'"
+                                    v-model="model.particulars"
+                                    placeholder="Enter particulars..."
                                     class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
-                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
-                                    :disabled="hasAcceptedItems"
-                                    @input="!hasAcceptedItems && updateMetadata('particulars', ($event.target as HTMLSelectElement).value)"
+                                    :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasProcessedItem }"
+                                    :disabled="hasProcessedItem"
+                                    @change="performAutoSave"
                                 >
                             </div>
                         </div>

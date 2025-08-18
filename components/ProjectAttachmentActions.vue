@@ -1,0 +1,12 @@
+<template>
+    <nav class="flex gap-3 flex-row justify-end" aria-label="Attachment actions">
+        <ProjectMonitoringDetailsProjectAttachmentUploadButton
+            aria-label="Upload new attachment"
+            title="Upload new attachment"
+        />
+        <ProjectMonitoringDetailsProjectAttachmentsViewButton
+            aria-label="View attachments"
+            title="View uploaded attachments"
+        />
+    </nav>
+</template>

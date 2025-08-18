@@ -2,11 +2,24 @@
 import { useOtherDeductionStore } from "@/stores/hrms/loansAndCash/otherDeduction"
 const otherDeductionStore = useOtherDeductionStore()
 const { ongoingList } = storeToRefs(otherDeductionStore)
+const debouncedGetData = useDebounceFn(() => {
+    otherDeductionStore.getOngoingList()
+}, 500)
 onMounted(() => {
     if (!ongoingList.value.isLoaded) {
-        otherDeductionStore.getOngoingList()
+        debouncedGetData()
     }
 })
+watch(
+    () => ({ ...ongoingList.value.params }),
+    (newParams, oldParams) => {
+        if (newParams.page === oldParams.page) {
+            ongoingList.value.params.page = 1
+        }
+        debouncedGetData()
+    },
+    { deep: true }
+)
 const headers = [
     { text: "Employee Name", value: "employee.fullname_first" },
     { text: "Date Filed", value: "date_filed" },

@@ -1,8 +1,8 @@
 <script setup>
 import { useProjectStore } from "~/stores/project-monitoring/projects"
+
 const router = useRouter()
 const projectStore = useProjectStore()
-const boardLoading = ref(false)
 
 const goBackOrHome = () => {
     if (router.options.history.state.back) {
@@ -11,17 +11,16 @@ const goBackOrHome = () => {
         navigateTo("/project-monitoring/marketing")
     }
 }
-
 defineProps({
     projectDetails: {
         type: Object,
         required: true,
-    },
+    }
 })
 </script>
 <template>
     <div class="flex flex-col gap-6 p-2 relative">
-        <AccountingLoadScreen class="z-50" :is-loading="boardLoading" />
+        <AccountingLoadScreen class="z-50" :is-loading="projectStore.information.isLoading" />
         <div class="flex items-center">
             <div class="flex-1 flex items-center gap-2 text-gray-500">
                 <div class="flex items-center border hover:bg-gray-500 hover:text-white gap-1 bg-gray-100 rounded-lg px-4 py-1 cursor-pointer" @click="goBackOrHome">
@@ -34,11 +33,12 @@ defineProps({
             <template #info-details>
                 <ProjectMonitoringInformationProject
                     :label="'PROJECT INFORMATION DETAILS'"
-                    :name="projectDetails.name"
-                    :location="projectDetails.location"
-                    :license="projectDetails.license"
-                    :code="projectDetails.contract_id"
-                    :stage-status="projectDetails.stage"
+                    :name="projectDetails?.name"
+                    :code="projectDetails?.code"
+                    :location="projectDetails?.location"
+                    :license="projectDetails?.license"
+                    :contract-id="projectDetails?.contract_id"
+                    :stage-status="projectDetails?.stage"
                 />
             </template>
             <template #tab-titles>
@@ -80,10 +80,13 @@ defineProps({
                 />
             </template>
             <template #tab-options>
-                <ProjectAttachmentUploadButton />
-                <ProjectAttachmentsViewButton />
+                <ProjectMonitoringDetailsProjectAttachmentUploadButton />
+                <ProjectMonitoringDetailsProjectAttachmentsViewButton />
                 <ProjectMonitoringProjectStageButton
-                    v-if="projectStore.information.stage.toLowerCase() !== useProjectMarketingStatusEnums.stages[useProjectMarketingStatusEnums.stages.length - 1].toLowerCase()"
+                    v-if="!projectStore.viewState
+                        && projectStore.information
+                        && projectStore.information.stage
+                        && projectStore.information.stage.toLowerCase() !== useProjectMarketingStatusEnums.stages[useProjectMarketingStatusEnums.stages.length - 1].toLowerCase()"
                     :stage="projectDetails.stage"
                     @updating-stage="boardLoading = true"
                     @update-success="boardLoading = false"
@@ -107,7 +110,5 @@ defineProps({
                 </AccountingCommonTabsTabContainer>
             </template>
         </AccountingCommonTabsMainContainer>
-        <!-- <ProjectsDetailsTask />
-        <ProjectsModalsCategory :show-modal="showCategoryModal" @hide-modal="showCategoryModal = false" /> -->
     </div>
 </template>
