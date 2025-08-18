@@ -45,7 +45,6 @@ const handleRequest = async (type: "approve" | "deny", id: number) => {
                     {{ title }}
                 </h3>
             </div>
-
             <div class="flex flex-col gap-4 mb-5">
                 <div class="flex flex-row justify-between gap-4">
                     <div class="w-full flex flex-col">
@@ -71,12 +70,10 @@ const handleRequest = async (type: "approve" | "deny", id: number) => {
                         />
                     </div>
                 </div>
-
                 <div>
                     <InventoryCanvassSummaryItemTable
                         :data="props.data"
                     />
-
                     <div class="border border-t-0 border-gray-700 shadow-sm uppercase text-black bg-white">
                         <div
                             v-for="(value, label) in {
