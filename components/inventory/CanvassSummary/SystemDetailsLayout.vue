@@ -94,9 +94,7 @@ const handleRequest = async (type: "approve" | "deny", id: number) => {
                             <div class="w-1/2 px-4 py-4 font-medium border-r border-gray-700 flex items-center justify-center">
                                 Remarks
                             </div>
-                            <div class="w-1/2 px-4 py-4 font-semibold">
-                                {{ props.data.remarks || 'No remarks' }}
-                            </div>
+                            <div class="w-1/2 px-4 py-4 font-semibold">{{ props.data.remarks || 'No remarks' }}</div>
                         </div>
                     </div>
                 </div>
