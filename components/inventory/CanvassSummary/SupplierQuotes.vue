@@ -82,7 +82,7 @@ function onDrag (e) {
                         </div>
                     </th>
                 </tr>
-                <tr class="font-semibold uppercase border border-gray-700 h-10">
+                <tr class="font-semibold uppercase border border-gray-700 h-10 bg-slate-200">
                     <template v-for="(supplier, index) in suppliers" :key="'price-header-' + index">
                         <th class="border-r border-gray-700 text-xs py-1">
                             unit price

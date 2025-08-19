@@ -101,7 +101,7 @@ function itemBelongsToActiveSupplier (itemIndex) {
                             </div>
                         </th>
                     </tr>
-                    <tr class="font-semibold uppercase border border-gray-700">
+                    <tr class="font-semibold uppercase border border-gray-700 bg-slate-200">
                         <th class="border-r border-gray-700 text-wrap w-12 text-xs">
                             item no.
                         </th>
