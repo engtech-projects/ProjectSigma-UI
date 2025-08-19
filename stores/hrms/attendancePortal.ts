@@ -324,6 +324,14 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.portal_token = response._data.data.portal_token
+                            this.attendancePortalParams = {
+                                name_location: null,
+                                assignments: [] as null | Array<any>,
+                                employee_id: null as null | Number,
+                                log_type: null as null | String,
+                                name: null as null | String,
+                                page: 1,
+                            }
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
