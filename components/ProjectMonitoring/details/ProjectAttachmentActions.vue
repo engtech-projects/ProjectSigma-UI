@@ -1,5 +1,5 @@
 <template>
-    <nav class="flex gap-3 flex-row justify-end" aria-label="Attachment actions">
+    <nav class="flex gap-3 flex-col justify-start" aria-label="Attachment actions">
         <ProjectMonitoringDetailsProjectAttachmentUploadButton
             aria-label="Upload new attachment"
             title="Upload new attachment"
