@@ -9,7 +9,6 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="flex w-full" />
     <div class="flex w-full h-full bg-gray-50">
         <div class="w-full lg:w-1/2 border-r bg-white overflow-hidden">
             <div class="overflow-hidden max-h-96 lg:max-h-full">
@@ -24,7 +23,7 @@ const props = defineProps({
                                 </div>
                             </th>
                         </tr>
-                        <tr class="font-semibold uppercase border border-gray-700">
+                        <tr class="font-semibold uppercase border border-gray-700 bg-slate-200">
                             <th class="border-r border-gray-700 text-wrap w-12 text-xs">
                                 item no.
                             </th>
@@ -98,7 +97,7 @@ const props = defineProps({
                             </div>
                         </th>
                     </tr>
-                    <tr class="font-semibold uppercase border border-gray-700 h-10">
+                    <tr class="font-semibold uppercase border border-gray-700 h-10 bg-slate-200">
                         <th class="border-r border-gray-700 text-xs">
                             Unit Price
                         </th>
