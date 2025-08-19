@@ -78,10 +78,15 @@ defineProps({
                     target-id="billOfMaterials"
                     class="hidden"
                 />
+                <AccountingCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.PROJECTMONITORING_MARKETING_GROUP,
+                    ])"
+                    title="ATTACHMENT"
+                    target-id="attachment"
+                />
             </template>
             <template #tab-options>
-                <ProjectMonitoringDetailsProjectAttachmentUploadButton />
-                <ProjectMonitoringDetailsProjectAttachmentsViewButton />
                 <ProjectMonitoringProjectStageButton
                     v-if="!projectStore.viewState
                         && projectStore.information
@@ -107,6 +112,9 @@ defineProps({
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer id="billOfMaterials" class="hidden">
                     <ProjectMonitoringSharedBillOfMaterials />
+                </AccountingCommonTabsTabContainer>
+                <AccountingCommonTabsTabContainer id="attachment" class="hidden">
+                    <ProjectMonitoringDetailsProjectAttachmentsViewButton />
                 </AccountingCommonTabsTabContainer>
             </template>
         </AccountingCommonTabsMainContainer>
