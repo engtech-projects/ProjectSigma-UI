@@ -10,14 +10,10 @@ useHead({
             AccessibilityTypes.hrms_schedule_employee,
         ])"
     >
-        <div class="w-full">
-            <div class="text-2xl font-normal mb-4 mt-10 md:mt-0 ">
-                Employee Schedule
-            </div>
-            <hr>
-            <div>
-                <HrmsScheduleEmp />
-            </div>
+        <div class="flex gap-2">
+            <HrmsScheduleEmployeeCreateForm class="w-1/4" />
+            <HrmsScheduleEmployeeEditForm class="w-1/4" />
+            <HrmsScheduleEmployeeCalendarView class="w-3/4" />
         </div>
     </LayoutAcessContainer>
 </template>

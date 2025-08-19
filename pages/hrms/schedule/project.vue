@@ -10,14 +10,10 @@ useHead({
             AccessibilityTypes.hrms_schedule_project,
         ])"
     >
-        <div class="w-full">
-            <div class="text-2xl font-normal mb-4 mt-10 md:mt-0 ">
-                Project Schedule
-            </div>
-            <hr>
-            <div>
-                <HrmsScheduleProj />
-            </div>
+        <div class="flex gap-2">
+            <HrmsScheduleProjectCreateForm class="w-1/4" />
+            <HrmsScheduleProjectEditForm class="w-1/4" />
+            <HrmsScheduleProjectCalendarView class="w-3/4" />
         </div>
     </LayoutAcessContainer>
 </template>

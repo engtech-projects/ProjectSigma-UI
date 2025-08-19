@@ -10,14 +10,10 @@ useHead({
             AccessibilityTypes.hrms_schedule_department,
         ])"
     >
-        <div>
-            <div class="text-2xl font-normal mb-4 mt-10 md:mt-0 ">
-                Department Schedule
-            </div>
-            <hr>
-            <div>
-                <HrmsScheduleDept />
-            </div>
+        <div class="flex gap-2">
+            <HrmsScheduleDeptCreateForm class="w-1/4" />
+            <HrmsScheduleDeptEditForm class="w-1/4" />
+            <HrmsScheduleDeptCalendarView class="w-3/4" />
         </div>
     </LayoutAcessContainer>
 </template>
