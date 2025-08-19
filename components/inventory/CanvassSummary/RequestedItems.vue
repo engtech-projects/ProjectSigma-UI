@@ -92,7 +92,7 @@ function itemBelongsToActiveSupplier (itemIndex) {
         <div class="overflow-hidden max-h-96 lg:max-h-full">
             <table class="min-w-full table-auto text-xs sm:text-sm text-gray-800">
                 <thead class="sticky top-0 z-10 bg-white">
-                    <tr :class="allUniqueItems.length === 1 ? 'h-[6.75rem]' : 'h-20'">
+                    <tr class="h-20">
                         <th colspan="5" class="text-center text-lg font-bold border border-gray-700 border-r uppercase">
                             <div class="flex items-center justify-center">
                                 <div class="text-center leading-tight">
