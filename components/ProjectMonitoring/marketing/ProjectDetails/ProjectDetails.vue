@@ -114,7 +114,7 @@ defineProps({
                     <ProjectMonitoringSharedBillOfMaterials />
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer id="attachment" class="hidden">
-                    <ProjectMonitoringDetailsProjectAttachmentsViewButton />
+                    <ProjectMonitoringDetailsProjectAttachmentActions />
                 </AccountingCommonTabsTabContainer>
             </template>
         </AccountingCommonTabsMainContainer>
