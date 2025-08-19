@@ -44,13 +44,13 @@ const uploadAttachment = async (event: any) => {
 <template>
     <div class="flex flex-col gap-4">
         <div class="flex flex-row gap-4">
-            <div class="w-full border border-gray-300 rounded-lg p-3">
+            <div class="border border-gray-300 rounded-lg p-1">
                 <label class="block mb-1 text-md font-medium text-black">
                     Upload Attachment
                 </label>
                 <input
                     ref="fileInput"
-                    class="w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                    class="mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
                     type="file"
                     accept=".doc, .docx, .pdf, .png, .jpeg, .jpg, .csv, .xls, .xlsx, .txt, .zip, .rar, .7z"
                     multiple
