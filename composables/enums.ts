@@ -23,12 +23,12 @@ export const useInventoryDocCode = {
 export const DetailedEstimatesType = {
     labor: "labor",
     equipment: "equipment",
-    material: "material",
+    material: "materials",
 }
 export const DetailedEstimatesUnitIndex = {
-    material: 1,
-    labor: 2,
-    equipment: 3,
+    material: "materials",
+    labor: "labor",
+    equipment: "equipment",
 }
 export const AccountingRequestStatus = {
     draft: "Draft",

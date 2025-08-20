@@ -18,11 +18,6 @@ const letterHeader = (index: number) => {
 const filterResources = (name: string) => {
     return task.value.resources.filter(resource => resource.resource_name === name)
 }
-const totalDirectCost = (name: string) => {
-    return task.value.resources
-        .filter(resource => resource.resource_name === name)
-        .reduce((total: number, resource: any) => total + (resource.total_cost ?? 0), 0)
-}
 const addResource = (rnames: any) => {
     showResourceModal.value = true
     resourceStore.reset()
@@ -231,8 +226,14 @@ const orderedMarketingResources = computed(() => {
                     <td class="text-right px-2" colspan="5">
                         Direct {{ rnames.label }} Cost
                     </td>
-                    <td class="text-right px-2">
-                        {{ accountingCurrency(totalDirectCost(rnames.label)) }}
+                    <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.material" class="text-right px-2">
+                        {{ accountingCurrency(task?.total_materials_amount) }}
+                    </td>
+                    <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor" class="text-right px-2">
+                        {{ accountingCurrency(task?.total_labor_amount) }}
+                    </td>
+                    <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="text-right px-2">
+                        {{ accountingCurrency(task?.total_equipment_amount) }}
                     </td>
                 </tr>
             </tbody>
