@@ -158,22 +158,22 @@ const orderedMarketingResources = computed(() => {
                     <td class="uppercase text-xs font-semibold pt-2 text-center">
                         Name and Specification
                     </td>
-                    <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor" class="uppercase text-xs font-semibold pt-2 text-center">
+                    <td v-if="rnames.value.toLowerCase() === DetailedEstimatesType.labor" class="uppercase text-xs font-semibold pt-2 text-center">
                         No of Person
                     </td>
-                    <td v-else-if="rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                    <td v-else-if="rnames.value.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
                         No of Equipment
                     </td>
                     <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                         Quantity
                     </td>
-                    <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                    <td v-if="rnames.value.toLowerCase() === DetailedEstimatesType.labor || rnames.value.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
                         No. of Hrs.
                     </td>
                     <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                         Unit
                     </td>
-                    <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
+                    <td v-if="rnames.value.toLowerCase() === DetailedEstimatesType.labor || rnames.value.toLowerCase() === DetailedEstimatesType.equipment" class="uppercase text-xs font-semibold pt-2 text-center">
                         Hourly Rate
                     </td>
                     <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
@@ -188,19 +188,19 @@ const orderedMarketingResources = computed(() => {
                     <td class="p-2 text-center">
                         {{ resource.description }}
                     </td>
-                    <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
+                    <td v-if="rnames.value.toLowerCase() === DetailedEstimatesType.labor || rnames.value.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                         {{ resource.unit_count }}
                     </td>
                     <td v-else class="p-2  text-center">
                         {{ resource.quantity }}
                     </td>
-                    <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
+                    <td v-if="rnames.value.toLowerCase() === DetailedEstimatesType.labor || rnames.value.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                         {{ resource.quantity }}
                     </td>
                     <td v-else class="p-2  text-center">
                         {{ resource.unit }}
                     </td>
-                    <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor || rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
+                    <td v-if="rnames.value.toLowerCase() === DetailedEstimatesType.labor || rnames.value.toLowerCase() === DetailedEstimatesType.equipment" class="p-2  text-center">
                         {{ resource.unit_cost + " / hour" }}
                     </td>
                     <td v-else class="p-2  text-center">
