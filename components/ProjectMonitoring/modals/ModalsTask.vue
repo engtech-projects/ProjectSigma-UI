@@ -130,6 +130,7 @@ const emit = defineEmits(["hideModal", "save"])
                         <input
                             v-model="taskStore.task.quantity"
                             type="number"
+                            step="any"
                             class="border border-gray-300 rounded-md"
                             placeholder="0"
                             required
@@ -157,6 +158,7 @@ const emit = defineEmits(["hideModal", "save"])
                         <input
                             v-model="taskStore.task.unit_price"
                             type="number"
+                            step="any"
                             class="border border-gray-300 rounded-md"
                             placeholder="0.00"
                             required
