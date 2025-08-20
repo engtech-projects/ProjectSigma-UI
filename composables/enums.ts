@@ -21,14 +21,14 @@ export const useInventoryDocCode = {
     turnover_slip: "FM-IMS-002-5",
 }
 export const DetailedEstimatesType = {
-    labor: "labor",
-    equipment: "equipment",
     material: "materials",
+    labor: "labor_expense",
+    equipment: "equipment_rental",
 }
 export const DetailedEstimatesUnitIndex = {
-    material: "materials",
-    labor: "labor",
-    equipment: "equipment",
+    material: 1,
+    labor: 2,
+    equipment: 3,
 }
 export const AccountingRequestStatus = {
     draft: "Draft",

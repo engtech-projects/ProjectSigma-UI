@@ -159,13 +159,13 @@ const orderedMarketingResources = computed(() => {
                         <td class="text-right px-2" colspan="5">
                             Direct {{ rnames.label }} Cost
                         </td>
-                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.material" class="text-right px-2">
+                        <td v-if="rnames.value.toLowerCase() === DetailedEstimatesType.material" class="text-right px-2">
                             {{ accountingCurrency(task?.total_materials_amount) }}
                         </td>
-                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.labor" class="text-right px-2">
+                        <td v-if="rnames.value.toLowerCase() === DetailedEstimatesType.labor" class="text-right px-2">
                             {{ accountingCurrency(task?.total_labor_amount) }}
                         </td>
-                        <td v-if="rnames.label.toLowerCase() === DetailedEstimatesType.equipment" class="text-right px-2">
+                        <td v-if="rnames.value.toLowerCase() === DetailedEstimatesType.equipment" class="text-right px-2">
                             {{ accountingCurrency(task?.total_equipment_amount) }}
                         </td>
                     </tr>
