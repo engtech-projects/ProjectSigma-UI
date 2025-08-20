@@ -4,12 +4,7 @@ import FullCalendar from "@fullcalendar/vue3"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import type { CalendarApi } from "@fullcalendar/core"
-defineProps({
-    type: {
-        type: String,
-        required: true,
-    }
-})
+const { type } = defineProps<{ type: "Department" | "Employee" | "Project" }>()
 const emits = defineEmits(["delete-schedule", "load-schedules"])
 const listModel = defineModel("listModel", { required: true, type: Object })
 const updateModel = defineModel("updateModel", { required: true, type: Object })
@@ -34,10 +29,7 @@ watch(
         if (!newVal) {
             return
         }
-        if (scriptCalendarApi.value === null) {
-            return
-        }
-        scriptCalendarApi.value.refetchEvents()
+        scriptCalendarApi.value?.refetchEvents()
     },
     { deep: true }
 )
@@ -65,11 +57,14 @@ const calendarOptions = ref({
 })
 const setEdit = (id: any) => {
     const schedule = listModel.value.data.find((item: any) => parseInt(item?.id) === parseInt(id))
+    if (!schedule) {
+        return
+    }
     updateModel.value.body = JSON.parse(JSON.stringify(schedule))
     updateModel.value.show = true
 }
-const deleteSchedule = async (id: any) => {
-    await emits("delete-schedule", id)
+const deleteSchedule = (id: any) => {
+    emits("delete-schedule", id)
 }
 </script>
 <template>

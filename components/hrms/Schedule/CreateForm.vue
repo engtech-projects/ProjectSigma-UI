@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-defineProps({
-    type: {
-        type: String,
-        required: true,
-    }
-})
+const { type } = defineProps<{ type: "Department" | "Employee" | "Project" }>()
 const createModel = defineModel("createModel", { required: true, type: Object })
 const updateModel = defineModel("updateModel", { required: true, type: Object })
 const emits = defineEmits(["create-schedule"])

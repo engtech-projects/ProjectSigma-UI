@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-defineProps({
-    type: {
-        type: String,
-        required: true,
-    }
-})
+const { type } = defineProps<{ type: "Department" | "Employee" | "Project" }>()
 const updateScheduleModel = defineModel("updateScheduleModel", { required: true, type: Object })
 const emits = defineEmits(["update-schedule"])
 const handleSubmit = () => {
