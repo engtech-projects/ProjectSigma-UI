@@ -48,7 +48,8 @@ useHead({
                 <div
                     v-for="(flow, index) in transactionFlow.TransactionFlowList"
                     :key="index"
-                    class="px-4 py-4 bg-gray-300 rounded-sm shadow-md border-green-800 border-t-2"
+                    class="px-4 py-4 rounded-sm shadow-md border-green-800 border-t-2"
+                    :class="flow.is_assignable ? 'bg-gray-300' : 'bg-yellow-200'"
                 >
                     <div class="flex items-between gap-2">
                         <div class="rounded-full bg-gray-400 p-2 h-14 w-14 my-auto">
@@ -60,11 +61,14 @@ useHead({
                             <h1 class="text-xl p-2 font-bold">
                                 {{ flow.name.toUpperCase() }}
                             </h1>
-                            <p class="text-sm px-2">
+                            <p v-if="flow.is_assignable" class="text-sm px-2">
                                 <span class="font-bold text-gray-400">
                                     USER :
                                 </span>
                                 {{ flow.user_name || "NO ASSIGN" }}
+                            </p>
+                            <p v-else class="text-sm px-2">
+                                NOT ASSIGNABLE
                             </p>
                         </div>
                     </div>
@@ -85,6 +89,7 @@ useHead({
                             Save
                         </button>
                         <button
+                            v-if="flow.is_assignable"
                             class="bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-700 transition-all duration-300"
                             @click="handleAssigneeEdit(flow.id)"
                         >
