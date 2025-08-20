@@ -9,6 +9,7 @@
         </div>
         <div
             class="h-full w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700"
+            :class="{ 'border-t-8 border-t-green-400': coloredBorder }"
         >
             <div class="flex items-center justify-between border-b mb-2">
                 <h5 v-if="title" class="text-xl font-medium text-gray-900 dark:text-white p-2">
@@ -33,6 +34,10 @@ defineProps({
     loading: {
         type: Boolean,
         default: false,
-    }
+    },
+    coloredBorder: {
+        type: Boolean,
+        default: false,
+    },
 })
 </script>
