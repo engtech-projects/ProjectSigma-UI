@@ -81,6 +81,7 @@ const emit = defineEmits(["hideModal"])
                             <input
                                 v-model="resourceStore.resource.unit_count"
                                 type="number"
+                                step="any"
                                 class="border border-gray-300 rounded-md"
                                 min="1"
                                 required
@@ -113,6 +114,7 @@ const emit = defineEmits(["hideModal"])
                             <input
                                 v-model="resourceStore.resource.unit_cost"
                                 type="number"
+                                step="any"
                                 class="border border-gray-300 rounded-md"
                                 placeholder="0.00"
                                 required
@@ -131,6 +133,7 @@ const emit = defineEmits(["hideModal"])
                         <input
                             v-model="resourceStore.resource.quantity"
                             type="number"
+                            step="any"
                             class="border border-gray-300 rounded-md"
                             required
                         >
