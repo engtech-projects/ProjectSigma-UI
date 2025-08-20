@@ -69,10 +69,10 @@ const emit = defineEmits(["hideModal"])
                 <Icon name="material-symbols:close-rounded" class="h-6 w-6 text-gray-500 hover:text-gray-800 cursor-pointer" @click="emit('hideModal')" />
             </div>
             <form @submit.prevent="handleSubmit">
-                <div v-if="resourceStore.resource.name_id === DetailedEstimatesUnitIndex.labor || resourceStore.resource.name_id === DetailedEstimatesUnitIndex.equipment" class="grid grid-cols-2 gap-6 mb-4">
+                <div v-if="resourceStore.resource.resource_type === DetailedEstimatesType.labor || resourceStore.resource.resource_type === DetailedEstimatesType.equipment" class="grid grid-cols-2 gap-6 mb-4">
                     <div>
                         <div class="flex flex-col">
-                            <label v-if="resourceStore.resource.name_id === DetailedEstimatesUnitIndex.labor" class="text-md text-gray-700">
+                            <label v-if="resourceStore.resource.resource_type === DetailedEstimatesType.labor" class="text-md text-gray-700">
                                 Number of Person
                             </label>
                             <label v-else class="text-md text-gray-700">
@@ -104,7 +104,7 @@ const emit = defineEmits(["hideModal"])
                     </div>
                     <div>
                         <div class="flex flex-col">
-                            <label v-if="resourceStore.resource.name_id === DetailedEstimatesUnitIndex.labor || resourceStore.resource.name_id === DetailedEstimatesUnitIndex.equipment" class="text-md text-gray-700">
+                            <label v-if="resourceStore.resource.resource_type === DetailedEstimatesType.labor || resourceStore.resource.resource_type === DetailedEstimatesType.equipment" class="text-md text-gray-700">
                                 Hourly Rate
                             </label>
                             <label v-else class="text-md text-gray-700">
@@ -122,7 +122,7 @@ const emit = defineEmits(["hideModal"])
                 </div>
                 <div class="grid grid-cols-2 gap-6 mb-4">
                     <div class="flex flex-col">
-                        <label v-if="resourceStore.resource.name_id === DetailedEstimatesUnitIndex.labor || resourceStore.resource.name_id === DetailedEstimatesUnitIndex.equipment" class="text-md text-gray-700">
+                        <label v-if="resourceStore.resource.resource_type === DetailedEstimatesType.labor || resourceStore.resource.resource_type === DetailedEstimatesType.equipment" class="text-md text-gray-700">
                             No. of Hours
                         </label>
                         <label v-else class="text-md text-gray-700">
@@ -144,7 +144,7 @@ const emit = defineEmits(["hideModal"])
                             class="border border-gray-300 rounded-md uppercase"
                             required
                         >
-                            <template v-if="resourceStore.resource.name_id === DetailedEstimatesUnitIndex.labor || resourceStore.resource.name_id === DetailedEstimatesUnitIndex.equipment">
+                            <template v-if="resourceStore.resource.resource_type === DetailedEstimatesType.labor || resourceStore.resource.resource_type === DetailedEstimatesType.equipment">
                                 <option value="hourly">
                                     Hourly
                                 </option>
