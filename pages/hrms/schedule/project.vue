@@ -10,10 +10,6 @@ useHead({
             AccessibilityTypes.hrms_schedule_project,
         ])"
     >
-        <div class="flex gap-2">
-            <HrmsScheduleProjectCreateForm class="w-1/4" />
-            <HrmsScheduleProjectEditForm class="w-1/4" />
-            <HrmsScheduleProjectCalendarView class="w-3/4" />
-        </div>
+        <HrmsScheduleProject />
     </LayoutAcessContainer>
 </template>

@@ -3,24 +3,41 @@ import interactionPlugin from "@fullcalendar/interaction"
 import FullCalendar from "@fullcalendar/vue3"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
-import { useSchedulesStore } from "~/stores/hrms/schedules"
-const debouncedGetData = useDebounceFn(async () => {
-    await scheduleStore.getSchedulesDept()
-    if (calendarApi.value === null) {
-        return
+import type { CalendarApi } from "@fullcalendar/core"
+defineProps({
+    type: {
+        type: String,
+        required: true,
     }
-    calendarApi.value.refetchEvents()
-}, 500)
-const scheduleStore = useSchedulesStore()
-const { listSchedulesDept, updateScheduleRequestDept } = storeToRefs(scheduleStore)
-watch(listSchedulesDept.value.params, () => {
-    debouncedGetData()
-}, { deep: true })
+})
+const emits = defineEmits(["delete-schedule", "load-schedules"])
+const listModel = defineModel("listModel", { required: false, type: Object, default: null })
+const updateModel = defineModel("updateModel", { required: false, type: Object, default: null })
+const scriptCalendarApi = ref<CalendarApi | null>(null)
+watch(
+    () => ({
+        ...listModel.value.params
+    }),
+    () => {
+        emits("load-schedules")
+    },
+    { deep: true }
+)
+watch(
+    () => ({
+        ...listModel.value.data
+    }),
+    () => {
+        if (scriptCalendarApi.value === null) {
+            return
+        }
+        scriptCalendarApi.value.refetchEvents()
+    },
+    { deep: true }
+)
 const deptCalendar = ref()
-const calendarApi = ref(null)
-const snackbar = useSnackbar()
 onMounted(() => {
-    calendarApi.value = deptCalendar.value.getApi()
+    scriptCalendarApi.value = deptCalendar.value.getApi()
 })
 const calendarOptions = ref({
     plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin],
@@ -34,45 +51,43 @@ const calendarOptions = ref({
     nowIndicator: true,
     editable: true,
     selectable: true,
-    events: function (event: any, successCallback: any) {
-        listSchedulesDept.value.params.start_date = event.start.toISOString().slice(0, 10)
-        listSchedulesDept.value.params.end_date = event.end.toISOString().slice(0, 10)
-        successCallback(listSchedulesDept.value.data)
+    events: (event: any, successCallback: any) => {
+        listModel.value.params.start_date = event.start.toISOString().slice(0, 10)
+        listModel.value.params.end_date = event.end.toISOString().slice(0, 10)
+        successCallback(listModel.value.data)
     }
 })
 const setEdit = (id: any) => {
-    const schedule = listSchedulesDept.value.data.find((item: any) => parseInt(item?.id) === parseInt(id))
-    updateScheduleRequestDept.value.body = schedule
-    updateScheduleRequestDept.value.show = true
+    const schedule = listModel.value.data.find((item: any) => parseInt(item?.id) === parseInt(id))
+    updateModel.value.body = schedule
+    updateModel.value.show = true
 }
 const deleteSchedule = async (id: any) => {
-    try {
-        snackbar.add({
-            type: "info",
-            text: "Deleting schedule..."
-        })
-        await scheduleStore.deleteSchedule(id)
-        snackbar.add({
-            type: "success",
-            text: "Schedule deleted successfully."
-        })
-        debouncedGetData()
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "Something went wrong."
-        })
-    }
+    await emits("delete-schedule", id)
 }
 </script>
 <template>
     <LayoutBoards
         title="Department Schedule"
-        :loading="listSchedulesDept.isLoading"
+        :loading="listModel.isLoading"
     >
         <template #default>
             <div class="flex flex-col gap-2">
-                <HrmsCommonDepartmentSelector v-model="listSchedulesDept.params.department_id" />
+                <HrmsCommonDepartmentSelector
+                    v-if="type === 'Department'"
+                    v-model="listModel.params.department_id"
+                    :title="type"
+                />
+                <HrmsCommonSearchEmployeeSelector
+                    v-else-if="type === 'Employee'"
+                    v-model="listModel.params.employee_id"
+                    :title="type"
+                />
+                <HrmsCommonProjectSelector
+                    v-else-if="type === 'Project'"
+                    v-model="listModel.params.project_id"
+                    :title="type"
+                />
                 <FullCalendar id="calendarSchedule" ref="deptCalendar" :options="calendarOptions" class="mt-10 text-xs flex md:flex md:text-sm">
                     <template #eventContent="{ event }">
                         <div class="event-container flex flex-col justify-between w-full items-center p-1 event-container bg-blue-600 text-[10px] overflow-hidden text-white rounded-md">

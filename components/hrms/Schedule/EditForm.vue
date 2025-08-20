@@ -1,35 +1,40 @@
 <script lang="ts" setup>
-import { useSchedulesStore } from "~/stores/hrms/schedules"
-
-const snackbar = useSnackbar()
-const scheduleStore = useSchedulesStore()
-const { updateScheduleRequestEmployee } = storeToRefs(scheduleStore)
-const handleSubmit = async () => {
-    try {
-        await scheduleStore.updateScheduleEmployee()
-        snackbar.add({
-            type: "success",
-            text: updateScheduleRequestEmployee.value.successMessage
-        })
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
+defineProps({
+    type: {
+        type: String,
+        required: true,
     }
+})
+const updateScheduleModel = defineModel("updateScheduleModel", { required: false, type: Object, default: null })
+const emits = defineEmits(["update-schedule"])
+const handleSubmit = () => {
+    emits("update-schedule")
 }
 </script>
 <template>
     <LayoutBoards
-        v-if="updateScheduleRequestEmployee.show"
-        title="Edit Employee Schedule"
-        :loading="updateScheduleRequestEmployee.isLoading"
+        v-if="updateScheduleModel.show"
+        :title="'Edit ' + type + ' Schedule'"
+        :loading="updateScheduleModel.isLoading"
         :colored-border="true"
     >
         <form @submit.prevent="handleSubmit">
             <LayoutFormPsTextInput
-                v-model="updateScheduleRequestEmployee.body.employee.fullname_last"
-                title="Employee"
+                v-if="type === 'Department'"
+                v-model="updateScheduleModel.body.department.department_name"
+                :title="type"
+                disabled
+            />
+            <LayoutFormPsTextInput
+                v-else-if="type === 'Employee'"
+                v-model="updateScheduleModel.body.employee.full_name"
+                :title="type"
+                disabled
+            />
+            <LayoutFormPsTextInput
+                v-else-if="type === 'Project'"
+                v-model="updateScheduleModel.body.project.project_name"
+                :title="type"
                 disabled
             />
             <div>
@@ -44,7 +49,7 @@ const handleSubmit = async () => {
                     <label for="eventTitleIn" class="block text-xs text-center italic">In</label>
                     <input
                         id="eventTitleIn"
-                        v-model="updateScheduleRequestEmployee.body.startTime"
+                        v-model="updateScheduleModel.body.startTime"
                         type="time"
                         class="w-44 md:w-44 rounded-lg"
                         required
@@ -54,7 +59,7 @@ const handleSubmit = async () => {
                     <label for="eventTitleOut" class="block text-xs text-center italic">Out</label>
                     <input
                         id="eventTitleOut"
-                        v-model="updateScheduleRequestEmployee.body.endTime"
+                        v-model="updateScheduleModel.body.endTime"
                         type="time"
                         class="w-44 md:w-44 rounded-lg"
                         required
@@ -73,7 +78,7 @@ const handleSubmit = async () => {
                     <div v-for="(scheduleType, index) in ['Regular', 'Irregular']" :key="index" class="mt-3 mr-2">
                         <input
                             :id="scheduleType"
-                            v-model="updateScheduleRequestEmployee.body.scheduleType"
+                            v-model="updateScheduleModel.body.scheduleType"
                             :value="scheduleType"
                             type="radio"
                             class="hidden peer"
@@ -89,7 +94,7 @@ const handleSubmit = async () => {
                 </div>
             </div>
             <div id="default-tab-content">
-                <div v-show="updateScheduleRequestEmployee.body.scheduleType === 'Regular'" id="regular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800">
+                <div v-show="updateScheduleModel.body.scheduleType === 'Regular'" id="regular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800">
                     <div class="border-b w-full h-[14px] text-center p-3 mb-2">
                         <span class="text-sm bg-slate-50 text-black px-10 italic">
                             Days
@@ -97,31 +102,31 @@ const handleSubmit = async () => {
                     </div>
                     <div class="grid grid-cols-3 gap-y-2 md:flex-1 mx-auto justify-center items-center mt-5 md:gap-4 p-2 rounded-md">
                         <div class="flex">
-                            <input id="monday" v-model="updateScheduleRequestEmployee.body.daysOfWeek" type="checkbox" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="monday" v-model="updateScheduleModel.body.daysOfWeek" type="checkbox" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="monday" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Monday</label>
                         </div>
                         <div class="flex">
-                            <input id="tuesday" v-model="updateScheduleRequestEmployee.body.daysOfWeek" type="checkbox" value="2" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="tuesday" v-model="updateScheduleModel.body.daysOfWeek" type="checkbox" value="2" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="tuesday" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tuesday</label>
                         </div>
                         <div class="flex">
-                            <input id="wednesday" v-model="updateScheduleRequestEmployee.body.daysOfWeek" type="checkbox" value="3" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="wednesday" v-model="updateScheduleModel.body.daysOfWeek" type="checkbox" value="3" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="wednesday" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Wednesday</label>
                         </div>
                         <div class="flex">
-                            <input id="thursday" v-model="updateScheduleRequestEmployee.body.daysOfWeek" type="checkbox" value="4" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="thursday" v-model="updateScheduleModel.body.daysOfWeek" type="checkbox" value="4" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="thursday" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Thursday</label>
                         </div>
                         <div class="flex">
-                            <input id="friday" v-model="updateScheduleRequestEmployee.body.daysOfWeek" type="checkbox" value="5" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="friday" v-model="updateScheduleModel.body.daysOfWeek" type="checkbox" value="5" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="friday" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Friday</label>
                         </div>
                         <div class="flex">
-                            <input id="saturday" v-model="updateScheduleRequestEmployee.body.daysOfWeek" type="checkbox" value="6" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="saturday" v-model="updateScheduleModel.body.daysOfWeek" type="checkbox" value="6" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="saturday" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Saturday</label>
                         </div>
                         <div class="flex">
-                            <input id="sunday" v-model="updateScheduleRequestEmployee.body.daysOfWeek" type="checkbox" value="0" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="sunday" v-model="updateScheduleModel.body.daysOfWeek" type="checkbox" value="0" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="sunday" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sunday</label>
                         </div>
                     </div>
@@ -131,27 +136,27 @@ const handleSubmit = async () => {
                     <div class="flex md:flex justify-center mx-auto">
                         <div class="p-2 gap-4 items-center">
                             <label for="dateStart" class="block text-xs text-center italic">Date Start</label>
-                            <input id="dateStart" v-model="updateScheduleRequestEmployee.body.startRecur" type="date" class="w-36 md:w-32 rounded-lg" required>
+                            <input id="dateStart" v-model="updateScheduleModel.body.startRecur" type="date" class="w-36 md:w-32 rounded-lg" required>
                         </div>
                         <div class="p-2 gap-4 items-center">
                             <label for="dateEnd" class="block text-xs italic ml-3">Date End <b class="text-orange-500"> (optional)</b></label>
-                            <input id="dateEnd" v-model="updateScheduleRequestEmployee.body.endRecur" type="date" class="w-36 md:w-32 rounded-lg">
+                            <input id="dateEnd" v-model="updateScheduleModel.body.endRecur" type="date" class="w-36 md:w-32 rounded-lg">
                         </div>
                     </div>
                 </div>
-                <div v-show="updateScheduleRequestEmployee.body.scheduleType === 'Irregular'" id="irregular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800">
+                <div v-show="updateScheduleModel.body.scheduleType === 'Irregular'" id="irregular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800">
                     <div class="border-b w-full h-[14px] text-center p-3 mb-5">
                         <span class="text-sm bg-slate-50 text-black px-10 italic">
                             Schedule Dates
                         </span>
                     </div>
-                    <input id="scheduledDates" v-model="updateScheduleRequestEmployee.body.startRecur" type="date" class="w-full rounded-lg">
+                    <input id="scheduledDates" v-model="updateScheduleModel.body.startRecur" type="date" class="w-full rounded-lg">
                 </div>
                 <div class="flex justify-end mt-4 gap-2">
                     <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">
                         Submit
                     </button>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md" @click="updateScheduleRequestEmployee.show = false">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md" @click="updateScheduleModel.show = false">
                         Close
                     </button>
                 </div>
