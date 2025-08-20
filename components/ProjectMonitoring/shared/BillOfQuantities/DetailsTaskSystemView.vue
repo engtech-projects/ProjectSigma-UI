@@ -260,7 +260,7 @@ const orderedMarketingResources = computed(() => {
                         O.C.M
                     </td>
                     <td class="pX-2 text-center">
-                        10%
+                        10.00%
                     </td>
                     <td class="pX-2 text-center" />
                     <td class="text-right px-2">
@@ -278,7 +278,7 @@ const orderedMarketingResources = computed(() => {
                         Contractors Profit
                     </td>
                     <td class="pX-2 text-center">
-                        10%
+                        10.00%
                     </td>
                     <td class="pX-2 text-center" />
                     <td class="text-right px-2">
@@ -296,7 +296,7 @@ const orderedMarketingResources = computed(() => {
                         vAT (Where Applicable)
                     </td>
                     <td class="pX-2 text-center">
-                        12%
+                        12.00%
                     </td>
                     <td class="pX-2 text-center" />
                     <td class="text-right px-2">
