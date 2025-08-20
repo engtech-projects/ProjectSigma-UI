@@ -11,8 +11,8 @@ defineProps({
     }
 })
 const emits = defineEmits(["delete-schedule", "load-schedules"])
-const listModel = defineModel("listModel", { required: false, type: Object, default: null })
-const updateModel = defineModel("updateModel", { required: false, type: Object, default: null })
+const listModel = defineModel("listModel", { required: true, type: Object })
+const updateModel = defineModel("updateModel", { required: true, type: Object })
 const scriptCalendarApi = ref<CalendarApi | null>(null)
 watch(
     () => ({

@@ -5,8 +5,8 @@ defineProps({
         required: true,
     }
 })
-const createModel = defineModel("createModel", { required: false, type: Object, default: null })
-const updateModel = defineModel("updateModel", { required: false, type: Object, default: null })
+const createModel = defineModel("createModel", { required: true, type: Object })
+const updateModel = defineModel("updateModel", { required: true, type: Object })
 const emits = defineEmits(["create-schedule"])
 const handleSubmit = () => {
     emits("create-schedule")
