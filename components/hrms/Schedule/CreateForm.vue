@@ -15,7 +15,7 @@ const handleSubmit = () => {
 <template>
     <LayoutBoards
         v-if="!updateModel.show"
-        title="Create Department Schedule"
+        :title="'Create ' + type + ' Schedule'"
         :loading="createModel.isLoading"
     >
         <form @submit.prevent="handleSubmit">
@@ -32,7 +32,6 @@ const handleSubmit = () => {
             <HrmsCommonProjectSelector
                 v-else-if="type === 'Project'"
                 v-model="createModel.body.project_id"
-                :title="type"
             />
             <div>
                 <div class="border-b w-full h-[14px] text-center p-3 mb-4">

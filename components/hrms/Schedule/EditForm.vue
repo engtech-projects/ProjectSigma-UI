@@ -27,13 +27,13 @@ const handleSubmit = () => {
             />
             <LayoutFormPsTextInput
                 v-else-if="type === 'Employee'"
-                v-model="updateScheduleModel.body.employee.full_name"
+                v-model="updateScheduleModel.body.employee.fullname_last"
                 :title="type"
                 disabled
             />
             <LayoutFormPsTextInput
                 v-else-if="type === 'Project'"
-                v-model="updateScheduleModel.body.project.project_name"
+                v-model="updateScheduleModel.body.project.project_code"
                 :title="type"
                 disabled
             />
