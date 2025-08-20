@@ -78,6 +78,7 @@ const handleSubmit = () => {
                             :value="scheduleType"
                             type="radio"
                             class="hidden peer"
+                            name="scheduleType"
                             required
                         >
                         <label

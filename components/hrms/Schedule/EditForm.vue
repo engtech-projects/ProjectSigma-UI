@@ -156,7 +156,7 @@ const handleSubmit = () => {
                     <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">
                         Submit
                     </button>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md" @click="updateScheduleModel.show = false">
+                    <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md" @click="updateScheduleModel.show = false">
                         Close
                     </button>
                 </div>
