@@ -89,4 +89,3 @@ const updateSchedule = async () => {
         />
     </div>
 </template>
-<style scoped>
