@@ -16,7 +16,7 @@ const handleSubmit = () => {
         v-if="updateScheduleModel.show"
         :title="'Edit ' + type + ' Schedule'"
         :loading="updateScheduleModel.isLoading"
-        :colored-border="true"
+        colored-border
     >
         <form @submit.prevent="handleSubmit">
             <LayoutFormPsTextInput
@@ -44,7 +44,7 @@ const handleSubmit = () => {
                     </span>
                 </div>
             </div>
-            <div class="flex md:flex justify-center mx-auto">
+            <div class="flex justify-center mx-auto">
                 <div class="p-2 gap-4 items-center">
                     <label for="eventTitleIn" class="block text-xs text-center italic">In</label>
                     <input
@@ -61,6 +61,7 @@ const handleSubmit = () => {
                         id="eventTitleOut"
                         v-model="updateScheduleModel.body.endTime"
                         type="time"
+                        :min="updateScheduleModel.body.startTime || undefined"
                         class="w-44 md:w-44 rounded-lg"
                         required
                     >
@@ -75,7 +76,7 @@ const handleSubmit = () => {
             </div>
             <div class="mb-4 dark:border-gray-700">
                 <div class="flex flex-wrap items-center justify-center">
-                    <div v-for="(scheduleType, index) in ['Regular', 'Irregular']" :key="index" class="mt-3 mr-2">
+                    <div v-for="(scheduleType, index) in ['Regular', 'Irregular']" :key="scheduleType + '-' + index" class="mt-3 mr-2">
                         <input
                             :id="scheduleType"
                             v-model="updateScheduleModel.body.scheduleType"
@@ -135,12 +136,30 @@ const handleSubmit = () => {
 
                     <div class="flex md:flex justify-center mx-auto">
                         <div class="p-2 gap-4 items-center">
-                            <label for="dateStart" class="block text-xs text-center italic">Date Start</label>
-                            <input id="dateStart" v-model="updateScheduleModel.body.startRecur" type="date" class="w-36 md:w-32 rounded-lg" required>
+                            <label
+                                for="dateStart"
+                                class="block text-xs text-center italic"
+                            >Date Start</label>
+                            <input
+                                id="dateStart"
+                                v-model="updateScheduleModel.body.startRecur"
+                                type="date"
+                                class="w-36 md:w-32 rounded-lg"
+                                required
+                            >
                         </div>
                         <div class="p-2 gap-4 items-center">
-                            <label for="dateEnd" class="block text-xs italic ml-3">Date End <b class="text-orange-500"> (optional)</b></label>
-                            <input id="dateEnd" v-model="updateScheduleModel.body.endRecur" type="date" class="w-36 md:w-32 rounded-lg">
+                            <label
+                                for="dateEnd"
+                                class="block text-xs italic ml-3"
+                            >Date End <b class="text-orange-500"> (optional)</b></label>
+                            <input
+                                id="dateEnd"
+                                v-model="updateScheduleModel.body.endRecur"
+                                type="date"
+                                :min="updateScheduleModel.body.startRecur || undefined"
+                                class="w-36 md:w-32 rounded-lg"
+                            >
                         </div>
                     </div>
                 </div>
@@ -153,7 +172,7 @@ const handleSubmit = () => {
                     <input id="scheduledDates" v-model="updateScheduleModel.body.startRecur" type="date" class="w-full rounded-lg">
                 </div>
                 <div class="flex justify-end mt-4 gap-2">
-                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md disabled:opacity-60" :disabled="updateScheduleModel.isLoading">
                         Submit
                     </button>
                     <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md" @click="updateScheduleModel.show = false">
@@ -164,6 +183,3 @@ const handleSubmit = () => {
         </form>
     </LayoutBoards>
 </template>
-<style>
-
-</style>

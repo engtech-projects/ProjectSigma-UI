@@ -18,7 +18,10 @@ watch(
     () => ({
         ...listModel.value.params
     }),
-    () => {
+    (newVal) => {
+        if (!newVal) {
+            return
+        }
         emits("load-schedules")
     },
     { deep: true }
@@ -27,7 +30,10 @@ watch(
     () => ({
         ...listModel.value.data
     }),
-    () => {
+    (newVal) => {
+        if (!newVal) {
+            return
+        }
         if (scriptCalendarApi.value === null) {
             return
         }
@@ -35,9 +41,9 @@ watch(
     },
     { deep: true }
 )
-const deptCalendar = ref()
+const calendarRef = ref()
 onMounted(() => {
-    scriptCalendarApi.value = deptCalendar.value.getApi()
+    scriptCalendarApi.value = calendarRef.value?.getApi()
 })
 const calendarOptions = ref({
     plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin],
@@ -51,9 +57,9 @@ const calendarOptions = ref({
     nowIndicator: true,
     editable: false,
     selectable: false,
-    events: (event: any, successCallback: any) => {
-        listModel.value.params.start_date = event.startStr.slice(0, 10)
-        listModel.value.params.end_date = event.endStr.slice(0, 10)
+    events: (info: any, successCallback: any) => {
+        listModel.value.params.start_date = info.startStr.slice(0, 10)
+        listModel.value.params.end_date = info.endStr.slice(0, 10)
         successCallback(listModel.value.data)
     }
 })
@@ -87,7 +93,7 @@ const deleteSchedule = async (id: any) => {
                     v-else-if="type === 'Project'"
                     v-model="listModel.params.project_id"
                 />
-                <FullCalendar id="calendarSchedule" ref="deptCalendar" :options="calendarOptions" class="mt-10 text-xs flex md:flex md:text-sm">
+                <FullCalendar id="calendarSchedule" ref="calendarRef" :options="calendarOptions" class="mt-10 text-xs flex md:flex md:text-sm">
                     <template #eventContent="{ event }">
                         <div class="event-container flex flex-col justify-between w-full items-center p-1 bg-blue-600 text-[10px] overflow-hidden text-white rounded-md">
                             {{ event.extendedProps.start_time_human }} - {{ event.extendedProps.end_time_human }}
@@ -117,7 +123,7 @@ const deleteSchedule = async (id: any) => {
         transition: all .3s;
     }
     :deep(.event-container:hover) {
-        height: 39px!important
+        height: 39px!important;
     }
 }
 </style>

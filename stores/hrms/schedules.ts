@@ -31,6 +31,7 @@ export const useSchedulesStore = defineStore({
             isLoading: false,
             show: false,
             body: {
+                id: null as null | Number,
                 groupType: "department",
                 department_id: null as null | Number,
                 daysOfWeek: [],
@@ -70,6 +71,7 @@ export const useSchedulesStore = defineStore({
             isLoading: false,
             show: false,
             body: {
+                id: null as null | Number,
                 groupType: "employee",
                 employee_id: null as null | Number,
                 daysOfWeek: [],
@@ -109,6 +111,7 @@ export const useSchedulesStore = defineStore({
             isLoading: false,
             show: false,
             body: {
+                id: null as null | Number,
                 groupType: "project",
                 project_id: null as null | Number,
                 daysOfWeek: [],
@@ -177,7 +180,7 @@ export const useSchedulesStore = defineStore({
         },
         async updateScheduleDept () {
             return await useHRMSApiO(
-                "api/schedule",
+                "api/schedule/" + this.updateScheduleRequestDept.body.id,
                 {
                     method: "PATCH",
                     body: this.updateScheduleRequestDept.body,

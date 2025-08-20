@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { useSchedulesStore } from "~/stores/hrms/schedules"
-const debouncedGetData = useDebounceFn(async () => {
-    await scheduleStore.getSchedulesProject()
-}, 500)
 const scheduleStore = useSchedulesStore()
 const { listSchedulesProject, updateScheduleRequestProject, createScheduleRequestProject } = storeToRefs(scheduleStore)
 const snackbar = useSnackbar()
+const debouncedGetData = useDebounceFn(async () => {
+    await scheduleStore.getSchedulesProject()
+}, 500)
 const deleteSchedule = async (id: any) => {
     try {
         snackbar.add({
@@ -90,17 +90,3 @@ const updateSchedule = async () => {
     </div>
 </template>
 <style scoped>
-/* FULL CALENDAR STYLES */
-#calendarSchedule {
-    :deep(.fc-button-active) {
-        z-index: 0 !important;
-    }
-    :deep(.event-container) {
-        height: 23px!important;
-        transition: all .3s;
-    }
-    :deep(.event-container:hover) {
-        height: 39px!important
-    }
-}
-</style>
