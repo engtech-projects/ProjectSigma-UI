@@ -1,0 +1,1 @@
+import{m as a,o as n,c as o,E as c}from"./entry.R6V7NTxy.js";const p={__name:"index",async setup(r){let e,t;return[e,t]=a(()=>c("/attendance-portal/face-recognition")),await e,t(),(s,_)=>(n(),o("div"))}};export{p as default};

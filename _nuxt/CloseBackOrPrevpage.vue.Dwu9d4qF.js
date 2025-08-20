@@ -1,0 +1,1 @@
+import{f as t,R as r,o as c,c as n,E as p}from"./entry.R6V7NTxy.js";const _=t({__name:"CloseBackOrPrevpage",props:{prevPage:{}},setup(o){const a=o,e=r(),s=()=>{e.options.history.state.back?e.back():p(a.prevPage)};return(i,k)=>(c(),n("div",{onClick:s}," X "))}});export{_};

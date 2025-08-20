@@ -1,0 +1,1 @@
+import{f as t,o,c as r,t as s}from"./entry.R6V7NTxy.js";const c={scope:"col",class:"p-2 border-0 border-b text-sm"},i=t({__name:"ItemTh",props:{title:{type:String,required:!0}},setup(e){return(n,a)=>(o(),r("th",c,s(e.title),1))}});export{i as _};
