@@ -252,7 +252,7 @@ export const useSchedulesStore = defineStore({
         },
         async updateScheduleEmployee () {
             return await useHRMSApiO(
-                "api/schedule",
+                "api/schedule" + this.updateScheduleRequestEmployee.body.id,
                 {
                     method: "PATCH",
                     body: this.updateScheduleRequestEmployee.body,
@@ -324,7 +324,7 @@ export const useSchedulesStore = defineStore({
         },
         async updateScheduleProject () {
             return await useHRMSApiO(
-                "api/schedule",
+                "api/schedule" + this.updateScheduleRequestProject.body.id,
                 {
                     method: "PATCH",
                     body: this.updateScheduleRequestProject.body,

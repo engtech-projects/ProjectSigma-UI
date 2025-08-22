@@ -69,20 +69,20 @@ const updateSchedule = async () => {
         <HrmsScheduleCreateForm
             v-model:create-model="createScheduleRequestDept"
             v-model:update-model="updateScheduleRequestDept"
-            class="w-1/4"
+            class="w-full"
             type="Department"
             @create-schedule="createSchedule"
         />
         <HrmsScheduleEditForm
             v-model:update-schedule-model="updateScheduleRequestDept"
-            class="w-1/4"
+            class="w-full"
             type="Department"
             @update-schedule="updateSchedule"
         />
         <HrmsScheduleCalendarView
             v-model:list-model="listSchedulesDept"
             v-model:update-model="updateScheduleRequestDept"
-            class="w-3/4"
+            class="w-full"
             type="Department"
             @delete-schedule="deleteSchedule"
             @load-schedules="debouncedGetData"

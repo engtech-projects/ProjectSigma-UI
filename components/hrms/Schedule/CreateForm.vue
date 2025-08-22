@@ -123,11 +123,9 @@ const handleSubmit = () => {
                             <label for="sunday" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sunday</label>
                         </div>
                     </div>
-
                     <div class="border-b w-full h-[14px] text-center p-3 mb-2" />
-
-                    <div class="flex md:flex justify-center mx-auto">
-                        <div class="p-2 gap-4 items-center">
+                    <div class="flex flex-col md:flex-row justify-center mx-auto gap-2 w-full">
+                        <div class="p-2 gap-4 items-center w-full md:w-auto">
                             <label
                                 for="dateStart"
                                 class="block text-xs text-center italic"
@@ -136,11 +134,11 @@ const handleSubmit = () => {
                                 id="dateStart"
                                 v-model="createModel.body.startRecur"
                                 type="date"
-                                class="w-36 md:w-32 rounded-lg"
+                                class="w-full md:w-32 rounded-lg"
                                 required
                             >
                         </div>
-                        <div class="p-2 gap-4 items-center">
+                        <div class="p-2 gap-4 items-center w-full md:w-auto">
                             <label
                                 for="dateEnd"
                                 class="block text-xs italic ml-3"
@@ -150,7 +148,7 @@ const handleSubmit = () => {
                                 v-model="createModel.body.endRecur"
                                 type="date"
                                 :min="createModel.body.startRecur || undefined"
-                                class="w-36 md:w-32 rounded-lg"
+                                class="w-full md:w-32 rounded-lg"
                             >
                         </div>
                     </div>
