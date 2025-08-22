@@ -7,9 +7,6 @@ export default defineNuxtConfig({
     },
     ssr: false,
     devtools: { enabled: true },
-    plugins: [
-        { src: "~/plugins/print-js.client.ts", ssr: false }
-    ],
     modules: [
         [
             "@nuxtjs/eslint-module",

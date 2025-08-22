@@ -45,7 +45,6 @@
     "nuxt-snackbar": "^1.0.4",
     "nuxt-vue-select": "^0.1.4",
     "pinia": "^2.1.7",
-    "print-js": "^1.6.0",
     "uuid": "^9.0.1",
     "vue-advanced-cropper": "^2.8.8",
     "vue-chartjs": "^5.3.1",

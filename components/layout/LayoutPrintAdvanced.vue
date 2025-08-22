@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// const snackbar = useSnackbar()
-const { $printJS } = useNuxtApp()
 defineProps({
     printButtonTitle: {
         type: String,
@@ -23,16 +21,6 @@ const print = () => {
         printWindow.print()
         printWindow.close()
     }, 1000)
-}
-const exportPDF = () => {
-    $printJS({
-        printable: compId + (showPrintLayout.value ? "printLayout" : "systemLayout"),
-        type: "html",
-        targetStyles: ["*"],
-        showModal: true,
-        modalMessage: "Preparing document for printing...",
-        maxWidth: 10,
-    })
 }
 </script>
 <template>
@@ -74,13 +62,6 @@ const exportPDF = () => {
             />Show System Layout
         </button>
         <div class="relative flex justify-end items-center group">
-            <button
-                v-if="showExportButton"
-                class="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out flex items-center text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 shadow-lg"
-                @click="exportPDF"
-            >
-                Export PDF
-            </button>
             <button
                 class="flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-colors"
                 @click="print"
