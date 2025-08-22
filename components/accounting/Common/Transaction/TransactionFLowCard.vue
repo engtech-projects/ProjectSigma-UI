@@ -101,10 +101,10 @@ const formatStatus = (status) => {
                     <p class="text-md font-semibold text-black leading-relaxed">
                         {{ transactionFlowModel.name ? transactionFlowModel.name.toUpperCase() : "NO NAME" }}
                     </p>
-                    <p class="text-xs font-semibold text-gray-500 leading-relaxed">
+                    <p v-show="transactionFlowModel.is_assignable" class="text-xs font-semibold text-gray-500 leading-relaxed">
                         User Assignee:
                     </p>
-                    <p class="text-xs font-semibold text-gray-500 leading-relaxed">
+                    <p v-show="transactionFlowModel.is_assignable" class="text-xs font-semibold text-gray-500 leading-relaxed">
                         {{ transactionFlowModel.user_name ? transactionFlowModel.user_name.toUpperCase() : "NO ASSIGN" }}
                     </p>
                 </div>
