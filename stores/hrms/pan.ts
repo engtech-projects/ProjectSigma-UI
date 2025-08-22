@@ -193,7 +193,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.list = response._data.data ?? []
+                            this.allRequests.list = response._data.data || []
                             this.allRequests.pagination = {
                                 first_page: response._data.links.first,
                                 pages: response._data.meta.links,
