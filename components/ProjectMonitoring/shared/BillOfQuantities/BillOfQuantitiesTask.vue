@@ -14,5 +14,6 @@ const { task } = storeToRefs(taskStore)
                 <ProjectMonitoringPrintDetailedEstimates :task="task" />
             </template>
         </LayoutPrintAdvanced>
+        <ProjectMonitoringCsvDetailedEstimates :data="task" class="mt-4" />
     </div>
 </template>

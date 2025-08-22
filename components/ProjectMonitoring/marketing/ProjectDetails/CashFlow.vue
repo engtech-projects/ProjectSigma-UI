@@ -244,4 +244,5 @@ const updateCashFlow = async () => {
             <ProjectMonitoringPrintCashFlow />
         </template>
     </LayoutPrintAdvanced>
+    <ProjectMonitoringCsvCashFlow :data="projectStore.information" class="mt-4" />
 </template>
