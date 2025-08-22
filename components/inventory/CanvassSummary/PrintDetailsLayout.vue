@@ -46,32 +46,6 @@ const props = defineProps({
                 </div>
                 <div>
                     <InventoryCanvassSummaryItemTable :data="props.data" />
-                    <div class="border border-t-0 border-gray-700 shadow-sm uppercase text-black bg-white">
-                        <div
-                            v-for="(value, label) in {
-                                'Terms and Conditions': props.data.terms_of_payment,
-                                'Availability': props.data.availability,
-                                'Delivery Terms': props.data.delivery_terms,
-                            }"
-                            :key="label"
-                            class="flex h-[60px] border-b border-gray-700 last:border-b-0"
-                        >
-                            <div class="w-1/2 px-4 py-4 font-medium border-r border-gray-700 flex items-center justify-center">
-                                {{ label }}
-                            </div>
-                            <div class="w-1/4 px-4 py-4 flex items-center text-black font-semibold">
-                                {{ value || '-' }}
-                            </div>
-                        </div>
-                        <div class="flex h-[100px]">
-                            <div class="w-1/2 px-4 py-4 font-medium border-r border-gray-700 flex items-center justify-center">
-                                Remarks
-                            </div>
-                            <div class="w-1/2 px-4 py-4 font-semibold">
-                                {{ props.data.remarks || 'No remarks' }}
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div id="approvals" class="w-full mt-4">

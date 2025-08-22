@@ -40,7 +40,7 @@ useHead({
             </template>
             <template #default>
                 <template v-if="validKey">
-                    <LayoutPrintAdvanced>
+                    <LayoutPrintAdvanced :show-export-button="true">
                         <template #system-layout>
                             <LayoutBoards>
                                 <InventoryCanvassSummarySystemDetailsLayout
