@@ -236,7 +236,7 @@ const filterResources = (name: string) => {
 </script>
 <template>
     <LayoutFormPsButton
-        button-title="Export to CSV"
+        button-title="Export to Excel"
         button-icon="mdi:file-excel-outline"
         @click="exportToExcel"
     />
