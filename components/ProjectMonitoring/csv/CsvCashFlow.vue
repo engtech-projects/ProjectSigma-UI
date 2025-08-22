@@ -11,29 +11,27 @@ const props = defineProps({
 async function createCashFlowSchedule () {
     const wb = new Workbook()
     const ws = wb.addWorksheet("Cash Flow")
-
     // Title
     ws.mergeCells("A1:H1")
     ws.getCell("A1").value = "ME3 CONSTRUCTION/EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE)"
     ws.getCell("A1").alignment = { horizontal: "center" }
     ws.getCell("A1").font = { bold: true }
-
     // Contract Info
     ws.getCell("A3").value = "Contract ID"
     ws.getCell("B3").value = props.data.contract_id
-
+    ws.getCell("B3").font = { bold: true }
     ws.getCell("A4").value = "Contract Name"
     ws.getCell("B4").value = props.data.name
-
+    ws.getCell("B4").font = { bold: true }
     ws.getCell("A5").value = "Contract Location"
     ws.getCell("B5").value = props.data.location
-
+    ws.getCell("B5").font = { bold: true }
     // Subtitle
     ws.mergeCells("A7:H7")
     ws.getCell("A7").value = "CASH FLOW BY QUARTER AND PAYMENT SCHEDULE"
+    ws.addRow([])
     ws.getCell("A7").alignment = { horizontal: "center" }
     ws.getCell("A7").font = { bold: true }
-
     // Table Header
     const headerRow = [
         "PARTICULAR",
@@ -44,7 +42,6 @@ async function createCashFlowSchedule () {
         "4TH QUARTER",
     ]
     ws.addRow(headerRow)
-
     const header = ws.getRow(9)
     header.eachCell((cell) => {
         cell.font = { bold: true }
@@ -61,16 +58,7 @@ async function createCashFlowSchedule () {
             fgColor: { argb: "D9D9D9" },
         }
     })
-
-    // Data Rows
-    // const rows = [
-    //     ["CASHFLOW", "%", "0 %", "0 %", "0 %", "0 %"],
-    //     ["ACCOMPLISHMENT", "%", "0 %", "0 %", "0 %", "0 %"],
-    //     ["CUMULATIVE_CASHFLOW", "%", "0 %", "0 %", "0 %", "0 %"],
-    //     ["CUMULATIVE_ACCOMPLISHMENT", "%", "0 %", "0 %", "0 %", "0 %"],
-    // ]
     ws.addRows(rowData.value)
-
     // Style for data rows
     ws.eachRow((row, rowNumber) => {
         if (rowNumber >= 10) {
@@ -91,17 +79,15 @@ async function createCashFlowSchedule () {
     ws.getCell("A17").value = "Name:"
     ws.getCell("B17").value = "ANGEL A. ABRAU"
     ws.getCell("B17").font = { bold: true }
-
     ws.getCell("A18").value = "Position:"
     ws.getCell("B18").value = "Authorized Managing Officer"
-
     ws.getCell("A19").value = "Name of the Bidder:"
     ws.getCell("B19").value =
     "ME3 CONSTRUCTION / EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION (JOINT VENTURE)"
-
     ws.getCell("A20").value = "Date:"
     ws.getCell("B20").value = "August 21, 2025"
 
+    autoFitColumns(ws)
     /// Save
     const buffer = await wb.xlsx.writeBuffer()
     saveAs(new Blob([buffer]), "CashFlow.xlsx")
@@ -135,16 +121,25 @@ const rowData = computed(() => {
     processedData.value.forEach((item: any) => {
         data.push([
             item.name.toUpperCase().replace("_", " "),
-            item.values.wtax + " %",
-            item.values.q1 + " %",
-            item.values.q2 + " %",
-            item.values.q3 + " %",
-            item.values.q4 + " %",
+            item.values.wtax ?? "0" + " %",
+            item.values.q1 ?? "0" + " %",
+            item.values.q2 ?? "0" + " %",
+            item.values.q3 ?? "0" + " %",
+            item.values.q4 ?? "0" + " %",
         ])
     })
     return data
 })
-
+function autoFitColumns (worksheet) {
+    worksheet.columns.forEach((column) => {
+        let maxLength = 10 // minimum width
+        column.eachCell({ includeEmpty: true }, (cell) => {
+            const cellValue = cell.value ? cell.value.toString() : ""
+            maxLength = Math.max(maxLength, cellValue.length)
+        })
+        column.width = maxLength + 2 // add padding
+    })
+}
 </script>
 <template>
     <LayoutFormPsButton
@@ -153,7 +148,3 @@ const rowData = computed(() => {
         @click="createCashFlowSchedule"
     />
 </template>
-
-<style>
-
-</style>

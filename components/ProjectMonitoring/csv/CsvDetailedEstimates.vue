@@ -241,7 +241,3 @@ const filterResources = (name: string) => {
         @click="exportToExcel"
     />
 </template>
-
-<style>
-
-</style>
