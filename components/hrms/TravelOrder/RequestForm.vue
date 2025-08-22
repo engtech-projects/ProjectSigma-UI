@@ -5,8 +5,8 @@ import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/appr
 const approvals = useApprovalStore()
 const travels = useTravelorderStore()
 const { createRequestData, errorMessage, successMessage } = storeToRefs(travels)
-onMounted(() => {
-    createRequestData.value.body.approvals = approvals.getApprovalByName(APPROVAL_TRAVELORDER)
+onMounted(async () => {
+    createRequestData.value.body.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
 })
 const snackbar = useSnackbar()
 const boardLoading = ref(false)

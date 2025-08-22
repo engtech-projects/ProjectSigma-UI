@@ -82,16 +82,16 @@ function onDrag (e) {
                         </div>
                     </th>
                 </tr>
-                <tr class="font-semibold uppercase border border-gray-700 h-10">
+                <tr class="font-semibold uppercase border border-gray-700 h-10 bg-slate-200">
                     <template v-for="(supplier, index) in suppliers" :key="'price-header-' + index">
-                        <th class="border-r border-gray-700 text-xs py-1">
+                        <th class="border-r border-gray-700 text-xs">
                             unit price
                         </th>
                         <th class="border-r border-gray-700 text-xs">
                             total
                         </th>
                         <th class="border-r border-gray-700 text-xs">
-                            remarks
+                            canvassed brand/quarry source
                         </th>
                     </template>
                 </tr>
