@@ -401,5 +401,6 @@ const removePhase = async (phase) => {
                 <ProjectMonitoringPrintBillOfQuantities />
             </template>
         </LayoutPrintAdvanced>
+        <ProjectMonitoringExcelBillofQuantities class="mt-4" :data="projectStore.information" />
     </div>
 </template>
