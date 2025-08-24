@@ -1,0 +1,1 @@
+import{_ as o,o as t,c as s,aa as n}from"./entry.32UGFqj-.js";const c={},_={class:"justify-around flex mt-12"};function r(e,a){return t(),s("div",_,[n(e.$slots,"default")])}const l=o(c,[["render",r]]);export{l as _};

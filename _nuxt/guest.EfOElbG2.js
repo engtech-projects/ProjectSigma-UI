@@ -1,0 +1,1 @@
+import{_ as s,o as t,c as o,a as c,aa as a}from"./entry.32UGFqj-.js";const n={},r={class:"flex flex-col bg-zinc-50 min-h-screen fixed left-0 right-0 spotlight z-10"},l={id:"body",class:""};function i(e,d){return t(),o("div",r,[c("main",l,[a(e.$slots,"default")])])}const f=s(n,[["render",i]]);export{f as default};

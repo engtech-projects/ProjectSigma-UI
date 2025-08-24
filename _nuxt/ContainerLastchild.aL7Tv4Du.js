@@ -1,0 +1,1 @@
+import{_ as o,o as c,c as n,aa as s}from"./entry.32UGFqj-.js";const t={},l={id:"showOnlyOneChild",class:"flex flex-col gap-4 [&>*]:hidden [&>:last-child]:block"};function _(e,a){return c(),n("div",l,[s(e.$slots,"default")])}const d=o(t,[["render",_]]);export{d as _};

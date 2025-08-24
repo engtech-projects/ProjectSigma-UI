@@ -1,0 +1,1 @@
+import{f as t,o,c as r,t as s}from"./entry.32UGFqj-.js";const n={scope:"col",class:"p-2 border-0 border-b text-sm"},i=t({__name:"BulkUploadItemTh",props:{title:{type:String,required:!0}},setup(e){return(a,c)=>(o(),r("th",n,s(e.title.name),1))}});export{i as _};
